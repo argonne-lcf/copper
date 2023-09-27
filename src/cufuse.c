@@ -3,9 +3,9 @@
  * derived from:
  *   https://github.com/libfuse/libfuse/blob/master/example/passthrough_fh.c
  */
-// testtty
+
 #define FUSE_USE_VERSION 31
-//test
+
 #define _GNU_SOURCE
 
 #include <fuse.h>
