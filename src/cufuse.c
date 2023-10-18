@@ -28,6 +28,7 @@
 #endif
 #include <sys/file.h>
 
+printf("Hello, World!\n");
 static void *cu_init(struct fuse_conn_info *conn,
                      struct fuse_config *cfg)
 {
