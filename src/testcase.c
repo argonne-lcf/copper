@@ -61,7 +61,7 @@ bool doesFileExist(char* targetFilename, nodePath[]) {
         return false;
     }
 }
-static Coordinate findFile(char** fileName) {
+static void findFile(char** fileName) {
     bool fileFound = false; 
     Coordinate fileLocation;
 
@@ -70,10 +70,8 @@ static Coordinate findFile(char** fileName) {
 
     char nodePath[] = getNode();
     if (doesFileExist(char** fileName, getNode())) {
-        //read file from node cache
         fileRecieved = true;
     } else {
-        
         Coordinate coord = getCoord(nodePath[]);
         bool loop = true;
         while(loop) {
@@ -82,21 +80,27 @@ static Coordinate findFile(char** fileName) {
             }
             coord.rank -= 1;
             coord.branch = coord.branch / 2;
-            if (/*reads node cache from new coords by getNode and return bool if file is there*/) {
+            if (doesFileExist(char** fileName, coord)) {
                 loop = false;
                 fileLocation = coord;
             } 
         }
     }
-    return fileLocation;
+    if (!fileRecieved) {
+        returnFile(fileName, fileLocation);
+    }
 }
 
 static void returnFile (char**, fileName, Coordinate fileLocation) {
     if (fileLocation.rank == 0) {
-        //code to send file up to first node (1,0) from storage nodes
+        if (doesFileExist(char** fileName, /*node to storage*/)) {
+        //write file to node one
         fileLocation.rank = 1;
         fileLocation.branch = 0;
         populateTree(fileName, fileLocation);
+        } else {
+            printf("Error: File not found")
+        }
     } else {
         populateTree(fileName, fileLocation);
     }
@@ -108,11 +112,16 @@ static void populateTree (char** fileName, Coordinate fileLocation) {
         Coordinate sendNode; 
         sendNode.rank = getCoord().rank - i;
         sendNode.branch = getCoord().branch * pow(0.5, i-1); 
+
         Coordinate recieveNode;
         recieveNode.rank = getCoord().rank -i + 1;
         recieveNode.branch = getCoord().branch * pow(0.5, (i-1)); 
+        
         printf("Send: ( %d , %d ) Recieve: ( %d , %d )\n", sendNode.rank, sendNode.branch, recieveNode.rank, recieveNode.branch);
         //code to send file from sendNode to recieve node (also uses getNode function to get node path)
+        if (doesFileExist(char** fileName, getNode())) {
+        fileRecieved = true;
+        }
     }
 
 }
@@ -121,7 +130,7 @@ int main(char** fileName) {
     bool fileRecieved = false;
     findFile(fileName);
     if (!fileRecieved) {
-        returnFile(fileName);
+        printf("Error: File not recieved")
     }
     return 0;
 }
