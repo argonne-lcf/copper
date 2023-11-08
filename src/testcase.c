@@ -53,20 +53,76 @@ bool doesFileExist(char* targetFilename, char* nodePath) {
     }
 }
 
-static char** getNode() {
-    //code to find current node path
+static char* getNode() {
+    //NOTE This method will be different, requiring looking into the system info
+    return "this";
 }
 
-static char** getNode(Coordinate path) {
-    //library to convert coordinate to string
+static char** getNode(Coordinate input) {
+    char output[64];
+    FILE *file = fopen("../libs/binTreeDef.txt", "r");
+    Coordinate temp;
+    char str[64];
+
+    if (file == NULL){
+        printf("Error: Could not open tree definition file");
+        return;
+    }
+
+    while (fscanf(file, "%d %d %s", &temp.rank, &temp.branch, str) != EOF) {
+        if (temp.rank == input.rank && temp.branch == input.branch) {
+            strcpy(output, str);
+            break;
+        }
+    }
+
+    fclose(file);
 }
 
 static Coordinate getCoord() {
-    char nodePath[] = getNode();
-    //library to convert string to coordinates
+    Coordinate output;
+    char input[] = getNode();
+    FILE *file = fopen("../libs/coordinates.txt", "r");
+    Coordinate temp;
+    char str[64];
+
+    if (file == NULL){
+        printf("Could not open file\n");
+        return;
+    }
+
+    while (fscanf(file, "%d %d %s", &temp.rank, &temp.branch, str) != EOF) {
+        if (strcmp(str, input) == 0) {
+            output.rank = temp.rank;
+            output.branch = temp.branch;
+            break;
+        }
+    }
+
+    fclose(file);
+    return output;
 }
-static Coordinate getCoord(char nodePath[]) {
-    //library to convert string to coordinates
+static Coordinate getCoord(char input[]) {
+    Coordinate output;
+    FILE *file = fopen("../libs/coordinates.txt", "r");
+    Coordinate temp;
+    char str[64];
+
+    if (file == NULL){
+        printf("Could not open file\n");
+        return;
+    }
+
+    while (fscanf(file, "%d %d %s", &temp.rank, &temp.branch, str) != EOF) {
+        if (strcmp(str, input) == 0) {
+            output.rank = temp.rank;
+            output.branch = temp.branch;
+            break;
+        }
+    }
+
+    fclose(file);
+    return output;
 }
 
 void findFile(char* fileName) {
