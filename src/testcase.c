@@ -131,13 +131,13 @@ void populateTree (char* fileName, Coordinate fileLocation) {
         fileRecieved = true;
         }
     }
-
 }
 
 int main(char* iFileName) {
+    system("./cufuse");
     fileRecieved = false;
     fileName = iFileName;
-    //findFile(fileName);
+    findFile(fileName);
     if (!fileRecieved) {
         printf("Error: File not recieved");
     }
