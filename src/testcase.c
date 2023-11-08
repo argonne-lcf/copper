@@ -1,6 +1,6 @@
 #define FUSE_USE_VERSION 31
 
-//#include <fuse.h>
+#include <fuse.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -22,7 +22,7 @@ typedef struct {
     char* filename;
     bool exists;
 } FileCheck;
-/*
+
 //based on user3558391's code on stack overflow: https://stackoverflow.com/questions/23208634/writing-a-simple-filesystem-in-c-using-fuse
 static int fuse_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi) {
     int res = 0;
@@ -40,7 +40,7 @@ static int fuse_getattr(const char *path, struct stat *stbuf, struct fuse_file_i
 
     return res;
 }
-*/
+
 bool doesFileExist(char* targetFilename, char* nodePath) {
     struct stat stbuf;
     // Construct the full path
