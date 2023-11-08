@@ -123,6 +123,41 @@ static Coordinate getCoord(char input[]) {
     return output;
 }
 
+void populateTree (char* fileName, Coordinate fileLocation) {
+    int size = thisCoord().rank - fileLocation.rank;
+    for (int i = size; i > 0 ; i--) {
+        Coordinate coord = thisCoord();
+        Coordinate sendNode; 
+        sendNode.rank = coord.rank - i;
+        sendNode.branch = coord.branch * pow(0.5, i-1); 
+
+        Coordinate recieveNode;
+        recieveNode.rank = coord.rank -i + 1;
+        recieveNode.branch = coord.branch * pow(0.5, (i-1)); 
+
+        printf("Send: ( %d , %d ) Recieve: ( %d , %d )\n", sendNode.rank, sendNode.branch, recieveNode.rank, recieveNode.branch);
+        //code to send file from sendNode to recieve node (also uses getNode function to get node path)
+        if (doesFileExist(fileName, thisNode())) {
+        fileRecieved = true;
+        }
+    }
+}
+
+void returnFile (char* fileName, Coordinate fileLocation) {
+    if (fileLocation.rank == 0) {
+        if (doesFileExist(fileName, "/path/toStorage")) {  //<----- Replace "/path/toStorage"
+        //write file to node one
+        fileLocation.rank = 1;
+        fileLocation.branch = 0;
+        populateTree(fileName, fileLocation);
+        } else {
+            printf("Error: File not found");
+        }
+    } else {
+        populateTree(fileName, fileLocation);
+    }
+}
+
 void findFile(char* fileName) {
     bool fileFound = false; 
     Coordinate fileLocation;
@@ -151,41 +186,6 @@ void findFile(char* fileName) {
     }
     if (!fileRecieved) {
         returnFile(fileName, fileLocation);
-    }
-}
-
-void returnFile (char* fileName, Coordinate fileLocation) {
-    if (fileLocation.rank == 0) {
-        if (doesFileExist(fileName, "/path/toStorage")) {  //<----- Replace "/path/toStorage"
-        //write file to node one
-        fileLocation.rank = 1;
-        fileLocation.branch = 0;
-        populateTree(fileName, fileLocation);
-        } else {
-            printf("Error: File not found");
-        }
-    } else {
-        populateTree(fileName, fileLocation);
-    }
-}
-
-void populateTree (char* fileName, Coordinate fileLocation) {
-    int size = thisCoord().rank - fileLocation.rank;
-    for (int i = size; i > 0 ; i--) {
-        Coordinate coord = thisCoord();
-        Coordinate sendNode; 
-        sendNode.rank = coord.rank - i;
-        sendNode.branch = coord.branch * pow(0.5, i-1); 
-
-        Coordinate recieveNode;
-        recieveNode.rank = coord.rank -i + 1;
-        recieveNode.branch = coord.branch * pow(0.5, (i-1)); 
-
-        printf("Send: ( %d , %d ) Recieve: ( %d , %d )\n", sendNode.rank, sendNode.branch, recieveNode.rank, recieveNode.branch);
-        //code to send file from sendNode to recieve node (also uses getNode function to get node path)
-        if (doesFileExist(fileName, thisNode())) {
-        fileRecieved = true;
-        }
     }
 }
 
