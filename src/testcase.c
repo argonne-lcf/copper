@@ -1,6 +1,6 @@
 #define FUSE_USE_VERSION 31
 
-#include <fuse.h>
+//#include <fuse.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -9,9 +9,6 @@
 #include <math.h>
 #include <sys/stat.h>
 #include <stdlib.h>
-
-bool fileRecieved;
-char* fileName;
 
 typedef struct {
     int rank;
@@ -23,6 +20,12 @@ typedef struct {
     bool exists;
 } FileCheck;
 
+bool fileRecieved;
+char* fileName;
+char* outputStr;
+Coordinate outputCoord;
+
+/*
 //based on user3558391's code on stack overflow: https://stackoverflow.com/questions/23208634/writing-a-simple-filesystem-in-c-using-fuse
 static int fuse_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi) {
     int res = 0;
@@ -40,7 +43,7 @@ static int fuse_getattr(const char *path, struct stat *stbuf, struct fuse_file_i
 
     return res;
 }
-
+*/
 bool doesFileExist(char* targetFilename, char* nodePath) {
     struct stat stbuf;
     // Construct the full path
@@ -54,16 +57,16 @@ bool doesFileExist(char* targetFilename, char* nodePath) {
     }
 }
 
-static char* thisNode() {
+char* thisNode() {
     //NOTE This method will be different, requiring looking into the system info
     return "Hello";
 }
 
-static char* getNode(Coordinate input) {
-    char output[64];
+char* getNode(Coordinate input) {
     FILE *file = fopen("../libs/binTreeDef.txt", "r");
     Coordinate temp;
     char str[64];
+    static char output[64];  // Declare output as a static array
 
     if (file == NULL){
         printf("Error: Could not open tree definition file");
@@ -71,18 +74,19 @@ static char* getNode(Coordinate input) {
 
     while (fscanf(file, "%d %d %s", &temp.rank, &temp.branch, str) != EOF) {
         if (temp.rank == input.rank && temp.branch == input.branch) {
-            strcpy(output, str);
+            strcpy(output, str);  
             break;
         }
     }
-
     fclose(file);
+    return output; 
 }
 
-static Coordinate thisCoord() {
-    Coordinate output;
+
+Coordinate thisCoord() { 
+    static Coordinate output;
     char* input = thisNode();
-    FILE *file = fopen("../libs/coordinates.txt", "r");
+    FILE *file = fopen("../libs/binTreeDef.txt", "r");
     Coordinate temp;
     char str[64];
 
@@ -101,9 +105,9 @@ static Coordinate thisCoord() {
     fclose(file);
     return output;
 }
-static Coordinate getCoord(char input[]) {
-    Coordinate output;
-    FILE *file = fopen("../libs/coordinates.txt", "r");
+Coordinate getCoord(char input[]) {
+    static Coordinate output;
+    FILE *file = fopen("../libs/binTreeDef.txt", "r");
     Coordinate temp;
     char str[64];
 
@@ -164,9 +168,10 @@ void findFile(char* fileName) {
 
     fileLocation.rank = 0;
     fileLocation.branch = 0; //NOTE: (0,0) is the coordinate of storage 
-
+    Coordinate test = getCoord("Hello");
+    printf("( %d , %d )", test.rank, test.branch);
     char* nodePath = thisNode();
-    printf("hello, World!\n");
+    printf("\nhello, World!\n");
     if (doesFileExist(fileName, thisNode())) {
         fileRecieved = true;
     } else {
@@ -193,6 +198,8 @@ int main(char* iFileName) {
     //system("./cufuse");
     fileRecieved = false;
     fileName = iFileName;
+    outputStr = "";
+    Coordinate outputCoord = {0,0};
     findFile(fileName);
     if (!fileRecieved) {
         printf("Error: File not recieved");
