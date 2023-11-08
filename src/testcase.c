@@ -66,7 +66,6 @@ static char** getNode(Coordinate input) {
 
     if (file == NULL){
         printf("Error: Could not open tree definition file");
-        return;
     }
 
     while (fscanf(file, "%d %d %s", &temp.rank, &temp.branch, str) != EOF) {
@@ -81,7 +80,7 @@ static char** getNode(Coordinate input) {
 
 static Coordinate thisCoord() {
     Coordinate output;
-    char input[] = thisNode();
+    char* input = thisNode();
     FILE *file = fopen("../libs/coordinates.txt", "r");
     Coordinate temp;
     char str[64];
@@ -130,7 +129,7 @@ void findFile(char* fileName) {
     fileLocation.rank = 0;
     fileLocation.branch = 0; //NOTE: (0,0) is the coordinate of storage 
 
-    char nodePath[] = thisNode();
+    char* nodePath = thisNode();
     if (doesFileExist(fileName, thisNode())) {
         fileRecieved = true;
     } else {
