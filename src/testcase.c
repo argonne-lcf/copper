@@ -40,6 +40,19 @@ static int fuse_getattr(const char *path, struct stat *stbuf, struct fuse_file_i
     return res;
 }
 
+bool doesFileExist(char* targetFilename, char* nodePath) {
+    struct stat stbuf;
+    // Construct the full path
+    char fullPath[1024];
+    snprintf(fullPath, sizeof(fullPath), "%s/%s", nodePath, targetFilename);
+    // Check if the file exists
+    if (stat(fullPath, &stbuf) == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 static char** getNode() {
     //code to find current node path
 }
@@ -54,19 +67,6 @@ static Coordinate getCoord() {
 }
 static Coordinate getCoord(char nodePath[]) {
     //library to convert string to coordinates
-}
-
-bool doesFileExist(char* targetFilename, char* nodePath) {
-    struct stat stbuf;
-    // Construct the full path
-    char fullPath[1024];
-    snprintf(fullPath, sizeof(fullPath), "%s/%s", nodePath, targetFilename);
-    // Check if the file exists
-    if (stat(fullPath, &stbuf) == 0) {
-        return true;
-    } else {
-        return false;
-    }
 }
 
 void findFile(char* fileName) {
