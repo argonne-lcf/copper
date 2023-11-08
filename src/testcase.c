@@ -6,15 +6,21 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include <math.h>
+#include <sys/stat.h>
 
-//ADD FILE NOT FOUND ERROR RETURN if not located in tree or storage
+bool fileRecieved;
+char* fileName;
 
 typedef struct {
     int rank;
     int branch;
 } Coordinate;
+
+typedef struct {
+    char* filename;
+    bool exists;
+} FileCheck;
 
 //based on user3558391's code on stack overflow: https://stackoverflow.com/questions/23208634/writing-a-simple-filesystem-in-c-using-fuse
 static int fuse_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi) {
@@ -27,7 +33,7 @@ static int fuse_getattr(const char *path, struct stat *stbuf, struct fuse_file_i
         stbuf->st_mode = S_IFREG | 0444;
         stbuf->st_nlink = 1;
         stbuf->st_size = strlen("Hello World!\n");
-        ((FileCheck*)fi->fh)->exists = 1;
+        ((FileCheck*)fi->fh)->exists = true;
     } else
         res = -ENOENT;
 
@@ -50,18 +56,20 @@ static Coordinate getCoord(char nodePath[]) {
     //library to convert string to coordinates
 }
 
-bool doesFileExist(char* targetFilename, nodePath[]) {
-    struct fuseFileInfo fileInfo;
-    int res;
-
-    res = fuse_getattr(path, NULL, &fileInfo);
-    if (res == 0) {
+bool doesFileExist(char* targetFilename, char* nodePath) {
+    struct stat stbuf;
+    // Construct the full path
+    char fullPath[1024];
+    snprintf(fullPath, sizeof(fullPath), "%s/%s", nodePath, targetFilename);
+    // Check if the file exists
+    if (stat(fullPath, &stbuf) == 0) {
         return true;
     } else {
         return false;
     }
 }
-static void findFile(char** fileName) {
+
+void findFile(char* fileName) {
     bool fileFound = false; 
     Coordinate fileLocation;
 
@@ -69,10 +77,10 @@ static void findFile(char** fileName) {
     fileLocation.branch = 0; //NOTE: (0,0) is the coordinate of storage 
 
     char nodePath[] = getNode();
-    if (doesFileExist(char** fileName, getNode())) {
+    if (doesFileExist(fileName, getNode())) {
         fileRecieved = true;
     } else {
-        Coordinate coord = getCoord(nodePath[]);
+        Coordinate coord = getCoord(nodePath);
         bool loop = true;
         while(loop) {
             if (coord.rank-1<1) {
@@ -80,7 +88,7 @@ static void findFile(char** fileName) {
             }
             coord.rank -= 1;
             coord.branch = coord.branch / 2;
-            if (doesFileExist(char** fileName, coord)) {
+            if (doesFileExist(fileName, getNode(coord))) {
                 loop = false;
                 fileLocation = coord;
             } 
@@ -91,22 +99,22 @@ static void findFile(char** fileName) {
     }
 }
 
-static void returnFile (char**, fileName, Coordinate fileLocation) {
+void returnFile (char* fileName, Coordinate fileLocation) {
     if (fileLocation.rank == 0) {
-        if (doesFileExist(char** fileName, /*node to storage*/)) {
+        if (doesFileExist(fileName, /*node to storage*/)) {
         //write file to node one
         fileLocation.rank = 1;
         fileLocation.branch = 0;
         populateTree(fileName, fileLocation);
         } else {
-            printf("Error: File not found")
+            printf("Error: File not found");
         }
     } else {
         populateTree(fileName, fileLocation);
     }
 }
 
-static void populateTree (char** fileName, Coordinate fileLocation) {
+void populateTree (char* fileName, Coordinate fileLocation) {
     int size = getCoord().rank - fileLocation.rank;
     for (int i = size; i > 0 ; i--) {
         Coordinate sendNode; 
@@ -116,21 +124,22 @@ static void populateTree (char** fileName, Coordinate fileLocation) {
         Coordinate recieveNode;
         recieveNode.rank = getCoord().rank -i + 1;
         recieveNode.branch = getCoord().branch * pow(0.5, (i-1)); 
-        
+
         printf("Send: ( %d , %d ) Recieve: ( %d , %d )\n", sendNode.rank, sendNode.branch, recieveNode.rank, recieveNode.branch);
         //code to send file from sendNode to recieve node (also uses getNode function to get node path)
-        if (doesFileExist(char** fileName, getNode())) {
+        if (doesFileExist(fileName, getNode())) {
         fileRecieved = true;
         }
     }
 
 }
 
-int main(char** fileName) {
-    bool fileRecieved = false;
-    findFile(fileName);
+int main(char* iFileName) {
+    fileRecieved = false;
+    fileName = iFileName;
+    //findFile(fileName);
     if (!fileRecieved) {
-        printf("Error: File not recieved")
+        printf("Error: File not recieved");
     }
     return 0;
 }
