@@ -53,7 +53,7 @@ bool doesFileExist(char* targetFilename, char* nodePath) {
     }
 }
 
-static char* getNode() {
+static char* thisNode() {
     //NOTE This method will be different, requiring looking into the system info
     return "this";
 }
@@ -79,16 +79,15 @@ static char** getNode(Coordinate input) {
     fclose(file);
 }
 
-static Coordinate getCoord() {
+static Coordinate thisCoord() {
     Coordinate output;
-    char input[] = getNode();
+    char input[] = thisNode();
     FILE *file = fopen("../libs/coordinates.txt", "r");
     Coordinate temp;
     char str[64];
 
     if (file == NULL){
         printf("Could not open file\n");
-        return;
     }
 
     while (fscanf(file, "%d %d %s", &temp.rank, &temp.branch, str) != EOF) {
@@ -110,7 +109,6 @@ static Coordinate getCoord(char input[]) {
 
     if (file == NULL){
         printf("Could not open file\n");
-        return;
     }
 
     while (fscanf(file, "%d %d %s", &temp.rank, &temp.branch, str) != EOF) {
@@ -132,8 +130,8 @@ void findFile(char* fileName) {
     fileLocation.rank = 0;
     fileLocation.branch = 0; //NOTE: (0,0) is the coordinate of storage 
 
-    char nodePath[] = getNode();
-    if (doesFileExist(fileName, getNode())) {
+    char nodePath[] = thisNode();
+    if (doesFileExist(fileName, thisNode())) {
         fileRecieved = true;
     } else {
         Coordinate coord = getCoord(nodePath);
@@ -157,7 +155,7 @@ void findFile(char* fileName) {
 
 void returnFile (char* fileName, Coordinate fileLocation) {
     if (fileLocation.rank == 0) {
-        if (doesFileExist(fileName, getNode(0,0))) {
+        if (doesFileExist(fileName, "/path/toStorage")) {  //<----- Replace "/path/toStorage"
         //write file to node one
         fileLocation.rank = 1;
         fileLocation.branch = 0;
@@ -171,19 +169,20 @@ void returnFile (char* fileName, Coordinate fileLocation) {
 }
 
 void populateTree (char* fileName, Coordinate fileLocation) {
-    int size = getCoord().rank - fileLocation.rank;
+    int size = thisCoord().rank - fileLocation.rank;
     for (int i = size; i > 0 ; i--) {
+        Coordinate coord = thisCoord();
         Coordinate sendNode; 
-        sendNode.rank = getCoord().rank - i;
-        sendNode.branch = getCoord().branch * pow(0.5, i-1); 
+        sendNode.rank = coord.rank - i;
+        sendNode.branch = coord.branch * pow(0.5, i-1); 
 
         Coordinate recieveNode;
-        recieveNode.rank = getCoord().rank -i + 1;
-        recieveNode.branch = getCoord().branch * pow(0.5, (i-1)); 
+        recieveNode.rank = coord.rank -i + 1;
+        recieveNode.branch = coord.branch * pow(0.5, (i-1)); 
 
         printf("Send: ( %d , %d ) Recieve: ( %d , %d )\n", sendNode.rank, sendNode.branch, recieveNode.rank, recieveNode.branch);
         //code to send file from sendNode to recieve node (also uses getNode function to get node path)
-        if (doesFileExist(fileName, getNode())) {
+        if (doesFileExist(fileName, thisNode())) {
         fileRecieved = true;
         }
     }
