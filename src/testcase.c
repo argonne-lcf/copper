@@ -22,8 +22,7 @@ typedef struct {
 
 bool fileRecieved;
 char* fileName;
-char* outputStr;
-Coordinate outputCoord;
+
 
 /*
 //based on user3558391's code on stack overflow: https://stackoverflow.com/questions/23208634/writing-a-simple-filesystem-in-c-using-fuse
@@ -198,7 +197,6 @@ int main(char* iFileName) {
     //system("./cufuse");
     fileRecieved = false;
     fileName = iFileName;
-    outputStr = "";
     Coordinate outputCoord = {0,0};
     findFile(fileName);
     if (!fileRecieved) {
