@@ -56,7 +56,7 @@ bool doesFileExist(char* targetFilename, char* nodePath) {
 
 static char* thisNode() {
     //NOTE This method will be different, requiring looking into the system info
-    return "this";
+    return "Hello";
 }
 
 static char* getNode(Coordinate input) {
@@ -131,6 +131,7 @@ void findFile(char* fileName) {
     fileLocation.branch = 0; //NOTE: (0,0) is the coordinate of storage 
 
     char* nodePath = thisNode();
+    printf("hello, World!\n");
     if (doesFileExist(fileName, thisNode())) {
         fileRecieved = true;
     } else {
@@ -189,7 +190,7 @@ void populateTree (char* fileName, Coordinate fileLocation) {
 }
 
 int main(char* iFileName) {
-    system("./cufuse");
+    //system("./cufuse");
     fileRecieved = false;
     fileName = iFileName;
     findFile(fileName);
