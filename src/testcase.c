@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include <sys/stat.h>
+#include <stdlib.h>
 
 bool fileRecieved;
 char* fileName;
@@ -58,7 +59,7 @@ static char* thisNode() {
     return "this";
 }
 
-static char** getNode(Coordinate input) {
+static char* getNode(Coordinate input) {
     char output[64];
     FILE *file = fopen("../libs/binTreeDef.txt", "r");
     Coordinate temp;
