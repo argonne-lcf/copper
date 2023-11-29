@@ -1,4 +1,5 @@
 #define FUSE_USE_VERSION 31
+#define _GNU_SOURCE
 
 #include <fuse.h>
 #include <stdio.h>
@@ -9,57 +10,71 @@
 #include <math.h>
 #include <sys/stat.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include "cufuse.h"
+
+#define BUF_SIZE 8192
 
 typedef struct {
     int rank;
     int branch;
 } Coordinate;
 
-typedef struct {
-    char* filename;
-    bool exists;
-} FileCheck;
 
 bool fileRecieved;
 char* fileName;
+char* homeDir;
 
-//based on user3558391's code on stack overflow: https://stackoverflow.com/questions/23208634/writing-a-simple-filesystem-in-c-using-fuse
-static int fuse_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi) {
-    int res = 0;
-    memset(stbuf, 0, sizeof(struct stat));
 
-    if (strcmp(path, "/") == 0) {
-        stbuf->st_mode = S_IFDIR | 0755;
-        stbuf->st_nlink = 2;
-
-    } else if (strcmp(path, ((FileCheck*)fi->fh)->filename) == 0) {
-        stbuf->st_mode = S_IFREG | 0444;
-        stbuf->st_nlink = 1;
-        stbuf->st_size = strlen("Hello World!\n");
-        ((FileCheck*)fi->fh)->exists = true;
-    } else {
-        res = -ENOENT;
-    }
-    return res;
-}
-
-bool doesFileExist(char* targetFilename, char* nodePath) {
-    struct stat stbuf;
-    // Construct the full path
-    char fullPath[1024];
-    snprintf(fullPath, sizeof(fullPath), "%s/%s", nodePath, targetFilename);
-    // Check if the file exists
-    if (stat(fullPath, &stbuf) == 0) {
+bool doesFileExist(char* filename, char* nodePath) {
+    char* path; 
+    asprintf(&path, "%s%s", nodePath, filename); //combines nodePath and filename into filepath
+    int res = cu_access(path, R_OK);  //uses cu_acces to check of a files existance and that it is able to be read from
+    if (res == 0) {
         return true;
     } else {
         return false;
     }
+    
 }
 
-char* thisNode() {
-    //NOTE This method will be different, requiring looking into the system info of the node
-    return "Hello";
+bool copyFile(const char* filename, const char* srcDir, const char* trgtDir) {
+    char* srcPath;
+    char* trgtPath;
+    int srcFd, trgtFd;
+    char buf[BUF_SIZE];
+    int readSize;
+
+    asprintf(srcPath, "%s%s", srcDir, filename); //creats full path of source and target files
+    asprintf(trgtPath, "%s%s", trgtDir, filename);
+
+    srcFd = cu_open(srcPath, O_RDONLY);
+    if (srcFd == -1) {
+        perror("cu_open"); //print error @ cu_open
+        return false;
+    }
+
+    trgtFd = cu_create(trgtPath, S_IRUSR, S_IWUSR);
+    if (trgtFd == -1) {
+        perror("cu_create"); //print error @ cu_create
+        cu_close(srcFd);
+        return false;
+    }
+    //copy the file
+    while ((readSize = cu_read(srcFd, buf, sizeof(buf), 0, NULL))>0) {
+        if (cu_write(trgtFd, buf, readSize, 0, NULL) != readSize) {
+            perror("cu_write");
+            cu_close(srcFd);
+            cu_close(trgtFd);
+            return false;
+        }
+    }
+
+    cu_close(srcFd);
+    cu_close(trgtFd);
+    return true;
 }
+
 
 char* getNode(Coordinate input) {
     FILE *file = fopen("../lib/binTreeDef.txt", "r");
@@ -84,7 +99,6 @@ char* getNode(Coordinate input) {
 
 Coordinate thisCoord() { 
     static Coordinate output;
-    char* input = thisNode();
     FILE *file = fopen("../lib/binTreeDef.txt", "r");
     Coordinate temp;
     char str[64];
@@ -94,7 +108,7 @@ Coordinate thisCoord() {
     }
 
     while (fscanf(file, "%d %d %s", &temp.rank, &temp.branch, str) != EOF) {
-        if (strcmp(str, input) == 0) {
+        if (strcmp(str, homeDir) == 0) {
             output.rank = temp.rank;
             output.branch = temp.branch;
             break;
@@ -139,8 +153,11 @@ void populateTree (char* fileName, Coordinate fileLocation) {
         recieveNode.branch = coord.branch * pow(0.5, (i-1)); 
 
         printf("Send: ( %d , %d ) Recieve: ( %d , %d )\n", sendNode.rank, sendNode.branch, recieveNode.rank, recieveNode.branch);
-        //code to send file from sendNode to recieve node (also uses getNode function to get node path)
-        if (doesFileExist(fileName, thisNode())) {
+        bool errorCheck = copyFile(fileName, getNode(sendNode), getNode(recieveNode));
+        if (!errorCheck) {
+            printf("Error: populateTree");
+        }
+        if (doesFileExist(fileName, homeDir)) {
         fileRecieved = true;
         }
     }
@@ -148,13 +165,17 @@ void populateTree (char* fileName, Coordinate fileLocation) {
 
 void returnFile (char* fileName, Coordinate fileLocation) {
     if (fileLocation.rank == 0) {
-        if (doesFileExist(fileName, "/path/toStorage")) {  //<----- Replace "/path/toStorage"
-        //write file to node one
+        Coordinate storage = {0,0};
         fileLocation.rank = 1;
         fileLocation.branch = 0;
-        populateTree(fileName, fileLocation);
+        if (doesFileExist(fileName, getNode(storage))) {  
+            bool errorCheck = copyFile(fileName, getNode(storage), getNode(fileLocation));
+            if (!errorCheck) {
+                printf("Error: returnFile");
+            }
+            populateTree(fileName, fileLocation);
         } else {
-            printf("Error: File not found");
+            printf("Error: File not found in storage");
         }
     } else {
         populateTree(fileName, fileLocation);
@@ -169,12 +190,11 @@ void findFile(char* fileName) {
     fileLocation.branch = 0; //NOTE: (0,0) is the coordinate of storage 
     Coordinate test = getCoord("Hello");
     printf("( %d , %d )", test.rank, test.branch);
-    char* nodePath = thisNode();
     printf("\nhello, World!\n");
-    if (doesFileExist(fileName, thisNode())) {
+    if (doesFileExist(fileName, homeDir)) {
         fileRecieved = true;
     } else {
-        Coordinate coord = getCoord(nodePath);
+        Coordinate coord = thisCoord();
         bool loop = true;
         while(loop) {
             if (coord.rank-1<1) {
@@ -185,18 +205,20 @@ void findFile(char* fileName) {
             if (doesFileExist(fileName, getNode(coord))) {
                 loop = false;
                 fileLocation = coord;
+                fileFound = true;
             } 
         }
     }
-    if (!fileRecieved) {
+    if (fileFound) {
         returnFile(fileName, fileLocation);
     }
 }
 
-int main(char* iFileName) {
+int main(char* iFileName, char* targetDir) {
     //system("./cufuse");
     fileRecieved = false;
     fileName = iFileName;
+    homeDir = targetDir;
     Coordinate outputCoord = {0,0};
     findFile(fileName);
     if (!fileRecieved) {
