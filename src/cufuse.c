@@ -28,6 +28,34 @@
 #endif
 #include <sys/file.h>
 
+struct fuse_config {
+    unsigned int uid;
+    unsigned int gid;
+    unsigned int  umask;
+    double entry_timeout;
+    double negative_timeout;
+    double attr_timeout;
+    int ac_attr_timeout_set;
+    int ac_attr_timeout;
+    int remember;
+    int debug;
+    int hard_remove;
+    int use_ino;
+    int readdir_ino;
+    int direct_io;
+    int kernel_cache;
+    int auto_cache;
+    int intr;
+    int intr_signal;
+    int help;
+    char *modules;
+    int nullpath_ok;
+    int show_help;
+    int xattr;
+    int writeback_cache;
+    int no_remote_lock;
+};
+
 
 static void *cu_init(struct fuse_conn_info *conn,
                      struct fuse_config *cfg)
