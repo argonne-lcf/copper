@@ -9,7 +9,7 @@
 #define _GNU_SOURCE
 
 #define _FILE_OFFSET_BITS 64
-#include <fuse.h>
+#include "../libs/fuse.h"
 
 #ifdef HAVE_LIBULOCKMGR
 #include <ulockmgr.h>
