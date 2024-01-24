@@ -8,7 +8,7 @@
 
 /** @file */
 
-#if !defined(_FUSE_H_) && !defined(_FUSE_LOWLEVEL_H_)
+#if !defined(FUSE_H_) && !defined(FUSE_LOWLEVEL_H_)
 #error "Never include <fuse_common.h> directly; use <fuse.h> or <fuse_lowlevel.h> instead."
 #endif
 
@@ -203,7 +203,7 @@ struct fuse_pollhandle;
  * @param args argument vector
  * @return the communication channel on success, NULL on failure
  */
-struct fuse_chan *fuse_mount(const char *mountpoint, struct fuse_args *args);
+//struct fuse_chan *fuse_mount(const char *mountpoint, struct fuse_args *args);
 
 /**
  * Umount a FUSE mountpoint
@@ -211,7 +211,7 @@ struct fuse_chan *fuse_mount(const char *mountpoint, struct fuse_args *args);
  * @param mountpoint the mount point path
  * @param ch the communication channel
  */
-void fuse_unmount(const char *mountpoint, struct fuse_chan *ch);
+//void fuse_unmount(const char *mountpoint, struct fuse_chan *ch);
 
 /**
  * Parse common options

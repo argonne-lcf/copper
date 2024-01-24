@@ -1,4 +1,5 @@
 {
     "C_Cpp.default.compilerPath": "/home/sam/Documents/copper/src/testcase.c",
-    "c": "cd $dir && gcc -D_FILE_OFFSET_BITS=64 -Wall -Wextra -g cufuse.c -lm -o cufuse && $dircufuse"
+    "c": "cd $dir && gcc -D_FILE_OFFSET_BITS=64 -Wall -Wextra -g cufuse.c -lm -o cufuse && $dircufuse",
+    "C_Cpp.dimInactiveRegions": false
 }

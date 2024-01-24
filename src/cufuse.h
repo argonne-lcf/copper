@@ -3,7 +3,7 @@
 
 #define FUSE_USE_VERSION 31
 
-#include <fuse.h>
+#include "../libs/include/fuse/fuse.h"
 
 /* Function prototypes for all the functions in passthrough_fh.c */
 

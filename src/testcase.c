@@ -1,7 +1,7 @@
 #define FUSE_USE_VERSION 31
 #define _GNU_SOURCE
+#define _FILE_OFFSET_BITS 64
 
-#include <fuse.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -45,8 +45,9 @@ bool copyFile(const char* filename, const char* srcDir, const char* trgtDir) {
     char buf[BUF_SIZE];
     int readSize;
 
-    asprintf(srcPath, "%s%s", srcDir, filename); //creats full path of source and target files
-    asprintf(trgtPath, "%s%s", trgtDir, filename);
+    asprintf(&srcPath, "%s%s", srcDir, filename); //creates full path of source and target files
+    asprintf(&trgtPath, "%s%s", trgtDir, filename);
+
 
     srcFd = cu_open(srcPath, O_RDONLY);
     if (srcFd == -1) {
@@ -54,24 +55,27 @@ bool copyFile(const char* filename, const char* srcDir, const char* trgtDir) {
         return false;
     }
 
-    trgtFd = cu_create(trgtPath, S_IRUSR, S_IWUSR);
+    struct fuse_file_info fi;
+    memset(&fi, 0, sizeof(fi));
+    trgtFd = cu_create(trgtPath, S_IRUSR | S_IWUSR, &fi);
+
     if (trgtFd == -1) {
         perror("cu_create"); //print error @ cu_create
-        cu_close(srcFd);
+        close(srcFd);
         return false;
     }
     //copy the file
-    while ((readSize = cu_read(srcFd, buf, sizeof(buf), 0, NULL))>0) {
-        if (cu_write(trgtFd, buf, readSize, 0, NULL) != readSize) {
-            perror("cu_write");
-            cu_close(srcFd);
-            cu_close(trgtFd);
+    while ((readSize = pread(srcFd, buf, sizeof(buf), 0))>0) {
+        if (pwrite(trgtFd, buf, readSize, 0) != readSize) {
+            perror("pwrite");
+            close(srcFd);
+            close(trgtFd);
             return false;
         }
     }
 
-    cu_close(srcFd);
-    cu_close(trgtFd);
+    close(srcFd);
+    close(trgtFd);
     return true;
 }
 
