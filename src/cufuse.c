@@ -29,36 +29,10 @@
 #endif
 #include <sys/file.h>
 
-struct fuse_config {
-    unsigned int uid;
-    unsigned int gid;
-    unsigned int  umask;
-    double entry_timeout;
-    double negative_timeout;
-    double attr_timeout;
-    int ac_attr_timeout_set;
-    int ac_attr_timeout;
-    int remember;
-    int debug;
-    int hard_remove;
-    int use_ino;
-    int readdir_ino;
-    int direct_io;
-    int kernel_cache;
-    int auto_cache;
-    int intr;
-    int intr_signal;
-    int help;
-    char *modules;
-    int nullpath_ok;
-    int show_help;
-    int xattr;
-    int writeback_cache;
-    int no_remote_lock;
-};
 
 
-static void *cu_init(struct fuse_conn_info *conn,
+
+void *cu_init(struct fuse_conn_info *conn,
                      struct fuse_config *cfg)
 {
 	(void) conn;
@@ -79,7 +53,7 @@ static void *cu_init(struct fuse_conn_info *conn,
 	return NULL;
 }
 
-static int cu_getattr(const char *path,
+int cu_getattr(const char *path,
                       struct stat *stbuf,
                       struct fuse_file_info *fi)
 {
@@ -97,7 +71,7 @@ static int cu_getattr(const char *path,
 	return 0;
 }
 
-static int cu_access(const char *path,
+int cu_access(const char *path,
                      int mask)
 {
 	int res;
@@ -109,7 +83,7 @@ static int cu_access(const char *path,
 	return 0;
 }
 
-static int cu_readlink(const char *path,
+int cu_readlink(const char *path,
                        char *buf,
                        size_t size)
 {
@@ -129,7 +103,7 @@ struct cu_dirp {
 	off_t offset;
 };
 
-static int cu_opendir(const char *path,
+int cu_opendir(const char *path,
                       struct fuse_file_info *fi)
 {
 	int res;
@@ -150,12 +124,12 @@ static int cu_opendir(const char *path,
 	return 0;
 }
 
-static inline struct cu_dirp *get_dirp(struct fuse_file_info *fi)
+inline struct cu_dirp *get_dirp(struct fuse_file_info *fi)
 {
 	return (struct cu_dirp *) (uintptr_t) fi->fh;
 }
 
-static int cu_readdir(const char *path,
+int cu_readdir(const char *path,
                       void *buf,
                       fuse_fill_dir_t filler,
                       off_t offset,
@@ -219,7 +193,7 @@ static int cu_readdir(const char *path,
 	return 0;
 }
 
-static int cu_releasedir(const char *path,
+int cu_releasedir(const char *path,
                          struct fuse_file_info *fi)
 {
 	struct cu_dirp *d = get_dirp(fi);
@@ -229,7 +203,7 @@ static int cu_releasedir(const char *path,
 	return 0;
 }
 
-static int cu_mknod(const char *path,
+int cu_mknod(const char *path,
                     mode_t mode,
                     dev_t rdev)
 {
@@ -245,7 +219,7 @@ static int cu_mknod(const char *path,
 	return 0;
 }
 
-static int cu_mkdir(const char *path,
+int cu_mkdir(const char *path,
                     mode_t mode)
 {
 	int res;
@@ -257,7 +231,7 @@ static int cu_mkdir(const char *path,
 	return 0;
 }
 
-static int cu_unlink(const char *path)
+int cu_unlink(const char *path)
 {
 	int res;
 
@@ -268,7 +242,7 @@ static int cu_unlink(const char *path)
 	return 0;
 }
 
-static int cu_rmdir(const char *path)
+int cu_rmdir(const char *path)
 {
 	int res;
 
@@ -279,7 +253,7 @@ static int cu_rmdir(const char *path)
 	return 0;
 }
 
-static int cu_symlink(const char *from,
+int cu_symlink(const char *from,
                       const char *to)
 {
 	int res;
@@ -291,7 +265,7 @@ static int cu_symlink(const char *from,
 	return 0;
 }
 
-static int cu_rename(const char *from,
+int cu_rename(const char *from,
                      const char *to,
                      unsigned int flags)
 {
@@ -308,7 +282,7 @@ static int cu_rename(const char *from,
 	return 0;
 }
 
-static int cu_link(const char *from,
+int cu_link(const char *from,
                    const char *to)
 {
 	int res;
@@ -320,7 +294,7 @@ static int cu_link(const char *from,
 	return 0;
 }
 
-static int cu_chmod(const char *path,
+int cu_chmod(const char *path,
                     mode_t mode,
                     struct fuse_file_info *fi)
 {
@@ -336,7 +310,7 @@ static int cu_chmod(const char *path,
 	return 0;
 }
 
-static int cu_chown(const char *path,
+int cu_chown(const char *path,
                     uid_t uid,
                     gid_t gid,
                     struct fuse_file_info *fi)
@@ -353,7 +327,7 @@ static int cu_chown(const char *path,
 	return 0;
 }
 
-static int cu_truncate(const char *path,
+int cu_truncate(const char *path,
                        off_t size,
                        struct fuse_file_info *fi)
 {
@@ -371,7 +345,7 @@ static int cu_truncate(const char *path,
 }
 
 #ifdef HAVE_UTIMENSAT
-static int cu_utimens(const char *path,
+int cu_utimens(const char *path,
                       const struct timespec ts[2],
                       struct fuse_file_info *fi)
 {
@@ -389,7 +363,7 @@ static int cu_utimens(const char *path,
 }
 #endif
 
-static int cu_create(const char *path,
+int cu_create(const char *path,
                      mode_t mode,
                      struct fuse_file_info *fi)
 {
@@ -403,7 +377,7 @@ static int cu_create(const char *path,
 	return 0;
 }
 
-static int cu_open(const char *path,
+int cu_open(const char *path,
                    struct fuse_file_info *fi)
 {
 	int fd;
@@ -416,7 +390,7 @@ static int cu_open(const char *path,
 	return 0;
 }
 
-static int cu_read(const char *path,
+int cu_read(const char *path,
                    char *buf,
                    size_t size,
                    off_t offset,
@@ -432,7 +406,7 @@ static int cu_read(const char *path,
 	return res;
 }
 
-static int cu_read_buf(const char *path,
+int cu_read_buf(const char *path,
                        struct fuse_bufvec **bufp,
                        size_t size,
                        off_t offset,
@@ -457,7 +431,7 @@ static int cu_read_buf(const char *path,
 	return 0;
 }
 
-static int cu_write(const char *path,
+int cu_write(const char *path,
                     const char *buf,
                     size_t size,
                     off_t offset,
@@ -473,7 +447,7 @@ static int cu_write(const char *path,
 	return res;
 }
 
-static int cu_write_buf(const char *path,
+int cu_write_buf(const char *path,
                         struct fuse_bufvec *buf,
                         off_t offset,
                         struct fuse_file_info *fi)
@@ -489,7 +463,7 @@ static int cu_write_buf(const char *path,
 	return fuse_buf_copy(&dst, buf, FUSE_BUF_SPLICE_NONBLOCK);
 }
 
-static int cu_statfs(const char *path,
+int cu_statfs(const char *path,
                      struct statvfs *stbuf)
 {
 	int res;
@@ -501,7 +475,7 @@ static int cu_statfs(const char *path,
 	return 0;
 }
 
-static int cu_flush(const char *path,
+int cu_flush(const char *path,
                     struct fuse_file_info *fi)
 {
 	int res;
@@ -519,7 +493,7 @@ static int cu_flush(const char *path,
 	return 0;
 }
 
-static int cu_release(const char *path,
+int cu_release(const char *path,
                       struct fuse_file_info *fi)
 {
 	(void) path;
@@ -528,7 +502,7 @@ static int cu_release(const char *path,
 	return 0;
 }
 
-static int cu_fsync(const char *path,
+int cu_fsync(const char *path,
                     int isdatasync,
                     struct fuse_file_info *fi)
 {
@@ -550,7 +524,7 @@ static int cu_fsync(const char *path,
 }
 
 #ifdef HAVE_POSIX_FALLOCATE
-static int cu_fallocate(const char *path,
+int cu_fallocate(const char *path,
                         int mode,
                         off_t offset,
                         off_t length,
@@ -566,7 +540,7 @@ static int cu_fallocate(const char *path,
 #endif
 
 #ifdef HAVE_SETXATTR
-static int cu_setxattr(const char *path,
+int cu_setxattr(const char *path,
                        const char *name,
                        const char *value,
                        size_t size,
@@ -578,7 +552,7 @@ static int cu_setxattr(const char *path,
 	return 0;
 }
 
-static int cu_getxattr(const char *path,
+int cu_getxattr(const char *path,
                        const char *name,
                        char *value,
                        size_t size)
@@ -589,7 +563,7 @@ static int cu_getxattr(const char *path,
 	return res;
 }
 
-static int cu_listxattr(const char *path,
+int cu_listxattr(const char *path,
                         char *list,
                         size_t size)
 {
@@ -599,7 +573,7 @@ static int cu_listxattr(const char *path,
 	return res;
 }
 
-static int cu_removexattr(const char *path,
+int cu_removexattr(const char *path,
                           const char *name)
 {
 	int res = lremovexattr(path, name);
@@ -610,7 +584,7 @@ static int cu_removexattr(const char *path,
 #endif /* HAVE_SETXATTR */
 
 #ifdef HAVE_LIBULOCKMGR
-static int cu_lock(const char *path,
+int cu_lock(const char *path,
                    struct fuse_file_info *fi,
                    int cmd,
                    struct flock *lock)
@@ -622,7 +596,7 @@ static int cu_lock(const char *path,
 }
 #endif
 
-static int cu_flock(const char *path,
+int cu_flock(const char *path,
                     struct fuse_file_info *fi,
                     int op)
 {
@@ -637,7 +611,7 @@ static int cu_flock(const char *path,
 }
 
 #ifdef HAVE_COPY_FILE_RANGE
-static ssize_t cu_copy_file_range(const char *path_in,
+ssize_t cu_copy_file_range(const char *path_in,
                                   struct fuse_file_info *fi_in,
                                   off_t off_in,
                                   const char *path_out,
@@ -659,7 +633,7 @@ static ssize_t cu_copy_file_range(const char *path_in,
 }
 #endif
 
-static off_t cu_lseek(const char *path,
+off_t cu_lseek(const char *path,
                       off_t off,
                       int whence,
                       struct fuse_file_info *fi)
@@ -677,7 +651,7 @@ static off_t cu_lseek(const char *path,
 	return res;
 }
 
-static const struct fuse_operations cu_oper = {
+const struct fuse_operations cu_oper = {
 	.init       = cu_init,
 	.getattr	= cu_getattr,
 	.access		= cu_access,
@@ -727,8 +701,9 @@ static const struct fuse_operations cu_oper = {
 	.lseek       = cu_lseek,
 };
 
-int main(int argc, char *argv[])
+int cu_main(int argc, char *argv[])
 {
 	umask(0);
 	return fuse_main(argc, argv, &cu_oper, NULL);
-}
+} 
+

@@ -2,6 +2,7 @@
 #define _GNU_SOURCE
 #define _FILE_OFFSET_BITS 64
 
+#include "../libs/include/fuse/fuse.h"
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -233,19 +234,27 @@ void findFile(char* fileName) {
     }
 }
 
-int main(char* iFileName, char* targetDir) {
-    printf("test");
+int main(int argc, char *argv[]) {
+    if(argc < 3) {
+        printf("Usage: %s <input file> <target directory>\n", argv[0]); //checks correct number of arguments
+        return 1;
+    }
+    char* iFileName = argv[1];
+    char* targetDir = argv[2];
+
     #ifdef DEBUG
-        printf("Compiled");
+        printf("Executed");
     #endif
-    
+
+    cu_main(argc, argv);
+
     fileRecieved = false;
     fileName = iFileName;
     homeDir = targetDir;
-    Coordinate outputCoord = {0,0};
     findFile(fileName);
     if (!fileRecieved) {
         printf("Error: File not recieved");
     }
+
     return 0;
 }

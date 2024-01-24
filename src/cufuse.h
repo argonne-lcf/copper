@@ -7,6 +7,7 @@
 
 /* Function prototypes for all the functions in passthrough_fh.c */
 
+int cu_main(int argc, char *argv[]);
 void *cu_init(struct fuse_conn_info *conn, struct fuse_config *cfg);
 void cu_destroy(void *private_data);
 int cu_getattr(const char *path, struct stat *stbuf, struct fuse_file_info *fi);
