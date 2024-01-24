@@ -234,7 +234,7 @@ void findFile(char* fileName) {
 }
 
 int main(char* iFileName, char* targetDir) {
-
+    printf("test");
     #ifdef DEBUG
         printf("Compiled");
     #endif
