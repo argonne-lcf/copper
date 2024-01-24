@@ -145,6 +145,11 @@ Coordinate getCoord(char input[]) {
 }
 
 void populateTree (char* fileName, Coordinate fileLocation) {
+
+    #ifdef DEBUG
+        printf("populateTree() called");
+    #endif
+
     int size = thisCoord().rank - fileLocation.rank;
     for (int i = size; i > 0 ; i--) {
         Coordinate coord = thisCoord();
@@ -168,6 +173,11 @@ void populateTree (char* fileName, Coordinate fileLocation) {
 }
 
 void returnFile (char* fileName, Coordinate fileLocation) {
+
+    #ifdef DEBUG
+        printf("returnFile() called");
+    #endif
+
     if (fileLocation.rank == 0) {
         Coordinate storage = {0,0};
         fileLocation.rank = 1;
@@ -187,6 +197,11 @@ void returnFile (char* fileName, Coordinate fileLocation) {
 }
 
 void findFile(char* fileName) {
+
+    #ifdef DEBUG
+        printf("findFile() called");
+    #endif
+
     bool fileFound = false; 
     Coordinate fileLocation;
 
@@ -219,6 +234,11 @@ void findFile(char* fileName) {
 }
 
 int main(char* iFileName, char* targetDir) {
+
+    #ifdef DEBUG
+        printf("Compiled");
+    #endif
+
     system("./cufuse");
     fileRecieved = false;
     fileName = iFileName;
