@@ -219,7 +219,7 @@ void findFile(char* fileName) {
 }
 
 int main(char* iFileName, char* targetDir) {
-    //system("./cufuse");
+    system("./cufuse");
     fileRecieved = false;
     fileName = iFileName;
     homeDir = targetDir;
