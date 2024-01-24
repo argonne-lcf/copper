@@ -238,8 +238,7 @@ int main(char* iFileName, char* targetDir) {
     #ifdef DEBUG
         printf("Compiled");
     #endif
-
-    system("gcc cufuse.c -o cufuse");
+    
     fileRecieved = false;
     fileName = iFileName;
     homeDir = targetDir;
