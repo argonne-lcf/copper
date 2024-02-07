@@ -41,4 +41,3 @@ int cu_lock(const char *path, struct fuse_file_info *fi, int cmd, struct flock *
 int cu_flock(const char *path, struct fuse_file_info *fi, int op);
 
 #endif 
-
