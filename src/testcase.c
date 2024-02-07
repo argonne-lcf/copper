@@ -1,8 +1,4 @@
-#define FUSE_USE_VERSION 31
-#define _GNU_SOURCE
-#define _FILE_OFFSET_BITS 64
 
-#include "../libs/include/fuse/fuse.h"
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -12,7 +8,9 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "cufuse.h"
+//#include "cufuse.h"
+#include "passthrough_fh.c"
+
 
 #define BUF_SIZE 8192
 
@@ -28,40 +26,56 @@ char* homeDir;
 
 
 bool doesFileExist(char* filename, char* nodePath) {
-    char* path; 
-    asprintf(&path, "%s%s", nodePath, filename); //combines nodePath and filename into filepath
-    int res = cu_access(path, R_OK);  //uses cu_acces to check of a files existance and that it is able to be read from
+    #ifdef DEBUG
+        printf("doesFileExist() called\n");
+    #endif
+    char* path = malloc(strlen(filename) + strlen(nodePath) + 1); //allocates memory for complete filename
+    strcpy(path, nodePath); 
+    strcat(path, filename);
+    int res = xmp_access(path, R_OK);  //uses xmp_acces to check of a files existance and that it is able to be read from
     if (res == 0) {
+        free(path);
+        #ifdef DEBU
+            printf("doesFileExist() closed\n");
+        #endif
         return true;
     } else {
+        free(path);
+        #ifdef DEBUG
+            printf("doesFileExist() closed\n");
+        #endif
         return false;
     }
     
 }
 
 bool copyFile(const char* filename, const char* srcDir, const char* trgtDir) {
-    char* srcPath;
-    char* trgtPath;
+    #ifdef DEBUG
+        printf("copyFile() called\n");
+    #endif
     int srcFd, trgtFd;
     char buf[BUF_SIZE];
     int readSize;
 
-    asprintf(&srcPath, "%s%s", srcDir, filename); //creates full path of source and target files
-    asprintf(&trgtPath, "%s%s", trgtDir, filename);
+    char* srcPath = malloc(strlen(filename) + strlen(srcDir) + 1); //allocates memory for complete filename
+    strcpy(srcPath, srcDir); 
+    strcat(srcPath, filename);
+    char* trgtPath = malloc(strlen(filename) + strlen(trgtDir) + 1); //allocates memory for complete filename
+    strcpy(trgtPath, trgtDir); 
+    strcat(trgtPath, filename);
 
-
-    srcFd = cu_open(srcPath, O_RDONLY);
+    srcFd = xmp_open(srcPath, O_RDONLY);
     if (srcFd == -1) {
-        perror("cu_open"); //print error @ cu_open
+        perror("xmp_open"); //print error @ xmp_open
         return false;
     }
 
     struct fuse_file_info fi;
     memset(&fi, 0, sizeof(fi));
-    trgtFd = cu_create(trgtPath, S_IRUSR | S_IWUSR, &fi);
+    trgtFd = xmp_create(trgtPath, S_IRUSR | S_IWUSR, &fi);
 
     if (trgtFd == -1) {
-        perror("cu_create"); //print error @ cu_create
+        perror("xmp_create"); //print error @ xmp_create
         close(srcFd);
         return false;
     }
@@ -77,39 +91,50 @@ bool copyFile(const char* filename, const char* srcDir, const char* trgtDir) {
 
     close(srcFd);
     close(trgtFd);
+    #ifdef DEBUG
+        printf("copyFile() closed\n");
+    #endif
     return true;
 }
 
 
 char* getNode(Coordinate input) {
-    FILE *file = fopen("../lib/binTreeDef.txt", "r");
-    Coordinate temp;
-    char str[64];
-    static char output[64];  // Declare output as a static array
-
+    #ifdef DEBUG
+        printf("getNode() called\n");
+    #endif
+    FILE *file = fopen("libs/binTreeDef.txt", "r");
     if (file == NULL){
-        printf("Error: Could not open tree definition file");
+        printf("Error: Could not open tree definition file\n");
     }
 
-    while (fscanf(file, "%d %d %s", &temp.rank, &temp.branch, str) != EOF) {
+    Coordinate temp;
+    static char output[64];  // Declare output as a static array
+
+    while (fscanf(file, "%d %d %s", &temp.rank, &temp.branch, output) != EOF) {
         if (temp.rank == input.rank && temp.branch == input.branch) {
-            strcpy(output, str);  
             break;
         }
     }
+    printf("output: %s\n", output);
     fclose(file);
+    #ifdef DEBUG
+        printf("getNode() closed\n");
+    #endif
     return output; 
 }
 
 
 Coordinate thisCoord() { 
+    #ifdef DEBUG
+        printf("thisCoord() called\n");
+    #endif
     static Coordinate output;
-    FILE *file = fopen("../lib/binTreeDef.txt", "r");
+    FILE *file = fopen("libs/binTreeDef.txt", "r");
     Coordinate temp;
     char str[64];
 
     if (file == NULL){
-        printf("Could not open file\n");
+        printf("Unable to open binTreeDef.txt\n");
     }
 
     while (fscanf(file, "%d %d %s", &temp.rank, &temp.branch, str) != EOF) {
@@ -121,9 +146,17 @@ Coordinate thisCoord() {
     }
 
     fclose(file);
+    printf("output: %d, %d\n", output.rank, output.branch);
+    #ifdef DEBUG
+        printf("thisCoord() closed\n");
+    #endif
     return output;
 }
+
 Coordinate getCoord(char input[]) {
+    #ifdef DEBUG
+        printf("getCoord() called\n");
+    #endif
     static Coordinate output;
     FILE *file = fopen("../lib/binTreeDef.txt", "r");
     Coordinate temp;
@@ -142,13 +175,16 @@ Coordinate getCoord(char input[]) {
     }
 
     fclose(file);
+    #ifdef DEBUG
+        printf("getCoord() closed\n");
+    #endif
     return output;
 }
 
 void populateTree (char* fileName, Coordinate fileLocation) {
 
     #ifdef DEBUG
-        printf("populateTree() called");
+        printf("populateTree() called\n");
     #endif
 
     int size = thisCoord().rank - fileLocation.rank;
@@ -171,12 +207,15 @@ void populateTree (char* fileName, Coordinate fileLocation) {
         fileRecieved = true;
         }
     }
+    #ifdef DEBUG
+        printf("populateTree() closed\n");
+    #endif
 }
 
 void returnFile (char* fileName, Coordinate fileLocation) {
 
     #ifdef DEBUG
-        printf("returnFile() called");
+        printf("returnFile() called\n");
     #endif
 
     if (fileLocation.rank == 0) {
@@ -195,12 +234,15 @@ void returnFile (char* fileName, Coordinate fileLocation) {
     } else {
         populateTree(fileName, fileLocation);
     }
+    #ifdef DEBUG
+        printf("returnFile() closed\n");
+    #endif
 }
 
 void findFile(char* fileName) {
 
     #ifdef DEBUG
-        printf("findFile() called");
+        printf("findFile() called\n");
     #endif
 
     bool fileFound = false; 
@@ -208,9 +250,7 @@ void findFile(char* fileName) {
 
     fileLocation.rank = 0;
     fileLocation.branch = 0; //NOTE: (0,0) is the coordinate of storage 
-    Coordinate test = getCoord("Hello");
-    printf("( %d , %d )", test.rank, test.branch);
-    printf("\nhello, World!\n");
+
     if (doesFileExist(fileName, homeDir)) {
         fileRecieved = true;
     } else {
@@ -228,10 +268,16 @@ void findFile(char* fileName) {
                 fileFound = true;
             } 
         }
+        if (!loop && !fileFound) {
+            printf("File not found\n");
+        }
     }
     if (fileFound) {
         returnFile(fileName, fileLocation);
     }
+    #ifdef DEBUG
+        printf("findFile() closed\n");
+    #endif
 }
 
 int main(int argc, char *argv[]) {
@@ -239,14 +285,14 @@ int main(int argc, char *argv[]) {
         printf("Usage: %s <input file> <target directory>\n", argv[0]); //checks correct number of arguments
         return 1;
     }
+    //passthrough_main(argc, argv);
+
     char* iFileName = argv[1];
     char* targetDir = argv[2];
 
     #ifdef DEBUG
-        printf("Executed");
+        printf("Executed\n");
     #endif
-
-    cu_main(argc, argv);
 
     fileRecieved = false;
     fileName = iFileName;

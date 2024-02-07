@@ -654,10 +654,12 @@ static const struct fuse_operations xmp_oper = {
 	.copy_file_range = xmp_copy_file_range,
 #endif
 	.lseek		= xmp_lseek,
-};
+}; 
 
-int main(int argc, char *argv[])
+/*
+int passthrough_main(int argc, char *argv[])
 {
 	umask(0);
 	return fuse_main(argc, argv, &xmp_oper, NULL);
 }
+*/
