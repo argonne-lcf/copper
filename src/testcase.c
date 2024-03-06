@@ -8,11 +8,11 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <unistd.h>
-//#include "cufuse.h"
-#include "passthrough_fh.c"
+#include "passthrough_fh.h"
 
 
 #define BUF_SIZE 8192
+
 
 typedef struct {
     int rank;
@@ -32,7 +32,7 @@ bool doesFileExist(char* filename, char* nodePath) {
     char* path = malloc(strlen(filename) + strlen(nodePath) + 1); //allocates memory for complete filename
     strcpy(path, nodePath); 
     strcat(path, filename);
-    int res = xmp_access(path, R_OK);  //uses xmp_acces to check of a files existance and that it is able to be read from
+    int res = passthrough_fh_access(path, R_OK);  //uses access to check of a files existance and that it is able to be read from
     if (res == 0) {
         free(path);
         #ifdef DEBU
@@ -64,7 +64,7 @@ bool copyFile(const char* filename, const char* srcDir, const char* trgtDir) {
     strcpy(trgtPath, trgtDir); 
     strcat(trgtPath, filename);
 
-    srcFd = xmp_open(srcPath, O_RDONLY);
+    srcFd = passthrough_fh_open(srcPath, O_RDONLY);
     if (srcFd == -1) {
         perror("xmp_open"); //print error @ xmp_open
         return false;
@@ -72,7 +72,7 @@ bool copyFile(const char* filename, const char* srcDir, const char* trgtDir) {
 
     struct fuse_file_info fi;
     memset(&fi, 0, sizeof(fi));
-    trgtFd = xmp_create(trgtPath, S_IRUSR | S_IWUSR, &fi);
+    trgtFd = -passthrough_fh_create(trgtPath, S_IRUSR | S_IWUSR, &fi);
 
     if (trgtFd == -1) {
         perror("xmp_create"); //print error @ xmp_create
@@ -281,14 +281,19 @@ void findFile(char* fileName) {
 }
 
 int main(int argc, char *argv[]) {
-    if(argc < 3) {
-        printf("Usage: %s <input file> <target directory>\n", argv[0]); //checks correct number of arguments
+    
+    if(argc < 4) {
+        fprintf(stderr, "Usage: %s <mount_point> <input file> <target directory>\n", argv[0]); //checks correct number of arguments
         return 1;
     }
-    //passthrough_main(argc, argv);
+    char *my_argv[2];
+    my_argv[0] = argv[0];
+    my_argv[1] = argv[1];
 
-    char* iFileName = argv[1];
-    char* targetDir = argv[2];
+    passthrough_fh_main(3, my_argv);
+
+    char* iFileName = argv[2];
+    char* targetDir = argv[3];
 
     #ifdef DEBUG
         printf("Executed\n");
