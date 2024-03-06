@@ -10,7 +10,7 @@
 #include <unistd.h>
 #include "passthrough_fh.h"
 
-
+#define FUSE_USE_VERSION 30
 #define BUF_SIZE 8192
 
 

@@ -23,7 +23,7 @@
  * \include passthrough_fh.c
  */
 
-#define FUSE_USE_VERSION 31
+#define FUSE_USE_VERSION 30
 
 #define _GNU_SOURCE
 
