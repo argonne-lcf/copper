@@ -304,7 +304,7 @@ int main(int argc, char *argv[]) {
     homeDir = targetDir;
     findFile(fileName);
     if (!fileRecieved) {
-        printf("Error: File not recieved");
+        printf("Error: File not recieved\n");
     }
 
     return 0;

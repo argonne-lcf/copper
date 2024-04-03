@@ -8,8 +8,6 @@
 
 #define _GNU_SOURCE
 
-#include <fuse.h>
-
 #ifdef HAVE_LIBULOCKMGR
 #include <ulockmgr.h>
 #endif

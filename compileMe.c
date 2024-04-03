@@ -26,8 +26,8 @@ int main(int argc, char *argv[]) {
     scanf("%c", &response);
 
     char *dirName = argv[1];
-    char* command = malloc(strlen("./copper /tmp/") + strlen(dirName) + strlen(" 'test.txt' 'node3'") + 1); //allocates memory for complete filename
-    strcpy(command, "./copper /tmp/"); 
+    char* command = malloc(strlen("./copper ") + strlen(dirName) + strlen(" 'test.txt' 'node3'") + 1); //allocates memory for complete filename
+    strcpy(command, "./copper "); 
     strcat(command, dirName);
     strcat(command, " 'test.txt' 'node3'");
     if(response == 'y' || response == 'Y') {
