@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     }
     // system() will invoke the shell (command line)
     // and execute the command that's passed to it
-    result = system("gcc -DDEBUG -D_FILE_OFFSET_BITS=64 src/passthrough_fh.c src/testcase.c `pkg-config fuse3 --cflags --libs` -lulockmgr -o copper -lm");
+    result = system("gcc -DDEBUG -D_FILE_OFFSET_BITS=64 src/cufuse.c src/testcase.c `pkg-config fuse3 --cflags --libs` -lulockmgr -o copper -lm");
 
     if(result == 0) {
         printf("The program compiled successfully.\n");

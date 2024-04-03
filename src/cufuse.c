@@ -4,12 +4,11 @@
  *   https://github.com/libfuse/libfuse/blob/master/example/passthrough_fh.c
  */
 
-#define FUSE_USE_VERSION 31
+#define FUSE_USE_VERSION 30
 
 #define _GNU_SOURCE
 
-#define _FILE_OFFSET_BITS 64
-#include "../libs/include/fuse.h"
+#include <fuse.h>
 
 #ifdef HAVE_LIBULOCKMGR
 #include <ulockmgr.h>
@@ -28,7 +27,6 @@
 #include <sys/xattr.h>
 #endif
 #include <sys/file.h>
-
 
 
 
@@ -124,12 +122,12 @@ int cu_opendir(const char *path,
 	return 0;
 }
 
-inline struct cu_dirp *get_dirp(struct fuse_file_info *fi)
+static inline struct cu_dirp *get_dirp(struct fuse_file_info *fi)
 {
 	return (struct cu_dirp *) (uintptr_t) fi->fh;
 }
 
-int cu_readdir(const char *path,
+static int cu_readdir(const char *path,
                       void *buf,
                       fuse_fill_dir_t filler,
                       off_t offset,
@@ -193,7 +191,7 @@ int cu_readdir(const char *path,
 	return 0;
 }
 
-int cu_releasedir(const char *path,
+static int cu_releasedir(const char *path,
                          struct fuse_file_info *fi)
 {
 	struct cu_dirp *d = get_dirp(fi);

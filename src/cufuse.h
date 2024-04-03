@@ -1,9 +1,13 @@
 #ifndef CUFUSE_H
 #define CUFUSE_H
 
-#define FUSE_USE_VERSION 31
+#define FUSE_USE_VERSION 30
 
-#include "../libs/include/fuse/fuse.h"
+#include <fuse.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 
 /* Function prototypes for all the functions in passthrough_fh.c */
 
@@ -39,5 +43,8 @@ int cu_removexattr(const char *path, const char *name);
 int cu_create(const char *path, mode_t mode, struct fuse_file_info *fi);
 int cu_lock(const char *path, struct fuse_file_info *fi, int cmd, struct flock *lock);
 int cu_flock(const char *path, struct fuse_file_info *fi, int op);
+
+// Main function (entry point for FUSE)
+int cu_main(int argc, char *argv[]);
 
 #endif 

@@ -8,7 +8,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "passthrough_fh.h"
+#include "cufuse.h"
 
 #define FUSE_USE_VERSION 30
 #define BUF_SIZE 8192
@@ -32,7 +32,7 @@ bool doesFileExist(char* filename, char* nodePath) {
     char* path = malloc(strlen(filename) + strlen(nodePath) + 1); //allocates memory for complete filename
     strcpy(path, nodePath); 
     strcat(path, filename);
-    int res = passthrough_fh_access(path, R_OK);  //uses access to check of a files existance and that it is able to be read from
+    int res = cu_access(path, R_OK);  //uses access to check of a files existance and that it is able to be read from
     if (res == 0) {
         free(path);
         #ifdef DEBU
@@ -64,7 +64,7 @@ bool copyFile(const char* filename, const char* srcDir, const char* trgtDir) {
     strcpy(trgtPath, trgtDir); 
     strcat(trgtPath, filename);
 
-    srcFd = passthrough_fh_open(srcPath, O_RDONLY);
+    srcFd = cu_open(srcPath, O_RDONLY);
     if (srcFd == -1) {
         perror("xmp_open"); //print error @ xmp_open
         return false;
@@ -72,7 +72,7 @@ bool copyFile(const char* filename, const char* srcDir, const char* trgtDir) {
 
     struct fuse_file_info fi;
     memset(&fi, 0, sizeof(fi));
-    trgtFd = -passthrough_fh_create(trgtPath, S_IRUSR | S_IWUSR, &fi);
+    trgtFd = -cu_create(trgtPath, S_IRUSR | S_IWUSR, &fi);
 
     if (trgtFd == -1) {
         perror("xmp_create"); //print error @ xmp_create
@@ -290,7 +290,7 @@ int main(int argc, char *argv[]) {
     my_argv[0] = argv[0];
     my_argv[1] = argv[1];
 
-    passthrough_fh_main(3, my_argv);
+    cu_main(3, my_argv);
 
     char* iFileName = argv[2];
     char* targetDir = argv[3];
