@@ -2,11 +2,17 @@
  * 
  * derived from:
  *   https://github.com/libfuse/libfuse/blob/master/example/passthrough_fh.c
+ * 
+ * Compile with:
+ *
+ *     gcc -DDEBUG cufuse.c `pkg-config fuse3 --cflags --libs` -lulockmgr -o cufuse
  */
 
 #define FUSE_USE_VERSION 30
 
 #define _GNU_SOURCE
+
+#include <fuse.h>
 
 #ifdef HAVE_LIBULOCKMGR
 #include <ulockmgr.h>
@@ -699,6 +705,14 @@ const struct fuse_operations cu_oper = {
 
 int cu_main(int argc, char *argv[])
 {
+	#ifdef DEBUG
+		char** ptr = argv;
+    	int i;
+    	for(i = 0; i < 3; i++) {
+    	    printf("%s, %s\n", "CUFUSE", ptr[i]);
+    	}
+	#endif
+
 	umask(0);
 	return fuse_main(argc, argv, &cu_oper, NULL);
 } 

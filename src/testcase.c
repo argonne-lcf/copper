@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <pthread.h>
 #include "cufuse.h"
 
 #define FUSE_USE_VERSION 30
@@ -279,33 +280,62 @@ void findFile(char* fileName) {
         printf("findFile() closed\n");
     #endif
 }
+struct fuse_ex_args {
+    char **argv;
+};
 
-int main(int argc, char *argv[]) {
-    
+void *run_fuse(void *args) {
+	struct fuse_ex_args *fa = (struct fuse_ex_args*)args;
+	int ret = cu_main(2, fa->argv);
+	return (void *)(long)ret;
+}
+
+int main(int argc, char* argv[]) {
+    pthread_t fuse_thread;
+
     if(argc < 4) {
         fprintf(stderr, "Usage: %s <mount_point> <input file> <target directory>\n", argv[0]); //checks correct number of arguments
         return 1;
     }
-    char *my_argv[2];
-    my_argv[0] = argv[0];
-    my_argv[1] = argv[1];
-
-    cu_main(3, my_argv);
-
-    char* iFileName = argv[2];
-    char* targetDir = argv[3];
 
     #ifdef DEBUG
         printf("Executed\n");
     #endif
 
+    char* my_argv[2];
+    my_argv[0] = argv[0];
+    my_argv[1] = argv[1];
+
+    #ifdef DEBUG
+        char** ctr = my_argv;
+        int i;
+
+        for(i = 0; i < 3; i++) {
+            printf("%s, %s\n", "TESTCASE", ctr[i]);
+        }
+    #endif
+
+    struct fuse_ex_args fa = {my_argv};
+	pthread_create(&fuse_thread, NULL, run_fuse, &fa);
+
+    printf("test");
+    char* iFileName = argv[2];
+    char* targetDir = argv[3];
+
+    #ifdef DEBUG
+        printf("%s\n", iFileName);
+        printf("%s\n", targetDir);
+    #endif
+
     fileRecieved = false;
     fileName = iFileName;
     homeDir = targetDir;
+
     findFile(fileName);
     if (!fileRecieved) {
         printf("Error: File not recieved\n");
     }
 
+    pthread_join(fuse_thread, NULL);
     return 0;
 }
