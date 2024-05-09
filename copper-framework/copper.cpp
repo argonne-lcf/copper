@@ -1,25 +1,45 @@
+#include <iostream>
 #include <thallium.hpp>
 #include <thallium/serialization/stl/string.hpp>
 #include <array>
-#include <iostream>
+#include <vector>
+#include <string>
 #include <fstream>
 #include <sys/socket.h>
 #include <unistd.h> 
-#include <string>
-#include <vector>
 #include <cmath>
+#include <mutex>
+#include <sstream>
+#include <bitset>
+#include <algorithm>
+#include <iterator>
+#include <cstdlib>
+#include <thread>
+#include <queue>
+#include <chrono>
+#include <ctime>
 
 namespace tl = thallium;
+
+std::vector<std::pair<std::string, std::string>> global_peer_pairs;
+std::mutex mtx;
+std::vector<std::string> node_address_data;
 
 class Node 
 {
     public:
         std::string data;
+        Node* my_parent;
         std::vector<Node*> children;
+        int level;
+        int child_id;
 
-    Node(std::string data) 
+    Node(std::string data, Node* my_parent, int level, int child_id) 
     {
         this->data = data;
+        this->my_parent = my_parent;
+        this->level = level;
+        this->child_id = child_id;
     }
 
     void addChild(Node* child) 
@@ -61,20 +81,82 @@ class Node
     {
 
     }
+};
 
+Node* root;
+class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> 
+{
+    std::vector<tl::endpoint> m_peers;
+    tl::remote_procedure      m_get_file_data;
+    public:
+        ServerLocalCacheProvider(tl::engine serverEngine, const std::vector<std::string>& addresses) : 
+        tl::provider<ServerLocalCacheProvider>{std::move(serverEngine), 0} , m_get_file_data{define("get_file_data", &ServerLocalCacheProvider::getFileData)}
+        {
+            get_engine().push_finalize_callback([this](){ delete this;});
+            m_peers.reserve(addresses.size());
+
+            for(auto& address : addresses) 
+            {
+                m_peers.push_back(get_engine().lookup(address));
+                // std::cout << address << std::endl; 
+            }
+        }
+
+        void getFileData(const tl::request& req, const std::string& filename, const int req_bytes) 
+        {
+            std::string req_from_addr = static_cast<std::string>(req.get_endpoint());
+            std::cout << "req_coming_from_addr " << req_from_addr  << " requested data for file : " << filename << " requested bytes : " << req_bytes << std::endl;
+
+            if(req_from_addr == root->data)
+            {
+                char* buffer = new char[req_bytes];
+                for (int i = 0; i < req_bytes; i++) 
+                {
+                    buffer[i] = 'c';
+                }
+                std::string file_content =buffer;
+                req.respond(file_content);
+            }
+            else
+            {
+                Node* CopyofTree = root;
+                std::string parentofmynode = "";
+                getParentfromtree(CopyofTree, req_from_addr, parentofmynode);
+                std::cout << "Going to parent " <<parentofmynode << std::endl;
+                std::string file_content        = m_get_file_data.on(get_engine().lookup(parentofmynode))(filename, req_bytes);
+                std::cout << "Hop trip " <<req_from_addr << std::endl;
+                req.respond(file_content);
+            }
+        }
+
+        void getParentfromtree(Node* CopyofTree, std::string req_from_addr, std::string &parentofmynode)
+        {
+            if (req_from_addr == CopyofTree->data)
+            {
+                parentofmynode= CopyofTree->my_parent->data;
+            }
+            for (Node* child : CopyofTree->getChildren()) 
+            {
+                getParentfromtree(child, req_from_addr, parentofmynode);      
+            }
+        }
+
+        ServerLocalCacheProvider(const ServerLocalCacheProvider&)              = delete;
+        ServerLocalCacheProvider(ServerLocalCacheProvider&&)                   = delete;
+        ServerLocalCacheProvider& operator = (const ServerLocalCacheProvider&) = delete;
+        ServerLocalCacheProvider& operator = (ServerLocalCacheProvider&&)      = delete;
 
 };
 
+
 void printTree(Node* node) 
 {
-  std::cout << node->data << std::endl;
-
+  std::cout <<" Level " << node->level <<" Child ID at this Level " << node->child_id << " Data " << node->data << std::endl;
   for (Node* child : node->getChildren()) 
   {
     printTree(child);
   }
 }
-
 
 void prettyPrintTree(Node* root, int depth, int dep_counter = 0) 
 {
@@ -97,7 +179,6 @@ void prettyPrintTree(Node* root, int depth, int dep_counter = 0)
     }
 }
 
-
 int depth(Node* root) 
 {
     if (root == nullptr) 
@@ -114,7 +195,6 @@ int depth(Node* root)
     return maxDepth + 1;
 }
 
-
 Node*  build_my_tree(Node* root, std::vector<std::string > node_address_data)
 {
 
@@ -129,11 +209,11 @@ Node*  build_my_tree(Node* root, std::vector<std::string > node_address_data)
     else if (node_address_data.size() <= 1555)  max_children_per_parent = 6;
     else  max_children_per_parent = 7;
 
-    std::cout <<  "max_children_per_parent : " << max_children_per_parent << std::endl; 
+    // std::cout <<  "max_children_per_parent : " << max_children_per_parent << std::endl; 
 
     int current_children_per_parent = 0;
     int my_current_level = 0;
-    int l2_child_counter=0, l3_child_counter=0, l4_child_counter=0, l5_child_counter=0;
+    int l1_child_counter=0, l2_child_counter=0, l3_child_counter=0, l4_child_counter=0, l5_child_counter=0;
     int i_id_l2_parent = 0;  // For level 2 children
     int i_id_l3_parent = 0, j_id_l3_parent = 0;  // For level 3 children
     int i_id_l4_parent = 0, j_id_l4_parent = 0, k_id_l4_parent = 0;   // For level 4 children
@@ -145,7 +225,9 @@ Node*  build_my_tree(Node* root, std::vector<std::string > node_address_data)
     {
         if (i_node_counter == 0)
         {
-            root = new Node(node_address_data[i_node_counter]); // At level 0
+            root = new Node(node_address_data[i_node_counter], nullptr, 0 , 1); // At level 0
+            // std::cout << "node counter : " <<i_node_counter << " node ID: " << node_address_data[i_node_counter] << " level : " << my_current_level << std::endl; 
+
         }
         else
         {
@@ -157,18 +239,24 @@ Node*  build_my_tree(Node* root, std::vector<std::string > node_address_data)
             my_current_level_before_trim = log ( (max_children_per_parent - 1 ) * i_node_counter+1)  /  log(max_children_per_parent) ;
             my_current_level             = floor ( my_current_level_before_trim ); // Dont touch this - log2(8) is not exactly 3 but only closer to 3
 
-            std::cout << "node id : " <<i_node_counter << " level : " << my_current_level << std::endl; 
+            // std::cout << "node counter : " <<i_node_counter << " node ID: " << node_address_data[i_node_counter] << " level : " << my_current_level << std::endl; 
             
 
             if (my_current_level == 1)
             {
-                root->children.push_back(new Node(node_address_data[i_node_counter]));   
+                l1_child_counter = l1_child_counter +1;
+                root->children.push_back(new Node(node_address_data[i_node_counter],root, my_current_level, l1_child_counter));   
+
+                if (l1_child_counter == max_children_per_parent) 
+                {
+                    l1_child_counter = 0 ; 
+                }
             }
 
             if (my_current_level == 2)
             {
-                root->children[i_id_l2_parent]->children.push_back(new Node{node_address_data[i_node_counter]});     
                 l2_child_counter = l2_child_counter +1;
+                root->children[i_id_l2_parent]->children.push_back(new Node({node_address_data[i_node_counter]}, root->children[i_id_l2_parent], my_current_level, l2_child_counter));     
 
                 if (l2_child_counter == max_children_per_parent) 
                 {
@@ -179,8 +267,8 @@ Node*  build_my_tree(Node* root, std::vector<std::string > node_address_data)
 
             if (my_current_level == 3)
             {
-                root->children[i_id_l3_parent]->children[j_id_l3_parent]->children.push_back(new Node{node_address_data[i_node_counter]});    
                 l3_child_counter = l3_child_counter + 1; 
+                root->children[i_id_l3_parent]->children[j_id_l3_parent]->children.push_back(new Node({node_address_data[i_node_counter]}, root->children[i_id_l3_parent]->children[j_id_l3_parent], my_current_level, l3_child_counter));    
 
                 if (l3_child_counter == max_children_per_parent) 
                 {
@@ -197,8 +285,8 @@ Node*  build_my_tree(Node* root, std::vector<std::string > node_address_data)
             
             if (my_current_level == 4) 
             {
-                root->children[i_id_l4_parent]->children[j_id_l4_parent]->children[k_id_l4_parent]->children.push_back(new Node{node_address_data[i_node_counter]});   
                 l4_child_counter = l4_child_counter + 1; 
+                root->children[i_id_l4_parent]->children[j_id_l4_parent]->children[k_id_l4_parent]->children.push_back(new Node({node_address_data[i_node_counter]}, root->children[i_id_l4_parent]->children[j_id_l4_parent]->children[k_id_l4_parent], my_current_level, l4_child_counter));   
 
                 if (l4_child_counter == max_children_per_parent) 
                 {
@@ -221,8 +309,8 @@ Node*  build_my_tree(Node* root, std::vector<std::string > node_address_data)
 
             if (my_current_level == 5)  
             {
-                root->children[i_id_l5_parent]->children[j_id_l5_parent]->children[k_id_l5_parent]->children[l_id_l5_parent]->children.push_back(new Node{node_address_data[i_node_counter]});   
                 l5_child_counter = l5_child_counter + 1; 
+                root->children[i_id_l5_parent]->children[j_id_l5_parent]->children[k_id_l5_parent]->children[l_id_l5_parent]->children.push_back(new Node({node_address_data[i_node_counter]}, root->children[i_id_l5_parent]->children[j_id_l5_parent]->children[k_id_l5_parent]->children[l_id_l5_parent], my_current_level, l5_child_counter));   
 
                 if (l5_child_counter == max_children_per_parent) 
                 {
@@ -253,10 +341,58 @@ Node*  build_my_tree(Node* root, std::vector<std::string > node_address_data)
     return root;
 }
 
-
-void parse_nodelist(std::vector<std::string >& node_address_data, std::string pbs_nodelist_file)
+void push_back_with_mutex(std::string  hostname, std::string  my_cxi_server_ip_hex_str) 
 {
-    std::ifstream inFile(pbs_nodelist_file);
+  
+  std::lock_guard<std::mutex> lock(mtx);
+  std::ofstream myFile("./copper_address_book.txt", std::ios_base::app);
+  myFile << hostname << " " << my_cxi_server_ip_hex_str << std::endl;
+  myFile.close();
+
+}
+
+void get_hsn0_cxi_addr()
+{
+    std::string my_hsn0_mac_id;
+    std::ifstream inFile("/sys/class/net/hsn0/address");
+    if (!inFile.is_open()) { std::cerr << "Error opening file" << std::endl; }
+    inFile >> my_hsn0_mac_id;
+    inFile.close();
+    std::erase(my_hsn0_mac_id, ':');
+    std::string my_hsn0_nic_id = my_hsn0_mac_id.substr(my_hsn0_mac_id.length() - 5);
+
+    std::stringstream my_hsn0_nic_id_bin_ss;
+    my_hsn0_nic_id_bin_ss << std::hex << my_hsn0_nic_id;
+    unsigned my_hsn0_nic_id_bin_us;
+    my_hsn0_nic_id_bin_ss >> my_hsn0_nic_id_bin_us;
+    std::bitset<20> my_hsn0_nic_id_bin(my_hsn0_nic_id_bin_us);
+
+    // valid bits(3) + NIC (20) + PID (9)
+    std::string my_cxi_server_ip_binary_str = "001"+ my_hsn0_nic_id_bin.to_string() +"000000000";
+    // std::cout << my_cxi_server_ip_binary_str << std::endl;
+  
+    std::bitset<32> my_cxi_server_ip_binary(my_cxi_server_ip_binary_str);  
+
+    std::stringstream my_cxi_server_ip_hex_ss;
+    my_cxi_server_ip_hex_ss << std::hex << my_cxi_server_ip_binary.to_ulong();
+    std::string my_cxi_server_ip_hex_str = "ofi+cxi://0x"+my_cxi_server_ip_hex_ss.str();
+    // std::cout << "my_cxi_server_ip_hex_str " << my_cxi_server_ip_hex_str << std::endl;
+
+    char char_hostname[1024];
+    gethostname(char_hostname, sizeof(char_hostname));
+    std::string hostname(char_hostname);
+    // std::cout << hostname << std::endl;
+
+    // replace mutex with oneapi/tbb/concurrent_vector.h tbb::concurrent_vector is not working currently with oneapi
+    push_back_with_mutex(hostname, my_cxi_server_ip_hex_str); 
+
+}
+
+void parse_nodelist_from_cxi_address_book()
+{
+    sleep(10); //  barrier issue: The first process needs to wait until all the remaining processes have written to the address book. 
+
+    std::ifstream inFile("./copper_address_book.txt", std::ios::in);
 
     if (!inFile.is_open()) 
     {
@@ -265,153 +401,101 @@ void parse_nodelist(std::vector<std::string >& node_address_data, std::string pb
     }
 
     std::string line;
-    std::string delimiter = ".";
 
     while (getline(inFile, line))   
     {
-        // std::cout  << line << std::endl;
-        size_t pos = line.find(delimiter);
-        std::string first_part = line.substr(0, pos);
-        first_part = first_part + "-hsn0:10001";
-        // std::cout  << first_part << std::endl;
-        node_address_data.push_back(first_part);
+        // std::cout  << getpid() << "   "<< line << std::endl;
+        size_t pos = line.find(" ");
+        std::string first_part_hostname = line.substr(0, pos);
+        std::string second_part_cxi     = line.substr(pos + 1);
+        // std::cout  << first_part_hostname << second_part_cxi << std::endl;
+        global_peer_pairs.push_back(make_pair(first_part_hostname, second_part_cxi)); 
+        node_address_data.push_back(second_part_cxi);
     }
 
     inFile.close();
 
-    std::cout <<"Total number of compute nodes : " << node_address_data.size() << std::endl ;
-    for (int i = 0; i < node_address_data.size(); i++) 
-    {
-        std::cout  << node_address_data[i] << std::endl;
-    }
+    // std::cout <<"Total number of compute nodes : " << node_address_data.size() << std::endl ;
+    // for (int i = 0; i < node_address_data.size(); i++) 
+    // {
+    //     std::cout  << "Debug node_address_data from func parse_nodelist_for_cxi " << getpid() << node_address_data[i] << std::endl;
+    // }
 }
-
-
-class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> 
-{
-
-    std::vector<tl::endpoint> m_peers;
-    tl::remote_procedure      m_get_file_data;
-
-    public:
-
-        ServerLocalCacheProvider(tl::engine serverEngine, const std::vector<std::string>& addresses) : 
-        tl::provider<ServerLocalCacheProvider>{std::move(serverEngine), 0} , m_get_file_data{define("get_file_data", &ServerLocalCacheProvider::getFileData)}
-        {
-            // Setup finalization callback
-            get_engine().push_finalize_callback([this](){ delete this;});
-
-            // Lookup peers
-            m_peers.reserve(addresses.size());
-
-            for(auto& address : addresses) 
-            {
-                m_peers.push_back(get_engine().lookup(address));
-            }
-
-        }
-
-        void getFileData(const tl::request& req, const std::string& filename) 
-        {
-            std::cout << "Client at address " << static_cast<std::string>(req.get_endpoint())  << " requested data for file " << filename << std::endl;
-            std::string file_content = "Hello World From Server";
-            req.respond(file_content);
-
-        }
-
-        ServerLocalCacheProvider(const ServerLocalCacheProvider&)              = delete;
-        ServerLocalCacheProvider(ServerLocalCacheProvider&&)                   = delete;
-        ServerLocalCacheProvider& operator = (const ServerLocalCacheProvider&) = delete;
-        ServerLocalCacheProvider& operator = (ServerLocalCacheProvider&&)      = delete;
-
-};
-
 
 int main(int argc, char** argv) 
 {
-
     char char_hostname[1024];
     gethostname(char_hostname, sizeof(char_hostname));
     std::string hostname(char_hostname);
+    std::string curr_node_addr_server;
+    std::string curr_node_addr_client;
+    std::string per_node_out_file = hostname + "_" +std::string(argv[1]) ;
+    std::ofstream out(per_node_out_file);
+    std::cout.rdbuf(out.rdbuf());
 
-    // std::string hostname;
-    std::cout << "Hostname: " << hostname << std::endl;
-    size_t pos = hostname.find(".");
-    std::string curr_node_addr = hostname.substr(0, pos);
-
-    std::vector<std::string > node_address_data;
-    std::string pbs_nodelist_file = "sample_input/pbs8.txt";
-
-
-    if (argc == 2)   // no arguments were passed
-    {
-       pbs_nodelist_file = argv[1];
-    }
-
-    std::cout<< "PBS_NODEFILE_NAME is : " <<  pbs_nodelist_file << std::endl;
-
-    parse_nodelist(node_address_data, pbs_nodelist_file);
-    int total_nodes = node_address_data.size();
-
-
-
-    Node* root;
+    get_hsn0_cxi_addr(); 
+    parse_nodelist_from_cxi_address_book();
     root = build_my_tree(root, node_address_data);
-    // printTree(root);
+    printTree(root);
     int tree_depth = depth(root);
     std::cout<<"The depth of the tree is :" << tree_depth << std::endl;
     prettyPrintTree(root, tree_depth);
 
 
-
-
-    // Begin Server code 
-
-        std::string curr_node_addr_server = "cxi://" + curr_node_addr + "-hsn0:10001";
-        auto serverEngine = tl::engine{curr_node_addr_server, THALLIUM_SERVER_MODE};
-
-        serverEngine.enable_remote_shutdown();
-
-        auto val_server_address = static_cast<std::string>(serverEngine.self());
-        std::cout<< val_server_address << std::endl;
-
-        // std::vector<std::string> addresses(size);
-
-        new ServerLocalCacheProvider{serverEngine, node_address_data};
-
-        // Run progress loop
-        serverEngine.wait_for_finalize();
-
-    // End Server code 
-
-
-
-
-    // Begin client code 
-        
-        //.hsn.cm.americas.sgi.com
-        std::string curr_node_addr_client = "cxi://" + curr_node_addr + "-hsn0:10002";
-        auto clientEngine = tl::engine{curr_node_addr_client, THALLIUM_SERVER_MODE};
-        auto get_file_data = clientEngine.define("get_file_data");
-
-        auto val_client_address = static_cast<std::string>(clientEngine.self());
-        std::cout<< val_client_address << std::endl;
-
+    
+    for (int i = 0; i <  node_address_data.size(); i++) 
+    {
+        if (global_peer_pairs[i].first == hostname) 
         {
-            auto local_server_endpoint = clientEngine.lookup(curr_node_addr_server);
-            // Send an RPC to get the content of the data
-            std::string client_file_content = get_file_data.on(local_server_endpoint)(std::string{"/path/to/file"});
-            std::cout << "Server " << curr_node_addr_server << " responded to file content: "  << client_file_content << std::endl;
+            // std::cout  << getpid() << hostname<< " "<< std::endl;
+            curr_node_addr_server =  global_peer_pairs[i].second;
+            curr_node_addr_client =  global_peer_pairs[i].second;
+            curr_node_addr_client.replace(curr_node_addr_client.length() - 1, 1, "1");
+            // std::cout  << getpid() << hostname<< " " 
+                        //   <<  "curr_node_addr_server " << curr_node_addr_server 
+                        //   <<  "curr_node_addr_client " << curr_node_addr_client  << std::endl;
+            break;
+        }
+    }
+ 
 
-            clientEngine.shutdown_remote_engine(local_server_endpoint);
+        auto serverEngine = tl::engine{"cxi", THALLIUM_SERVER_MODE};
+        // std::cout << "Server running at address " << serverEngine.self() << std::endl;
+        auto get_file_data = serverEngine.define("get_file_data");
+        new ServerLocalCacheProvider{serverEngine, node_address_data};
+        sleep(10); //  barrier issue: all process need to wait until the server is created.
+
+
+        // std::cout  <<"Main pid " << getpid() << " " << hostname<< std::endl;
+        {
+                // thallium::xstream primary = thallium::xstream::self();
+                // primary.make_thread() ;
+
+                auto worker1 = tl::xstream::self().make_thread([serverEngine, get_file_data]() 
+                        { /* thread function here... */     
+                            std::thread::id this_tid = std::this_thread::get_id();
+                            std::cout  <<"Hello from dummy_fuse_func with pid " << getpid()   <<" thread id " << this_tid  << std::endl;
+                            std::string thread_file_content = get_file_data.on(serverEngine.self())(std::string{"/path/to/file"}, 3);  
+                            std::cout << "From thread received content : "  << thread_file_content << std::endl;
+                        });
         }
 
-        // Finalize the server.
-        serverEngine.finalize();
+        {
+            std::chrono::time_point<std::chrono::system_clock> start, end;
 
-    // End client code 
+            start = std::chrono::system_clock::now();
+            std::string client_file_content = get_file_data.on(serverEngine.self())(std::string{"/path/to/file"}, atoi(argv[1]));  
+            end = std::chrono::system_clock::now();           
+            
+            std::chrono::duration<double> elapsed_seconds = end - start;
+            std::cout << "I'm the main requester " << curr_node_addr_server 
+                      << " elapsed time " << elapsed_seconds.count() << " s " << " Bytes " << atoi(argv[1]) << std::endl ; 
+            // std::cout << "Finally received content : "  << client_file_content << std::endl;
+        }
+        // worker1.join();
+        out.close();
 
-
+        serverEngine.wait_for_finalize();
 
     return 0;
 }
