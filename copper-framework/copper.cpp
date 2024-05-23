@@ -1,3 +1,11 @@
+// module use /soft/preview-modulefiles/24.086.0
+// module load frameworks/2024.04.15.002
+// . /lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/git-spack/spack/share/spack/setup-env.sh 
+// spack env activate kaushik_env_1 
+// make file=copper 
+// mpirun --env MARGO_ENABLE_MONITORING=1 --env MARGO_MONITORING_FILENAME_PREFIX="${PBS_JOBID}_${NNODES}_${NRANKS}_${RANKS_PER_NODE}_${BUF_SIZE}_" -np ${NRANKS} -ppn ${RANKS_PER_NODE} ./copper ${BUF_SIZE} 
+// mpirun  -np 7 -ppn 1 ./copper 8 
+
 #include <iostream>
 #include <thallium.hpp>
 #include <thallium/serialization/stl/string.hpp>
@@ -107,37 +115,55 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider>
             std::string req_from_addr = static_cast<std::string>(req.get_endpoint());
             std::cout << "req_coming_from_addr " << req_from_addr  << " requested data for file : " << filename << " requested bytes : " << req_bytes << std::endl;
 
-            if(req_from_addr == root->data)
+            std::string my_curr_node_addr = static_cast<std::string>(get_engine().self());
+
+            // if(root->data == static_cast<std::string>(req.get_endpoint()))
+            if(root->data == my_curr_node_addr)
             {
+                std::chrono::time_point<std::chrono::system_clock> start1, end1;
+                start1 = std::chrono::system_clock::now();
+                
                 char* buffer = new char[req_bytes];
                 for (int i = 0; i < req_bytes; i++) 
                 {
                     buffer[i] = 'c';
                 }
                 std::string file_content =buffer;
+
+                end1 = std::chrono::system_clock::now();           
+                std::chrono::duration<double> elapsed_seconds1 = end1 - start1;
+                std::cout << "For requester " << req_from_addr << " Root Buffer creation time " << elapsed_seconds1.count() << " s " << " Bytes " << req_bytes << std::endl ; 
+
                 req.respond(file_content);
+    
+                // margo_instance_id mid;
+                // mid  = get_engine().get_margo_instance();
+                // char* state_file_name;
+                // margo_state_dump(mid, "margo-example-server", 1, &state_file_name);
+                // printf("# Runtime state dumped to %s\n", state_file_name);
+                // free(state_file_name);
             }
             else
             {
                 Node* CopyofTree = root;
                 std::string parentofmynode = "";
-                getParentfromtree(CopyofTree, req_from_addr, parentofmynode);
+                getParentfromtree(CopyofTree, my_curr_node_addr, parentofmynode);
                 std::cout << "Going to parent " <<parentofmynode << std::endl;
                 std::string file_content        = m_get_file_data.on(get_engine().lookup(parentofmynode))(filename, req_bytes);
-                std::cout << "Hop trip " <<req_from_addr << std::endl;
+                std::cout << "Hop trip my_curr_node_addr " <<my_curr_node_addr << std::endl;
                 req.respond(file_content);
             }
         }
 
-        void getParentfromtree(Node* CopyofTree, std::string req_from_addr, std::string &parentofmynode)
+        void getParentfromtree(Node* CopyofTree, std::string my_curr_node_addr, std::string &parentofmynode)
         {
-            if (req_from_addr == CopyofTree->data)
+            if (my_curr_node_addr == CopyofTree->data)
             {
                 parentofmynode= CopyofTree->my_parent->data;
             }
             for (Node* child : CopyofTree->getChildren()) 
             {
-                getParentfromtree(child, req_from_addr, parentofmynode);      
+                getParentfromtree(child, my_curr_node_addr, parentofmynode);      
             }
         }
 
@@ -443,42 +469,43 @@ int main(int argc, char** argv)
 
 
     
-    for (int i = 0; i <  node_address_data.size(); i++) 
-    {
-        if (global_peer_pairs[i].first == hostname) 
-        {
-            // std::cout  << getpid() << hostname<< " "<< std::endl;
-            curr_node_addr_server =  global_peer_pairs[i].second;
-            curr_node_addr_client =  global_peer_pairs[i].second;
-            curr_node_addr_client.replace(curr_node_addr_client.length() - 1, 1, "1");
-            // std::cout  << getpid() << hostname<< " " 
-                        //   <<  "curr_node_addr_server " << curr_node_addr_server 
-                        //   <<  "curr_node_addr_client " << curr_node_addr_client  << std::endl;
-            break;
-        }
-    }
+    // for (int i = 0; i <  node_address_data.size(); i++) 
+    // {
+    //     if (global_peer_pairs[i].first == hostname) 
+    //     {
+    //         // std::cout  << getpid() << hostname<< " "<< std::endl;
+    //         curr_node_addr_server =  global_peer_pairs[i].second;
+    //         curr_node_addr_client =  global_peer_pairs[i].second;
+    //         curr_node_addr_client.replace(curr_node_addr_client.length() - 1, 1, "1");
+    //         // std::cout  << getpid() << hostname<< " " 
+    //                     //   <<  "curr_node_addr_server " << curr_node_addr_server 
+    //                     //   <<  "curr_node_addr_client " << curr_node_addr_client  << std::endl;
+    //         break;
+    //     }
+    // }
  
 
         auto serverEngine = tl::engine{"cxi", THALLIUM_SERVER_MODE};
-        // std::cout << "Server running at address " << serverEngine.self() << std::endl;
+        std::cout << "Server running at address " << serverEngine.self() << std::endl;
+        serverEngine.enable_remote_shutdown();
         auto get_file_data = serverEngine.define("get_file_data");
         new ServerLocalCacheProvider{serverEngine, node_address_data};
         sleep(10); //  barrier issue: all process need to wait until the server is created.
 
 
         // std::cout  <<"Main pid " << getpid() << " " << hostname<< std::endl;
-        {
-                // thallium::xstream primary = thallium::xstream::self();
-                // primary.make_thread() ;
+        // {
+        //         // thallium::xstream primary = thallium::xstream::self();
+        //         // primary.make_thread() ;
 
-                auto worker1 = tl::xstream::self().make_thread([serverEngine, get_file_data]() 
-                        { /* thread function here... */     
-                            std::thread::id this_tid = std::this_thread::get_id();
-                            std::cout  <<"Hello from dummy_fuse_func with pid " << getpid()   <<" thread id " << this_tid  << std::endl;
-                            std::string thread_file_content = get_file_data.on(serverEngine.self())(std::string{"/path/to/file"}, 3);  
-                            std::cout << "From thread received content : "  << thread_file_content << std::endl;
-                        });
-        }
+        //         auto worker1 = tl::xstream::self().make_thread([serverEngine, get_file_data]() 
+        //                 { /* thread function here... */     
+        //                     std::thread::id this_tid = std::this_thread::get_id();
+        //                     std::cout  <<"Hello from dummy_fuse_func with pid " << getpid()   <<" thread id " << this_tid  << std::endl;
+        //                     std::string thread_file_content = get_file_data.on(serverEngine.self())(std::string{"/path/to/file"}, 3);  
+        //                     std::cout << "From thread received content : "  << thread_file_content << std::endl;
+        //                 });
+        // }
 
         {
             std::chrono::time_point<std::chrono::system_clock> start, end;
@@ -492,10 +519,12 @@ int main(int argc, char** argv)
                       << " elapsed time " << elapsed_seconds.count() << " s " << " Bytes " << atoi(argv[1]) << std::endl ; 
             // std::cout << "Finally received content : "  << client_file_content << std::endl;
         }
-        // worker1.join();
+
         out.close();
 
+        std::cout << "Waiting on Finalize " << std::endl;
         serverEngine.wait_for_finalize();
+        std::cout << "Successfully killed by remote shutdown process - closing down" << std::endl;
 
     return 0;
 }

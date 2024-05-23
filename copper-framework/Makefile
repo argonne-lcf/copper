@@ -6,8 +6,8 @@ LDFLAGS = -std=c++20 -L$(WD_ROOT)linux-sles15-icelake/gcc-12.2.0/mochi-margo-0.1
 LDLIBS = -lmargo -lmercury -labt -lpthread 
 
 
-TARGET = copper
-OBJS   = copper.o
+TARGET = $(file)
+OBJS   = $(file).o
 
 all: grid
 
@@ -25,6 +25,11 @@ grid: $(OBJS)
 clean:
 	rm -f $(TARGET) $(OBJS)
 	./clear
+
+# module use /soft/preview-modulefiles/24.086.0
+# module load frameworks/2024.04.15.002
+# . /lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/git-spack/spack/share/spack/setup-env.sh 
+# spack env activate kaushik_env_1 
 
 # mpicxx -std=c++20 \
 #     -I /lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/git-spack/spack/opt/spack/linux-sles15-icelake/gcc-12.2.0/mochi-thallium-0.12.0-e5qylejlhcuvbiez6j76o2kp2y6jf4ul/include/ \
