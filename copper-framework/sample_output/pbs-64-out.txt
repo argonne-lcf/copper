@@ -1,0 +1,201 @@
+ mpiexec -np 1 -ppn 1 ./copper ./sample_input/pbs64.txt 
+Hostname: x1921c0s0b0n0
+PBS_NODEFILE_NAME is : ./sample_input/pbs64.txt
+Total number of compute nodes : 64
+x1921c0s4b0n0-hsn0:10001
+x1921c0s6b0n0-hsn0:10001
+x1921c1s1b0n0-hsn0:10001
+x1921c1s2b0n0-hsn0:10001
+x1921c1s3b0n0-hsn0:10001
+x1921c1s4b0n0-hsn0:10001
+x1921c1s5b0n0-hsn0:10001
+x1921c1s6b0n0-hsn0:10001
+x1921c1s7b0n0-hsn0:10001
+x1921c2s0b0n0-hsn0:10001
+x1921c2s1b0n0-hsn0:10001
+x1921c2s2b0n0-hsn0:10001
+x1921c2s3b0n0-hsn0:10001
+x1921c2s4b0n0-hsn0:10001
+x1921c2s5b0n0-hsn0:10001
+x1921c2s6b0n0-hsn0:10001
+x1921c2s7b0n0-hsn0:10001
+x1921c7s6b0n0-hsn0:10001
+x1921c7s7b0n0-hsn0:10001
+x1922c0s0b0n0-hsn0:10001
+x1922c0s1b0n0-hsn0:10001
+x1922c0s2b0n0-hsn0:10001
+x1922c0s3b0n0-hsn0:10001
+x1922c0s4b0n0-hsn0:10001
+x1922c0s5b0n0-hsn0:10001
+x1922c0s6b0n0-hsn0:10001
+x1922c0s7b0n0-hsn0:10001
+x1922c1s0b0n0-hsn0:10001
+x1922c1s1b0n0-hsn0:10001
+x1922c1s2b0n0-hsn0:10001
+x1922c1s3b0n0-hsn0:10001
+x1922c1s4b0n0-hsn0:10001
+x1922c1s5b0n0-hsn0:10001
+x1922c1s6b0n0-hsn0:10001
+x1922c1s7b0n0-hsn0:10001
+x1922c2s0b0n0-hsn0:10001
+x1922c2s1b0n0-hsn0:10001
+x1922c2s2b0n0-hsn0:10001
+x1922c2s3b0n0-hsn0:10001
+x1922c2s4b0n0-hsn0:10001
+x1922c2s5b0n0-hsn0:10001
+x1922c2s6b0n0-hsn0:10001
+x1922c2s7b0n0-hsn0:10001
+x1922c3s0b0n0-hsn0:10001
+x1922c3s1b0n0-hsn0:10001
+x1922c3s2b0n0-hsn0:10001
+x1922c3s3b0n0-hsn0:10001
+x1922c3s4b0n0-hsn0:10001
+x1922c3s5b0n0-hsn0:10001
+x1922c3s6b0n0-hsn0:10001
+x1922c3s7b0n0-hsn0:10001
+x1922c4s0b0n0-hsn0:10001
+x1922c4s1b0n0-hsn0:10001
+x1922c4s2b0n0-hsn0:10001
+x1922c4s3b0n0-hsn0:10001
+x1922c4s4b0n0-hsn0:10001
+x1922c4s5b0n0-hsn0:10001
+x1922c4s6b0n0-hsn0:10001
+x1922c4s7b0n0-hsn0:10001
+x1922c5s0b0n0-hsn0:10001
+x1922c5s2b0n0-hsn0:10001
+x1922c5s3b0n0-hsn0:10001
+x1922c5s4b0n0-hsn0:10001
+x1922c5s5b0n0-hsn0:10001
+max_children_per_parent : 3
+node id : 1 level : 1
+node id : 2 level : 1
+node id : 3 level : 1
+node id : 4 level : 2
+node id : 5 level : 2
+node id : 6 level : 2
+node id : 7 level : 2
+node id : 8 level : 2
+node id : 9 level : 2
+node id : 10 level : 2
+node id : 11 level : 2
+node id : 12 level : 2
+node id : 13 level : 3
+node id : 14 level : 3
+node id : 15 level : 3
+node id : 16 level : 3
+node id : 17 level : 3
+node id : 18 level : 3
+node id : 19 level : 3
+node id : 20 level : 3
+node id : 21 level : 3
+node id : 22 level : 3
+node id : 23 level : 3
+node id : 24 level : 3
+node id : 25 level : 3
+node id : 26 level : 3
+node id : 27 level : 3
+node id : 28 level : 3
+node id : 29 level : 3
+node id : 30 level : 3
+node id : 31 level : 3
+node id : 32 level : 3
+node id : 33 level : 3
+node id : 34 level : 3
+node id : 35 level : 3
+node id : 36 level : 3
+node id : 37 level : 3
+node id : 38 level : 3
+node id : 39 level : 3
+node id : 40 level : 4
+node id : 41 level : 4
+node id : 42 level : 4
+node id : 43 level : 4
+node id : 44 level : 4
+node id : 45 level : 4
+node id : 46 level : 4
+node id : 47 level : 4
+node id : 48 level : 4
+node id : 49 level : 4
+node id : 50 level : 4
+node id : 51 level : 4
+node id : 52 level : 4
+node id : 53 level : 4
+node id : 54 level : 4
+node id : 55 level : 4
+node id : 56 level : 4
+node id : 57 level : 4
+node id : 58 level : 4
+node id : 59 level : 4
+node id : 60 level : 4
+node id : 61 level : 4
+node id : 62 level : 4
+node id : 63 level : 4
+The depth of the tree is :5
+                    (depth 0) x1921c0s4b0n0-hsn0:10001
+                        (depth 1) x1921c0s6b0n0-hsn0:10001
+                            (depth 2) x1921c1s3b0n0-hsn0:10001
+                                (depth 3) x1921c2s4b0n0-hsn0:10001
+                                    (depth 4) x1922c2s5b0n0-hsn0:10001
+                                    (depth 4) x1922c2s6b0n0-hsn0:10001
+                                    (depth 4) x1922c2s7b0n0-hsn0:10001
+                                (depth 3) x1921c2s5b0n0-hsn0:10001
+                                    (depth 4) x1922c3s0b0n0-hsn0:10001
+                                    (depth 4) x1922c3s1b0n0-hsn0:10001
+                                    (depth 4) x1922c3s2b0n0-hsn0:10001
+                                (depth 3) x1921c2s6b0n0-hsn0:10001
+                                    (depth 4) x1922c3s3b0n0-hsn0:10001
+                                    (depth 4) x1922c3s4b0n0-hsn0:10001
+                                    (depth 4) x1922c3s5b0n0-hsn0:10001
+                            (depth 2) x1921c1s4b0n0-hsn0:10001
+                                (depth 3) x1921c2s7b0n0-hsn0:10001
+                                    (depth 4) x1922c3s6b0n0-hsn0:10001
+                                    (depth 4) x1922c3s7b0n0-hsn0:10001
+                                    (depth 4) x1922c4s0b0n0-hsn0:10001
+                                (depth 3) x1921c7s6b0n0-hsn0:10001
+                                    (depth 4) x1922c4s1b0n0-hsn0:10001
+                                    (depth 4) x1922c4s2b0n0-hsn0:10001
+                                    (depth 4) x1922c4s3b0n0-hsn0:10001
+                                (depth 3) x1921c7s7b0n0-hsn0:10001
+                                    (depth 4) x1922c4s4b0n0-hsn0:10001
+                                    (depth 4) x1922c4s5b0n0-hsn0:10001
+                                    (depth 4) x1922c4s6b0n0-hsn0:10001
+                            (depth 2) x1921c1s5b0n0-hsn0:10001
+                                (depth 3) x1922c0s0b0n0-hsn0:10001
+                                    (depth 4) x1922c4s7b0n0-hsn0:10001
+                                    (depth 4) x1922c5s0b0n0-hsn0:10001
+                                    (depth 4) x1922c5s2b0n0-hsn0:10001
+                                (depth 3) x1922c0s1b0n0-hsn0:10001
+                                    (depth 4) x1922c5s3b0n0-hsn0:10001
+                                    (depth 4) x1922c5s4b0n0-hsn0:10001
+                                    (depth 4) x1922c5s5b0n0-hsn0:10001
+                                (depth 3) x1922c0s2b0n0-hsn0:10001
+                        (depth 1) x1921c1s1b0n0-hsn0:10001
+                            (depth 2) x1921c1s6b0n0-hsn0:10001
+                                (depth 3) x1922c0s3b0n0-hsn0:10001
+                                (depth 3) x1922c0s4b0n0-hsn0:10001
+                                (depth 3) x1922c0s5b0n0-hsn0:10001
+                            (depth 2) x1921c1s7b0n0-hsn0:10001
+                                (depth 3) x1922c0s6b0n0-hsn0:10001
+                                (depth 3) x1922c0s7b0n0-hsn0:10001
+                                (depth 3) x1922c1s0b0n0-hsn0:10001
+                            (depth 2) x1921c2s0b0n0-hsn0:10001
+                                (depth 3) x1922c1s1b0n0-hsn0:10001
+                                (depth 3) x1922c1s2b0n0-hsn0:10001
+                                (depth 3) x1922c1s3b0n0-hsn0:10001
+                        (depth 1) x1921c1s2b0n0-hsn0:10001
+                            (depth 2) x1921c2s1b0n0-hsn0:10001
+                                (depth 3) x1922c1s4b0n0-hsn0:10001
+                                (depth 3) x1922c1s5b0n0-hsn0:10001
+                                (depth 3) x1922c1s6b0n0-hsn0:10001
+                            (depth 2) x1921c2s2b0n0-hsn0:10001
+                                (depth 3) x1922c1s7b0n0-hsn0:10001
+                                (depth 3) x1922c2s0b0n0-hsn0:10001
+                                (depth 3) x1922c2s1b0n0-hsn0:10001
+                            (depth 2) x1921c2s3b0n0-hsn0:10001
+                                (depth 3) x1922c2s2b0n0-hsn0:10001
+                                (depth 3) x1922c2s3b0n0-hsn0:10001
+                                (depth 3) x1922c2s4b0n0-hsn0:10001
+[error] Could not initialize hg_class with protocol cxi://x1921c0s0b0n0-hsn0:10001
+terminate called after throwing an instance of 'thallium::margo_exception'
+  what():  [/lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/git-spack/spack/opt/spack/linux-sles15-icelake/gcc-12.2.0/mochi-thallium-0.12.0-e5qylejlhcuvbiez6j76o2kp2y6jf4ul/include/thallium/engine.hpp:176][margo_init_ext] Could not initialize Margo
+x1921c0s0b0n0.hostmgmt2000.cm.americas.sgi.com: rank 0 died from signal 6
