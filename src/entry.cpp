@@ -17,11 +17,11 @@
 #define _XOPEN_SOURCE 700
 #endif
 
-#include <optional>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <fuse.h>
+#include <optional>
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -44,7 +44,7 @@
 
 #define MNT_MIRROR_DIR_NAME "/mnt_mirror"
 
-static int fill_dir_plus = 0;
+static int fill_dir_plus                         = 0;
 static std::optional<std::string> mnt_mirror_dir = std::nullopt;
 
 static std::string rel_to_abs_path(const char* path) {
@@ -58,11 +58,11 @@ static std::string rel_to_abs_path(const char* path) {
         throw new std::runtime_error("mnt_mirror_dir was std::nullopt");
     }
 
-    auto suffix = std::string(path);
+    auto suffix   = std::string(path);
     auto abs_path = mnt_mirror_dir.value() + suffix;
 
     lwlog_debug("abs_path: %s", abs_path.c_str());
-    
+
     return abs_path;
 }
 
@@ -217,7 +217,7 @@ static int xmp_rmdir(const char* path) {
 
 static int xmp_symlink(const char* from, const char* to) {
     auto from_string = rel_to_abs_path(from);
-    auto to_string = rel_to_abs_path(to);
+    auto to_string   = rel_to_abs_path(to);
     lwlog_debug();
 
     int res;
@@ -231,7 +231,7 @@ static int xmp_symlink(const char* from, const char* to) {
 
 static int xmp_rename(const char* from, const char* to, unsigned int flags) {
     auto from_string = rel_to_abs_path(from);
-    auto to_string = rel_to_abs_path(to);
+    auto to_string   = rel_to_abs_path(to);
     lwlog_debug();
 
     int res;
@@ -248,7 +248,7 @@ static int xmp_rename(const char* from, const char* to, unsigned int flags) {
 
 static int xmp_link(const char* from, const char* to) {
     auto from_string = rel_to_abs_path(from);
-    auto to_string = rel_to_abs_path(to);
+    auto to_string   = rel_to_abs_path(to);
     lwlog_debug();
 
     int res;
@@ -521,7 +521,7 @@ struct fuse_file_info* fi_out,
 off_t offset_out,
 size_t len,
 int flags) {
-    auto path_in_string = rel_to_abs_path(path_in);
+    auto path_in_string  = rel_to_abs_path(path_in);
     auto path_out_string = rel_to_abs_path(path_out);
     lwlog_debug();
 
