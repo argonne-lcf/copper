@@ -1,21 +1,31 @@
 #!/bin/bash
 
-unmount() {
-    echo "preparing mnt point"
-    fusermount -u mnt || true
+INIT_PWD=$(pwd)
+MNT_DIR="$INIT_PWD/mnt"
+MNT_MIRROR_DIR="$INIT_PWD/mnt_mirror"
+FUSE_FS="$INIT_PWD/build/fuse_distributed_cache"
+
+function unmount() {
+    echo "unmounting mnt point"
+    fusermount -u $MNT_DIR || true
 }
 
-if [ -d mnt ]
-then
-    echo "mnt already exists - skipping creation"
-else
-    echo "creating mnt dir"
-    mkdir mnt
-fi
+function create_folder() {
+    if [ -d $dir_path ]
+    then
+        echo "$1 already exists - skipping creation"
+    else
+        echo "creating $1"
+        mkdir $1
+    fi
+}
+
+create_folder $MNT_DIR
+create_folder $MNT_MIRROR_DIR
 
 unmount
 
-if [ -f ./build/fuse_distributed_cache ]
+if [ -f $FUSE_FS ]
 then
     echo "found mnt binary"
 else
@@ -24,6 +34,6 @@ else
 fi
 
 echo "mounting fuse distributed cache to mnt"
-./build/fuse_distributed_cache -f mnt
+$FUSE_FS -f $MNT_DIR
 
-umount
+unmount || { echo "mnt already unmounted"; exit 0; }
