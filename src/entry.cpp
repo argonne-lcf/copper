@@ -18,6 +18,8 @@
 #define _XOPEN_SOURCE 700
 #endif
 
+#include <cstddef>
+#include <vector>
 #include <cstring>
 #include <dirent.h>
 #include <errno.h>
@@ -41,11 +43,8 @@
 #endif
 
 #include "md_cache_table.h"
+#include "data_cache_table.h"
 #include "passthrough_helpers.h"
-
-#define LOG_COLOR (1)
-#define LOG_LEVEL (7)
-
 #include "aixlog.h"
 
 #define MNT_MIRROR_DIR_NAME "/mnt_mirror"
@@ -53,6 +52,7 @@
 static int fill_dir_plus                         = 0;
 static std::optional<std::string> mnt_mirror_dir = std::nullopt;
 MDCacheTable md_cache_table;
+DataCacheTable data_cache_table;
 
 static std::string rel_to_abs_path(const char* path) {
     if(!path) {
@@ -107,8 +107,6 @@ static int xmp_getattr(const char* path, struct stat* stbuf, struct fuse_file_in
     if(cached_st_opt.has_value()) {
         auto cached_st = cached_st_opt.value();
         memcpy(stbuf, cached_st, sizeof(struct stat));
-
-        md_cache_table.log_key_value(path, cached_st);
         return 0;
     }
 
@@ -379,6 +377,32 @@ static int xmp_open(const char* path, struct fuse_file_info* fi) {
 
 static int xmp_read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi) {
     auto path_string = rel_to_abs_path(path);
+    LOG(TRACE) << " " << std::endl;
+
+    if(offset != 0) {
+        LOG(WARNING) << "skipping data cache offset != 0, offset: " << offset << std::endl;
+    } else {
+        if(path == nullptr) {
+            LOG(FATAL) << "path was null" << std::endl;
+            throw new std::runtime_error("path was null");
+        }
+
+        auto cached_data_inode_opt = data_cache_table.get(path_string);
+
+        if(cached_data_inode_opt.has_value()) {
+            auto cached_data_inode = cached_data_inode_opt.value();
+            std::vector<std::byte> data = cached_data_inode.first;
+
+            if(size != data.size()) {
+                LOG(FATAL) << "full file size was not requested" << std::endl;
+                throw new std::runtime_error("full file size was not requested");
+            }
+
+            memcpy(buf, data.data(), data.size());
+
+            return data.size();
+        }
+    }
 
     int fd;
     int res;
@@ -397,6 +421,23 @@ static int xmp_read(const char* path, char* buf, size_t size, off_t offset, stru
 
     if(fi == NULL)
         close(fd);
+
+    if(offset != 0) {
+        LOG(WARNING) << "skipping data cache offset != 0, offset: " << offset << std::endl;
+    } else {
+        if(path == nullptr) {
+            LOG(FATAL) << "path was null" << std::endl;
+            throw new std::runtime_error("path was null");
+        }
+
+        std::vector<std::byte> data = std::vector<std::byte>(size);
+        ino_t inode = 0;
+
+        memcpy(data.data(), buf, size);
+
+        data_cache_table.put_force(path_string, std::pair(data, inode));
+    }
+
     return res;
 }
 
@@ -676,10 +717,10 @@ int main(int argc, char* argv[]) {
 
     char cwd[PATH_MAX];
     if(getcwd(cwd, sizeof(cwd)) != NULL) {
-        LOG(INFO) << "Current working dir: " << cwd << std::endl;
+        LOG(INFO) << "current working dir: " << cwd << std::endl;
         mnt_mirror_dir = std::string(cwd) + MNT_MIRROR_DIR_NAME;
     } else {
-        LOG(FATAL) << "Unable to get current working directory" << std::endl;
+        LOG(FATAL) << "unable to get current working directory" << std::endl;
         return 1;
     }
 

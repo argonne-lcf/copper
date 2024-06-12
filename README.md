@@ -11,7 +11,7 @@ all nodes.
 Lists of the current filesystem operations for which the metadata cache table is 
 implemented.
 
-- [x] getattr
+- [x] getattr | DOES NOT CHECK PERMISSIONS
 - [ ] readlink
 - [ ] mknod
 - [ ] mkdir
@@ -71,7 +71,7 @@ Lists of the current filesystem operations for which the metadata cache table is
 - [ ] chown
 - [ ] truncate
 - [ ] open
-- [ ] read
+- [x] read | DOES NOT UPDATE METADATA
 - [ ] write
 - [ ] statfs
 - [ ] flush | MAY NOT SUPPORT

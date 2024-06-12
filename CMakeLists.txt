@@ -25,7 +25,9 @@ set(SOURCES
 )
 
 # Create executable
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES}
+    mnt_mirror/entry.py
+    mnt_mirror/import_test.py)
 
 # Include FUSE headers
 target_include_directories(${PROJECT_NAME} PRIVATE "${EXTERNAL_HEADERS}")
