@@ -7,6 +7,7 @@
   See the file COPYING.
 */
 
+#include <exception>
 #include <stdexcept>
 #define FUSE_USE_VERSION 31
 
@@ -17,6 +18,10 @@
 #define _XOPEN_SOURCE 700
 #endif
 
+#include <cstring>
+#include <memory.h>
+#include <variant>
+#include <unordered_map>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -35,6 +40,7 @@
 #include <sys/xattr.h>
 #endif
 
+#include "md_cache_table.h"
 #include "passthrough_helpers.h"
 
 #define LOG_COLOR (1)
@@ -46,6 +52,7 @@
 
 static int fill_dir_plus                         = 0;
 static std::optional<std::string> mnt_mirror_dir = std::nullopt;
+MDCacheTable md_cache_table;
 
 static std::string rel_to_abs_path(const char* path) {
     if(!path) {
@@ -60,8 +67,6 @@ static std::string rel_to_abs_path(const char* path) {
 
     auto suffix   = std::string(path);
     auto abs_path = mnt_mirror_dir.value() + suffix;
-
-    lwlog_debug("abs_path: %s", abs_path.c_str());
 
     return abs_path;
 }
@@ -97,12 +102,27 @@ static int xmp_getattr(const char* path, struct stat* stbuf, struct fuse_file_in
     auto path_string = rel_to_abs_path(path);
     lwlog_debug("path: %s", path_string.c_str());
 
+    auto cached_st_opt = md_cache_table.get(path_string);
+
+    if(cached_st_opt.has_value()) {
+        auto cached_st = cached_st_opt.value();
+        memcpy(stbuf, cached_st, sizeof(struct stat));\
+
+        md_cache_table.log_key_value(path, cached_st);
+        return 0;
+    }
+
     (void)fi;
     int res;
 
     res = lstat(path_string.c_str(), stbuf);
     if(res == -1)
         return -errno;
+    
+    struct stat* st_cpy = new struct stat;
+    std::memcpy(st_cpy, stbuf, sizeof(struct stat));
+
+    md_cache_table.put_force(path_string, st_cpy);
 
     return 0;
 }
@@ -359,7 +379,6 @@ static int xmp_open(const char* path, struct fuse_file_info* fi) {
 
 static int xmp_read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
 
     int fd;
     int res;
@@ -653,7 +672,7 @@ int main(int argc, char* argv[]) {
 
     char cwd[PATH_MAX];
     if(getcwd(cwd, sizeof(cwd)) != NULL) {
-        lwlog_info("Current working dir: %s\n", cwd);
+        lwlog_info("Current working dir: %s", cwd);
         mnt_mirror_dir = std::string(cwd) + MNT_MIRROR_DIR_NAME;
     } else {
         lwlog_err("getcwd() error");

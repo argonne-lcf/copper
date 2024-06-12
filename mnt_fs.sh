@@ -11,7 +11,7 @@ function unmount() {
 }
 
 function create_folder() {
-    if [ -d $dir_path ]
+    if [ -d $1 ]
     then
         echo "$1 already exists - skipping creation"
     else
@@ -34,6 +34,6 @@ else
 fi
 
 echo "mounting fuse distributed cache to mnt"
-$FUSE_FS -f $MNT_DIR
+$FUSE_FS -s -f $MNT_DIR
 
 unmount || { echo "mnt already unmounted"; exit 0; }
