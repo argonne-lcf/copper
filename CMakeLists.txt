@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-set(PROJECT_NAME fuse_distributed_cache)
+set(PROJECT_NAME cu_fuse)
 project(${PROJECT_NAME})
 
 # Set C++ standard

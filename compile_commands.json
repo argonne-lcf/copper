@@ -1,17 +1,17 @@
 [
 {
-  "directory": "/home/theassembler/src/fuse_distributed_cache/build",
-  "command": "/usr/bin/c++  -I/home/theassembler/src/fuse_distributed_cache/external/fuse3/install/include/fuse3 -std=gnu++17 -o CMakeFiles/fuse_distributed_cache.dir/src/entry.cpp.o -c /home/theassembler/src/fuse_distributed_cache/src/entry.cpp",
-  "file": "/home/theassembler/src/fuse_distributed_cache/src/entry.cpp"
+  "directory": "/home/theassembler/src/cu_fuse/build",
+  "command": "/usr/bin/c++  -I/home/theassembler/src/cu_fuse/external/fuse3/install/include/fuse3 -std=gnu++17 -o CMakeFiles/cu_fuse.dir/src/entry.cpp.o -c /home/theassembler/src/cu_fuse/src/entry.cpp",
+  "file": "/home/theassembler/src/cu_fuse/src/entry.cpp"
 },
 {
-  "directory": "/home/theassembler/src/fuse_distributed_cache/build",
-  "command": "/usr/bin/c++  -I/home/theassembler/src/fuse_distributed_cache/external/fuse3/install/include/fuse3 -std=gnu++17 -o CMakeFiles/fuse_distributed_cache.dir/src/md_cache_table.cpp.o -c /home/theassembler/src/fuse_distributed_cache/src/md_cache_table.cpp",
-  "file": "/home/theassembler/src/fuse_distributed_cache/src/md_cache_table.cpp"
+  "directory": "/home/theassembler/src/cu_fuse/build",
+  "command": "/usr/bin/c++  -I/home/theassembler/src/cu_fuse/external/fuse3/install/include/fuse3 -std=gnu++17 -o CMakeFiles/cu_fuse.dir/src/md_cache_table.cpp.o -c /home/theassembler/src/cu_fuse/src/md_cache_table.cpp",
+  "file": "/home/theassembler/src/cu_fuse/src/md_cache_table.cpp"
 },
 {
-  "directory": "/home/theassembler/src/fuse_distributed_cache/build",
-  "command": "/usr/bin/c++  -I/home/theassembler/src/fuse_distributed_cache/external/fuse3/install/include/fuse3 -std=gnu++17 -o CMakeFiles/fuse_distributed_cache.dir/src/data_cache_table.cpp.o -c /home/theassembler/src/fuse_distributed_cache/src/data_cache_table.cpp",
-  "file": "/home/theassembler/src/fuse_distributed_cache/src/data_cache_table.cpp"
+  "directory": "/home/theassembler/src/cu_fuse/build",
+  "command": "/usr/bin/c++  -I/home/theassembler/src/cu_fuse/external/fuse3/install/include/fuse3 -std=gnu++17 -o CMakeFiles/cu_fuse.dir/src/data_cache_table.cpp.o -c /home/theassembler/src/cu_fuse/src/data_cache_table.cpp",
+  "file": "/home/theassembler/src/cu_fuse/src/data_cache_table.cpp"
 }
 ]

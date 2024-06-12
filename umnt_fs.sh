@@ -3,7 +3,7 @@
 INIT_PWD=$(pwd)
 MNT_DIR="$INIT_PWD/mnt"
 MNT_MIRROR_DIR="$INIT_PWD/mnt_mirror"
-FUSE_FS="$INIT_PWD/build/fuse_distributed_cache"
+FUSE_FS="$INIT_PWD/build/cu_fuse"
 
 function unmount() {
     echo "unmounting mnt point"
