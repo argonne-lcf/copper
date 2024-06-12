@@ -1,32 +1,33 @@
 #ifndef MDCACHETABLE_H
 #define MDCACHETABLE_H
 
+#include <exception>
+#include <iostream>
 #include <optional>
+#include <stdexcept>
 #include <string>
 #include <unordered_map>
-#include <exception>
-#include <stdexcept>
-#include <iostream>
 
 #include <sys/stat.h>
 
-#include "lwlog.h"
+#include "aixlog.h"
+#include "cache_table.h"
 
-class MDCacheTable
-{
-public:
+class MDCacheTable : public CacheTable<std::string, struct stat*> {
+    public:
     MDCacheTable() {
-        md_cache = std::unordered_map<std::string, struct stat*>();
+        md_cache = std::unordered_map<Key, Value>();
     }
 
-    void put_force(std::string key, struct stat* st);
-    std::optional<struct stat*> get(std::string);
+    void put_force(Key path, Value st) override;
+    std::optional<MDCacheTable::Value> get(Key path) override;
 
-    void log();
-    void log_key_value(std::string key, struct stat* st);
-    void log_value(struct stat*);
-private:
-    std::unordered_map<std::string, struct stat*> md_cache;
+    void log() override;
+    void log_key_value(Key path, Value st) override;
+    void log_value(Value st) override;
+
+    private:
+    std::unordered_map<Key, Value> md_cache;
 };
 
 #endif // MDCACHETABLE_H

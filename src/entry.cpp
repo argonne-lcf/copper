@@ -19,18 +19,18 @@
 #endif
 
 #include <cstring>
-#include <memory.h>
-#include <variant>
-#include <unordered_map>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <fuse.h>
+#include <memory.h>
 #include <optional>
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <unordered_map>
+#include <variant>
 #ifdef __FreeBSD__
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -46,7 +46,7 @@
 #define LOG_COLOR (1)
 #define LOG_LEVEL (7)
 
-#include "lwlog.h"
+#include "aixlog.h"
 
 #define MNT_MIRROR_DIR_NAME "/mnt_mirror"
 
@@ -56,12 +56,12 @@ MDCacheTable md_cache_table;
 
 static std::string rel_to_abs_path(const char* path) {
     if(!path) {
-        lwlog_err("path was null");
+        LOG(FATAL) << "path was null" << std::endl;
         throw new std::runtime_error("path was null");
     }
 
     if(!mnt_mirror_dir.has_value()) {
-        lwlog_err("mnt_mirror_dir was std::nullopt");
+        LOG(FATAL) << "mnt_mirror_dir was std::nullopt" << std::endl;
         throw new std::runtime_error("mnt_mirror_dir was std::nullopt");
     }
 
@@ -72,7 +72,7 @@ static std::string rel_to_abs_path(const char* path) {
 }
 
 static void* xmp_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     (void)conn;
     cfg->use_ino = 1;
@@ -99,14 +99,14 @@ static void* xmp_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
 }
 
 static int xmp_getattr(const char* path, struct stat* stbuf, struct fuse_file_info* fi) {
-    auto path_string = rel_to_abs_path(path);
-    lwlog_debug("path: %s", path_string.c_str());
+    LOG(TRACE) << " " << std::endl;
 
+    auto path_string   = rel_to_abs_path(path);
     auto cached_st_opt = md_cache_table.get(path_string);
 
     if(cached_st_opt.has_value()) {
         auto cached_st = cached_st_opt.value();
-        memcpy(stbuf, cached_st, sizeof(struct stat));\
+        memcpy(stbuf, cached_st, sizeof(struct stat));
 
         md_cache_table.log_key_value(path, cached_st);
         return 0;
@@ -118,7 +118,7 @@ static int xmp_getattr(const char* path, struct stat* stbuf, struct fuse_file_in
     res = lstat(path_string.c_str(), stbuf);
     if(res == -1)
         return -errno;
-    
+
     struct stat* st_cpy = new struct stat;
     std::memcpy(st_cpy, stbuf, sizeof(struct stat));
 
@@ -129,7 +129,7 @@ static int xmp_getattr(const char* path, struct stat* stbuf, struct fuse_file_in
 
 static int xmp_access(const char* path, int mask) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res;
 
@@ -142,7 +142,7 @@ static int xmp_access(const char* path, int mask) {
 
 static int xmp_readlink(const char* path, char* buf, size_t size) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res;
 
@@ -157,7 +157,7 @@ static int xmp_readlink(const char* path, char* buf, size_t size) {
 
 static int xmp_readdir(const char* path, void* buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info* fi, enum fuse_readdir_flags flags) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     DIR* dp;
     struct dirent* de;
@@ -185,7 +185,7 @@ static int xmp_readdir(const char* path, void* buf, fuse_fill_dir_t filler, off_
 
 static int xmp_mknod(const char* path, mode_t mode, dev_t rdev) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res;
 
@@ -198,7 +198,7 @@ static int xmp_mknod(const char* path, mode_t mode, dev_t rdev) {
 
 static int xmp_mkdir(const char* path, mode_t mode) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res;
 
@@ -211,7 +211,7 @@ static int xmp_mkdir(const char* path, mode_t mode) {
 
 static int xmp_unlink(const char* path) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res;
 
@@ -224,7 +224,7 @@ static int xmp_unlink(const char* path) {
 
 static int xmp_rmdir(const char* path) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res;
 
@@ -238,7 +238,7 @@ static int xmp_rmdir(const char* path) {
 static int xmp_symlink(const char* from, const char* to) {
     auto from_string = rel_to_abs_path(from);
     auto to_string   = rel_to_abs_path(to);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res;
 
@@ -252,7 +252,7 @@ static int xmp_symlink(const char* from, const char* to) {
 static int xmp_rename(const char* from, const char* to, unsigned int flags) {
     auto from_string = rel_to_abs_path(from);
     auto to_string   = rel_to_abs_path(to);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res;
 
@@ -269,7 +269,7 @@ static int xmp_rename(const char* from, const char* to, unsigned int flags) {
 static int xmp_link(const char* from, const char* to) {
     auto from_string = rel_to_abs_path(from);
     auto to_string   = rel_to_abs_path(to);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res;
 
@@ -282,7 +282,7 @@ static int xmp_link(const char* from, const char* to) {
 
 static int xmp_chmod(const char* path, mode_t mode, struct fuse_file_info* fi) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     (void)fi;
     int res;
@@ -296,7 +296,7 @@ static int xmp_chmod(const char* path, mode_t mode, struct fuse_file_info* fi) {
 
 static int xmp_chown(const char* path, uid_t uid, gid_t gid, struct fuse_file_info* fi) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     (void)fi;
     int res;
@@ -310,7 +310,7 @@ static int xmp_chown(const char* path, uid_t uid, gid_t gid, struct fuse_file_in
 
 static int xmp_truncate(const char* path, off_t size, struct fuse_file_info* fi) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res;
 
@@ -327,7 +327,7 @@ static int xmp_truncate(const char* path, off_t size, struct fuse_file_info* fi)
 #ifdef HAVE_UTIMENSAT
 static int xmp_utimens(const char* path, const struct timespec ts[2], struct fuse_file_info* fi) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     (void)fi;
     int res;
@@ -343,7 +343,7 @@ static int xmp_utimens(const char* path, const struct timespec ts[2], struct fus
 
 static int xmp_create(const char* path, mode_t mode, struct fuse_file_info* fi) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res;
 
@@ -357,7 +357,7 @@ static int xmp_create(const char* path, mode_t mode, struct fuse_file_info* fi) 
 
 static int xmp_open(const char* path, struct fuse_file_info* fi) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res;
 
@@ -402,7 +402,7 @@ static int xmp_read(const char* path, char* buf, size_t size, off_t offset, stru
 
 static int xmp_write(const char* path, const char* buf, size_t size, off_t offset, struct fuse_file_info* fi) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int fd;
     int res;
@@ -439,7 +439,7 @@ static int xmp_statfs(const char* path, struct statvfs* stbuf) {
 
 static int xmp_release(const char* path, struct fuse_file_info* fi) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     (void)path_string.c_str();
     close(fi->fh);
@@ -448,7 +448,7 @@ static int xmp_release(const char* path, struct fuse_file_info* fi) {
 
 static int xmp_fsync(const char* path, int isdatasync, struct fuse_file_info* fi) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     /* Just a stub.	 This method is optional and can safely be left
        unimplemented */
@@ -462,7 +462,7 @@ static int xmp_fsync(const char* path, int isdatasync, struct fuse_file_info* fi
 #ifdef HAVE_POSIX_FALLOCATE
 static int xmp_fallocate(const char* path, int mode, off_t offset, off_t length, struct fuse_file_info* fi) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int fd;
     int res;
@@ -492,7 +492,7 @@ static int xmp_fallocate(const char* path, int mode, off_t offset, off_t length,
 /* xattr operations are optional and can safely be left unimplemented */
 static int xmp_setxattr(const char* path, const char* name, const char* value, size_t size, int flags) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res = lsetxattr(path.c_str(), name, value, size, flags);
     if(res == -1)
@@ -502,7 +502,7 @@ static int xmp_setxattr(const char* path, const char* name, const char* value, s
 
 static int xmp_getxattr(const char* path, const char* name, char* value, size_t size) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res = lgetxattr(path_string.c_str(), name, value, size);
     if(res == -1)
@@ -512,7 +512,7 @@ static int xmp_getxattr(const char* path, const char* name, char* value, size_t 
 
 static int xmp_listxattr(const char* path, char* list, size_t size) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res = llistxattr(path_string.c_str(), list, size);
     if(res == -1)
@@ -522,7 +522,7 @@ static int xmp_listxattr(const char* path, char* list, size_t size) {
 
 static int xmp_removexattr(const char* path, const char* name) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int res = lremovexattr(path_string.c_str(), name);
     if(res == -1)
@@ -542,7 +542,7 @@ size_t len,
 int flags) {
     auto path_in_string  = rel_to_abs_path(path_in);
     auto path_out_string = rel_to_abs_path(path_out);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int fd_in, fd_out;
     ssize_t res;
@@ -580,7 +580,7 @@ int flags) {
 
 static off_t xmp_lseek(const char* path, off_t off, int whence, struct fuse_file_info* fi) {
     auto path_string = rel_to_abs_path(path);
-    lwlog_debug();
+    LOG(TRACE) << " " << std::endl;
 
     int fd;
     off_t res;
@@ -656,6 +656,10 @@ static const struct fuse_operations xmp_oper = {
 };
 
 int main(int argc, char* argv[]) {
+    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
+
+    LOG(TRACE) << " " << std::endl;
+
     enum { MAX_ARGS = 10 };
     int i, new_argc;
     char* new_argv[MAX_ARGS];
@@ -672,10 +676,10 @@ int main(int argc, char* argv[]) {
 
     char cwd[PATH_MAX];
     if(getcwd(cwd, sizeof(cwd)) != NULL) {
-        lwlog_info("Current working dir: %s", cwd);
+        LOG(INFO) << "Current working dir: " << cwd << std::endl;
         mnt_mirror_dir = std::string(cwd) + MNT_MIRROR_DIR_NAME;
     } else {
-        lwlog_err("getcwd() error");
+        LOG(FATAL) << "Unable to get current working directory" << std::endl;
         return 1;
     }
 

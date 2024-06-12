@@ -21,11 +21,11 @@ set(EXTERNAL_HEADERS
 set(SOURCES
     src/entry.cpp
     src/md_cache_table.cpp
+    src/data_cache_table.cpp
 )
 
 # Create executable
-add_executable(${PROJECT_NAME} ${SOURCES}
-    README.md)
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 # Include FUSE headers
 target_include_directories(${PROJECT_NAME} PRIVATE "${EXTERNAL_HEADERS}")
