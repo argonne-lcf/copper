@@ -1,17 +1,17 @@
 [
 {
-  "directory": "/home/theassembler/src/cu_fuse/build",
-  "command": "/usr/bin/c++  -I/home/theassembler/src/cu_fuse/external/fuse3/install/include/fuse3 -std=gnu++17 -o CMakeFiles/cu_fuse.dir/src/entry.cpp.o -c /home/theassembler/src/cu_fuse/src/entry.cpp",
-  "file": "/home/theassembler/src/cu_fuse/src/entry.cpp"
+  "directory": "/home/theassembler1/src/cu_fuse/build",
+  "command": "/usr/bin/c++  -I/home/theassembler1/src/cu_fuse/external/fuse3/install/include/fuse3 -std=gnu++17 -o CMakeFiles/cu_fuse.dir/src/entry.cpp.o -c /home/theassembler1/src/cu_fuse/src/entry.cpp",
+  "file": "/home/theassembler1/src/cu_fuse/src/entry.cpp"
 },
 {
-  "directory": "/home/theassembler/src/cu_fuse/build",
-  "command": "/usr/bin/c++  -I/home/theassembler/src/cu_fuse/external/fuse3/install/include/fuse3 -std=gnu++17 -o CMakeFiles/cu_fuse.dir/src/md_cache_table.cpp.o -c /home/theassembler/src/cu_fuse/src/md_cache_table.cpp",
-  "file": "/home/theassembler/src/cu_fuse/src/md_cache_table.cpp"
+  "directory": "/home/theassembler1/src/cu_fuse/build",
+  "command": "/usr/bin/c++  -I/home/theassembler1/src/cu_fuse/external/fuse3/install/include/fuse3 -std=gnu++17 -o CMakeFiles/cu_fuse.dir/src/md_cache_table.cpp.o -c /home/theassembler1/src/cu_fuse/src/md_cache_table.cpp",
+  "file": "/home/theassembler1/src/cu_fuse/src/md_cache_table.cpp"
 },
 {
-  "directory": "/home/theassembler/src/cu_fuse/build",
-  "command": "/usr/bin/c++  -I/home/theassembler/src/cu_fuse/external/fuse3/install/include/fuse3 -std=gnu++17 -o CMakeFiles/cu_fuse.dir/src/data_cache_table.cpp.o -c /home/theassembler/src/cu_fuse/src/data_cache_table.cpp",
-  "file": "/home/theassembler/src/cu_fuse/src/data_cache_table.cpp"
+  "directory": "/home/theassembler1/src/cu_fuse/build",
+  "command": "/usr/bin/c++  -I/home/theassembler1/src/cu_fuse/external/fuse3/install/include/fuse3 -std=gnu++17 -o CMakeFiles/cu_fuse.dir/src/data_cache_table.cpp.o -c /home/theassembler1/src/cu_fuse/src/data_cache_table.cpp",
+  "file": "/home/theassembler1/src/cu_fuse/src/data_cache_table.cpp"
 }
 ]
