@@ -1,4 +1,4 @@
-if [ -z build ]
+if [ -d build ]
 then
 	echo "found build dir"
 else 
