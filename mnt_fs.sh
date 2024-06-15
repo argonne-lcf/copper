@@ -1,13 +1,13 @@
 #!/bin/bash
 
 INIT_PWD=$(pwd)
-MNT_DIR="$INIT_PWD/mnt"
-MNT_MIRROR_DIR="$INIT_PWD/mnt_mirror"
+VIEW_DIR="$INIT_PWD/view"
+TARGET_DIR="$INIT_PWD/target"
 FUSE_FS="$INIT_PWD/build/cu_fuse"
 
 function unmount() {
-    echo "unmounting mnt point"
-    fusermount -u $MNT_DIR || true
+    echo "unmounting"
+    fusermount -u $VIEW_DIR || true
 }
 
 function create_folder() {
@@ -20,20 +20,20 @@ function create_folder() {
     fi
 }
 
-create_folder $MNT_DIR
-create_folder $MNT_MIRROR_DIR
+create_folder $VIEW_DIR
+create_folder $TARGET_DIR
 
 unmount
 
 if [ -f $FUSE_FS ]
 then
-    echo "found mnt binary"
+    echo "found cu_fuse binary"
 else
     echo "fuse_distributed_cache binary not found - please compile"
     exit 1;
 fi
 
-echo "mounting fuse distributed cache to mnt"
-$FUSE_FS -s -f $MNT_DIR
+echo "mounting fuse distributed cache to view dir"
+$FUSE_FS -s -f -tpath $TARGET_DIR $VIEW_DIR
 
-unmount || { echo "mnt already unmounted"; exit 0; }
+unmount || { echo "already unmounted"; exit 0; }

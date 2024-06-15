@@ -19,13 +19,11 @@
 #endif
 
 #include <cstddef>
-#include <vector>
 #include <cstring>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <fuse.h>
-#include <memory.h>
 #include <optional>
 #include <stdio.h>
 #include <string.h>
@@ -33,6 +31,7 @@
 #include <unistd.h>
 #include <unordered_map>
 #include <variant>
+#include <vector>
 #ifdef __FreeBSD__
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -42,45 +41,25 @@
 #include <sys/xattr.h>
 #endif
 
-#include "md_cache_table.h"
-#include "data_cache_table.h"
-#include "passthrough_helpers.h"
 #include "aixlog.h"
+#include "cache/data_cache_table.h"
+#include "cache/md_cache_table.h"
+#include "fs/constants.h"
+#include "fs/util.h"
+#include "passthrough_helpers.h"
 
-#define MNT_MIRROR_DIR_NAME "/mnt_mirror"
-
-static int fill_dir_plus                         = 0;
-static std::optional<std::string> mnt_mirror_dir = std::nullopt;
 MDCacheTable md_cache_table;
 DataCacheTable data_cache_table;
 
-static std::string rel_to_abs_path(const char* path) {
-    if(!path) {
-        LOG(FATAL) << "path was null" << std::endl;
-        throw new std::runtime_error("path was null");
-    }
-
-    if(!mnt_mirror_dir.has_value()) {
-        LOG(FATAL) << "mnt_mirror_dir was std::nullopt" << std::endl;
-        throw new std::runtime_error("mnt_mirror_dir was std::nullopt");
-    }
-
-    auto suffix   = std::string(path);
-    auto abs_path = mnt_mirror_dir.value() + suffix;
-
-    return abs_path;
-}
-
-static void* xmp_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
+static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
     LOG(TRACE) << " " << std::endl;
 
-    (void)conn;
     cfg->use_ino = 1;
 
     /* parallel_direct_writes feature depends on direct_io features.
-       To make parallel_direct_writes valid, need either set cfg->direct_io
-       in current function (recommended in high level API) or set fi->direct_io
-       in xmp_create() or xmp_open(). */
+   To make parallel_direct_writes valid, need either set cfg->direct_io
+   in current function (recommended in high level API) or set fi->direct_io
+   in xmp_create() or xmp_open(). */
     // cfg->direct_io = 1;
     cfg->parallel_direct_writes = 1;
 
@@ -91,638 +70,402 @@ static void* xmp_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
        the cache of the associated inode - resulting in an
        incorrect st_nlink value being reported for any remaining
        hardlinks to this inode. */
-    cfg->entry_timeout    = 0;
-    cfg->attr_timeout     = 0;
+    cfg->entry_timeout = 0;
+    cfg->attr_timeout = 0;
     cfg->negative_timeout = 0;
 
-    return NULL;
+    return nullptr;
 }
 
-static int xmp_getattr(const char* path, struct stat* stbuf, struct fuse_file_info* fi) {
+static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     LOG(TRACE) << " " << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    auto path_string   = rel_to_abs_path(path);
-    auto cached_st_opt = md_cache_table.get(path_string);
+    const auto cu_stat_opt{md_cache_table.get(path_string.c_str())};
 
-    if(cached_st_opt.has_value()) {
-        auto cached_st = cached_st_opt.value();
-        memcpy(stbuf, cached_st, sizeof(struct stat));
-        return 0;
+    if(!cu_stat_opt.has_value()) {
+        return -ENOENT;
     }
 
-    (void)fi;
-    int res;
+    const auto& cu_stat{cu_stat_opt.value()};
+    cu_stat.cp_to_buf(stbuf);
 
-    res = lstat(path_string.c_str(), stbuf);
-    if(res == -1)
-        return -errno;
-
-    struct stat* st_cpy = new struct stat;
-    std::memcpy(st_cpy, stbuf, sizeof(struct stat));
-
-    md_cache_table.put_force(path_string, st_cpy);
-
-    return 0;
+    return Constants::fs_operation_success;
 }
 
-static int xmp_access(const char* path, int mask) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_access(const char* path_, const int mask) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    int res;
-
-    res = access(path_string.c_str(), mask);
-    if(res == -1)
+    if(access(path_string.c_str(), mask) == -1) {
         return -errno;
+    }
 
-    return 0;
+    return Constants::fs_operation_success;
 }
 
-static int xmp_readlink(const char* path, char* buf, size_t size) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    int res;
-
-    res = readlink(path_string.c_str(), buf, size - 1);
-    if(res == -1)
+    const ssize_t res{readlink(path_string.c_str(), buf, size - 1)};
+    if(res == -1) {
         return -errno;
+    }
 
     buf[res] = '\0';
-    return 0;
+
+    return Constants::fs_operation_success;
 }
 
 
-static int xmp_readdir(const char* path, void* buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info* fi, enum fuse_readdir_flags flags) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int
+cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_t offset, struct fuse_file_info* fi, enum fuse_readdir_flags flags) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    DIR* dp;
     struct dirent* de;
+    DIR* dp{opendir(path_string.c_str())};
 
-    (void)offset;
-    (void)fi;
-    (void)flags;
-
-    dp = opendir(path_string.c_str());
-    if(dp == NULL)
+    if(dp == nullptr) {
         return -errno;
+    }
 
-    while((de = readdir(dp)) != NULL) {
-        struct stat st;
+    while((de = readdir(dp)) != nullptr) {
+        struct stat st {};
         memset(&st, 0, sizeof(st));
-        st.st_ino  = de->d_ino;
+        st.st_ino = de->d_ino;
         st.st_mode = de->d_type << 12;
-        if(filler(buf, de->d_name, &st, 0, (fuse_fill_dir_flags)fill_dir_plus))
+        if(filler(buf, de->d_name, &st, 0, Constants::fill_dir_plus.value())) {
             break;
+        }
     }
 
     closedir(dp);
-    return 0;
+
+    return Constants::fs_operation_success;
 }
 
-static int xmp_mknod(const char* path, mode_t mode, dev_t rdev) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_mknod(const char* path_, const mode_t mode, const dev_t rdev) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    int res;
-
-    res = mknod_wrapper(AT_FDCWD, path_string.c_str(), NULL, mode, rdev);
-    if(res == -1)
+    if(mknod_wrapper(AT_FDCWD, path_string.c_str(), nullptr, mode, rdev) == -1) {
         return -errno;
+    }
 
-    return 0;
+    return Constants::fs_operation_success;
 }
 
-static int xmp_mkdir(const char* path, mode_t mode) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_mkdir(const char* path_, const mode_t mode) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    int res;
-
-    res = mkdir(path_string.c_str(), mode);
-    if(res == -1)
+    if(mkdir(path_string.c_str(), mode) == -1) {
         return -errno;
+    }
 
-    return 0;
+    return Constants::fs_operation_success;
 }
 
-static int xmp_unlink(const char* path) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_unlink(const char* path_) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    int res;
-
-    res = unlink(path_string.c_str());
-    if(res == -1)
+    if(unlink(path_string.c_str()) == -1) {
         return -errno;
+    }
 
-    return 0;
+    return Constants::fs_operation_success;
 }
 
-static int xmp_rmdir(const char* path) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_rmdir(const char* path_) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    int res;
-
-    res = rmdir(path_string.c_str());
-    if(res == -1)
+    if(rmdir(path_string.c_str()) == -1) {
         return -errno;
+    }
 
-    return 0;
+    return Constants::fs_operation_success;
 }
 
-static int xmp_symlink(const char* from, const char* to) {
-    auto from_string = rel_to_abs_path(from);
-    auto to_string   = rel_to_abs_path(to);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_symlink(const char* from_, const char* to_) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto from_string{Util::rel_to_abs_path(from_)};
+    const auto to_string{Util::rel_to_abs_path(to_)};
 
-    int res;
-
-    res = symlink(from_string.c_str(), to_string.c_str());
-    if(res == -1)
+    if(symlink(from_string.c_str(), to_string.c_str()) == -1) {
         return -errno;
+    }
 
-    return 0;
+    return Constants::fs_operation_success;
 }
 
-static int xmp_rename(const char* from, const char* to, unsigned int flags) {
-    auto from_string = rel_to_abs_path(from);
-    auto to_string   = rel_to_abs_path(to);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_rename(const char* from_, const char* to_, unsigned int flags) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto from_string{Util::rel_to_abs_path(from_)};
+    const auto to_string{Util::rel_to_abs_path(to_)};
 
-    int res;
-
-    if(flags)
+    if(flags) {
         return -EINVAL;
+    }
 
-    res = rename(from_string.c_str(), to_string.c_str());
-    if(res == -1)
+    if(rename(from_string.c_str(), to_string.c_str()) == -1) {
         return -errno;
+    }
 
-    return 0;
+    return Constants::fs_operation_success;
 }
 
-static int xmp_link(const char* from, const char* to) {
-    auto from_string = rel_to_abs_path(from);
-    auto to_string   = rel_to_abs_path(to);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_link(const char* from_, const char* to_) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto from_string{Util::rel_to_abs_path(from_)};
+    const auto to_string{Util::rel_to_abs_path(to_)};
 
-    int res;
-
-    res = link(from_string.c_str(), to_string.c_str());
-    if(res == -1)
+    if(link(from_string.c_str(), to_string.c_str()) == -1) {
         return -errno;
+    }
 
-    return 0;
+    return Constants::fs_operation_success;
 }
 
-static int xmp_chmod(const char* path, mode_t mode, struct fuse_file_info* fi) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_chmod(const char* path_, const mode_t mode, struct fuse_file_info* fi) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    (void)fi;
-    int res;
-
-    res = chmod(path_string.c_str(), mode);
-    if(res == -1)
+    if(chmod(path_string.c_str(), mode) == -1) {
         return -errno;
+    }
 
-    return 0;
+    return Constants::fs_operation_success;
 }
 
-static int xmp_chown(const char* path, uid_t uid, gid_t gid, struct fuse_file_info* fi) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_chown(const char* path_, const uid_t uid, const gid_t gid, struct fuse_file_info* fi) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    (void)fi;
-    int res;
-
-    res = lchown(path_string.c_str(), uid, gid);
-    if(res == -1)
+    if(chown(path_string.c_str(), uid, gid) == -1) {
         return -errno;
+    }
 
-    return 0;
+    return Constants::fs_operation_success;
 }
 
-static int xmp_truncate(const char* path, off_t size, struct fuse_file_info* fi) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_truncate(const char* path_, const off_t offset, struct fuse_file_info* fi) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    int res;
+    int res{};
 
-    if(fi != NULL)
-        res = ftruncate(fi->fh, size);
-    else
-        res = truncate(path_string.c_str(), size);
-    if(res == -1)
+    if(fi != nullptr) {
+        res = ftruncate(fi->fh, offset);
+    } else {
+        res = truncate(path_string.c_str(), offset);
+    }
+
+    if(res == -1) {
         return -errno;
+    }
 
-    return 0;
+    return Constants::fs_operation_success;
 }
 
-#ifdef HAVE_UTIMENSAT
-static int xmp_utimens(const char* path, const struct timespec ts[2], struct fuse_file_info* fi) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_create(const char* path_, const mode_t mode, struct fuse_file_info* fi) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    (void)fi;
-    int res;
+    const int res{open(path_string.c_str(), fi->flags, mode)};
 
-    /* don't use utime/utimes since they follow symlinks */
-    res = utimensat(0, path_string.c_str(), ts, AT_SYMLINK_NOFOLLOW);
-    if(res == -1)
+    if(res == -1) {
         return -errno;
-
-    return 0;
-}
-#endif
-
-static int xmp_create(const char* path, mode_t mode, struct fuse_file_info* fi) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
-
-    int res;
-
-    res = open(path_string.c_str(), fi->flags, mode);
-    if(res == -1)
-        return -errno;
+    }
 
     fi->fh = res;
-    return 0;
+
+    return Constants::fs_operation_success;
 }
 
-static int xmp_open(const char* path, struct fuse_file_info* fi) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    int res;
 
-    res = open(path_string.c_str(), fi->flags);
-    if(res == -1)
+    const int res{open(path_string.c_str(), fi->flags)};
+
+    if(res == -1) {
         return -errno;
+    }
 
-    /* Enable direct_io when open has flags O_DIRECT to enjoy the feature
-    parallel_direct_writes (i.e., to get a shared lock, not exclusive lock,
-    for writes to the same file). */
     if(fi->flags & O_DIRECT) {
-        fi->direct_io              = 1;
+        fi->direct_io = 1;
         fi->parallel_direct_writes = 1;
     }
 
     fi->fh = res;
-    return 0;
+
+    return Constants::fs_operation_success;
 }
 
-static int xmp_read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_read(const char* path_, char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    if(offset != 0) {
-        LOG(WARNING) << "skipping data cache offset != 0, offset: " << offset << std::endl;
-    } else {
-        if(path == nullptr) {
-            LOG(FATAL) << "path was null" << std::endl;
-            throw new std::runtime_error("path was null");
-        }
+    int fd{};
 
-        auto cached_data_inode_opt = data_cache_table.get(path_string);
-
-        if(cached_data_inode_opt.has_value()) {
-            auto cached_data_inode = cached_data_inode_opt.value();
-            std::vector<std::byte> data = cached_data_inode.first;
-
-            if(size != data.size()) {
-                LOG(FATAL) << "full file size was not requested" << std::endl;
-                throw new std::runtime_error("full file size was not requested");
-            }
-
-            memcpy(buf, data.data(), data.size());
-
-            return data.size();
-        }
-    }
-
-    int fd;
-    int res;
-
-    if(fi == NULL)
+    if(fi == nullptr) {
         fd = open(path_string.c_str(), O_RDONLY);
-    else
+    } else {
         fd = fi->fh;
+    }
 
-    if(fd == -1)
+    if(fd == -1) {
         return -errno;
+    }
 
-    res = pread(fd, buf, size, offset);
-    if(res == -1)
+    int res(pread(fd, buf, size, offset));
+    if(pread(fd, buf, size, offset) == -1) {
         res = -errno;
+    }
 
-    if(fi == NULL)
+    if(fi == nullptr)
         close(fd);
 
-    if(offset != 0) {
-        LOG(WARNING) << "skipping data cache offset != 0, offset: " << offset << std::endl;
+    return res;
+}
+
+static int cu_fuse_write(const char* path_, const char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
+
+    int fd{};
+
+    if(fi == nullptr) {
+        fd = open(path_string.c_str(), O_WRONLY);
     } else {
-        if(path == nullptr) {
-            LOG(FATAL) << "path was null" << std::endl;
-            throw new std::runtime_error("path was null");
-        }
+        fd = fi->fh;
+    }
 
-        std::vector<std::byte> data = std::vector<std::byte>(size);
-        ino_t inode = 0;
+    if(fd == -1) {
+        return -errno;
+    }
 
-        memcpy(data.data(), buf, size);
+    int res(pwrite(fd, buf, size, offset));
+    if(res == -1) {
+        res = -errno;
+    }
 
-        data_cache_table.put_force(path_string, std::pair(data, inode));
+    if(fi == nullptr) {
+        close(fd);
     }
 
     return res;
 }
 
-static int xmp_write(const char* path, const char* buf, size_t size, off_t offset, struct fuse_file_info* fi) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_statfs(const char* path_, struct statvfs* stbuf) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    int fd;
-    int res;
-
-    (void)fi;
-    if(fi == NULL)
-        fd = open(path_string.c_str(), O_WRONLY);
-    else
-        fd = fi->fh;
-
-    if(fd == -1)
+    if(statvfs(path_string.c_str(), stbuf) == -1) {
         return -errno;
+    }
 
-    res = pwrite(fd, buf, size, offset);
-    if(res == -1)
-        res = -errno;
-
-    if(fi == NULL)
-        close(fd);
-    return res;
+    return Constants::fs_operation_success;
 }
 
-static int xmp_statfs(const char* path, struct statvfs* stbuf) {
-    auto path_string = rel_to_abs_path(path);
+static int cu_fuse_release(const char* path_, struct fuse_file_info* fi) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    int res;
-
-    res = statvfs(path_string.c_str(), stbuf);
-    if(res == -1)
-        return -errno;
-
-    return 0;
-}
-
-static int xmp_release(const char* path, struct fuse_file_info* fi) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
-
-    (void)path_string.c_str();
     close(fi->fh);
-    return 0;
+
+    return Constants::fs_operation_success;
 }
 
-static int xmp_fsync(const char* path, int isdatasync, struct fuse_file_info* fi) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static int cu_fuse_fsync(const char* path_, const int isdatasync, struct fuse_file_info* fi) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    /* Just a stub.	 This method is optional and can safely be left
-       unimplemented */
-
-    (void)path_string.c_str();
-    (void)isdatasync;
-    (void)fi;
-    return 0;
+    return Constants::fs_operation_success;
 }
 
-#ifdef HAVE_POSIX_FALLOCATE
-static int xmp_fallocate(const char* path, int mode, off_t offset, off_t length, struct fuse_file_info* fi) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
+static off_t cu_fuse_lseek(const char* path_, const off_t off, const int whence, struct fuse_file_info* fi) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
 
-    int fd;
-    int res;
+    int fd{};
 
-    (void)fi;
-
-    if(mode)
-        return -EOPNOTSUPP;
-
-    if(fi == NULL)
-        fd = open(path_string.c_str(), O_WRONLY);
-    else
+    if(fi == nullptr) {
+        fd = open(path_string.c_str(), O_RDONLY);
+    } else {
         fd = fi->fh;
+    }
 
-    if(fd == -1)
-        return -errno;
-
-    res = -posix_fallocate(fd, offset, length);
-
-    if(fi == NULL)
-        close(fd);
-    return res;
-}
-#endif
-
-#ifdef HAVE_SETXATTR
-/* xattr operations are optional and can safely be left unimplemented */
-static int xmp_setxattr(const char* path, const char* name, const char* value, size_t size, int flags) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
-
-    int res = lsetxattr(path.c_str(), name, value, size, flags);
-    if(res == -1)
-        return -errno;
-    return 0;
-}
-
-static int xmp_getxattr(const char* path, const char* name, char* value, size_t size) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
-
-    int res = lgetxattr(path_string.c_str(), name, value, size);
-    if(res == -1)
-        return -errno;
-    return res;
-}
-
-static int xmp_listxattr(const char* path, char* list, size_t size) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
-
-    int res = llistxattr(path_string.c_str(), list, size);
-    if(res == -1)
-        return -errno;
-    return res;
-}
-
-static int xmp_removexattr(const char* path, const char* name) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
-
-    int res = lremovexattr(path_string.c_str(), name);
-    if(res == -1)
-        return -errno;
-    return 0;
-}
-#endif /* HAVE_SETXATTR */
-
-#ifdef HAVE_COPY_FILE_RANGE
-static ssize_t xmp_copy_file_range(const char* path_in,
-struct fuse_file_info* fi_in,
-off_t offset_in,
-const char* path_out,
-struct fuse_file_info* fi_out,
-off_t offset_out,
-size_t len,
-int flags) {
-    auto path_in_string  = rel_to_abs_path(path_in);
-    auto path_out_string = rel_to_abs_path(path_out);
-    LOG(TRACE) << " " << std::endl;
-
-    int fd_in, fd_out;
-    ssize_t res;
-
-    if(fi_in == NULL)
-        fd_in = open(path_in_string.c_str(), O_RDONLY);
-    else
-        fd_in = fi_in->fh;
-
-    if(fd_in == -1)
-        return -errno;
-
-    if(fi_out == NULL)
-        fd_out = open(path_out_string.c_str(), O_WRONLY);
-    else
-        fd_out = fi_out->fh;
-
-    if(fd_out == -1) {
-        close(fd_in);
+    if(fd == -1) {
         return -errno;
     }
 
-    res = copy_file_range(fd_in, &offset_in, fd_out, &offset_out, len, flags);
-    if(res == -1)
+    off_t res{lseek(fd, off, whence)};
+    if(res == -1) {
         res = -errno;
+    }
 
-    if(fi_out == NULL)
-        close(fd_out);
-    if(fi_in == NULL)
-        close(fd_in);
-
-    return res;
-}
-#endif
-
-static off_t xmp_lseek(const char* path, off_t off, int whence, struct fuse_file_info* fi) {
-    auto path_string = rel_to_abs_path(path);
-    LOG(TRACE) << " " << std::endl;
-
-    int fd;
-    off_t res;
-
-    if(fi == NULL)
-        fd = open(path_string.c_str(), O_RDONLY);
-    else
-        fd = fi->fh;
-
-    if(fd == -1)
-        return -errno;
-
-    res = lseek(fd, off, whence);
-    if(res == -1)
-        res = -errno;
-
-    if(fi == NULL)
+    if(fi == nullptr) {
         close(fd);
+    }
+
     return res;
 }
 
-static const struct fuse_operations xmp_oper = {
-.getattr  = xmp_getattr,
-.readlink = xmp_readlink,
-.mknod    = xmp_mknod,
-.mkdir    = xmp_mkdir,
-.unlink   = xmp_unlink,
-.rmdir    = xmp_rmdir,
-.symlink  = xmp_symlink,
-.rename   = xmp_rename,
-.link     = xmp_link,
-.chmod    = xmp_chmod,
-.chown    = xmp_chown,
-.truncate = xmp_truncate,
-.open     = xmp_open,
-.read     = xmp_read,
-.write    = xmp_write,
-.statfs   = xmp_statfs,
+static constexpr struct fuse_operations cu_fuse_oper = {
+.getattr = cu_fuse_getattr,
+.readlink = cu_fuse_readlink,
+.mknod = cu_fuse_mknod,
+.mkdir = cu_fuse_mkdir,
+.unlink = cu_fuse_unlink,
+.rmdir = cu_fuse_rmdir,
+.symlink = cu_fuse_symlink,
+.rename = cu_fuse_rename,
+.link = cu_fuse_link,
+.chmod = cu_fuse_chmod,
+.chown = cu_fuse_chown,
+.truncate = cu_fuse_truncate,
+.open = cu_fuse_open,
+.read = cu_fuse_read,
+.write = cu_fuse_write,
+.statfs = cu_fuse_statfs,
 // flush
-.release = xmp_release,
-.fsync   = xmp_fsync,
-#ifdef HAVE_SETXATTR
-.setxattr    = xmp_setxattr,
-.getxattr    = xmp_getxattr,
-.listxattr   = xmp_listxattr,
-.removexattr = xmp_removexattr,
-#endif
+.release = cu_fuse_release,
+.fsync = cu_fuse_fsync,
 // opendir
-.readdir = xmp_readdir,
+.readdir = cu_fuse_readdir,
 // releasedir
 // fsyncdir
-.init = xmp_init,
+.init = cu_fuse_init,
 // destroy
-.access = xmp_access,
-.create = xmp_create,
+.access = cu_fuse_access,
+.create = cu_fuse_create,
 // lock
-#ifdef HAVE_UTIMENSAT
-.utimens = xmp_utimens,
-#endif
 // bmap
 // ioctl
 // poll
 // write_buf
 // read_buf
 // flock
-#ifdef HAVE_POSIX_FALLOCATE
-.fallocate = xmp_fallocate,
-#endif
-#ifdef HAVE_COPY_FILE_RANGE
-.copy_file_range = xmp_copy_file_range,
-#endif
-.lseek = xmp_lseek,
+.lseek = cu_fuse_lseek,
 };
 
-int main(int argc, char* argv[]) {
+int main(const int argc, const char* argv[]) {
     AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
-
     LOG(TRACE) << " " << std::endl;
 
-    enum { MAX_ARGS = 10 };
-    int i, new_argc;
-    char* new_argv[MAX_ARGS];
+    auto new_args{Util::process_args(argc, argv)};
 
-    umask(0);
-    /* Process the "--plus" option apart */
-    for(i = 0, new_argc = 0; (i < argc) && (new_argc < MAX_ARGS); i++) {
-        if(!strcmp(argv[i], "--plus")) {
-            fill_dir_plus = FUSE_FILL_DIR_PLUS;
-        } else {
-            new_argv[new_argc++] = argv[i];
-        }
+    std::vector<char*> ptrs;
+    ptrs.reserve(new_args.size());
+    for(std::string& str : new_args) {
+        ptrs.push_back(str.data());
     }
 
-    char cwd[PATH_MAX];
-    if(getcwd(cwd, sizeof(cwd)) != NULL) {
-        LOG(INFO) << "current working dir: " << cwd << std::endl;
-        mnt_mirror_dir = std::string(cwd) + MNT_MIRROR_DIR_NAME;
-    } else {
-        LOG(FATAL) << "unable to get current working directory" << std::endl;
-        return 1;
-    }
-
-    return fuse_main(new_argc, new_argv, &xmp_oper, NULL);
+    return fuse_main(ptrs.size(), ptrs.data(), &cu_fuse_oper, nullptr);
 }

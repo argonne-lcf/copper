@@ -20,8 +20,11 @@ set(EXTERNAL_HEADERS
 # Add your source files
 set(SOURCES
     src/entry.cpp
-    src/md_cache_table.cpp
-    src/data_cache_table.cpp
+        src/fs/cu_stat.cpp
+        src/cache/cache_table.cpp
+        src/fs/util.cpp
+        src/fs/util.h
+        src/fs/constants.h
 )
 
 # Create executable

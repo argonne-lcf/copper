@@ -158,13 +158,13 @@ enum class Severity : std::int8_t {
     //                         ALERT                                             action must be taken immediately
     //                         EMERG                                             system is unusable
 
-    trace   = SEVERITY::TRACE,
-    debug   = SEVERITY::DEBUG,
-    info    = SEVERITY::INFO,
-    notice  = SEVERITY::NOTICE,
+    trace = SEVERITY::TRACE,
+    debug = SEVERITY::DEBUG,
+    info = SEVERITY::INFO,
+    notice = SEVERITY::NOTICE,
     warning = SEVERITY::WARNING,
-    error   = SEVERITY::ERROR,
-    fatal   = SEVERITY::FATAL
+    error = SEVERITY::ERROR,
+    fatal = SEVERITY::FATAL
 };
 
 
@@ -211,24 +211,24 @@ static std::string to_string(Severity logSeverity) {
  * Color constants used for console colors
  */
 enum class Color {
-    none    = 0,
-    NONE    = 0,
-    black   = 1,
-    BLACK   = 1,
-    red     = 2,
-    RED     = 2,
-    green   = 3,
-    GREEN   = 3,
-    yellow  = 4,
-    YELLOW  = 4,
-    blue    = 5,
-    BLUE    = 5,
+    none = 0,
+    NONE = 0,
+    black = 1,
+    BLACK = 1,
+    red = 2,
+    RED = 2,
+    green = 3,
+    GREEN = 3,
+    yellow = 4,
+    YELLOW = 4,
+    blue = 5,
+    BLUE = 5,
     magenta = 6,
     MAGENTA = 6,
-    cyan    = 7,
-    CYAN    = 7,
-    white   = 8,
-    WHITE   = 8
+    cyan = 7,
+    CYAN = 7,
+    white = 8,
+    WHITE = 8
 };
 
 /**
@@ -299,7 +299,7 @@ struct Timestamp {
 
     /// strftime format + proprietary "#ms" for milliseconds
     std::string to_string(const std::string& format = "%Y-%m-%d %H-%M-%S.#ms") const {
-        std::time_t now_c  = std::chrono::system_clock::to_time_t(time_point);
+        std::time_t now_c = std::chrono::system_clock::to_time_t(time_point);
         struct ::tm now_tm = localtime_xp(now_c);
         char buffer[256];
         strftime(buffer, sizeof buffer, format.c_str(), &now_tm);
@@ -328,7 +328,7 @@ struct Timestamp {
 #else
         static std::mutex mtx;
         std::lock_guard<std::mutex> lock(mtx);
-        bt        = *std::localtime(&timer);
+        bt = *std::localtime(&timer);
 #endif
         return bt;
     }
@@ -587,7 +587,7 @@ class Log : public std::basic_streambuf<char, std::char_traits<char>> {
     std::stringstream& get_stream() {
         auto id = std::this_thread::get_id();
         if((last_buffer_ == nullptr) || (last_id_ != id)) {
-            last_id_     = id;
+            last_id_ = id;
             last_buffer_ = &(buffer_[id]);
         }
         return *last_buffer_;
@@ -880,9 +880,9 @@ struct SinkEventLog : public Sink {
 #ifdef UNICODE
         std::wstring wide = std::wstring(ident.begin(),
         ident.end()); // stijnvdb: RegisterEventSource expands to RegisterEventSourceW which takes wchar_t
-        event_log         = RegisterEventSource(NULL, wide.c_str());
+        event_log = RegisterEventSource(NULL, wide.c_str());
 #else
-        event_log         = RegisterEventSource(NULL, ident.c_str());
+        event_log = RegisterEventSource(NULL, ident.c_str());
 #endif
     }
 
@@ -991,11 +991,11 @@ static std::ostream& operator<<(std::ostream& os, const Severity& log_severity) 
         std::lock_guard<std::recursive_mutex> lock(log->mutex_);
         if(log->metadata_.severity != log_severity) {
             log->sync();
-            log->metadata_.severity  = log_severity;
+            log->metadata_.severity = log_severity;
             log->metadata_.timestamp = nullptr;
-            log->metadata_.tag       = nullptr;
-            log->metadata_.function  = nullptr;
-            log->do_log_             = true;
+            log->metadata_.tag = nullptr;
+            log->metadata_.function = nullptr;
+            log->do_log_ = true;
         }
     } else {
         os << to_string(log_severity);

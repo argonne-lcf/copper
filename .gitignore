@@ -1,5 +1,7 @@
-mnt
-mnt_mirror
 build
 .cache
 external
+view
+target
+*.swp
+.idea
