@@ -48,9 +48,6 @@
 #include "fs/util.h"
 #include "passthrough_helpers.h"
 
-MDCacheTable md_cache_table;
-DataCacheTable data_cache_table;
-
 static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
     LOG(TRACE) << " " << std::endl;
 
@@ -74,21 +71,27 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     cfg->attr_timeout = 0;
     cfg->negative_timeout = 0;
 
+    Util::cache_target_path();
+
     return nullptr;
 }
 
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     LOG(TRACE) << " " << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
+    LOG(DEBUG) << "path_string: " << path_string << std::endl;
 
-    const auto cu_stat_opt{md_cache_table.get(path_string.c_str())};
+    const auto cu_stat_opt{CurCache::md_cache_table.get(path_string)};
 
     if(!cu_stat_opt.has_value()) {
+        LOG(DEBUG) << "path_string not found" << std::endl;
         return -ENOENT;
+    } else {
+        LOG(DEBUG) << "path_string found" << std::endl;
     }
 
     const auto& cu_stat{cu_stat_opt.value()};
-    cu_stat.cp_to_buf(stbuf);
+    cu_stat->cp_to_buf(stbuf);
 
     return Constants::fs_operation_success;
 }
@@ -96,10 +99,6 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
 static int cu_fuse_access(const char* path_, const int mask) {
     LOG(WARNING) << "not implemented!" << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
-
-    if(access(path_string.c_str(), mask) == -1) {
-        return -errno;
-    }
 
     return Constants::fs_operation_success;
 }
@@ -118,30 +117,36 @@ static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) {
     return Constants::fs_operation_success;
 }
 
-
 static int
 cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_t offset, struct fuse_file_info* fi, enum fuse_readdir_flags flags) {
-    LOG(WARNING) << "not implemented!" << std::endl;
+    LOG(TRACE) << " " << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
 
-    struct dirent* de;
-    DIR* dp{opendir(path_string.c_str())};
+    const auto& tree_cache_table_entry_opt = CurCache::tree_cache_table.get(path_string);
 
-    if(dp == nullptr) {
-        return -errno;
+    if(!tree_cache_table_entry_opt.has_value()) {
+        return -ENOENT;
     }
 
-    while((de = readdir(dp)) != nullptr) {
-        struct stat st {};
-        memset(&st, 0, sizeof(st));
-        st.st_ino = de->d_ino;
-        st.st_mode = de->d_type << 12;
-        if(filler(buf, de->d_name, &st, 0, Constants::fill_dir_plus.value())) {
-            break;
+    const fuse_fill_dir_flags fill_dir{(Constants::fill_dir_plus.has_value()) ? FUSE_FILL_DIR_PLUS : static_cast<fuse_fill_dir_flags>(NULL)};
+    filler(buf, ".", nullptr, 0, fill_dir);
+    filler(buf, "..", nullptr, 0, fill_dir);
+
+    const auto tree_cache_table_entry = tree_cache_table_entry_opt.value();
+    for(const auto& cur_path_string: *tree_cache_table_entry) {
+        const auto cu_stat_opt = CurCache::md_cache_table.get(cur_path_string);
+
+        if(!cu_stat_opt.has_value()) {
+            LOG(WARNING) << "cu_stat not found for entry: " << cur_path_string << std::endl;
+        }
+
+        const auto entry_cstr = Util::deep_cpy_string(Util::get_base_of_path(cur_path_string));
+        LOG(DEBUG) << "filling entry: " << entry_cstr << std::endl;
+
+        if(filler(buf, entry_cstr, cu_stat_opt.value()->get_st_cpy(), 0, fill_dir) == 1) {
+            LOG(ERROR) << "filler returned 1" << std::endl;
         }
     }
-
-    closedir(dp);
 
     return Constants::fs_operation_success;
 }
@@ -158,23 +163,40 @@ static int cu_fuse_mknod(const char* path_, const mode_t mode, const dev_t rdev)
 }
 
 static int cu_fuse_mkdir(const char* path_, const mode_t mode) {
-    LOG(WARNING) << "not implemented!" << std::endl;
+    LOG(DEBUG) << " " << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
 
-    if(mkdir(path_string.c_str(), mode) == -1) {
-        return -errno;
+    /*CuStat cu_stat;
+    const auto st = cu_stat.get_st();
+    std::memset(st, 0, sizeof(struct stat));
+
+    st->st_mode = mode;
+    st->st_ino = Util::gen_inode();
+
+    LOG(DEBUG) << "adding to md and tree cache: " << path_string << std::endl;
+    CurCache::md_cache_table.put_force(path_string, std::move(cu_stat));
+    CurCache::tree_cache_table.put_force(path_string, std::vector<std::string>());
+
+    const std::filesystem::path path = path_string;
+    const auto parent_path = path.parent_path().string();
+    LOG(DEBUG) << "parent_path was: " << parent_path << std::endl;
+    const auto tree_entry = CurCache::tree_cache_table.get(parent_path);
+
+    if(!tree_entry.has_value()) {
+        LOG(ERROR) << "failed to find parent_path: " << parent_path << std::endl;
+        return -ENOENT;
     }
+
+    tree_entry.value()->push_back(path_string);*/
 
     return Constants::fs_operation_success;
 }
 
 static int cu_fuse_unlink(const char* path_) {
-    LOG(WARNING) << "not implemented!" << std::endl;
+    LOG(DEBUG) << " " << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
 
-    if(unlink(path_string.c_str()) == -1) {
-        return -errno;
-    }
+    Util::remove_entry_from_cache(path_string);
 
     return Constants::fs_operation_success;
 }
@@ -206,14 +228,6 @@ static int cu_fuse_rename(const char* from_, const char* to_, unsigned int flags
     LOG(WARNING) << "not implemented!" << std::endl;
     const auto from_string{Util::rel_to_abs_path(from_)};
     const auto to_string{Util::rel_to_abs_path(to_)};
-
-    if(flags) {
-        return -EINVAL;
-    }
-
-    if(rename(from_string.c_str(), to_string.c_str()) == -1) {
-        return -errno;
-    }
 
     return Constants::fs_operation_success;
 }
@@ -272,29 +286,54 @@ static int cu_fuse_truncate(const char* path_, const off_t offset, struct fuse_f
 }
 
 static int cu_fuse_create(const char* path_, const mode_t mode, struct fuse_file_info* fi) {
-    LOG(WARNING) << "not implemented!" << std::endl;
+    LOG(DEBUG) << " " << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
 
-    const int res{open(path_string.c_str(), fi->flags, mode)};
+    CuStat cu_stat;
 
-    if(res == -1) {
-        return -errno;
+    const auto st = cu_stat.get_st();
+
+    // FIMXE: set correct uid gid etc.
+    std::memset(st, 0, sizeof(struct stat));
+
+    st->st_mode = mode;
+    st->st_ino = Util::gen_inode();
+
+    CurCache::md_cache_table.put_force(path_string, std::move(cu_stat));
+
+    const std::filesystem::path path = path_string;
+    const auto parent_path = path.parent_path().string();
+    LOG(DEBUG) << "parent_path was: " << parent_path << std::endl;
+    const auto tree_entry = CurCache::tree_cache_table.get(parent_path);
+
+    if(!tree_entry.has_value()) {
+        LOG(ERROR) << "failed to find parent_path: " << parent_path << std::endl;
+        return -ENOENT;
     }
 
-    fi->fh = res;
+    tree_entry.value()->push_back(path_string);
+
+    if(S_ISDIR(st->st_mode)) {
+        LOG(DEBUG) << "dir creation requested" << std::endl;
+        CurCache::tree_cache_table.put_force(path_string, std::vector<std::string>());
+    } else {
+        LOG(DEBUG) << "file creation requested" << std::endl;
+        CurCache::data_cache_table.put_force(path_string, std::pair(std::vector<std::byte>(), 0));
+    }
+
+    fi->fh = st->st_ino;
 
     return Constants::fs_operation_success;
 }
 
 static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
-    LOG(WARNING) << "not implemented!" << std::endl;
+    LOG(TRACE) << " " << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
 
+    auto entry_opt = CurCache::md_cache_table.get(path_string);
 
-    const int res{open(path_string.c_str(), fi->flags)};
-
-    if(res == -1) {
-        return -errno;
+    if(!entry_opt.has_value()) {
+        LOG(ERROR) << "entry not found for path: " << path_string << std::endl;
     }
 
     if(fi->flags & O_DIRECT) {
@@ -302,36 +341,36 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
         fi->parallel_direct_writes = 1;
     }
 
-    fi->fh = res;
+    fi->fh = entry_opt.value()->get_st()->st_ino;
 
     return Constants::fs_operation_success;
 }
 
 static int cu_fuse_read(const char* path_, char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) {
-    LOG(WARNING) << "not implemented!" << std::endl;
+    LOG(DEBUG) << " " << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
 
-    int fd{};
+    auto entry_opt = CurCache::data_cache_table.get(path_string);
+    if(!entry_opt.has_value()) {
+        LOG(DEBUG) << "file not found: " << path_string << std::endl;
+        return -ENOENT;
+    }
 
-    if(fi == nullptr) {
-        fd = open(path_string.c_str(), O_RDONLY);
+    const auto data_size = static_cast<int>(entry_opt.value()->first.size());
+    const auto data = entry_opt.value()->first.data();
+
+    LOG(DEBUG) << "data_size: " << data_size << std::endl;
+    LOG(DEBUG) << "reqested offset: " << offset << std::endl;
+    LOG(DEBUG) << "requested size: " << size << std::endl;
+
+    if(offset + size < data_size) {
+        mempcpy(buf, (data + offset), size);
     } else {
-        fd = fi->fh;
+        mempcpy(buf, (data + offset), data_size);
+        return data_size;
     }
 
-    if(fd == -1) {
-        return -errno;
-    }
-
-    int res(pread(fd, buf, size, offset));
-    if(pread(fd, buf, size, offset) == -1) {
-        res = -errno;
-    }
-
-    if(fi == nullptr)
-        close(fd);
-
-    return res;
+    return static_cast<int>(size);
 }
 
 static int cu_fuse_write(const char* path_, const char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) {
@@ -366,9 +405,8 @@ static int cu_fuse_statfs(const char* path_, struct statvfs* stbuf) {
     LOG(WARNING) << "not implemented!" << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
 
-    if(statvfs(path_string.c_str(), stbuf) == -1) {
+    if (statvfs(path_string.c_str(), stbuf) == -1)
         return -errno;
-    }
 
     return Constants::fs_operation_success;
 }
@@ -377,12 +415,17 @@ static int cu_fuse_release(const char* path_, struct fuse_file_info* fi) {
     LOG(WARNING) << "not implemented!" << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
 
-    close(fi->fh);
-
     return Constants::fs_operation_success;
 }
 
 static int cu_fuse_fsync(const char* path_, const int isdatasync, struct fuse_file_info* fi) {
+    LOG(WARNING) << "not implemented!" << std::endl;
+    const auto path_string{Util::rel_to_abs_path(path_)};
+
+    return Constants::fs_operation_success;
+}
+
+static int cu_fuse_utimens(const char* path_, const struct timespec tv[2], struct fuse_file_info* fi) {
     LOG(WARNING) << "not implemented!" << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
 
@@ -434,24 +477,13 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 .read = cu_fuse_read,
 .write = cu_fuse_write,
 .statfs = cu_fuse_statfs,
-// flush
 .release = cu_fuse_release,
 .fsync = cu_fuse_fsync,
-// opendir
 .readdir = cu_fuse_readdir,
-// releasedir
-// fsyncdir
 .init = cu_fuse_init,
-// destroy
 .access = cu_fuse_access,
 .create = cu_fuse_create,
-// lock
-// bmap
-// ioctl
-// poll
-// write_buf
-// read_buf
-// flock
+.utimens = cu_fuse_utimens,
 .lseek = cu_fuse_lseek,
 };
 

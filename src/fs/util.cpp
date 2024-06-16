@@ -6,6 +6,16 @@ std::string Util::rel_to_abs_path(const char* path) {
         throw std::runtime_error("path was null");
     }
 
+    if(!Constants::target_path.has_value()) {
+        LOG(FATAL) << Constants::usage << std::endl;
+        throw std::runtime_error("-tpath argument not found");
+    }
+
+    if(strcmp(path, "/") == 0) {
+        LOG(DEBUG) << "operation on /" << std::endl;
+        return Constants::target_path.value();
+    }
+
     const auto suffix{path};
     const auto abs_path{Constants::target_path.value() + suffix};
 
@@ -39,10 +49,166 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
             i++;
         }
     }
+
     if(!Constants::target_path.has_value()) {
         LOG(FATAL) << Constants::usage << std::endl;
         throw std::runtime_error("-tpath argument not found");
     }
 
     return new_string_args;
+}
+
+// FIXME: cache file data here
+static void recurse_target_path() {
+    for (const auto& entry: std::filesystem::recursive_directory_iterator(Constants::target_path.value())) {
+        const std::filesystem::path entry_path = entry.path();
+        const std::filesystem::path parent_path = entry_path.parent_path();
+        std::string entry_string = entry_path.string();
+        std::string parent_string = parent_path.string();
+
+        LOG(DEBUG) << "found entry_path: " << entry_path << std::endl;
+        LOG(DEBUG) << "adding to metadata cache" << std::endl;
+        CuStat cu_stat{};
+        if(stat(entry_path.c_str(), cu_stat.get_st()) == -1) {
+            LOG(FATAL) << "unable to stat entry_path: " << entry_path << std::endl;
+            throw std::runtime_error("unable to stat entry_path");
+        } else {
+            CurCache::md_cache_table.put_force(entry_string, std::move(cu_stat));
+        }
+
+        LOG(DEBUG) << "adding to tree location to cache" << std::endl;
+        if(is_directory(entry_path)) {
+            LOG(DEBUG) << "was a directory creating key in tree location cache" << std::endl;
+
+            const auto& tree_cache_table_entry{CurCache::tree_cache_table.get(entry_string)};
+
+            if(!tree_cache_table_entry.has_value()) {
+                CurCache::tree_cache_table.put_force(entry_string, std::vector<std::string>());
+            }
+        }
+        const auto& tree_cache_table_entry = CurCache::tree_cache_table.get(parent_string).value();
+        tree_cache_table_entry->push_back(entry_string);
+
+        if(!is_directory(entry_path)) {
+            LOG(DEBUG) << "was a file adding to data cached" << std::endl;
+            auto bytes = Util::read_ent_file(entry_path.string(), false);
+            CurCache::data_cache_table.put_force(entry_path.string(), std::pair(bytes, bytes.size()));
+        }
+    }
+}
+
+void Util::cache_target_path() {
+    if(!Constants::target_path.has_value()) {
+        LOG(FATAL) << "target_path had no value" << std::endl;
+        throw std::runtime_error("target_path had no value");
+    }
+
+    auto target_path_string{Constants::target_path.value()};
+    CuStat cu_stat{};
+
+    if(stat(target_path_string.c_str(), cu_stat.get_st()) == -1) {
+        LOG(FATAL) << "failed to stat target_path" << std::endl;
+        throw std::runtime_error("failed to stat target_path");
+    } else {
+        LOG(DEBUG) << "cached target_path metdata" << std::endl;
+    }
+
+    CurCache::md_cache_table.put_force(target_path_string, std::move(cu_stat));
+    CurCache::tree_cache_table.put_force(target_path_string, std::vector<std::string>());
+
+    recurse_target_path();
+
+    LOG(TRACE) << CurCache::md_cache_table << std::endl;
+    LOG(TRACE) << CurCache::data_cache_table << std::endl;
+    LOG(TRACE) << CurCache::tree_cache_table << std::endl;
+}
+
+char* Util::deep_cpy_string(const std::string& str) {
+    const std::string::size_type size = str.size();
+    const auto entry_name_cstr = new char[size + 1];
+    memcpy(entry_name_cstr, str.c_str(), size + 1);
+
+    return entry_name_cstr;
+}
+
+std::string Util::get_base_of_path(const std::string& str) {
+    auto base_name = std::filesystem::path(str).filename();
+
+    if(base_name.empty()) {
+        LOG(ERROR) << "failed to get base_name for path: " << str << std::endl;
+        throw std::runtime_error("failed to get base_name for path");
+    }
+
+    return base_name;
+}
+
+std::vector<std::byte> Util::read_ent_file(const std::string &path, bool is_file) {
+    std::ifstream source_file { path, std::ios::binary };
+    if (source_file) {
+
+        std::streamsize file_size{};
+        file_size = static_cast<std::streamsize>(std::filesystem::file_size(path));
+
+        LOG(DEBUG) << "file: " << path << " had a size of " << file_size << std::endl;
+
+        std::vector<std::byte> bytes(file_size);
+        source_file.read(reinterpret_cast<char*>(bytes.data()), file_size);
+        source_file.close();
+
+        return bytes;
+    }
+
+    LOG(ERROR) << "Unable to open file " << path << std::endl;
+    return {};
+}
+
+int Util::gen_inode() {
+    std::random_device rd;
+    std::mt19937_64 gen(rd());
+    std::uniform_int_distribution<int> dis;
+
+    return dis(gen);
+}
+
+void Util::remove_entry_from_cache(std::string path) {
+    std::string parent_path = std::filesystem::path(path).parent_path().string();
+    CurCache::md_cache_table.remove(path);
+
+    if(Util::is_dir(path)) {
+        auto children_opt = CurCache::tree_cache_table.get(path);
+
+        if(!children_opt.has_value()) {
+            LOG(ERROR) << "failed to find children vector for path: " << path << std::endl;
+            return;
+        }
+
+        auto children = *children_opt.value();
+
+        for(const auto& child: children) {
+            remove_entry_from_cache(child);
+        }
+
+        CurCache::tree_cache_table.remove(path);
+    } else {
+        CurCache::data_cache_table.remove(path);
+    }
+
+    auto parent_children_opt = CurCache::tree_cache_table.get(parent_path);
+
+    if(!parent_children_opt.has_value()) {
+        LOG(ERROR) << "failed to find parent path: " << parent_path << std::endl;
+        return;
+    }
+
+    std::vector<std::string>* parent_children = parent_children_opt.value();
+    parent_children->clear();
+    auto it = std::find(parent_children->begin(), parent_children->end(), path);
+    if (it != parent_children->end()) {
+        parent_children->erase(it);
+    }
+}
+
+bool Util::is_dir(std::string path) {
+    auto entry = CurCache::data_cache_table.get(path);
+    return !entry.has_value();
 }

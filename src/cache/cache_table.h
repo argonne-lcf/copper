@@ -5,6 +5,9 @@
 #include <optional>
 #include <stdexcept>
 #include <unordered_map>
+#include <vector>
+
+#include "../aixlog.h"
 
 template <typename K, typename V> class CacheTable {
     public:
@@ -15,24 +18,23 @@ template <typename K, typename V> class CacheTable {
         cache = std::unordered_map<Key, Value>();
     }
 
-    virtual void put_force(Key key, Value val) {
-        cache[key] = val;
+    virtual void put_force(Key key, Value&& val) {
+        cache[key] = std::move(val);
     };
 
-    virtual std::optional<Value> get(Key key) {
+    virtual void remove(Key key) {
+        cache.erase(key);
+    }
+
+    virtual std::optional<Value*> get(Key key) {
         try {
-            return cache.at(key);
+            return &cache.at(key);
         } catch(std::out_of_range& e) {
             return std::nullopt;
         }
     };
 
-    template <typename K_, typename V_>
-    friend std::ostream& operator<<(std::ostream& os, const CacheTable<K_, V_>& cache_table);
-
     virtual ~CacheTable() = default;
-
-    private:
     std::unordered_map<Key, Value> cache;
 };
 

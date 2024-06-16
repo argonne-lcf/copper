@@ -21,10 +21,11 @@ set(EXTERNAL_HEADERS
 set(SOURCES
     src/entry.cpp
         src/fs/cu_stat.cpp
-        src/cache/cache_table.cpp
         src/fs/util.cpp
         src/fs/util.h
         src/fs/constants.h
+        src/cache/cur_cache.h
+        src/cache/tree_cache_table.h
 )
 
 # Create executable
