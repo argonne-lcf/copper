@@ -8,9 +8,9 @@ all nodes.
 
 ## Notes from week 3 meeting
 
-Reading should never mutate the cache. Instead on filesystem mound the target dir is
-recursively read through and stored in cache. From then on reading and writing only
-happens with the cache instead of reaching the underlying/passthrough filesystem.
+Reading should never mutate the cache. Instead, on filesystem mount the target dir is
+recursively read through and stored in the cache. From then on, reading and writing only
+affects the cache instead of reaching the underlying/passthrough filesystem.
 
 ## Metadata Cache Table Progress
 
