@@ -21,12 +21,12 @@
 #include <cstddef>
 #include <cstring>
 #include <dirent.h>
-#include <errno.h>
+#include <cerrno>
 #include <fcntl.h>
 #include <fuse.h>
 #include <optional>
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <unordered_map>
@@ -166,28 +166,30 @@ static int cu_fuse_mkdir(const char* path_, const mode_t mode) {
     LOG(DEBUG) << " " << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
 
-    /*CuStat cu_stat;
+    CuStat cu_stat;
     const auto st = cu_stat.get_st();
     std::memset(st, 0, sizeof(struct stat));
 
+    const struct fuse_context* fs_ctx = fuse_get_context();
     st->st_mode = mode;
     st->st_ino = Util::gen_inode();
+    st->st_uid = fs_ctx->uid;
+    st->st_gid = fs_ctx->gid;
+    struct timespec ts{};
+    clock_gettime(CLOCK_REALTIME, &ts);
+    st->st_atim.tv_sec = ts.tv_sec;
+    st->st_atim.tv_nsec = ts.tv_nsec;
+    st->st_ctim.tv_sec = ts.tv_sec;
+    st->st_ctim.tv_nsec = ts.tv_nsec;
+    st->st_mtim.tv_sec = ts.tv_sec;
+    st->st_mtim.tv_nsec = ts.tv_nsec;
 
     LOG(DEBUG) << "adding to md and tree cache: " << path_string << std::endl;
     CurCache::md_cache_table.put_force(path_string, std::move(cu_stat));
-    CurCache::tree_cache_table.put_force(path_string, std::vector<std::string>());
+    TreeCacheTable::add_to_tree_cache(path_string, false);
 
-    const std::filesystem::path path = path_string;
-    const auto parent_path = path.parent_path().string();
-    LOG(DEBUG) << "parent_path was: " << parent_path << std::endl;
-    const auto tree_entry = CurCache::tree_cache_table.get(parent_path);
-
-    if(!tree_entry.has_value()) {
-        LOG(ERROR) << "failed to find parent_path: " << parent_path << std::endl;
-        return -ENOENT;
-    }
-
-    tree_entry.value()->push_back(path_string);*/
+    LOG(DEBUG) << CurCache::tree_cache_table << std::endl;
+    LOG(DEBUG) << CurCache::md_cache_table << std::endl;
 
     return Constants::fs_operation_success;
 }
@@ -296,30 +298,23 @@ static int cu_fuse_create(const char* path_, const mode_t mode, struct fuse_file
     // FIMXE: set correct uid gid etc.
     std::memset(st, 0, sizeof(struct stat));
 
+    const struct fuse_context* fs_ctx = fuse_get_context();
     st->st_mode = mode;
     st->st_ino = Util::gen_inode();
+    st->st_uid = fs_ctx->uid;
+    st->st_gid = fs_ctx->gid;
+    struct timespec ts{};
+    clock_gettime(CLOCK_REALTIME, &ts);
+    st->st_atim.tv_sec = ts.tv_sec;
+    st->st_atim.tv_nsec = ts.tv_nsec;
+    st->st_ctim.tv_sec = ts.tv_sec;
+    st->st_ctim.tv_nsec = ts.tv_nsec;
+    st->st_mtim.tv_sec = ts.tv_sec;
+    st->st_mtim.tv_nsec = ts.tv_nsec;
 
     CurCache::md_cache_table.put_force(path_string, std::move(cu_stat));
-
-    const std::filesystem::path path = path_string;
-    const auto parent_path = path.parent_path().string();
-    LOG(DEBUG) << "parent_path was: " << parent_path << std::endl;
-    const auto tree_entry = CurCache::tree_cache_table.get(parent_path);
-
-    if(!tree_entry.has_value()) {
-        LOG(ERROR) << "failed to find parent_path: " << parent_path << std::endl;
-        return -ENOENT;
-    }
-
-    tree_entry.value()->push_back(path_string);
-
-    if(S_ISDIR(st->st_mode)) {
-        LOG(DEBUG) << "dir creation requested" << std::endl;
-        CurCache::tree_cache_table.put_force(path_string, std::vector<std::string>());
-    } else {
-        LOG(DEBUG) << "file creation requested" << std::endl;
-        CurCache::data_cache_table.put_force(path_string, std::pair(std::vector<std::byte>(), 0));
-    }
+    TreeCacheTable::add_to_tree_cache(path_string, true);
+    CurCache::data_cache_table.put_force(path_string, std::pair(std::vector<std::byte>(), 0));
 
     fi->fh = st->st_ino;
 
@@ -330,7 +325,7 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
     LOG(TRACE) << " " << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
 
-    auto entry_opt = CurCache::md_cache_table.get(path_string);
+    const auto entry_opt = CurCache::md_cache_table.get(path_string);
 
     if(!entry_opt.has_value()) {
         LOG(ERROR) << "entry not found for path: " << path_string << std::endl;
@@ -350,7 +345,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     LOG(DEBUG) << " " << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
 
-    auto entry_opt = CurCache::data_cache_table.get(path_string);
+    const auto entry_opt = CurCache::data_cache_table.get(path_string);
     if(!entry_opt.has_value()) {
         LOG(DEBUG) << "file not found: " << path_string << std::endl;
         return -ENOENT;

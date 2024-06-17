@@ -4,14 +4,16 @@
 #include <vector>
 #include <string>
 #include <optional>
-#include "../fs/constants.h"
+#include <filesystem>
 
+#include "../fs/constants.h"
 #include "cache_table.h"
 
 using TreeCacheTableKey = std::string;
 using TreeCacheTableVal = std::vector<std::string>;
 
 class TreeCacheTable final : public CacheTable<TreeCacheTableKey, TreeCacheTableVal> {
+    public:
     friend std::ostream& operator<<(std::ostream& os, const TreeCacheTable& tree_cache_table) {
         int cur_elements = 1;
 
@@ -35,6 +37,8 @@ class TreeCacheTable final : public CacheTable<TreeCacheTableKey, TreeCacheTable
 
         return os;
     }
+
+    static void add_to_tree_cache(const std::string& path_string, bool is_file);
 };
 
 

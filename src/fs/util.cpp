@@ -61,7 +61,7 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
 // FIXME: cache file data here
 static void recurse_target_path() {
     for (const auto& entry: std::filesystem::recursive_directory_iterator(Constants::target_path.value())) {
-        const std::filesystem::path entry_path = entry.path();
+        const std::filesystem::path& entry_path = entry.path();
         const std::filesystem::path parent_path = entry_path.parent_path();
         std::string entry_string = entry_path.string();
         std::string parent_string = parent_path.string();
@@ -77,17 +77,7 @@ static void recurse_target_path() {
         }
 
         LOG(DEBUG) << "adding to tree location to cache" << std::endl;
-        if(is_directory(entry_path)) {
-            LOG(DEBUG) << "was a directory creating key in tree location cache" << std::endl;
-
-            const auto& tree_cache_table_entry{CurCache::tree_cache_table.get(entry_string)};
-
-            if(!tree_cache_table_entry.has_value()) {
-                CurCache::tree_cache_table.put_force(entry_string, std::vector<std::string>());
-            }
-        }
-        const auto& tree_cache_table_entry = CurCache::tree_cache_table.get(parent_string).value();
-        tree_cache_table_entry->push_back(entry_string);
+        TreeCacheTable::add_to_tree_cache(entry_string, !is_directory(entry_path));
 
         if(!is_directory(entry_path)) {
             LOG(DEBUG) << "was a file adding to data cached" << std::endl;
