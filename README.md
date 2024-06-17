@@ -35,8 +35,8 @@ Lists of the current filesystem operations for which the caching is implemented.
 - [ ] release
 - [ ] fsync
 - [ ] readdir
-- [ ] init
+- [x] init
 - [ ] access
-- [ ] create
+- [x] create
 - [ ] utimens
 - [ ] lseek
