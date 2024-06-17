@@ -6,16 +6,21 @@ This project aims to intercept and cache shared IO operations in distributed nod
 This elinates all nodes reaching the underlying storage system for a resource needed by
 all nodes. 
 
+## Notes from week 3 meeting
+
+Reading should never mutate the cache. Instead on filesystem mound the target dir is
+recursively read through and stored in cache. From then on reading and writing only
+happens with the cache instead of reaching the underlying/passthrough filesystem.
+
 ## Metadata Cache Table Progress
 
-Lists of the current filesystem operations for which the metadata cache table is 
-implemented.
+Lists of the current filesystem operations for which the caching is implemented.
 
 - [x] getattr | DOES NOT CHECK PERMISSIONS
 - [ ] readlink
 - [ ] mknod
 - [ ] mkdir
-- [ ] unlink
+- [x] unlink
 - [ ] rmdir
 - [ ] symlink
 - [ ] rename
@@ -23,80 +28,15 @@ implemented.
 - [ ] chmod
 - [ ] chown
 - [ ] truncate
-- [ ] open
-- [ ] read
+- [x] open
+- [x] read
 - [ ] write
 - [ ] statfs
-- [ ] flush | MAY NOT SUPPORT
 - [ ] release
 - [ ] fsync
-- [ ] setxattr
-- [ ] getxattr
-- [ ] listxattr
-- [ ] removexattr
-- [ ] opendir | MAY NOT SUPPORT
 - [ ] readdir
-- [ ] releasedir | MAY NOT SUPPORT
-- [ ] fsyncdir | MAY NOT SUPPORT
 - [ ] init
-- [ ] destroy | MAY NOT SUPPORT
 - [ ] access
 - [ ] create
-- [ ] lock | MAY NOT SUPPORT
 - [ ] utimens
-- [ ] bmap | MAY NOT SUPPORT
-- [ ] ioctl | MAY NOT SUPPORT
-- [ ] poll | MAY NOT SUPPORT
-- [ ] write_buf | MAY NOT SUPPORT
-- [ ] read_buf | MAY NOT SUPPORT
-- [ ] flock | MAY NOT SUPPORT
-- [ ] fallocate
-- [ ] copy_file_range
-- [ ] lseek
-
-### Data Cache Table Progress
-
-Lists of the current filesystem operations for which the metadata cache table is implemented.
-
-- [ ] getattr
-- [ ] readlink
-- [ ] mknod
-- [ ] mkdir
-- [ ] unlink
-- [ ] rmdir
-- [ ] symlink
-- [ ] rename
-- [ ] link
-- [ ] chmod
-- [ ] chown
-- [ ] truncate
-- [ ] open
-- [x] read | DOES NOT UPDATE METADATA
-- [ ] write
-- [ ] statfs
-- [ ] flush | MAY NOT SUPPORT
-- [ ] release
-- [ ] fsync
-- [ ] setxattr
-- [ ] getxattr
-- [ ] listxattr
-- [ ] removexattr
-- [ ] opendir | MAY NOT SUPPORT
-- [ ] readdir
-- [ ] releasedir | MAY NOT SUPPORT
-- [ ] fsyncdir | MAY NOT SUPPORT
-- [ ] init
-- [ ] destroy | MAY NOT SUPPORT
-- [ ] access
-- [ ] create
-- [ ] lock | MAY NOT SUPPORT
-- [ ] utimens
-- [ ] bmap | MAY NOT SUPPORT
-- [ ] ioctl | MAY NOT SUPPORT
-- [ ] poll | MAY NOT SUPPORT
-- [ ] write_buf | MAY NOT SUPPORT
-- [ ] read_buf | MAY NOT SUPPORT
-- [ ] flock | MAY NOT SUPPORT
-- [ ] fallocate
-- [ ] copy_file_range
 - [ ] lseek
