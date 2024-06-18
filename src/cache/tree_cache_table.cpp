@@ -6,6 +6,7 @@ void TreeCacheTable::add_to_tree_cache(const std::string& path_string, const boo
     CurCache::tree_cache_table.put_force(path_string, std::vector<std::string>());
 
     const std::filesystem::path path = path_string;
+    const auto path_stem = path.stem().string();
     const auto parent_path = path.parent_path().string();
     const auto tree_entry = CurCache::tree_cache_table.get(parent_path);
 
@@ -14,7 +15,7 @@ void TreeCacheTable::add_to_tree_cache(const std::string& path_string, const boo
         return;
     }
 
-    tree_entry.value()->push_back(path_string);
+    tree_entry.value()->push_back(path_stem);
 
     // NOTE: need to create new entry if it is a dir
     if(!is_file) {

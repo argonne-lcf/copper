@@ -20,6 +20,9 @@ function create_folder() {
     fi
 }
 
+echo "VIEW_DIR: $VIEW_DIR"
+echo "TARGET_DIR: $TARGET_DIR"
+
 create_folder $VIEW_DIR
 create_folder $TARGET_DIR
 

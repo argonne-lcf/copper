@@ -133,14 +133,20 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     filler(buf, "..", nullptr, 0, fill_dir);
 
     const auto tree_cache_table_entry = tree_cache_table_entry_opt.value();
-    for(const auto& cur_path_string: *tree_cache_table_entry) {
-        const auto cu_stat_opt = CurCache::md_cache_table.get(cur_path_string);
+    for(const auto& cur_path_stem: *tree_cache_table_entry) {
+        const auto cur_full_path = path_string + "/" + cur_path_stem;
+
+        LOG(DEBUG) << "path_string: " << path_string << std::endl;
+        LOG(DEBUG) << "stem: " << cur_path_stem << std::endl;
+        LOG(DEBUG) << "full_path: " << cur_full_path << std::endl;
+
+        const auto cu_stat_opt = CurCache::md_cache_table.get(cur_full_path);
 
         if(!cu_stat_opt.has_value()) {
-            LOG(WARNING) << "cu_stat not found for entry: " << cur_path_string << std::endl;
+            LOG(WARNING) << "cu_stat not found for entry: " << cur_full_path << std::endl;
         }
 
-        const auto entry_cstr = Util::deep_cpy_string(Util::get_base_of_path(cur_path_string));
+        const auto entry_cstr = Util::deep_cpy_string(Util::get_base_of_path(cur_path_stem));
         LOG(DEBUG) << "filling entry: " << entry_cstr << std::endl;
 
         if(filler(buf, entry_cstr, cu_stat_opt.value()->get_st_cpy(), 0, fill_dir) == 1) {
