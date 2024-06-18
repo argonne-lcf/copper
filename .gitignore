@@ -5,3 +5,5 @@ view
 target
 *.swp
 .idea
+.env.sh
+cmake-build-debug
