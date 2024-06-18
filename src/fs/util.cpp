@@ -60,7 +60,7 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
 
 // FIXME: cache file data here
 static void recurse_target_path() {
-    for (const auto& entry: std::filesystem::recursive_directory_iterator(Constants::target_path.value())) {
+    for(const auto& entry : std::filesystem::recursive_directory_iterator(Constants::target_path.value())) {
         const std::filesystem::path& entry_path = entry.path();
         const std::filesystem::path parent_path = entry_path.parent_path();
         std::string entry_string = entry_path.string();
@@ -132,9 +132,9 @@ std::string Util::get_base_of_path(const std::string& str) {
     return base_name;
 }
 
-std::vector<std::byte> Util::read_ent_file(const std::string &path, bool is_file) {
-    std::ifstream source_file { path, std::ios::binary };
-    if (source_file) {
+std::vector<std::byte> Util::read_ent_file(const std::string& path, bool is_file) {
+    std::ifstream source_file{path, std::ios::binary};
+    if(source_file) {
         std::streamsize file_size{};
         file_size = static_cast<std::streamsize>(std::filesystem::file_size(path));
         std::vector<std::byte> bytes(file_size);
@@ -169,7 +169,7 @@ void Util::remove_entry_from_cache(std::string path) {
 
         auto children = *children_opt.value();
 
-        for(const auto& child: children) {
+        for(const auto& child : children) {
             remove_entry_from_cache(child);
         }
 
@@ -188,7 +188,7 @@ void Util::remove_entry_from_cache(std::string path) {
     std::vector<std::string>* parent_children = parent_children_opt.value();
     parent_children->clear();
     auto it = std::find(parent_children->begin(), parent_children->end(), path);
-    if (it != parent_children->end()) {
+    if(it != parent_children->end()) {
         parent_children->erase(it);
     }
 }

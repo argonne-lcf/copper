@@ -1,45 +1,20 @@
-/*
-  FUSE: Filesystem in Userspace
-  Copyright (C) 2001-2007  Miklos Szeredi <miklos@szeredi.hu>
-  Copyright (C) 2011       Sebastian Pipping <sebastian@pipping.org>
-
-  This program can be distributed under the terms of the GNU GPLv2.
-  See the file COPYING.
-*/
-
-#include <exception>
 #include <stdexcept>
 #define FUSE_USE_VERSION 31
 
-#define _GNU_SOURCE
-
-#ifdef linux
-/* For pread()/pwrite()/utimensat() */
-#define _XOPEN_SOURCE 700
-#endif
-
+#include <cerrno>
 #include <cstddef>
+#include <cstdio>
 #include <cstring>
 #include <dirent.h>
-#include <cerrno>
 #include <fcntl.h>
 #include <fuse.h>
 #include <optional>
-#include <cstdio>
-#include <cstring>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <unistd.h>
 #include <unordered_map>
 #include <variant>
 #include <vector>
-#ifdef __FreeBSD__
-#include <sys/socket.h>
-#include <sys/un.h>
-#endif
-#include <sys/time.h>
-#ifdef HAVE_SETXATTR
-#include <sys/xattr.h>
-#endif
 
 #include "aixlog.h"
 #include "cache/data_cache_table.h"
@@ -47,7 +22,11 @@
 #include "fs/constants.h"
 #include "fs/util.h"
 
-#define NOT_IMPLEMENTED { LOG(TRACE) << "function not implemented" << std::endl; return Constants::fs_operation_success; }
+#define NOT_IMPLEMENTED                                        \
+    {                                                          \
+        LOG(TRACE) << "function not implemented" << std::endl; \
+        return Constants::fs_operation_success;                \
+    }
 
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
@@ -75,8 +54,6 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
     const auto cu_stat = cu_stat_opt.value();
 
     cu_stat->cp_to_buf(stbuf);
-
-    LOG(ERROR) << "file_size: " << stbuf->st_size << std::endl;
 
     return Constants::fs_operation_success;
 }
@@ -136,7 +113,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
         try {
             bytes = Util::read_ent_file(path_string, true);
             cache = true;
-        } catch(std::runtime_error& e) {
+        } catch(std::runtime_error&) {
             LOG(ERROR) << "failed to passthrough read" << std::endl;
             return -ENOENT;
         }
@@ -147,12 +124,12 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
 
     LOG(DEBUG) << "bytes buffer cache size: " << bytes.size() << std::endl;
 
-    int write_size = 0;
+    int write_size{};
     if(offset + size < bytes.size()) {
         LOG(DEBUG) << "offset + size withing file" << std::endl;
         mempcpy(buf, (bytes.data() + offset), size);
         write_size = static_cast<int>(size);
-    } else if (offset > bytes.size()) {
+    } else if(offset > bytes.size()) {
         LOG(DEBUG) << "offset requested greater than file size" << std::endl;
         write_size = 0;
     } else {
@@ -162,7 +139,9 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     }
 
     LOG(DEBUG) << "total read size: " << write_size << std::endl;
-    if(cache) { CurCache::data_cache_table.put_force(path_string, std::move(bytes)); }
+    if(cache) {
+        CurCache::data_cache_table.put_force(path_string, std::move(bytes));
+    }
     return write_size;
 }
 
@@ -180,13 +159,13 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
         LOG(DEBUG) << "not in cache" << std::endl;
 
         DIR* dp = opendir(path_string.c_str());
-        if (dp == nullptr) {
+        if(dp == nullptr) {
             LOG(ERROR) << "failed to passthrough readdir" << std::endl;
             return -errno;
         }
 
-        dirent *de;
-        while ((de = readdir(dp)) != nullptr) {
+        dirent* de;
+        while((de = readdir(dp)) != nullptr) {
             entries.emplace_back(de->d_name);
         }
         closedir(dp);
@@ -197,20 +176,22 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
         entries = *tree_cache_table_entry_opt.value();
     }
 
-    const fuse_fill_dir_flags fill_dir{(Constants::fill_dir_plus.has_value()) ? FUSE_FILL_DIR_PLUS : static_cast<fuse_fill_dir_flags>(NULL)};
+    const fuse_fill_dir_flags fill_dir{
+    (Constants::fill_dir_plus.has_value()) ? FUSE_FILL_DIR_PLUS : static_cast<fuse_fill_dir_flags>(NULL)};
     filler(buf, ".", nullptr, 0, fill_dir);
     filler(buf, "..", nullptr, 0, fill_dir);
 
-    for(const auto& cur_path_stem: entries) {
-        const auto cur_full_path = path_string + "/" + cur_path_stem;
-        const auto entry_cstr = Util::deep_cpy_string(Util::get_base_of_path(cur_path_stem));
-        
+    for(const auto& cur_path_stem : entries) {
+        const auto cur_full_path = std::string(path_string).append("/").append(cur_path_stem);
+
         if(filler(buf, Util::deep_cpy_string(Util::get_base_of_path(cur_path_stem)), nullptr, 0, fill_dir) == 1) {
             LOG(ERROR) << "filler returned 1" << std::endl;
         }
     }
 
-    if(cache) { CurCache::tree_cache_table.put_force(path_string, std::move(entries)); }
+    if(cache) {
+        CurCache::tree_cache_table.put_force(path_string, std::move(entries));
+    }
     return Constants::fs_operation_success;
 }
 
@@ -337,7 +318,7 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     return nullptr;
 }
 
-static void cu_fuse_destroy(void *private_data) {
+static void cu_fuse_destroy(void* private_data) {
     LOG(DEBUG) << " " << std::endl;
 
     CurCache::data_cache_table.cache.clear();
@@ -348,41 +329,46 @@ static void cu_fuse_destroy(void *private_data) {
 static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) NOT_IMPLEMENTED
 static int cu_fuse_mknod(const char* path_, const mode_t mode, const dev_t rdev) NOT_IMPLEMENTED
 static int cu_fuse_mkdir(const char* path_, const mode_t mode) NOT_IMPLEMENTED
-static int cu_fuse_unlink(const char* path_) NOT_IMPLEMENTED
-static int cu_fuse_rmdir(const char* path_) NOT_IMPLEMENTED
+static int cu_fuse_unlink(const char* path_) NOT_IMPLEMENTED static int cu_fuse_rmdir(const char* path_) NOT_IMPLEMENTED
 static int cu_fuse_symlink(const char*, const char*) NOT_IMPLEMENTED
 static int cu_fuse_rename(const char* from_, const char* to_, unsigned int flags) NOT_IMPLEMENTED
 static int cu_fuse_link(const char* from_, const char* to_) NOT_IMPLEMENTED
 static int cu_fuse_chmod(const char* path_, const mode_t mode, struct fuse_file_info* fi) NOT_IMPLEMENTED
 static int cu_fuse_chown(const char* path_, const uid_t uid, const gid_t gid, struct fuse_file_info* fi) NOT_IMPLEMENTED
-static int cu_fuse_truncate(const char *, off_t, struct fuse_file_info *fi) NOT_IMPLEMENTED
+static int cu_fuse_truncate(const char*, off_t, struct fuse_file_info* fi) NOT_IMPLEMENTED
 static int cu_fuse_write(const char* path_, const char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) NOT_IMPLEMENTED
 static int cu_fuse_statfs(const char* path_, struct statvfs* stbuf) NOT_IMPLEMENTED
-static int cu_fuse_flush(const char *, struct fuse_file_info *) NOT_IMPLEMENTED
+static int cu_fuse_flush(const char*, struct fuse_file_info*) NOT_IMPLEMENTED
 static int cu_fuse_release(const char* path_, struct fuse_file_info* fi) NOT_IMPLEMENTED
 static int cu_fuse_fsync(const char* path_, const int isdatasync, struct fuse_file_info* fi) NOT_IMPLEMENTED
-static int cu_fuse_setxattr(const char *, const char *, const char *, size_t, int) NOT_IMPLEMENTED
-static int cu_fuse_getxattr(const char *, const char *, char *, size_t) NOT_IMPLEMENTED
-static int cu_fuse_listxattr(const char *, char *, size_t) NOT_IMPLEMENTED
-static int cu_fuse_removexattr(const char *, const char *) NOT_IMPLEMENTED
-static int cu_fuse_opendir(const char *, struct fuse_file_info *) NOT_IMPLEMENTED
-static int cu_fuse_releasedir(const char *, struct fuse_file_info *) NOT_IMPLEMENTED;
-static int cu_fuse_fsyncdir(const char *, int, struct fuse_file_info*) NOT_IMPLEMENTED;
+static int cu_fuse_setxattr(const char*, const char*, const char*, size_t, int) NOT_IMPLEMENTED
+static int cu_fuse_getxattr(const char*, const char*, char*, size_t)
+NOT_IMPLEMENTED
+static int cu_fuse_listxattr(const char*, char*, size_t)
+NOT_IMPLEMENTED
+static int cu_fuse_removexattr(const char*, const char*) NOT_IMPLEMENTED static int cu_fuse_opendir(const char*,
+struct fuse_file_info*) NOT_IMPLEMENTED static int cu_fuse_releasedir(const char*, struct fuse_file_info*) NOT_IMPLEMENTED;
+static int cu_fuse_fsyncdir(const char*, int, struct fuse_file_info*) NOT_IMPLEMENTED;
 static int cu_fuse_access(const char* path_, const int mask) NOT_IMPLEMENTED
 static int cu_fuse_create(const char* path_, const mode_t mode, struct fuse_file_info* fi) NOT_IMPLEMENTED
-static int cu_fuse_lock(const char *, struct fuse_file_info *, int cmd, struct flock *) NOT_IMPLEMENTED
+static int cu_fuse_lock(const char*, struct fuse_file_info*, int cmd, struct flock*) NOT_IMPLEMENTED
 static int cu_fuse_utimens(const char* path_, const struct timespec tv[2], struct fuse_file_info* fi) NOT_IMPLEMENTED
-static int cu_fuse_bmap(const char *, size_t blocksize, uint64_t *idx) NOT_IMPLEMENTED
-static int cu_fuse_ioctl(const char *, int cmd, void *arg, struct fuse_file_info *, unsigned int flags,
-    void *data) NOT_IMPLEMENTED
-static int cu_fuse_poll(const char *, struct fuse_file_info *, struct fuse_pollhandle *ph, unsigned *reventsp) NOT_IMPLEMENTED
-static int cu_fuse_write_buf(const char *, struct fuse_bufvec *buf, off_t off, struct fuse_file_info *) NOT_IMPLEMENTED
-static int cu_fuse_read_buf(const char *, struct fuse_bufvec **bufp, size_t size, off_t off, struct fuse_file_info *) NOT_IMPLEMENTED
-static int cu_fuse_flock(const char *, struct fuse_file_info *, int op) NOT_IMPLEMENTED
-static int	cu_fuse_fallocate(const char *, int, off_t, off_t, struct fuse_file_info *) NOT_IMPLEMENTED
-static ssize_t cu_fuse_copy_file_range (const char *path_in, struct fuse_file_info *fi_in, off_t offset_in, const char
-    *path_out, struct fuse_file_info *fi_out, off_t offset_out, size_t size, int flags) NOT_IMPLEMENTED
-static off_t cu_fuse_lseek(const char* path_, const off_t off, const int whence, struct fuse_file_info* fi) NOT_IMPLEMENTED
+static int cu_fuse_bmap(const char*, size_t blocksize, uint64_t* idx) NOT_IMPLEMENTED
+static int cu_fuse_ioctl(const char*, int cmd, void* arg, struct fuse_file_info*, unsigned int flags, void* data) NOT_IMPLEMENTED
+static int cu_fuse_poll(const char*, struct fuse_file_info*, struct fuse_pollhandle* ph, unsigned* reventsp) NOT_IMPLEMENTED
+static int cu_fuse_write_buf(const char*, struct fuse_bufvec* buf, off_t off, struct fuse_file_info*) NOT_IMPLEMENTED
+static int cu_fuse_read_buf(const char*, struct fuse_bufvec** bufp, size_t size, off_t off, struct fuse_file_info*) NOT_IMPLEMENTED
+static int cu_fuse_flock(const char*, struct fuse_file_info*, int op) NOT_IMPLEMENTED
+static int cu_fuse_fallocate(const char*, int, off_t, off_t, struct fuse_file_info*) NOT_IMPLEMENTED static ssize_t
+cu_fuse_copy_file_range(const char* path_in,
+struct fuse_file_info* fi_in,
+off_t offset_in,
+const char* path_out,
+struct fuse_file_info* fi_out,
+off_t offset_out,
+size_t size,
+int flags) NOT_IMPLEMENTED static off_t
+cu_fuse_lseek(const char* path_, const off_t off, const int whence, struct fuse_file_info* fi) NOT_IMPLEMENTED
 
 static constexpr struct fuse_operations cu_fuse_oper = {
 .getattr = cu_fuse_getattr,

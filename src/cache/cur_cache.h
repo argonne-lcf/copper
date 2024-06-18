@@ -12,4 +12,4 @@ class CurCache {
     static inline TreeCacheTable tree_cache_table;
 };
 
-#endif //CUR_CACHE_H
+#endif // CUR_CACHE_H

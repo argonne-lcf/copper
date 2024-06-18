@@ -1,10 +1,10 @@
 #ifndef TREE_CACHE_TABLE_H
 #define TREE_CACHE_TABLE_H
 
-#include <vector>
-#include <string>
-#include <optional>
 #include <filesystem>
+#include <optional>
+#include <string>
+#include <vector>
 
 #include "../fs/constants.h"
 #include "cache_table.h"
@@ -22,7 +22,7 @@ class TreeCacheTable final : public CacheTable<TreeCacheTableKey, TreeCacheTable
         for(auto const& pair : tree_cache_table.cache) {
             os << pair.first << " {" << std::endl;
 
-            for(auto const& child: pair.second) {
+            for(auto const& child : pair.second) {
                 os << child << "," << std::endl;
             }
             os << "}" << std::endl;
@@ -42,5 +42,4 @@ class TreeCacheTable final : public CacheTable<TreeCacheTableKey, TreeCacheTable
 };
 
 
-
-#endif //TREE_CACHE_TABLE_H
+#endif // TREE_CACHE_TABLE_H

@@ -1,14 +1,15 @@
 #ifndef STAT_H
 #define STAT_H
 
+#include "../aixlog.h"
 #include <cstring>
 #include <ostream>
 #include <sys/stat.h>
-#include "../aixlog.h"
 
 class CuStat {
     public:
-    CuStat() : st{new struct stat} {}
+    CuStat() : st{new struct stat} {
+    }
 
     explicit CuStat(const struct stat* _st) : st{new struct stat} {
         std::memcpy(st, _st, sizeof(struct stat));
@@ -43,7 +44,9 @@ class CuStat {
         return *this;
     }
 
-    struct stat* get_st() const { return st; }
+    struct stat* get_st() const {
+        return st;
+    }
     struct stat* get_st_cpy() const {
         auto cpy_st = new struct stat;
         memcpy(cpy_st, st, sizeof(struct stat));

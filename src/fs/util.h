@@ -2,19 +2,19 @@
 #define UTIL_H
 
 #define FUSE_USE_VERSION 31
+#include <algorithm>
 #include <exception>
-#include <fuse.h>
-#include <string>
-#include <sys/stat.h>
 #include <filesystem>
+#include <fuse.h>
 #include <iostream>
 #include <random>
-#include <algorithm>
+#include <string>
+#include <sys/stat.h>
 
 #include "../aixlog.h"
+#include "../cache/cur_cache.h"
 #include "constants.h"
 #include "cu_stat.h"
-#include "../cache/cur_cache.h"
 
 class Util {
     public:
@@ -30,7 +30,7 @@ class Util {
     static void cache_target_path();
 
     // NOTE: reads entire file found by path into std::vector<std::byte>
-    static std::vector<std::byte> read_ent_file(const std::string &path, bool is_file);
+    static std::vector<std::byte> read_ent_file(const std::string& path, bool is_file);
 
     // NOTE: removes path from all caches
     static void remove_entry_from_cache(std::string path);
