@@ -3,7 +3,7 @@
 As the number of nodes grows large (i.e. > 512) redundant IO requests for the same 
 resources can overwhelm the underlying storage system causing extremely high latency. 
 This project aims to intercept and cache shared IO operations in distributed node memory.
-This elinates all nodes reaching the underlying storage system for a resource needed by
+This eliminates all nodes reaching the underlying storage system for a resource needed by
 all nodes. 
 
 ## Notes from week 3 meeting
@@ -12,10 +12,10 @@ Reading should never mutate the cache. Instead, on filesystem mount the target d
 recursively read through and stored in the cache. From then on, reading and writing only
 affects the cache instead of reaching the underlying/passthrough filesystem.
 
-## NOTE from week 4 meeting
+## Notes from week 4 meeting
 
-Scratch all that was said from last week notes. Instead data/metdata/tree-structure is
-cached on demand. In addition, the underlying FS is immutable and only reading is
+Scratch all that was said from last week's notes. Instead, data/metadata/tree-structure is
+cached on demand. In addition, the underlying filesystem is immutable, and only reading is
 supported.
 
 ## Metadata Cache Table Progress

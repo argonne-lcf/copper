@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# You neet to set VIEW_DIR and TARGET_DIR
+# You need to set VIEW_DIR and TARGET_DIR
 
 export INIT_PWD=$(pwd)
 export VIEW_DIR=

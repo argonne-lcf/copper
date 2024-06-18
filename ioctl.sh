@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -f ./env.sh ]
+if [ ! -f env.sh ]
 then
 	echo "env.sh not found. please cp default_env.sh and set appropriate ENV vars"
 	exit 1
