@@ -46,7 +46,6 @@
 #include "cache/md_cache_table.h"
 #include "fs/constants.h"
 #include "fs/util.h"
-#include "passthrough_helpers.h"
 
 #define NOT_IMPLEMENTED { LOG(TRACE) << "function not implemented" << std::endl; return Constants::fs_operation_success; }
 
@@ -167,53 +166,51 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     return write_size;
 }
 
-static int cu_fuse_statfs(const char* path_, struct statvfs* stbuf) {
-    LOG(WARNING) << "not implemented!" << std::endl;
-    const auto path_string{Util::rel_to_abs_path(path_)};
-
-    if (statvfs(path_string.c_str(), stbuf) == -1)
-        return -errno;
-
-    return Constants::fs_operation_success;
-}
-
 static int
 cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_t offset, struct fuse_file_info* fi, enum fuse_readdir_flags flags) {
     LOG(DEBUG) << " " << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
+    LOG(DEBUG) << "path_string: " << path_string << std::endl;
 
     const auto& tree_cache_table_entry_opt = CurCache::tree_cache_table.get(path_string);
+    std::vector<std::string> entries{};
+    bool cache = false;
 
     if(!tree_cache_table_entry_opt.has_value()) {
-        return -ENOENT;
+        LOG(DEBUG) << "not in cache" << std::endl;
+
+        DIR* dp = opendir(path_string.c_str());
+        if (dp == nullptr) {
+            LOG(ERROR) << "failed to passthrough readdir" << std::endl;
+            return -errno;
+        }
+
+        dirent *de;
+        while ((de = readdir(dp)) != nullptr) {
+            entries.emplace_back(de->d_name);
+        }
+        closedir(dp);
+
+        cache = true;
+    } else {
+        LOG(DEBUG) << "in cache" << std::endl;
+        entries = *tree_cache_table_entry_opt.value();
     }
 
     const fuse_fill_dir_flags fill_dir{(Constants::fill_dir_plus.has_value()) ? FUSE_FILL_DIR_PLUS : static_cast<fuse_fill_dir_flags>(NULL)};
     filler(buf, ".", nullptr, 0, fill_dir);
     filler(buf, "..", nullptr, 0, fill_dir);
 
-    const auto tree_cache_table_entry = tree_cache_table_entry_opt.value();
-    for(const auto& cur_path_stem: *tree_cache_table_entry) {
+    for(const auto& cur_path_stem: entries) {
         const auto cur_full_path = path_string + "/" + cur_path_stem;
-
-        LOG(DEBUG) << "path_string: " << path_string << std::endl;
-        LOG(DEBUG) << "stem: " << cur_path_stem << std::endl;
-        LOG(DEBUG) << "full_path: " << cur_full_path << std::endl;
-
-        const auto cu_stat_opt = CurCache::md_cache_table.get(cur_full_path);
-
-        if(!cu_stat_opt.has_value()) {
-            LOG(WARNING) << "cu_stat not found for entry: " << cur_full_path << std::endl;
-        }
-
         const auto entry_cstr = Util::deep_cpy_string(Util::get_base_of_path(cur_path_stem));
-        LOG(DEBUG) << "filling entry: " << entry_cstr << std::endl;
-
-        if(filler(buf, entry_cstr, cu_stat_opt.value()->get_st_cpy(), 0, fill_dir) == 1) {
+        
+        if(filler(buf, Util::deep_cpy_string(Util::get_base_of_path(cur_path_stem)), nullptr, 0, fill_dir) == 1) {
             LOG(ERROR) << "filler returned 1" << std::endl;
         }
     }
 
+    if(cache) { CurCache::tree_cache_table.put_force(path_string, std::move(entries)); }
     return Constants::fs_operation_success;
 }
 
@@ -360,6 +357,7 @@ static int cu_fuse_chmod(const char* path_, const mode_t mode, struct fuse_file_
 static int cu_fuse_chown(const char* path_, const uid_t uid, const gid_t gid, struct fuse_file_info* fi) NOT_IMPLEMENTED
 static int cu_fuse_truncate(const char *, off_t, struct fuse_file_info *fi) NOT_IMPLEMENTED
 static int cu_fuse_write(const char* path_, const char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) NOT_IMPLEMENTED
+static int cu_fuse_statfs(const char* path_, struct statvfs* stbuf) NOT_IMPLEMENTED
 static int cu_fuse_flush(const char *, struct fuse_file_info *) NOT_IMPLEMENTED
 static int cu_fuse_release(const char* path_, struct fuse_file_info* fi) NOT_IMPLEMENTED
 static int cu_fuse_fsync(const char* path_, const int isdatasync, struct fuse_file_info* fi) NOT_IMPLEMENTED
