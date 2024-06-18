@@ -155,6 +155,7 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     std::vector<std::string> entries{};
     bool cache = false;
 
+    // FIXME: make rpc request or root functionality here
     if(!tree_cache_table_entry_opt.has_value()) {
         LOG(DEBUG) << "not in cache" << std::endl;
 
@@ -184,7 +185,7 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     for(const auto& cur_path_stem : entries) {
         const auto cur_full_path = std::string(path_string).append("/").append(cur_path_stem);
 
-        if(filler(buf, Util::deep_cpy_string(Util::get_base_of_path(cur_path_stem)), nullptr, 0, fill_dir) == 1) {
+        if(filler(buf, cur_path_stem.c_str(), nullptr, 0, fill_dir) == 1) {
             LOG(ERROR) << "filler returned 1" << std::endl;
         }
     }
