@@ -48,7 +48,7 @@
 #include "fs/util.h"
 #include "passthrough_helpers.h"
 
-#define NOT_IMPLEMENTED { LOG(ERROR) << "function not implemented" << std::endl; }
+#define NOT_IMPLEMENTED { LOG(ERROR) << "function not implemented" << std::endl; return Constants::fs_operation_success; }
 
 static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
     LOG(TRACE) << " " << std::endl;
@@ -68,17 +68,17 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // cfg->set_mode
 
     // DOCS: The timeout in seconds for which name lookups will be cached.
-    // cfg->entry_timeout = 0;
+    cfg->entry_timeout = 0;
 
     // DOCS: The timeout in seconds for which a negative lookup will be cached. This means,
     // that if file did not exist (lookup returned ENOENT), the lookup will only be redone
     // after the timeout, and the file/directory will be assumed to not exist until then. A
     // value of zero means that negative lookups are not cached.
-    // cfg->negative_timeout = 0;
+    cfg->negative_timeout = 0;
 
     // DOCS: The timeout in seconds for which file/directory attributes (as returned by e.g.
     // the getattr handler) are cached.
-    // cfg->attr_timeout = 0;
+    cfg->attr_timeout = 0;
 
     // NOTE: Allow requests to be interrupted
     // cfg->intr
@@ -109,13 +109,13 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // however some applications rely on this value being unique for the whole filesystem.
     // Note that this does not affect the inode that libfuse and
     // the kernel use internally(also called the "nodeid")
-    // cfg->use_ino = 1;
+    cfg->use_ino = false;
 
     // DOCS: If use_ino option is not given, still try to fill in the d_ino field in readdir(2).
     // If the name was previously looked up, and is still in the cache, the inode number found
     // there will be used. Otherwise it will be set to -1. If use_ino option is given, this
     // option is ignored.
-    // cfg->readdir_ino
+    cfg->readdir_ino = false;
 
     // DOCS: This option disables the use of page cache (file content cache) in the kernel for
     // this filesystem. This has several affects:
@@ -125,7 +125,7 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // for example if the file size is not known in advance (before reading it). Internally,
     // enabling this option causes fuse to set the direct_io field of struct fuse_file_info
     // - overwriting any value that was put there by the file system.
-    // cfg->direct_io = 1;
+    cfg->direct_io = true;
 
     // DOCS: This option disables flushing the cache of the file contents on every open(2).
     // This should only be enabled on filesystems where the file data is never changed externally
@@ -138,16 +138,18 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // cfg->kernel_cache
 
     // DOCS: This option is an alternative to kernel_cache. Instead of unconditionally keeping
-    // cached data, the cached data is invalidated on open(2) if if the modification time or the size of the file has changed since it was last opened.
-    // cfg->auto_cache
+    // cached data, the cached data is invalidated on open(2) if if the modification time or the
+    // size of the file has changed since it was last opened.
+    cfg->auto_cache = false;
 
     // DOCS: By default, fuse waits for all pending writes to complete and calls the FLUSH
-    // operation on close(2) of every fuse fd. With this option, wait and FLUSH are not done for read-only fuse fd, similar to the behavior of NFS/SMB clients.
+    // operation on close(2) of every fuse fd. With this option, wait and FLUSH are not done for
+    // read-only fuse fd, similar to the behavior of NFS/SMB clients.
     // cfg->no_rofd_flush
 
     // DOCS: The timeout in seconds for which file attributes are cached for the purpose of
     // checking if auto_cache should flush the file data on open.
-    // cfg->ac_attr_timeout_set
+    cfg->ac_attr_timeout_set = 0;
 
     // DOCS: If this option is given the file-system handlers for the following operations will
     // not receive path information: read, write, flush, release, fallocate, fsync, readdir,
@@ -168,8 +170,6 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // DOCS: The remaining options are used by libfuse internally and should not be touched.
     // cfg->show_help
 
-    Util::cache_target_path();
-
     return nullptr;
 }
 
@@ -181,35 +181,32 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
     const auto cu_stat_opt{CurCache::md_cache_table.get(path_string)};
 
     if(!cu_stat_opt.has_value()) {
-        LOG(DEBUG) << "path_string not found" << std::endl;
-        return -ENOENT;
-    } else {
-        LOG(DEBUG) << "path_string found" << std::endl;
+        LOG(DEBUG) << "not in cache" << std::endl;
+
+        // FIXME: make rpc request or root functionality here
+        if(lstat(path_string.c_str(), stbuf) == -1) {
+            LOG(ERROR) << "failed to passthrough stat path_string: " << path_string << std::endl;
+            return -errno;
+        }
+
+        const auto new_cu_stat = new CuStat{stbuf};
+        CurCache::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
+
+        return Constants::fs_operation_success;
     }
 
-    const auto& cu_stat{cu_stat_opt.value()};
-    cu_stat->cp_to_buf(stbuf);
+    LOG(DEBUG) << "in cache" << std::endl;
+    const auto cu_stat = cu_stat_opt.value();
 
+    cu_stat->cp_to_buf(stbuf);
     return Constants::fs_operation_success;
 }
+
+static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) NOT_IMPLEMENTED
 
 static int cu_fuse_access(const char* path_, const int mask) {
     LOG(WARNING) << "not implemented!" << std::endl;
     const auto path_string{Util::rel_to_abs_path(path_)};
-
-    return Constants::fs_operation_success;
-}
-
-static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) {
-    LOG(WARNING) << "not implemented!" << std::endl;
-    const auto path_string{Util::rel_to_abs_path(path_)};
-
-    const ssize_t res{readlink(path_string.c_str(), buf, size - 1)};
-    if(res == -1) {
-        return -errno;
-    }
-
-    buf[res] = '\0';
 
     return Constants::fs_operation_success;
 }
@@ -523,40 +520,8 @@ static int cu_fuse_fsync(const char* path_, const int isdatasync, struct fuse_fi
     return Constants::fs_operation_success;
 }
 
-static int cu_fuse_utimens(const char* path_, const struct timespec tv[2], struct fuse_file_info* fi) {
-    LOG(WARNING) << "not implemented!" << std::endl;
-    const auto path_string{Util::rel_to_abs_path(path_)};
-
-    return Constants::fs_operation_success;
-}
-
-static off_t cu_fuse_lseek(const char* path_, const off_t off, const int whence, struct fuse_file_info* fi) {
-    LOG(WARNING) << "not implemented!" << std::endl;
-    const auto path_string{Util::rel_to_abs_path(path_)};
-
-    int fd{};
-
-    if(fi == nullptr) {
-        fd = open(path_string.c_str(), O_RDONLY);
-    } else {
-        fd = fi->fh;
-    }
-
-    if(fd == -1) {
-        return -errno;
-    }
-
-    off_t res{lseek(fd, off, whence)};
-    if(res == -1) {
-        res = -errno;
-    }
-
-    if(fi == nullptr) {
-        close(fd);
-    }
-
-    return res;
-}
+static int cu_fuse_utimens(const char* path_, const struct timespec tv[2], struct fuse_file_info* fi) NOT_IMPLEMENTED
+static off_t cu_fuse_lseek(const char* path_, const off_t off, const int whence, struct fuse_file_info* fi) NOT_IMPLEMENTED
 
 static constexpr struct fuse_operations cu_fuse_oper = {
 .getattr = cu_fuse_getattr,

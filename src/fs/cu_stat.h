@@ -10,6 +10,10 @@ class CuStat {
     public:
     CuStat() : st{new struct stat} {}
 
+    explicit CuStat(const struct stat* _st) : st{new struct stat} {
+        std::memcpy(st, _st, sizeof(struct stat));
+    }
+
     CuStat(const CuStat& other) : st{new struct stat} {
         std::memcpy(st, other.get_st(), sizeof(struct stat));
     }
