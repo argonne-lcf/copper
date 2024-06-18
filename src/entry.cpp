@@ -48,28 +48,125 @@
 #include "fs/util.h"
 #include "passthrough_helpers.h"
 
+#define NOT_IMPLEMENTED { LOG(ERROR) << "function not implemented" << std::endl; }
+
 static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
     LOG(TRACE) << " " << std::endl;
 
-    cfg->use_ino = 1;
+    // NOTE: docs (https://libfuse.github.io/doxygen/structfuse__config.html#a3e84d36c87733fcafc594b18a6c3dda8)
 
-    /* parallel_direct_writes feature depends on direct_io features.
-   To make parallel_direct_writes valid, need either set cfg->direct_io
-   in current function (recommended in high level API) or set fi->direct_io
-   in xmp_create() or xmp_open(). */
+    // DOCS: If set_gid is non-zero, the st_gid attribute of each file is overwritten with the
+    // value of gid.
+    // cfg->set_gid
+
+    // DOCS: If set_uid is non-zero, the st_uid attribute of each file is overwritten with the
+    // value of uid.
+    // cfg->set_uid
+
+    // DOCS: If set_mode is non-zero, the any permissions bits set in umask are unset in the st_mode attribute of
+    // each file.
+    // cfg->set_mode
+
+    // DOCS: The timeout in seconds for which name lookups will be cached.
+    // cfg->entry_timeout = 0;
+
+    // DOCS: The timeout in seconds for which a negative lookup will be cached. This means,
+    // that if file did not exist (lookup returned ENOENT), the lookup will only be redone
+    // after the timeout, and the file/directory will be assumed to not exist until then. A
+    // value of zero means that negative lookups are not cached.
+    // cfg->negative_timeout = 0;
+
+    // DOCS: The timeout in seconds for which file/directory attributes (as returned by e.g.
+    // the getattr handler) are cached.
+    // cfg->attr_timeout = 0;
+
+    // NOTE: Allow requests to be interrupted
+    // cfg->intr
+
+    // DOCS: The timeout in seconds for which file attributes are cached for the purpose of
+    // checking if auto_cache should flush the file data on open.
+    // cfg->intr_signal
+
+    // DOCS: Normally, FUSE assigns inodes to paths only for as long as the kernel is aware of
+    // them. With this option inodes are instead remembered for at least this many seconds. This
+    // will require more memory, but may be necessary when using applications that make use of
+    // inode numbers.
+    // cfg->remember
+
+    // DOCS: The default behavior is that if an open file is deleted, the file is renamed to a
+    // hidden file (.fuse_hiddenXXX), and only removed when the file is finally released. This
+    // relieves the filesystem implementation of having to deal with this problem. This option
+    // disables the hiding behavior, and files are removed immediately in an unlink operation (or
+    // in a rename operation which overwrites an existing file).
+    // It is recommended that you not use the hard_remove option. When hard_remove is set, the
+    // following libc functions fail on unlinked files (returning errno of ENOENT): read(2),
+    // write(2), fsync(2), close(2), f*xattr(2), ftruncate(2), fstat(2), fchmod(2), fchown(2)
+    // cfg->hard_remove
+
+    // DOCS: Honor the st_ino field in the functions getattr() and fill_dir(). This value is used
+    // to fill in the st_ino field in the stat(2), lstat(2), fstat(2) functions and the d_ino
+    // field in the readdir(2) function. The filesystem does not have to guarantee uniqueness,
+    // however some applications rely on this value being unique for the whole filesystem.
+    // Note that this does not affect the inode that libfuse and
+    // the kernel use internally(also called the "nodeid")
+    // cfg->use_ino = 1;
+
+    // DOCS: If use_ino option is not given, still try to fill in the d_ino field in readdir(2).
+    // If the name was previously looked up, and is still in the cache, the inode number found
+    // there will be used. Otherwise it will be set to -1. If use_ino option is given, this
+    // option is ignored.
+    // cfg->readdir_ino
+
+    // DOCS: This option disables the use of page cache (file content cache) in the kernel for
+    // this filesystem. This has several affects:
+    // Each read(2) or write(2) system call will initiate one or more read or write operations,
+    // data will not be cached in the kernel. The return value of the read() and write() system
+    // calls will correspond to the return values of the read and write operations. This is useful
+    // for example if the file size is not known in advance (before reading it). Internally,
+    // enabling this option causes fuse to set the direct_io field of struct fuse_file_info
+    // - overwriting any value that was put there by the file system.
     // cfg->direct_io = 1;
-    cfg->parallel_direct_writes = 1;
 
-    /* Pick up changes from lower filesystem right away. This is
-       also necessary for better hardlink support. When the kernel
-       calls the unlink() handler, it does not know the inode of
-       the to-be-removed entry and can therefore not invalidate
-       the cache of the associated inode - resulting in an
-       incorrect st_nlink value being reported for any remaining
-       hardlinks to this inode. */
-    cfg->entry_timeout = 0;
-    cfg->attr_timeout = 0;
-    cfg->negative_timeout = 0;
+    // DOCS: This option disables flushing the cache of the file contents on every open(2).
+    // This should only be enabled on filesystems where the file data is never changed externally
+    // (not through the mounted FUSE filesystem). Thus it is not suitable for network filesystems
+    // and other intermediate filesystems
+    // NOTE: if this option is not specified (and neither direct_io) data is still cached after
+    // the open(2), so a read(2) system call will not always initiate a read operation.
+    // Internally, enabling this option causes fuse to set the keep_cache field of struct
+    // fuse_file_info - overwriting any value that was put there by the file system.
+    // cfg->kernel_cache
+
+    // DOCS: This option is an alternative to kernel_cache. Instead of unconditionally keeping
+    // cached data, the cached data is invalidated on open(2) if if the modification time or the size of the file has changed since it was last opened.
+    // cfg->auto_cache
+
+    // DOCS: By default, fuse waits for all pending writes to complete and calls the FLUSH
+    // operation on close(2) of every fuse fd. With this option, wait and FLUSH are not done for read-only fuse fd, similar to the behavior of NFS/SMB clients.
+    // cfg->no_rofd_flush
+
+    // DOCS: The timeout in seconds for which file attributes are cached for the purpose of
+    // checking if auto_cache should flush the file data on open.
+    // cfg->ac_attr_timeout_set
+
+    // DOCS: If this option is given the file-system handlers for the following operations will
+    // not receive path information: read, write, flush, release, fallocate, fsync, readdir,
+    // releasedir, fsyncdir, lock, ioctl and poll.
+    // For the truncate, getattr, chmod, chown and utimens operations the path will be provided
+    // only if the struct fuse_file_info argument is NULL.
+    cfg->nullpath_ok = false;
+
+    // DOCS: Allow parallel direct-io writes to operate on the same file.
+    // FUSE implementations which do not handle parallel writes on same file/region
+    // should NOT enable this option at all as it might lead to data inconsistencies.
+    // For the FUSE implementations which have their own mechanism of cache/data integrity
+    // are beneficiaries of this setting as it now open doors to parallel writes on the same
+    // file (without enabling this setting, all direct writes on the same file are serialized,
+    // resulting in huge data bandwidth loss).
+    // cfg->parallel_direct_writes = 1;
+
+    // DOCS: The remaining options are used by libfuse internally and should not be touched.
+    // cfg->show_help
 
     Util::cache_target_path();
 
