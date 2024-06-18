@@ -239,7 +239,7 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
 
     // DOCS: The timeout in seconds for which file attributes are cached for the purpose of
     // checking if auto_cache should flush the file data on open.
-    // cfg->intr_signal
+    cfg->intr_signal = 0;
 
     // DOCS: Normally, FUSE assigns inodes to paths only for as long as the kernel is aware of
     // them. With this option inodes are instead remembered for at least this many seconds. This
