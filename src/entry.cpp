@@ -195,6 +195,14 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     return Constants::fs_operation_success;
 }
 
+static int cu_fuse_ioctl(const char*, int cmd, void* arg, struct fuse_file_info*, unsigned int flags, void* data) {
+    LOG(DEBUG) << CurCache::tree_cache_table << std::endl;
+    LOG(DEBUG) << CurCache::data_cache_table << std::endl;
+    LOG(DEBUG) << CurCache::md_cache_table << std::endl;
+
+    return Constants::fs_operation_success;
+}
+
 static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
     LOG(DEBUG) << " " << std::endl;
 
@@ -354,7 +362,6 @@ static int cu_fuse_create(const char* path_, const mode_t mode, struct fuse_file
 static int cu_fuse_lock(const char*, struct fuse_file_info*, int cmd, struct flock*) NOT_IMPLEMENTED
 static int cu_fuse_utimens(const char* path_, const struct timespec tv[2], struct fuse_file_info* fi) NOT_IMPLEMENTED
 static int cu_fuse_bmap(const char*, size_t blocksize, uint64_t* idx) NOT_IMPLEMENTED
-static int cu_fuse_ioctl(const char*, int cmd, void* arg, struct fuse_file_info*, unsigned int flags, void* data) NOT_IMPLEMENTED
 static int cu_fuse_poll(const char*, struct fuse_file_info*, struct fuse_pollhandle* ph, unsigned* reventsp) NOT_IMPLEMENTED
 static int cu_fuse_write_buf(const char*, struct fuse_bufvec* buf, off_t off, struct fuse_file_info*) NOT_IMPLEMENTED
 static int cu_fuse_read_buf(const char*, struct fuse_bufvec** bufp, size_t size, off_t off, struct fuse_file_info*) NOT_IMPLEMENTED

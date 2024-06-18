@@ -1,8 +1,8 @@
 #!/bin/bash
 
 INIT_PWD=$(pwd)
-VIEW_DIR="$INIT_PWD/view"
-TARGET_DIR="$INIT_PWD/target"
+VIEW_DIR="$INIT_PWD/../view"
+TARGET_DIR="$INIT_PWD/../target"
 FUSE_FS="$INIT_PWD/build/cu_fuse"
 
 function unmount() {
