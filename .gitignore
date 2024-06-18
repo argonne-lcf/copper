@@ -5,3 +5,4 @@ view
 target
 *.swp
 .idea
+.env.sh

@@ -1,9 +1,12 @@
 #!/bin/bash
 
-INIT_PWD=$(pwd)
-VIEW_DIR="$INIT_PWD/../view"
-TARGET_DIR="$INIT_PWD/../target"
-FUSE_FS="$INIT_PWD/build/cu_fuse"
+if [ -f env.sh ]
+then
+	echo "env.sh not found. please cp default_env.sh and set appropriate ENV vars"
+	exit 1
+fi
+
+source env.sh
 
 function unmount() {
     echo "unmounting"

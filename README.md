@@ -12,31 +12,20 @@ Reading should never mutate the cache. Instead, on filesystem mount the target d
 recursively read through and stored in the cache. From then on, reading and writing only
 affects the cache instead of reaching the underlying/passthrough filesystem.
 
+## NOTE from week 4 meeting
+
+Scratch all that was said from last week notes. Instead data/metdata/tree-structure is
+cached on demand. In addition, the underlying FS is immutable and only reading is
+supported.
+
 ## Metadata Cache Table Progress
 
 Lists of the current filesystem operations for which the caching is implemented.
 
-- [x] getattr | DOES NOT CHECK PERMISSIONS
-- [ ] readlink
-- [ ] mknod
-- [ ] mkdir
-- [x] unlink
-- [ ] rmdir
-- [ ] symlink
-- [ ] rename
-- [ ] link
-- [ ] chmod
-- [ ] chown
-- [ ] truncate
-- [x] open
-- [x] read
-- [ ] write
-- [ ] statfs
-- [ ] release
-- [ ] fsync
-- [ ] readdir
+- [x] destroy
 - [x] init
-- [ ] access
-- [x] create
-- [ ] utimens
-- [ ] lseek
+- [x] ioctl
+- [x] readdir
+- [x] read
+- [x] open
+- [x] getattr
