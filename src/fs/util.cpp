@@ -82,7 +82,7 @@ static void recurse_target_path() {
         if(!is_directory(entry_path)) {
             LOG(DEBUG) << "was a file adding to data cached" << std::endl;
             auto bytes = Util::read_ent_file(entry_path.string(), false);
-            CurCache::data_cache_table.put_force(entry_path.string(), std::pair(bytes, bytes.size()));
+            CurCache::data_cache_table.put_force(entry_path.string(), std::move(bytes));
         }
     }
 }
@@ -135,12 +135,8 @@ std::string Util::get_base_of_path(const std::string& str) {
 std::vector<std::byte> Util::read_ent_file(const std::string &path, bool is_file) {
     std::ifstream source_file { path, std::ios::binary };
     if (source_file) {
-
         std::streamsize file_size{};
         file_size = static_cast<std::streamsize>(std::filesystem::file_size(path));
-
-        LOG(DEBUG) << "file: " << path << " had a size of " << file_size << std::endl;
-
         std::vector<std::byte> bytes(file_size);
         source_file.read(reinterpret_cast<char*>(bytes.data()), file_size);
         source_file.close();
@@ -148,8 +144,7 @@ std::vector<std::byte> Util::read_ent_file(const std::string &path, bool is_file
         return bytes;
     }
 
-    LOG(ERROR) << "Unable to open file " << path << std::endl;
-    return {};
+    throw std::runtime_error("failed to open path: " + path);
 }
 
 int Util::gen_inode() {

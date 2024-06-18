@@ -12,7 +12,7 @@
 #include "../fs/constants.h"
 
 using DataCacheTableKey = std::string;
-using DataCacheTableVal = std::pair<std::vector<std::byte>, size_t>;
+using DataCacheTableVal = std::vector<std::byte>;
 
 class DataCacheTable final : public CacheTable<DataCacheTableKey, DataCacheTableVal> {
   friend std::ostream& operator<<(std::ostream& os, const DataCacheTable& data_cache_table) {
@@ -20,9 +20,9 @@ class DataCacheTable final : public CacheTable<DataCacheTableKey, DataCacheTable
 
     os << "data_cache_table {" << std::endl;
 
-    for(auto const& pair : data_cache_table.cache) {
-      os << pair.first << " {" << std::endl;
-      os << "data_size: " << pair.second.first.size() << std::endl;
+    for(auto const& entry : data_cache_table.cache) {
+      os << entry.first << " {" << std::endl;
+      os << "data_size: " << entry.second.size() << std::endl;
       os << "}" << std::endl;
 
       if(cur_elements++ >= Constants::max_print_cache_table_entries) {
