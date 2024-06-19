@@ -12,7 +12,7 @@ enum class OperationFunction {
     mknod,
     mkdir,
     unlink,
-    rmdir ,
+    rmdir,
     symlink,
     rename,
     link,
@@ -54,11 +54,11 @@ enum class OperationFunction {
 
 class Operations {
     public:
-        static void inc_operation(OperationFunction func);
-        static std::ostream& log(std::ostream& os);
+    static void inc_operation(OperationFunction func);
+    static std::ostream& log(std::ostream& os);
 
     private:
-        static inline int operation_counter[static_cast<int>(OperationFunction::size)]{};
+    static inline int operation_counter[static_cast<int>(OperationFunction::size)]{};
 };
 
 
