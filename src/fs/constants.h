@@ -16,6 +16,7 @@ class Constants {
     static constexpr unsigned int ioctl_clear_cache{100};
     static constexpr unsigned int ioctl_log_cache{200};
     static constexpr unsigned int ioctl_log_operations{300};
+    static constexpr unsigned int ioctl_log_operations_time{400};
 };
 
 #endif // CONSTANTS_H

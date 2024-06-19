@@ -55,10 +55,14 @@ enum class OperationFunction {
 class Operations {
     public:
     static void inc_operation(OperationFunction func);
-    static std::ostream& log(std::ostream& os);
+    static void inc_operation_timer(OperationFunction func, long time);
+
+    static std::ostream& log_operations(std::ostream& os);
+    static std::ostream& log_operations_time(std::ostream& os);
 
     private:
     static inline int operation_counter[static_cast<int>(OperationFunction::size)]{};
+    static inline int operations_timer[static_cast<int>(OperationFunction::size)];
 };
 
 

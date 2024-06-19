@@ -16,6 +16,7 @@
 #include <variant>
 #include <vector>
 #include <limits>
+#include <chrono>
 
 #include "aixlog.h"
 #include "cache/data_cache_table.h"
@@ -32,6 +33,7 @@
     }
 
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
+    auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
     Operations::inc_operation(OperationFunction::getattr);
     const auto path_string{Util::rel_to_abs_path(std::move(path_))};
@@ -59,10 +61,13 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
 
     cu_stat->cp_to_buf(stbuf);
 
+    auto stop = std::chrono::high_resolution_clock::now();
+    Operations::inc_operation_timer(OperationFunction::getattr, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
     return Constants::fs_operation_success;
 }
 
 static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
+    auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
     Operations::inc_operation(OperationFunction::open);
     const auto path_string{Util::rel_to_abs_path(path_)};
@@ -96,28 +101,32 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
     LOG(DEBUG) << "in cache" << std::endl;
     fi->fh = entry_opt.value()->get_st()->st_ino;
 
+    auto stop = std::chrono::high_resolution_clock::now();
+    Operations::inc_operation_timer(OperationFunction::open, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
     return Constants::fs_operation_success;
 }
 
 static int cu_fuse_read(const char* path_, char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) {
+    auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
     Operations::inc_operation(OperationFunction::read);
     const auto path_string{Util::rel_to_abs_path(path_)};
     LOG(DEBUG) << "path_string: " << path_string << std::endl;
 
     const auto entry_opt = CurCache::data_cache_table.get(path_string);
-    std::vector<std::byte> bytes;
+    std::vector<std::byte>* bytes = nullptr;
     bool cache = false;
 
     LOG(DEBUG) << "requested offset: " << offset << std::endl;
     LOG(DEBUG) << "requested size: " << size << std::endl;
 
-    // FIXME: make rpc request or root functionality here
-    if(!entry_opt.has_value()) {
+    // Allocate bytes if not in cache
+    if (!entry_opt.has_value()) {
         LOG(DEBUG) << "not in cache" << std::endl;
 
         try {
-            bytes = Util::read_ent_file(path_string, true);
+            // Allocate new vector and read data into it
+            bytes = new std::vector(Util::read_ent_file(path_string, true));
             cache = true;
         } catch(std::runtime_error&) {
             LOG(WARNING) << "failed to passthrough read" << std::endl;
@@ -125,34 +134,40 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
         }
     } else {
         LOG(DEBUG) << "in cache" << std::endl;
-        bytes = *entry_opt.value();
+        bytes = entry_opt.value();
     }
 
-    LOG(DEBUG) << "bytes buffer cache size: " << bytes.size() << std::endl;
+    LOG(DEBUG) << "bytes buffer cache size: " << bytes->size() << std::endl;
 
-    int write_size{};
-    if(offset + size < bytes.size()) {
-        LOG(DEBUG) << "offset + size withing file" << std::endl;
-        mempcpy(buf, (bytes.data() + offset), size);
-        write_size = static_cast<int>(size);
-    } else if(offset > bytes.size()) {
-        LOG(DEBUG) << "offset requested greater than file size" << std::endl;
-        write_size = 0;
+    int write_size = 0;
+    if (offset < static_cast<off_t>(bytes->size())) {
+        // Calculate the amount to copy, ensuring not to exceed the bounds of the vector
+        size_t copy_size = std::min(static_cast<size_t>(size), bytes->size() - static_cast<size_t>(offset));
+
+        // Copy data from bytes to buf
+        std::memcpy(buf, bytes->data() + offset, copy_size);
+        write_size = static_cast<int>(copy_size);
     } else {
-        LOG(DEBUG) << "offset + size requested greater than file size" << std::endl;
-        mempcpy(buf, (bytes.data() + offset), bytes.size() - offset);
-        write_size = static_cast<int>(bytes.size() - offset);
+        LOG(DEBUG) << "offset requested greater than file size" << std::endl;
     }
 
     LOG(DEBUG) << "total read size: " << write_size << std::endl;
-    if(cache) {
-        CurCache::data_cache_table.put_force(path_string, std::move(bytes));
+
+    // Store in cache if newly allocated
+    if (cache) {
+        CurCache::data_cache_table.put_force(path_string, std::move(*bytes));
+        delete bytes; // Release memory after moving to cache
     }
+
+    auto stop = std::chrono::high_resolution_clock::now();
+    Operations::inc_operation_timer(OperationFunction::read, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
+
     return write_size;
 }
 
 static int
 cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_t offset, struct fuse_file_info* fi, enum fuse_readdir_flags flags) {
+    auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
     Operations::inc_operation(OperationFunction::readdir);
     const auto path_string{Util::rel_to_abs_path(path_)};
@@ -198,10 +213,14 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     if(cache) {
         CurCache::tree_cache_table.put_force(path_string, std::move(entries));
     }
+
+    auto stop = std::chrono::high_resolution_clock::now();
+    Operations::inc_operation_timer(OperationFunction::readdir, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
     return Constants::fs_operation_success;
 }
 
 static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file_info*, unsigned int flags, void* data) {
+    auto start = std::chrono::high_resolution_clock::now();
     LOG(TRACE) << " " << std::endl;
     Operations::inc_operation(OperationFunction::ioctl);
     const auto path_string{Util::rel_to_abs_path(path_)};
@@ -219,15 +238,20 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         CurCache::md_cache_table.cache.clear();
         CurCache::md_cache_table.cache.clear();
     } else if(cmd == Constants::ioctl_log_operations) {
-        LOG(ERROR) << Operations::log << std::endl;
+        LOG(ERROR) << Operations::log_operations << std::endl;
+    } else if(cmd == Constants::ioctl_log_operations_time) {
+        LOG(ERROR) << Operations::log_operations_time << std::endl;
     } else {
         LOG(WARNING) << "unknown cmd" << std::endl;
     }
 
+    auto stop = std::chrono::high_resolution_clock::now();
+    Operations::inc_operation_timer(OperationFunction::ioctl, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
     return Constants::fs_operation_success;
 }
 
 static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
+    auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
     Operations::inc_operation(OperationFunction::init);
 
@@ -348,16 +372,22 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // DOCS: The remaining options are used by libfuse internally and should not be touched.
     // cfg->show_help
 
+    auto stop = std::chrono::high_resolution_clock::now();
+    Operations::inc_operation_timer(OperationFunction::init, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
     return nullptr;
 }
 
 static void cu_fuse_destroy(void* private_data) {
+    auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
     Operations::inc_operation(OperationFunction::destroy);
 
     CurCache::data_cache_table.cache.clear();
     CurCache::md_cache_table.cache.clear();
     CurCache::tree_cache_table.cache.clear();
+
+    auto stop = std::chrono::high_resolution_clock::now();
+    Operations::inc_operation_timer(OperationFunction::destroy, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
 }
 
 // clang-format off
