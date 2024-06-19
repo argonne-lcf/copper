@@ -5,6 +5,6 @@ view
 target
 *.swp
 .idea
-.env.sh
+scripts/env.sh
 cmake-build-debug
 CMakeLists.txt.user
