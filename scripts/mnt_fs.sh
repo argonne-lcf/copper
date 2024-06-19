@@ -39,6 +39,14 @@ else
     exit 1;
 fi
 
+if [ -f "$SPEC_DEV_TARGET" ]
+then
+  echo "found spec_dev: $SPEC_DEV_TARGET"
+else
+  echo "creating spec_dev: $SPEC_DEV_TARGET"
+  touch "$SPEC_DEV_TARGET"
+fi
+
 echo "mounting fuse distributed cache to view dir"
 $FUSE_FS -f -tpath $TARGET_DIR $VIEW_DIR
 

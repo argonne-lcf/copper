@@ -7,4 +7,4 @@ then
 fi
 
 source env.sh
-python3 ioctl.py
+python3 ioctl.py 100

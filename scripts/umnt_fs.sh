@@ -10,7 +10,7 @@ source env.sh
 
 function unmount() {
     echo "unmounting view dir"
-    fusermount -u $VIEW_DIR || true
+    fusermount -u "$VIEW_DIR" || true
 }
 
 unmount || { echo "mnt already unmounted"; exit 0; }

@@ -13,6 +13,9 @@ class Constants {
     static constexpr unsigned int fs_operation_success{0};
     static inline std::optional<fuse_fill_dir_flags> fill_dir_plus = std::nullopt;
     static constexpr unsigned int max_print_cache_table_entries = 3;
+    static constexpr unsigned int ioctl_clear_cache{100};
+    static constexpr unsigned int ioctl_log_cache{200};
+    static constexpr unsigned int ioctl_log_operations{300};
 };
 
 #endif // CONSTANTS_H

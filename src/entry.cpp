@@ -15,6 +15,7 @@
 #include <unordered_map>
 #include <variant>
 #include <vector>
+#include <limits>
 
 #include "aixlog.h"
 #include "cache/data_cache_table.h"
@@ -185,8 +186,6 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
 
     const fuse_fill_dir_flags fill_dir{
     (Constants::fill_dir_plus.has_value()) ? FUSE_FILL_DIR_PLUS : static_cast<fuse_fill_dir_flags>(NULL)};
-    filler(buf, ".", nullptr, 0, fill_dir);
-    filler(buf, "..", nullptr, 0, fill_dir);
 
     for(const auto& cur_path_stem : entries) {
         const auto cur_full_path = std::string(path_string).append("/").append(cur_path_stem);
@@ -202,14 +201,28 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     return Constants::fs_operation_success;
 }
 
-static int cu_fuse_ioctl(const char*, int cmd, void* arg, struct fuse_file_info*, unsigned int flags, void* data) {
+static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file_info*, unsigned int flags, void* data) {
     LOG(TRACE) << " " << std::endl;
     Operations::inc_operation(OperationFunction::ioctl);
+    const auto path_string{Util::rel_to_abs_path(path_)};
+    LOG(DEBUG) << "path_string: " << path_string << std::endl;
+    LOG(DEBUG) << "cmd: " << cmd << std::endl;
 
-    LOG(DEBUG) << CurCache::tree_cache_table << std::endl;
-    LOG(DEBUG) << CurCache::data_cache_table << std::endl;
-    LOG(DEBUG) << CurCache::md_cache_table << std::endl;
-    LOG(DEBUG) << Operations::log << std::endl;
+    if(cmd == Constants::ioctl_log_cache) {
+        LOG(DEBUG) << CurCache::tree_cache_table << std::endl;
+        LOG(DEBUG) << CurCache::data_cache_table << std::endl;
+        LOG(DEBUG) << CurCache::md_cache_table << std::endl;
+    } else if(cmd == Constants::ioctl_clear_cache) {
+        LOG(DEBUG) << "clearing cache" << std::endl;
+
+        CurCache::tree_cache_table.cache.clear();
+        CurCache::md_cache_table.cache.clear();
+        CurCache::md_cache_table.cache.clear();
+    } else if(cmd == Constants::ioctl_log_operations) {
+        LOG(DEBUG) << Operations::log << std::endl;
+    } else {
+        LOG(WARNING) << "unknown cmd" << std::endl;
+    }
 
     return Constants::fs_operation_success;
 }
@@ -233,30 +246,30 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // cfg->set_mode
 
     // DOCS: The timeout in seconds for which name lookups will be cached.
-    cfg->entry_timeout = 0;
+    cfg->entry_timeout = 0;//std::numeric_limits<double>::max();
 
     // DOCS: The timeout in seconds for which a negative lookup will be cached. This means,
     // that if file did not exist (lookup returned ENOENT), the lookup will only be redone
     // after the timeout, and the file/directory will be assumed to not exist until then. A
     // value of zero means that negative lookups are not cached.
-    cfg->negative_timeout = 0;
+    cfg->negative_timeout = 0;//std::numeric_limits<double>::max();
 
     // DOCS: The timeout in seconds for which file/directory attributes (as returned by e.g.
     // the getattr handler) are cached.
-    cfg->attr_timeout = 0;
+    cfg->attr_timeout = 0;//std::numeric_limits<double>::max();;
 
     // NOTE: Allow requests to be interrupted
     // cfg->intr
 
     // DOCS: The timeout in seconds for which file attributes are cached for the purpose of
     // checking if auto_cache should flush the file data on open.
-    cfg->intr_signal = 0;
+    cfg->intr_signal = 0;//std::numeric_limits<double>::max();
 
     // DOCS: Normally, FUSE assigns inodes to paths only for as long as the kernel is aware of
     // them. With this option inodes are instead remembered for at least this many seconds. This
     // will require more memory, but may be necessary when using applications that make use of
     // inode numbers.
-    // cfg->remember
+    // cfg->remember = std::numeric_limits<int>::max();
 
     // DOCS: The default behavior is that if an open file is deleted, the file is renamed to a
     // hidden file (.fuse_hiddenXXX), and only removed when the file is finally released. This
@@ -300,21 +313,21 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // the open(2), so a read(2) system call will not always initiate a read operation.
     // Internally, enabling this option causes fuse to set the keep_cache field of struct
     // fuse_file_info - overwriting any value that was put there by the file system.
-    // cfg->kernel_cache
+    cfg->kernel_cache = true;
 
     // DOCS: This option is an alternative to kernel_cache. Instead of unconditionally keeping
     // cached data, the cached data is invalidated on open(2) if if the modification time or the
     // size of the file has changed since it was last opened.
-    cfg->auto_cache = false;
+   cfg->auto_cache = false;
 
     // DOCS: By default, fuse waits for all pending writes to complete and calls the FLUSH
     // operation on close(2) of every fuse fd. With this option, wait and FLUSH are not done for
     // read-only fuse fd, similar to the behavior of NFS/SMB clients.
-    // cfg->no_rofd_flush
+    cfg->no_rofd_flush = true;
 
     // DOCS: The timeout in seconds for which file attributes are cached for the purpose of
     // checking if auto_cache should flush the file data on open.
-    cfg->ac_attr_timeout_set = 0;
+    cfg->ac_attr_timeout_set = 0;//std::numeric_limits<int>::max();
 
     // DOCS: If this option is given the file-system handlers for the following operations will
     // not receive path information: read, write, flush, release, fallocate, fsync, readdir,
@@ -330,7 +343,7 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // are beneficiaries of this setting as it now open doors to parallel writes on the same
     // file (without enabling this setting, all direct writes on the same file are serialized,
     // resulting in huge data bandwidth loss).
-    // cfg->parallel_direct_writes = 1;
+    cfg->parallel_direct_writes = false;
 
     // DOCS: The remaining options are used by libfuse internally and should not be touched.
     // cfg->show_help
