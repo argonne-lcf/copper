@@ -280,7 +280,7 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
 
     // DOCS: The timeout in seconds for which file/directory attributes (as returned by e.g.
     // the getattr handler) are cached.
-    cfg->attr_timeout = std::numeric_limits<double>::max();
+    cfg->attr_timeout = 0;//std::numeric_limits<double>::max();
 
     // NOTE: Allow requests to be interrupted
     // cfg->intr
@@ -327,7 +327,7 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // for example if the file size is not known in advance (before reading it). Internally,
     // enabling this option causes fuse to set the direct_io field of struct fuse_file_info
     // - overwriting any value that was put there by the file system.
-    cfg->direct_io = false;
+    cfg->direct_io = true;
 
     // DOCS: This option disables flushing the cache of the file contents on every open(2).
     // This should only be enabled on filesystems where the file data is never changed externally

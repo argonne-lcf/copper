@@ -8,3 +8,4 @@ target
 scripts/env.sh
 cmake-build-debug
 CMakeLists.txt.user
+*.output
