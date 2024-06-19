@@ -33,5 +33,5 @@ def run_script(script_name, iterations):
     print(f'{script_name} - Stddev time: {std_dev}')
     print("====================================================")
 
-run_script(view_script, 2)
-run_script(target_script, 2)
+run_script(view_script, 10)
+run_script(target_script, 10)
