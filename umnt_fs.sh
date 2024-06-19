@@ -9,8 +9,8 @@ fi
 source env.sh
 
 function unmount() {
-    echo "unmounting mnt point"
-    fusermount -u $MNT_DIR || true
+    echo "unmounting view dir"
+    fusermount -u $VIEW_DIR || true
 }
 
 unmount || { echo "mnt already unmounted"; exit 0; }

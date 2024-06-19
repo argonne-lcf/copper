@@ -12,7 +12,7 @@ class Constants {
     static inline std::string usage{"cu_fuse <FUSE_PARAMS> -tpath <ABS_TARGET_PATH> <ABS_VIEW_PATH>"};
     static constexpr unsigned int fs_operation_success{0};
     static inline std::optional<fuse_fill_dir_flags> fill_dir_plus = std::nullopt;
-    static constexpr unsigned int max_print_cache_table_entries = 10;
+    static constexpr unsigned int max_print_cache_table_entries = 3;
 };
 
 #endif // CONSTANTS_H

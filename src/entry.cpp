@@ -21,15 +21,18 @@
 #include "cache/md_cache_table.h"
 #include "fs/constants.h"
 #include "fs/util.h"
+#include "metric/operations.h"
 
-#define NOT_IMPLEMENTED                                        \
+#define NOT_IMPLEMENTED(func)                                  \
     {                                                          \
         LOG(TRACE) << "function not implemented" << std::endl; \
+        Operations::inc_operation(func);                       \
         return Constants::fs_operation_success;                \
     }
 
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
+    Operations::inc_operation(OperationFunction::getattr);
     const auto path_string{Util::rel_to_abs_path(path_)};
     LOG(DEBUG) << "path_string: " << path_string << std::endl;
 
@@ -60,6 +63,7 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
 
 static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
+    Operations::inc_operation(OperationFunction::open);
     const auto path_string{Util::rel_to_abs_path(path_)};
     LOG(DEBUG) << "path_string: " << path_string << std::endl;
 
@@ -96,6 +100,7 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
 
 static int cu_fuse_read(const char* path_, char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
+    Operations::inc_operation(OperationFunction::read);
     const auto path_string{Util::rel_to_abs_path(path_)};
     LOG(DEBUG) << "path_string: " << path_string << std::endl;
 
@@ -148,6 +153,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
 static int
 cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_t offset, struct fuse_file_info* fi, enum fuse_readdir_flags flags) {
     LOG(DEBUG) << " " << std::endl;
+    Operations::inc_operation(OperationFunction::readdir);
     const auto path_string{Util::rel_to_abs_path(path_)};
     LOG(DEBUG) << "path_string: " << path_string << std::endl;
 
@@ -197,15 +203,20 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
 }
 
 static int cu_fuse_ioctl(const char*, int cmd, void* arg, struct fuse_file_info*, unsigned int flags, void* data) {
+    LOG(TRACE) << " " << std::endl;
+    Operations::inc_operation(OperationFunction::ioctl);
+
     LOG(DEBUG) << CurCache::tree_cache_table << std::endl;
     LOG(DEBUG) << CurCache::data_cache_table << std::endl;
     LOG(DEBUG) << CurCache::md_cache_table << std::endl;
+    LOG(DEBUG) << Operations::log << std::endl;
 
     return Constants::fs_operation_success;
 }
 
 static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
     LOG(DEBUG) << " " << std::endl;
+    Operations::inc_operation(OperationFunction::init);
 
     // NOTE: docs (https://libfuse.github.io/doxygen/structfuse__config.html#a3e84d36c87733fcafc594b18a6c3dda8)
 
@@ -329,54 +340,54 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
 
 static void cu_fuse_destroy(void* private_data) {
     LOG(DEBUG) << " " << std::endl;
+    Operations::inc_operation(OperationFunction::destroy);
 
     CurCache::data_cache_table.cache.clear();
     CurCache::md_cache_table.cache.clear();
     CurCache::tree_cache_table.cache.clear();
 }
 
-static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) NOT_IMPLEMENTED
-static int cu_fuse_mknod(const char* path_, const mode_t mode, const dev_t rdev) NOT_IMPLEMENTED
-static int cu_fuse_mkdir(const char* path_, const mode_t mode) NOT_IMPLEMENTED
-static int cu_fuse_unlink(const char* path_) NOT_IMPLEMENTED static int cu_fuse_rmdir(const char* path_) NOT_IMPLEMENTED
-static int cu_fuse_symlink(const char*, const char*) NOT_IMPLEMENTED
-static int cu_fuse_rename(const char* from_, const char* to_, unsigned int flags) NOT_IMPLEMENTED
-static int cu_fuse_link(const char* from_, const char* to_) NOT_IMPLEMENTED
-static int cu_fuse_chmod(const char* path_, const mode_t mode, struct fuse_file_info* fi) NOT_IMPLEMENTED
-static int cu_fuse_chown(const char* path_, const uid_t uid, const gid_t gid, struct fuse_file_info* fi) NOT_IMPLEMENTED
-static int cu_fuse_truncate(const char*, off_t, struct fuse_file_info* fi) NOT_IMPLEMENTED
-static int cu_fuse_write(const char* path_, const char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) NOT_IMPLEMENTED
-static int cu_fuse_statfs(const char* path_, struct statvfs* stbuf) NOT_IMPLEMENTED
-static int cu_fuse_flush(const char*, struct fuse_file_info*) NOT_IMPLEMENTED
-static int cu_fuse_release(const char* path_, struct fuse_file_info* fi) NOT_IMPLEMENTED
-static int cu_fuse_fsync(const char* path_, const int isdatasync, struct fuse_file_info* fi) NOT_IMPLEMENTED
-static int cu_fuse_setxattr(const char*, const char*, const char*, size_t, int) NOT_IMPLEMENTED
-static int cu_fuse_getxattr(const char*, const char*, char*, size_t)
-NOT_IMPLEMENTED
-static int cu_fuse_listxattr(const char*, char*, size_t)
-NOT_IMPLEMENTED
-static int cu_fuse_removexattr(const char*, const char*) NOT_IMPLEMENTED static int cu_fuse_opendir(const char*,
-struct fuse_file_info*) NOT_IMPLEMENTED static int cu_fuse_releasedir(const char*, struct fuse_file_info*) NOT_IMPLEMENTED;
-static int cu_fuse_fsyncdir(const char*, int, struct fuse_file_info*) NOT_IMPLEMENTED;
-static int cu_fuse_access(const char* path_, const int mask) NOT_IMPLEMENTED
-static int cu_fuse_create(const char* path_, const mode_t mode, struct fuse_file_info* fi) NOT_IMPLEMENTED
-static int cu_fuse_lock(const char*, struct fuse_file_info*, int cmd, struct flock*) NOT_IMPLEMENTED
-static int cu_fuse_utimens(const char* path_, const struct timespec tv[2], struct fuse_file_info* fi) NOT_IMPLEMENTED
-static int cu_fuse_bmap(const char*, size_t blocksize, uint64_t* idx) NOT_IMPLEMENTED
-static int cu_fuse_poll(const char*, struct fuse_file_info*, struct fuse_pollhandle* ph, unsigned* reventsp) NOT_IMPLEMENTED
-static int cu_fuse_write_buf(const char*, struct fuse_bufvec* buf, off_t off, struct fuse_file_info*) NOT_IMPLEMENTED
-static int cu_fuse_read_buf(const char*, struct fuse_bufvec** bufp, size_t size, off_t off, struct fuse_file_info*) NOT_IMPLEMENTED
-static int cu_fuse_flock(const char*, struct fuse_file_info*, int op) NOT_IMPLEMENTED
-static int cu_fuse_fallocate(const char*, int, off_t, off_t, struct fuse_file_info*) NOT_IMPLEMENTED static ssize_t
-cu_fuse_copy_file_range(const char* path_in,
-struct fuse_file_info* fi_in,
-off_t offset_in,
-const char* path_out,
-struct fuse_file_info* fi_out,
-off_t offset_out,
-size_t size,
-int flags) NOT_IMPLEMENTED static off_t
-cu_fuse_lseek(const char* path_, const off_t off, const int whence, struct fuse_file_info* fi) NOT_IMPLEMENTED
+// clang-format off
+static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) NOT_IMPLEMENTED(OperationFunction::readlink)
+static int cu_fuse_mknod(const char* path_, const mode_t mode, const dev_t rdev) NOT_IMPLEMENTED(OperationFunction::mknod)
+static int cu_fuse_mkdir(const char* path_, const mode_t mode) NOT_IMPLEMENTED(OperationFunction::mkdir)
+static int cu_fuse_unlink(const char* path_) NOT_IMPLEMENTED(OperationFunction::unlink)
+static int cu_fuse_rmdir(const char* path_) NOT_IMPLEMENTED(OperationFunction::rmdir)
+static int cu_fuse_symlink(const char*, const char*) NOT_IMPLEMENTED(OperationFunction::symlink)
+static int cu_fuse_rename(const char* from_, const char* to_, unsigned int flags) NOT_IMPLEMENTED(OperationFunction::rename)
+static int cu_fuse_link(const char* from_, const char* to_) NOT_IMPLEMENTED(OperationFunction::link)
+static int cu_fuse_chmod(const char* path_, const mode_t mode, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::chmod)
+static int cu_fuse_chown(const char* path_, const uid_t uid, const gid_t gid, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::chown)
+static int cu_fuse_truncate(const char*, off_t, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::truncate)
+static int cu_fuse_write(const char* path_, const char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::write)
+static int cu_fuse_statfs(const char* path_, struct statvfs* stbuf) NOT_IMPLEMENTED(OperationFunction::statfs)
+static int cu_fuse_flush(const char*, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::flush)
+static int cu_fuse_release(const char* path_, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::release)
+static int cu_fuse_fsync(const char* path_, const int isdatasync, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::fsync)
+static int cu_fuse_setxattr(const char*, const char*, const char*, size_t, int) NOT_IMPLEMENTED(OperationFunction::setxattr)
+static int cu_fuse_getxattr(const char*, const char*, char*, size_t) NOT_IMPLEMENTED(OperationFunction::getxattr)
+static int cu_fuse_listxattr(const char*, char*, size_t) NOT_IMPLEMENTED(OperationFunction::listxattr)
+static int cu_fuse_removexattr(const char*, const char*) NOT_IMPLEMENTED(OperationFunction::removexattr)
+static int cu_fuse_opendir(const char*, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::opendir)
+static int cu_fuse_releasedir(const char*, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::releasedir)
+static int cu_fuse_fsyncdir(const char*, int, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::fsyncdir)
+static int cu_fuse_access(const char* path_, const int mask) NOT_IMPLEMENTED(OperationFunction::access)
+static int cu_fuse_create(const char* path_, const mode_t mode, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::create)
+static int cu_fuse_lock(const char*, struct fuse_file_info*, int cmd, struct flock*) NOT_IMPLEMENTED(OperationFunction::lock)
+static int cu_fuse_utimens(const char* path_, const struct timespec tv[2], struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::utimens)
+static int cu_fuse_bmap(const char*, size_t blocksize, uint64_t* idx) NOT_IMPLEMENTED(OperationFunction::bmap)
+static int cu_fuse_poll(const char*, struct fuse_file_info*, struct fuse_pollhandle* ph, unsigned* reventsp) NOT_IMPLEMENTED(OperationFunction::poll)
+static int cu_fuse_write_buf(const char*, struct fuse_bufvec* buf, off_t off, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::write_buf)
+static int cu_fuse_read_buf(const char*, struct fuse_bufvec** bufp, size_t size, off_t off, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::read_buf)
+static int cu_fuse_flock(const char*, struct fuse_file_info*, int op) NOT_IMPLEMENTED(OperationFunction::flock)
+static int cu_fuse_fallocate(const char*, int, off_t, off_t, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::fallocate)
+static ssize_t cu_fuse_copy_file_range(const char* path_in, struct fuse_file_info* fi_in,
+                                       off_t offset_in, const char* path_out,
+                                       struct fuse_file_info* fi_out, off_t offset_out,
+                                       size_t size, int flags) NOT_IMPLEMENTED(OperationFunction::copy_file_range)
+static off_t cu_fuse_lseek(const char* path_, const off_t off,
+                           const int whence, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::lseek)
+// clang-format on
 
 static constexpr struct fuse_operations cu_fuse_oper = {
 .getattr = cu_fuse_getattr,

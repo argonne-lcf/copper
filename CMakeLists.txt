@@ -23,6 +23,7 @@ set(SOURCES
     src/fs/cu_stat.cpp
     src/fs/util.cpp
     src/cache/tree_cache_table.cpp
+    src/metric/operations.cpp
 )
 
 # Create executable
