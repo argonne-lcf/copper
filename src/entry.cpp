@@ -34,7 +34,7 @@
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
     Operations::inc_operation(OperationFunction::getattr);
-    const auto path_string{Util::rel_to_abs_path(path_)};
+    const auto path_string{Util::rel_to_abs_path(std::move(path_))};
     LOG(DEBUG) << "path_string: " << path_string << std::endl;
 
     const auto cu_stat_opt{CurCache::md_cache_table.get(path_string)};
@@ -44,7 +44,7 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
         LOG(DEBUG) << "not in cache" << std::endl;
 
         if(lstat(path_string.c_str(), stbuf) == -1) {
-            LOG(ERROR) << "failed to passthrough stat" << std::endl;
+            LOG(WARNING) << "failed to passthrough stat" << std::endl;
             return -errno;
         }
 
@@ -76,13 +76,13 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
         const int fd = open(path_string.c_str(), fi->flags);
 
         if(fd == -1) {
-            LOG(ERROR) << "failed to passthrough open" << std::endl;
+            LOG(WARNING) << "failed to passthrough open" << std::endl;
             return -errno;
         }
 
         struct stat* new_st{};
         if(stat(path_string.c_str(), new_st) == -1) {
-            LOG(ERROR) << "failed to passthrough stat" << std::endl;
+            LOG(WARNING) << "failed to passthrough stat" << std::endl;
             return -errno;
         }
 
@@ -120,7 +120,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
             bytes = Util::read_ent_file(path_string, true);
             cache = true;
         } catch(std::runtime_error&) {
-            LOG(ERROR) << "failed to passthrough read" << std::endl;
+            LOG(WARNING) << "failed to passthrough read" << std::endl;
             return -ENOENT;
         }
     } else {
@@ -168,7 +168,7 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
 
         DIR* dp = opendir(path_string.c_str());
         if(dp == nullptr) {
-            LOG(ERROR) << "failed to passthrough readdir" << std::endl;
+            LOG(WARNING) << "failed to passthrough readdir" << std::endl;
             return -errno;
         }
 
@@ -209,17 +209,17 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     LOG(DEBUG) << "cmd: " << cmd << std::endl;
 
     if(cmd == Constants::ioctl_log_cache) {
-        LOG(DEBUG) << CurCache::tree_cache_table << std::endl;
-        LOG(DEBUG) << CurCache::data_cache_table << std::endl;
-        LOG(DEBUG) << CurCache::md_cache_table << std::endl;
+        LOG(ERROR) << CurCache::tree_cache_table << std::endl;
+        LOG(ERROR) << CurCache::data_cache_table << std::endl;
+        LOG(ERROR) << CurCache::md_cache_table << std::endl;
     } else if(cmd == Constants::ioctl_clear_cache) {
-        LOG(DEBUG) << "clearing cache" << std::endl;
+        LOG(ERROR) << "clearing cache" << std::endl;
 
         CurCache::tree_cache_table.cache.clear();
         CurCache::md_cache_table.cache.clear();
         CurCache::md_cache_table.cache.clear();
     } else if(cmd == Constants::ioctl_log_operations) {
-        LOG(DEBUG) << Operations::log << std::endl;
+        LOG(ERROR) << Operations::log << std::endl;
     } else {
         LOG(WARNING) << "unknown cmd" << std::endl;
     }
@@ -256,7 +256,7 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
 
     // DOCS: The timeout in seconds for which file/directory attributes (as returned by e.g.
     // the getattr handler) are cached.
-    cfg->attr_timeout = 0;//std::numeric_limits<double>::max();;
+    cfg->attr_timeout = std::numeric_limits<double>::max();
 
     // NOTE: Allow requests to be interrupted
     // cfg->intr
@@ -303,7 +303,7 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // for example if the file size is not known in advance (before reading it). Internally,
     // enabling this option causes fuse to set the direct_io field of struct fuse_file_info
     // - overwriting any value that was put there by the file system.
-    cfg->direct_io = true;
+    cfg->direct_io = false;
 
     // DOCS: This option disables flushing the cache of the file contents on every open(2).
     // This should only be enabled on filesystems where the file data is never changed externally
@@ -449,7 +449,7 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 };
 
 int main(const int argc, const char* argv[]) {
-    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::debug);
+    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::error);
     LOG(TRACE) << " " << std::endl;
 
     auto new_args{Util::process_args(argc, argv)};

@@ -48,6 +48,6 @@ else
 fi
 
 echo "mounting fuse distributed cache to view dir"
-$FUSE_FS -f -tpath $TARGET_DIR $VIEW_DIR
+$FUSE_FS -tpath $TARGET_DIR -f $VIEW_DIR
 
 unmount || { echo "already unmounted"; exit 0; }
