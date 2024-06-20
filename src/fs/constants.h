@@ -15,8 +15,14 @@ class Constants {
     static constexpr unsigned int max_print_cache_table_entries = 3;
     static constexpr unsigned int ioctl_clear_cache{100};
     static constexpr unsigned int ioctl_log_cache{200};
-    static constexpr unsigned int ioctl_log_operations{300};
-    static constexpr unsigned int ioctl_log_operations_time{400};
+    static constexpr unsigned int ioctl_log_operation{300};
+    static constexpr unsigned int ioctl_log_operation_time{400};
+    static constexpr unsigned int ioctl_log_operation_cache_hit{500};
+    static constexpr unsigned int ioctl_log_operation_cache_miss{600};
+    static constexpr unsigned int ioctl_clear_operation{700};
+    static constexpr unsigned int ioctl_clear_operation_cache_hit{800};
+    static constexpr unsigned int ioctl_clear_operation_cache_miss{900};
+    static constexpr unsigned int ioctl_clear_operation_time{1000};
 };
 
 #endif // CONSTANTS_H

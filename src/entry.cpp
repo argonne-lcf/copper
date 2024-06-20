@@ -43,6 +43,7 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
 
     // FIXME: make rpc request or root functionality here
     if(!cu_stat_opt.has_value()) {
+        Operations::inc_operation_cache_hit(OperationFunction::getattr, false);
         LOG(DEBUG) << "not in cache" << std::endl;
 
         if(lstat(path_string.c_str(), stbuf) == -1) {
@@ -56,6 +57,7 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
         return Constants::fs_operation_success;
     }
 
+    Operations::inc_operation_cache_hit(OperationFunction::getattr, true);
     LOG(DEBUG) << "in cache" << std::endl;
     const auto cu_stat = cu_stat_opt.value();
 
@@ -77,6 +79,7 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
 
     // FIXME: make rpc request or root functionality here
     if(!entry_opt.has_value()) {
+        Operations::inc_operation_cache_hit(OperationFunction::open, false);
         LOG(DEBUG) << "not in cache" << path_string << std::endl;
         const int fd = open(path_string.c_str(), fi->flags);
 
@@ -98,6 +101,7 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
         return Constants::fs_operation_success;
     }
 
+    Operations::inc_operation_cache_hit(OperationFunction::open, true);
     LOG(DEBUG) << "in cache" << std::endl;
     fi->fh = entry_opt.value()->get_st()->st_ino;
 
@@ -122,6 +126,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
 
     // Allocate bytes if not in cache
     if (!entry_opt.has_value()) {
+        Operations::inc_operation_cache_hit(OperationFunction::read, false);
         LOG(DEBUG) << "not in cache" << std::endl;
 
         try {
@@ -133,6 +138,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
             return -ENOENT;
         }
     } else {
+        Operations::inc_operation_cache_hit(OperationFunction::read, true);
         LOG(DEBUG) << "in cache" << std::endl;
         bytes = entry_opt.value();
     }
@@ -179,6 +185,7 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
 
     // FIXME: make rpc request or root functionality here
     if(!tree_cache_table_entry_opt.has_value()) {
+        Operations::inc_operation_cache_hit(OperationFunction::readdir, false);
         LOG(DEBUG) << "not in cache" << std::endl;
 
         DIR* dp = opendir(path_string.c_str());
@@ -195,6 +202,7 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
 
         cache = true;
     } else {
+        Operations::inc_operation_cache_hit(OperationFunction::readdir, true);
         LOG(DEBUG) << "in cache" << std::endl;
         entries = *tree_cache_table_entry_opt.value();
     }
@@ -237,10 +245,26 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         CurCache::tree_cache_table.cache.clear();
         CurCache::md_cache_table.cache.clear();
         CurCache::md_cache_table.cache.clear();
-    } else if(cmd == Constants::ioctl_log_operations) {
-        LOG(ERROR) << Operations::log_operations << std::endl;
-    } else if(cmd == Constants::ioctl_log_operations_time) {
-        LOG(ERROR) << Operations::log_operations_time << std::endl;
+    } else if(cmd == Constants::ioctl_log_operation) {
+        LOG(ERROR) << Operations::log_operation << std::endl;
+    } else if(cmd == Constants::ioctl_log_operation_time) {
+        LOG(ERROR) << Operations::log_operation_time << std::endl;
+    } else if(cmd == Constants::ioctl_log_operation_cache_hit) {
+        LOG(ERROR) << Operations::log_operation_cache_hit << std::endl;
+    } else if(cmd == Constants::ioctl_log_operation_cache_miss) {
+        LOG(ERROR) << Operations::log_operation_cache_miss << std::endl;
+    } else if(cmd == Constants::ioctl_clear_operation) {
+        LOG(ERROR) << "clearing ioctl_clear_operation" << std::endl;
+        Operations::reset_operation_counter();
+    } else if(cmd == Constants::ioctl_clear_operation_cache_hit) {
+        LOG(ERROR) << "clearing ioctl_clear_operation_cache_hit" << std::endl;
+        Operations::reset_operation_cache_hit();
+    } else if(cmd == Constants::ioctl_clear_operation_cache_miss) {
+        LOG(ERROR) << "clearing ioctl_clear_operation_cache_miss" << std::endl;
+        Operations::reset_operation_cache_miss();
+    } else if(cmd == Constants::ioctl_clear_operation_time) {
+        LOG(ERROR) << "clearing ioctl_clear_operation_time" << std::endl;
+        Operations::reset_operation_timer();
     } else {
         LOG(WARNING) << "unknown cmd" << std::endl;
     }
