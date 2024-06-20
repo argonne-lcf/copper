@@ -2,6 +2,20 @@ import subprocess
 import time
 import statistics
 import os
+import sys
+
+if len(sys.argv) < 2:
+    print("Usage: python get_arg.py <iterations>")
+    sys.exit(1)
+
+its = int(sys.argv[1])
+output_dir = os.environ.get('JOB_OUTPUT_DIR')
+
+if output_dir is None:
+    print("output_dir not found")
+    sys.exit(1)
+
+print(f"output_dir: {output_dir}")
 
 view_script = 'view_test.py'
 target_script = 'target_test.py'
@@ -10,11 +24,21 @@ script_stdout = 'script.output'
 if os.path.exists(script_stdout):
     os.remove(script_stdout)
 
-def run_script(script_name, iterations):
-    execution_times = []
 
-    print(f'{script_name} - start run')
-    with open(script_stdout, 'a') as f:
+def gen_output_folders(folder, iterations):
+    for i in range(iterations):
+        try:
+            final_dir = output_dir + "/" + folder + "/" + str(i + 1)
+            os.makedirs(final_dir, exist_ok=False)
+        except Exception as e:
+            print(f"Failed to create directory '{final_dir}': {e}")
+
+
+def run_script(folder, script_name, iterations):
+    execution_times = []
+    script_output = output_dir + "/" + script_stdout
+    print(f'{script_output} - start run')
+    with open(script_output, 'a') as f:
         for i in range(iterations):
             iteration = i + 1
             print(f'{script_name} - iteration: {iteration}')
@@ -23,9 +47,19 @@ def run_script(script_name, iterations):
             end_time = time.time()
             execution_times.append(end_time - start_time)
 
+            if folder == "view":
+                final_dir = output_dir + "/" + folder + "/" + str(iteration)
+                command = ['./get_clear_fuse_output.sh', final_dir]
+                try:
+                    result = subprocess.run(command, capture_output=True, text=True, check=True)
+                except subprocess.CalledProcessError as e:
+                    if e.stderr:
+                        print(e.stderr)
+                        sys.exit(1)
+
     total_time = sum(execution_times)
     std_dev = statistics.stdev(execution_times)
-    
+
     print("====================================================")
     print("=                     METRICS                      =")
     print("====================================================")
@@ -33,5 +67,7 @@ def run_script(script_name, iterations):
     print(f'{script_name} - Stddev time: {std_dev}')
     print("====================================================")
 
-run_script(view_script, 10)
-run_script(target_script, 10)
+
+gen_output_folders("view", its)
+run_script("view", view_script, its)
+run_script("target", target_script, its)

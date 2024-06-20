@@ -197,3 +197,22 @@ bool Util::is_dir(std::string path) {
     auto entry = CurCache::data_cache_table.get(path);
     return !entry.has_value();
 }
+
+std::optional<std::ofstream> Util::try_get_fstream_from_path(const char* path) {
+    if(path == nullptr) {
+        LOG(ERROR) << "cstr path was null" << std::endl;
+        return std::nullopt;
+    }
+
+    const std::string output_path_string = std::string(path);
+    std::ofstream file(output_path_string, std::ios::out | std::ios::trunc);
+
+    if(!file.is_open()) {
+        LOG(ERROR) << "failed to open path: " << output_path_string << std::endl;
+        return std::nullopt;
+    }
+
+    LOG(DEBUG) << "succesfully opened path: " << output_path_string << std::endl;
+
+    return file;
+}

@@ -44,6 +44,7 @@ then
   echo "found spec_dev: $SPEC_DEV_TARGET"
 else
   echo "creating spec_dev: $SPEC_DEV_TARGET"
+  mkdir -p "$(dirname "$SPEC_DEV_TARGET")" || true
   touch "$SPEC_DEV_TARGET"
 fi
 

@@ -231,39 +231,63 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     auto start = std::chrono::high_resolution_clock::now();
     LOG(TRACE) << " " << std::endl;
     Operations::inc_operation(OperationFunction::ioctl);
-    const auto path_string{Util::rel_to_abs_path(path_)};
+    auto path_string{Util::rel_to_abs_path(path_)};
     LOG(DEBUG) << "path_string: " << path_string << std::endl;
     LOG(DEBUG) << "cmd: " << cmd << std::endl;
 
     if(cmd == Constants::ioctl_log_cache) {
-        LOG(ERROR) << CurCache::tree_cache_table << std::endl;
-        LOG(ERROR) << CurCache::data_cache_table << std::endl;
-        LOG(ERROR) << CurCache::md_cache_table << std::endl;
+        std::string output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_cache_output_filename;
+        auto fs_stream_opt = Util::try_get_fstream_from_path(output.c_str());
+        if(!fs_stream_opt.has_value()) { LOG(ERROR) << "failed to open fstream" << std::endl; return Constants::fs_operation_success; }
+
+        LOG(ERROR) << "logging cache" << std::endl;
+        fs_stream_opt.value()<< CurCache::tree_cache_table << std::endl;
+        fs_stream_opt.value() << CurCache::data_cache_table << std::endl;
+        fs_stream_opt.value()<< CurCache::md_cache_table << std::endl;
     } else if(cmd == Constants::ioctl_clear_cache) {
         LOG(ERROR) << "clearing cache" << std::endl;
-
         CurCache::tree_cache_table.cache.clear();
         CurCache::md_cache_table.cache.clear();
         CurCache::md_cache_table.cache.clear();
     } else if(cmd == Constants::ioctl_log_operation) {
-        LOG(ERROR) << Operations::log_operation << std::endl;
+        std::string output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_operation_output_filename;
+        auto fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
+        if(!fs_stream_opt.has_value()) { LOG(ERROR) << "failed to open fstream" << std::endl; return Constants::fs_operation_success; }
+
+        LOG(ERROR) << "logging operation" << std::endl;
+        fs_stream_opt.value() << Operations::log_operation << std::endl;
     } else if(cmd == Constants::ioctl_log_operation_time) {
-        LOG(ERROR) << Operations::log_operation_time << std::endl;
+        std::string output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_operation_time_output_filename;
+        auto fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
+        if(!fs_stream_opt.has_value()) { LOG(ERROR) << "failed to open fstream" << std::endl; return Constants::fs_operation_success; }
+
+        LOG(ERROR) << "logging operation time" << std::endl;
+        fs_stream_opt.value() << Operations::log_operation_time << std::endl;
     } else if(cmd == Constants::ioctl_log_operation_cache_hit) {
-        LOG(ERROR) << Operations::log_operation_cache_hit << std::endl;
+        std::string output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_cache_hit_output_filename;
+        auto fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
+        if(!fs_stream_opt.has_value()) { LOG(ERROR) << "failed to open fstream" << std::endl; return Constants::fs_operation_success; }
+
+        LOG(ERROR) << "logging operation cache hit" << std::endl;
+        fs_stream_opt.value() << Operations::log_operation_cache_hit << std::endl;
     } else if(cmd == Constants::ioctl_log_operation_cache_miss) {
-        LOG(ERROR) << Operations::log_operation_cache_miss << std::endl;
+        std::string output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_cache_miss_output_filename;
+        auto fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
+        if(!fs_stream_opt.has_value()) { LOG(ERROR) << "failed to open fstream" << std::endl; return Constants::fs_operation_success; }
+
+        LOG(ERROR) << "logging operation cache miss" << std::endl;
+        fs_stream_opt.value() << Operations::log_operation_cache_miss << std::endl;
     } else if(cmd == Constants::ioctl_clear_operation) {
-        LOG(ERROR) << "clearing ioctl_clear_operation" << std::endl;
+        LOG(ERROR) << "clearing operation" << std::endl;
         Operations::reset_operation_counter();
     } else if(cmd == Constants::ioctl_clear_operation_cache_hit) {
-        LOG(ERROR) << "clearing ioctl_clear_operation_cache_hit" << std::endl;
+        LOG(ERROR) << "clearing operation cache hit" << std::endl;
         Operations::reset_operation_cache_hit();
     } else if(cmd == Constants::ioctl_clear_operation_cache_miss) {
-        LOG(ERROR) << "clearing ioctl_clear_operation_cache_miss" << std::endl;
+        LOG(ERROR) << "clearing operation cache miss" << std::endl;
         Operations::reset_operation_cache_miss();
     } else if(cmd == Constants::ioctl_clear_operation_time) {
-        LOG(ERROR) << "clearing ioctl_clear_operation_time" << std::endl;
+        LOG(ERROR) << "clearing operation time" << std::endl;
         Operations::reset_operation_timer();
     } else {
         LOG(WARNING) << "unknown cmd" << std::endl;
@@ -503,7 +527,7 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 };
 
 int main(const int argc, const char* argv[]) {
-    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::error);
+    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
     LOG(TRACE) << " " << std::endl;
 
     auto new_args{Util::process_args(argc, argv)};

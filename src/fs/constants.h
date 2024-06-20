@@ -23,6 +23,11 @@ class Constants {
     static constexpr unsigned int ioctl_clear_operation_cache_hit{800};
     static constexpr unsigned int ioctl_clear_operation_cache_miss{900};
     static constexpr unsigned int ioctl_clear_operation_time{1000};
+    static inline std::string log_cache_output_filename = "log_cache.output";
+    static inline std::string log_operation_output_filename = "log_cache_operation.output";
+    static inline std::string log_operation_time_output_filename = "log_cache_operation_time.output";
+    static inline std::string log_cache_hit_output_filename = "log_cache_hit.output";
+    static inline std::string log_cache_miss_output_filename = "log_cache_miss.output";
 };
 
 #endif // CONSTANTS_H

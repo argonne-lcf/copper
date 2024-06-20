@@ -37,6 +37,8 @@ class Util {
 
     // NOTE: just checks if a data entry exists
     static bool is_dir(std::string path);
+
+    static std::optional<std::ofstream> try_get_fstream_from_path(const char* path);
 };
 
 #endif // UTIL_H

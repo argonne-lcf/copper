@@ -71,7 +71,7 @@ class Operations {
 
     private:
     static inline int operation_counter[static_cast<int>(OperationFunction::size)]{};
-    static inline int operation_timer[static_cast<int>(OperationFunction::size)]{};
+    static inline long operation_timer[static_cast<int>(OperationFunction::size)]{};
     static inline int operation_cache_hit[static_cast<int>(OperationFunction::size)]{};
     static inline int operation_cache_miss[static_cast<int>(OperationFunction::size)]{};
 };
