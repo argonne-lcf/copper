@@ -29,3 +29,9 @@ Lists of the current filesystem operations for which the caching is implemented.
 - [x] read
 - [x] open
 - [x] getattr
+
+## TODO
+
+- [ ] Rework ioctl to interpret the cmd correctly
+- [ ] Test returning not supported from lock
+- [ ] Integrate with RPC requests
