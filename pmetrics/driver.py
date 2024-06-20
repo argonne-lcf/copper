@@ -58,13 +58,15 @@ def run_script(folder, script_name, iterations):
                         sys.exit(1)
 
     total_time = sum(execution_times)
-    std_dev = statistics.stdev(execution_times)
+    if iterations >= 2:
+        std_dev = statistics.stdev(execution_times)
 
     print("====================================================")
     print("=                     METRICS                      =")
     print("====================================================")
     print(f'{script_name} - Total time: {total_time}')
-    print(f'{script_name} - Stddev time: {std_dev}')
+    if iterations >= 2:
+        print(f'{script_name} - Stddev time: {std_dev}')
     print("====================================================")
 
 

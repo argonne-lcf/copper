@@ -3,9 +3,10 @@ build
 external
 view
 target
-*.swp
+**.swp
 .idea
 scripts/env.sh
 cmake-build-debug
 CMakeLists.txt.user
-*.output
+**.output
+**.stdout
