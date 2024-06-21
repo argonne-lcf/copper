@@ -4,11 +4,6 @@ template <typename t>
 static void
 log_operation_helper(const std::string& table_name, std::ostream& os, t (&table_array)[static_cast<int>(OperationFunction::size)]) {
 #ifdef COLLECT_METRICS
-    if(table_array == nullptr) {
-        LOG(ERROR) << "table_array was null" << std::endl;
-        return;
-    }
-
     os << Util::get_current_datetime() << std::endl;
 
     os << table_name << " {" << std::endl;
@@ -81,21 +76,21 @@ void Operations::inc_operation_cache_hit(OperationFunction func, const bool cach
 }
 
 std::ostream& Operations::log_operation(std::ostream& os) {
-    log_operation_helper("operation_counter", os, operation_counter);
+    log_operation_helper<int>("operation_counter", os, operation_counter);
     return os;
 }
 
 std::ostream& Operations::log_operation_time(std::ostream& os) {
-    log_operation_helper("operation_timer (microseconds)", os, operation_timer);
+    log_operation_helper<long>("operation_timer (microseconds)", os, operation_timer);
     return os;
 }
 
 std::ostream& Operations::log_operation_cache_hit(std::ostream& os) {
-    log_operation_helper("operation_cache_hit", os, operation_cache_hit);
+    log_operation_helper<int>("operation_cache_hit", os, operation_cache_hit);
     return os;
 }
 
 std::ostream& Operations::log_operation_cache_miss(std::ostream& os) {
-    log_operation_helper("operation_cache_miss", os, operation_cache_miss);
+    log_operation_helper<int>("operation_cache_miss", os, operation_cache_miss);
     return os;
 }

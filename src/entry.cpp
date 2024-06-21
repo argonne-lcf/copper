@@ -124,6 +124,7 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
 static int cu_fuse_read(const char* path_, char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) {
     auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
+    Operations::inc_operation(OperationFunction::read);
     const auto path_string{Util::rel_to_abs_path(path_)};
     LOG(DEBUG) << "path_string: " << path_string << std::endl;
 
