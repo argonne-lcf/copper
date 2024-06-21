@@ -1,10 +1,11 @@
 #ifndef CU_FUSE_OPERATIONS_H
 #define CU_FUSE_OPERATIONS_H
 
+#include <cstring>
 #include <iostream>
 #include <ostream>
-#include <cstring>
 
+#include "metrics.h"
 #include "../aixlog.h"
 
 enum class OperationFunction {
@@ -59,10 +60,18 @@ class Operations {
     static void inc_operation_timer(OperationFunction func, long time);
     static void inc_operation_cache_hit(OperationFunction func, bool cache_hit);
 
-    static void reset_operation_counter() { memset(operation_counter, 0, sizeof(OperationFunction::size)); }
-    static void reset_operation_timer() { memset(operation_timer, 0, sizeof(OperationFunction::size)); }
-    static void reset_operation_cache_hit() { memset(operation_cache_hit, 0, sizeof(OperationFunction::size)); }
-    static void reset_operation_cache_miss() { memset(operation_cache_miss, 0, sizeof(OperationFunction::size)); }
+    static void reset_operation_counter() {
+        memset(operation_counter, 0, sizeof(OperationFunction::size));
+    }
+    static void reset_operation_timer() {
+        memset(operation_timer, 0, sizeof(OperationFunction::size));
+    }
+    static void reset_operation_cache_hit() {
+        memset(operation_cache_hit, 0, sizeof(OperationFunction::size));
+    }
+    static void reset_operation_cache_miss() {
+        memset(operation_cache_miss, 0, sizeof(OperationFunction::size));
+    }
 
     static std::ostream& log_operation(std::ostream& os);
     static std::ostream& log_operation_time(std::ostream& os);

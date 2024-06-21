@@ -216,3 +216,20 @@ std::optional<std::ofstream> Util::try_get_fstream_from_path(const char* path) {
 
     return file;
 }
+
+std::string Util::get_current_datetime() {
+    // Get the current time as a time_point
+    auto now = std::chrono::system_clock::now();
+
+    // Convert the time_point to a time_t which represents the calendar time
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+
+    // Convert the time_t to a tm struct for local time representation
+    std::tm now_tm = *std::localtime(&now_time);
+
+    // Use stringstream to format the date and time
+    std::stringstream ss;
+    ss << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S");
+
+    return ss.str();
+}

@@ -10,6 +10,7 @@
 #include <random>
 #include <string>
 #include <sys/stat.h>
+#include <chrono>
 
 #include "../aixlog.h"
 #include "../cache/cur_cache.h"
@@ -39,6 +40,8 @@ class Util {
     static bool is_dir(std::string path);
 
     static std::optional<std::ofstream> try_get_fstream_from_path(const char* path);
+
+    static std::string get_current_datetime();
 };
 
 #endif // UTIL_H

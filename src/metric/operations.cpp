@@ -1,7 +1,9 @@
 #include "operations.h"
 
 template <typename t>
-static void log_operation_helper(const std::string& table_name, std::ostream& os, t (&table_array)[static_cast<int>(OperationFunction::size)]) {
+static void
+log_operation_helper(const std::string& table_name, std::ostream& os, t (&table_array)[static_cast<int>(OperationFunction::size)]) {
+#ifdef COLLECT_METRICS
     if(table_array == nullptr) {
         LOG(ERROR) << "table_array was null" << std::endl;
         return;
@@ -51,22 +53,29 @@ static void log_operation_helper(const std::string& table_name, std::ostream& os
     os << "copy_file_range: " << table_array[t(OperationFunction::copy_file_range)] << "," << std::endl;
     os << "lseek: " << table_array[t(OperationFunction::lseek)] << std::endl;
     os << "}";
+#endif
 }
 
 void Operations::inc_operation(OperationFunction func) {
+#ifdef COLLECT_METRICS
     operation_counter[static_cast<int>(func)]++;
+#endif
 }
 
 void Operations::inc_operation_timer(OperationFunction func, const long time) {
+#ifdef COLLECT_METRICS
     operation_timer[static_cast<long>(func)] += time;
+#endif
 }
 
 void Operations::inc_operation_cache_hit(OperationFunction func, const bool cache_hit) {
+#ifdef COLLECT_METRICS
     if(cache_hit) {
         operation_cache_hit[static_cast<int>(func)]++;
     } else {
         operation_cache_miss[static_cast<int>(func)]++;
     }
+#endif
 }
 
 std::ostream& Operations::log_operation(std::ostream& os) {
@@ -75,7 +84,7 @@ std::ostream& Operations::log_operation(std::ostream& os) {
 }
 
 std::ostream& Operations::log_operation_time(std::ostream& os) {
-    log_operation_helper("operation_timer", os, operation_timer);
+    log_operation_helper("operation_timer (microseconds)", os, operation_timer);
     return os;
 }
 

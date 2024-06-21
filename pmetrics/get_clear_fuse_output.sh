@@ -17,13 +17,19 @@ fi
 (cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_log_operation_time.sh)")
 (cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_log_operation_cache_hit.sh)")
 (cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_log_operation_cache_miss.sh)")
+(cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_log_data_cache_event.sh)")
+(cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_log_dir_cache_event.sh)")
+(cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_log_md_cache_event.sh)")
 
 cp "$SPEC_DEV_TARGET_DIR"/*.output "$1"
 
-# (cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_clear_cache.sh)")
+(cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_clear_cache.sh)")
 (cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_clear_operation.sh)")
 (cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_clear_operation_time.sh)")
 (cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_clear_operation_cache_hit.sh)")
 (cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_clear_operation_cache_miss.sh)")
+(cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_clear_data_cache_event.sh)")
+(cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_clear_dir_cache_event.sh)")
+(cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_clear_md_cache_event.sh)")
 
 rm "$SPEC_DEV_TARGET_DIR"/*.output

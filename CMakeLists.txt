@@ -26,6 +26,7 @@ set(SOURCES
     src/metric/operations.cpp
         src/metric/cache_event.cpp
         src/metric/cache_event.h
+        src/metric/metrics.h
 )
 
 # Create executable
