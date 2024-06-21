@@ -44,14 +44,14 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
 
     // FIXME: make rpc request or root functionality here
     if(!cu_stat_opt.has_value()) {
+        CacheEvent::record_md_cache_event(path_string, false);
+        Operations::inc_operation_cache_hit(OperationFunction::getattr, false);
+        LOG(DEBUG) << "not in cache" << std::endl;
+
         if(lstat(path_string.c_str(), stbuf) == -1) {
             LOG(WARNING) << "failed to passthrough stat" << std::endl;
             return -errno;
         }
-
-        CacheEvent::record_md_cache_event(path_string, false);
-        Operations::inc_operation_cache_hit(OperationFunction::getattr, false);
-        LOG(DEBUG) << "not in cache" << std::endl;
 
         const auto new_cu_stat = new CuStat{stbuf};
         CurCache::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
@@ -84,6 +84,10 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
 
     // FIXME: make rpc request or root functionality here
     if(!entry_opt.has_value()) {
+        CacheEvent::record_md_cache_event(path_string, false);
+        Operations::inc_operation_cache_hit(OperationFunction::open, false);
+        LOG(DEBUG) << "not in cache" << path_string << std::endl;
+
         const int fd = open(path_string.c_str(), fi->flags);
 
         if(fd == -1) {
@@ -96,10 +100,6 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
             LOG(WARNING) << "failed to passthrough stat" << std::endl;
             return -errno;
         }
-
-        CacheEvent::record_md_cache_event(path_string, false);
-        Operations::inc_operation_cache_hit(OperationFunction::open, false);
-        LOG(DEBUG) << "not in cache" << path_string << std::endl;
 
         const auto new_cu_stat = new CuStat{new_st};
         CurCache::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
@@ -136,6 +136,10 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
 
     // Allocate bytes if not in cache
     if(!entry_opt.has_value()) {
+        CacheEvent::record_data_cache_event(path_string, false);
+        Operations::inc_operation_cache_hit(OperationFunction::read, false);
+        LOG(DEBUG) << "not in cache" << std::endl;
+
         try {
             // Allocate new vector and read data into it
             bytes = new std::vector(Util::read_ent_file(path_string, true));
@@ -144,10 +148,6 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
             LOG(WARNING) << "failed to passthrough read" << std::endl;
             return -ENOENT;
         }
-
-        CacheEvent::record_data_cache_event(path_string, false);
-        Operations::inc_operation_cache_hit(OperationFunction::read, false);
-        LOG(DEBUG) << "not in cache" << std::endl;
     } else {
         CacheEvent::record_data_cache_event(path_string, true);
         Operations::inc_operation_cache_hit(OperationFunction::read, true);
@@ -199,15 +199,15 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
 
     // FIXME: make rpc request or root functionality here
     if(!tree_cache_table_entry_opt.has_value()) {
+        CacheEvent::record_dir_cache_event(path_string, false);
+        Operations::inc_operation_cache_hit(OperationFunction::readdir, false);
+        LOG(DEBUG) << "not in cache" << std::endl;
+
         DIR* dp = opendir(path_string.c_str());
         if(dp == nullptr) {
             LOG(WARNING) << "failed to passthrough readdir" << std::endl;
             return -errno;
         }
-
-        CacheEvent::record_dir_cache_event(path_string, false);
-        Operations::inc_operation_cache_hit(OperationFunction::readdir, false);
-        LOG(DEBUG) << "not in cache" << std::endl;
 
         dirent* de;
         while((de = readdir(dp)) != nullptr) {
@@ -268,7 +268,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         }
 
         LOG(INFO) << "logging cache" << std::endl;
-        fs_stream_opt.value() << Util::get_current_datetime << std::endl;
+        fs_stream_opt.value() << Util::get_current_datetime() << std::endl;
         fs_stream_opt.value() << CurCache::tree_cache_table << std::endl;
         fs_stream_opt.value() << CurCache::data_cache_table << std::endl;
         fs_stream_opt.value() << CurCache::md_cache_table << std::endl;
@@ -288,7 +288,6 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         }
 
         LOG(INFO) << "logging operation" << std::endl;
-        fs_stream_opt.value() << Util::get_current_datetime << std::endl;
         fs_stream_opt.value() << Operations::log_operation << std::endl;
         break;
     case(Constants::ioctl_log_operation_time):
@@ -300,7 +299,6 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         }
 
         LOG(INFO) << "logging operation time (ms)" << std::endl;
-        fs_stream_opt.value() << Util::get_current_datetime << std::endl;
         fs_stream_opt.value() << Operations::log_operation_time << std::endl;
         break;
     case(Constants::ioctl_log_operation_cache_hit):
@@ -312,7 +310,6 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         }
 
         LOG(INFO) << "logging operation cache hit" << std::endl;
-        fs_stream_opt.value() << Util::get_current_datetime << std::endl;
         fs_stream_opt.value() << Operations::log_operation_cache_hit << std::endl;
         break;
     case(Constants::ioctl_log_operation_cache_miss):
@@ -324,7 +321,6 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         }
 
         LOG(INFO) << "logging operation cache miss" << std::endl;
-        fs_stream_opt.value() << Util::get_current_datetime << std::endl;
         fs_stream_opt.value() << Operations::log_operation_cache_miss << std::endl;
         break;
     case(Constants::ioctl_clear_operation):
@@ -351,7 +347,6 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         }
 
         LOG(INFO) << "logging data cache event" << std::endl;
-        fs_stream_opt.value() << Util::get_current_datetime << std::endl;
         fs_stream_opt.value() << CacheEvent::log_data_cache_event << std::endl;
         break;
     case(Constants::ioctl_log_dir_cache_event):
@@ -363,7 +358,6 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         }
 
         LOG(INFO) << "logging dir cache event" << std::endl;
-        fs_stream_opt.value() << Util::get_current_datetime << std::endl;
         fs_stream_opt.value() << CacheEvent::log_dir_cache_event << std::endl;
         break;
     case(Constants::ioctl_log_md_cache_event):
@@ -375,7 +369,6 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         }
 
         LOG(INFO) << "logging md cache event" << std::endl;
-        fs_stream_opt.value() << Util::get_current_datetime << std::endl;
         fs_stream_opt.value() << CacheEvent::log_md_cache_event << std::endl;
         break;
     case(Constants::ioctl_clear_data_cache_event):
@@ -633,7 +626,7 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 };
 
 int main(const int argc, const char* argv[]) {
-    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
+    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::fatal);
     LOG(TRACE) << " " << std::endl;
 
     auto new_args{Util::process_args(argc, argv)};

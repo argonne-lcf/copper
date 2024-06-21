@@ -35,17 +35,17 @@ class Constants {
     static constexpr unsigned int ioctl_clear_dir_cache_event{1500};
     static constexpr unsigned int ioctl_clear_md_cache_event{1600};
 
-    static inline std::string log_cache_output_filename = "log_cache.output";
+    static inline std::string log_cache_output_filename = "cache.output";
 
-    static inline std::string log_operation_output_filename = "log_operation.output";
-    static inline std::string log_operation_time_output_filename = "log_operation_time.output";
+    static inline std::string log_operation_output_filename = "operation_count.output";
+    static inline std::string log_operation_time_output_filename = "operation_time.output";
 
-    static inline std::string log_cache_hit_output_filename = "log_cache_hit.output";
-    static inline std::string log_cache_miss_output_filename = "log_cache_miss.output";
+    static inline std::string log_cache_hit_output_filename = "cache_hit.output";
+    static inline std::string log_cache_miss_output_filename = "cache_miss.output";
 
-    static inline std::string log_data_cache_event_output_filename = "log_data_cache_event.output";
-    static inline std::string log_dir_cache_event_output_filename = "log_dir_cache_event.output";
-    static inline std::string log_md_cache_event_output_filename = "log_md_cache_event.output";
+    static inline std::string log_data_cache_event_output_filename = "data_cache_event.output";
+    static inline std::string log_dir_cache_event_output_filename = "dir_cache_event.output";
+    static inline std::string log_md_cache_event_output_filename = "md_cache_event.output";
 };
 
 #endif // CONSTANTS_H

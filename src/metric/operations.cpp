@@ -9,6 +9,8 @@ log_operation_helper(const std::string& table_name, std::ostream& os, t (&table_
         return;
     }
 
+    os << Util::get_current_datetime() << std::endl;
+
     os << table_name << " {" << std::endl;
     os << "getattr: " << table_array[static_cast<t>(OperationFunction::getattr)] << "," << std::endl;
     os << "readlink: " << table_array[static_cast<t>(OperationFunction::readlink)] << "," << std::endl;

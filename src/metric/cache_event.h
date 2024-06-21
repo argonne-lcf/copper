@@ -7,6 +7,7 @@
 
 #include "metrics.h"
 #include "../aixlog.h"
+#include "../fs/util.h"
 
 class CacheEvent {
     public:

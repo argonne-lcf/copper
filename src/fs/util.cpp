@@ -133,8 +133,7 @@ std::string Util::get_base_of_path(const std::string& str) {
 }
 
 std::vector<std::byte> Util::read_ent_file(const std::string& path, bool is_file) {
-    std::ifstream source_file{path, std::ios::binary};
-    if(source_file) {
+    if(std::ifstream source_file{path, std::ios::binary}) {
         std::streamsize file_size{};
         file_size = static_cast<std::streamsize>(std::filesystem::file_size(path));
         std::vector<std::byte> bytes(file_size);
@@ -156,7 +155,7 @@ int Util::gen_inode() {
 }
 
 void Util::remove_entry_from_cache(std::string path) {
-    std::string parent_path = std::filesystem::path(path).parent_path().string();
+    const std::string parent_path = std::filesystem::path(path).parent_path().string();
     CurCache::md_cache_table.remove(path);
 
     if(Util::is_dir(path)) {
@@ -218,18 +217,10 @@ std::optional<std::ofstream> Util::try_get_fstream_from_path(const char* path) {
 }
 
 std::string Util::get_current_datetime() {
-    // Get the current time as a time_point
-    auto now = std::chrono::system_clock::now();
+    const time_t now = time(nullptr);
+    char buf[80];
+    const tm tstruct = *localtime(&now);
+    strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
 
-    // Convert the time_point to a time_t which represents the calendar time
-    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
-
-    // Convert the time_t to a tm struct for local time representation
-    std::tm now_tm = *std::localtime(&now_time);
-
-    // Use stringstream to format the date and time
-    std::stringstream ss;
-    ss << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S");
-
-    return ss.str();
+    return buf;
 }

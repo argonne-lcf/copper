@@ -3,6 +3,7 @@
 static void log_cache_event_helper(const std::string& table_name,
 std::ostream& os,
 std::unordered_map<std::string, std::pair<unsigned int, unsigned int>>& event_cache_table) {
+    os << Util::get_current_datetime() << std::endl;
 #ifdef COLLECT_METRICS
     os << table_name << " {" << std::endl;
     for(const auto& entry : event_cache_table) {
