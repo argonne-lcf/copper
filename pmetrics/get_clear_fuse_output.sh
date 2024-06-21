@@ -20,7 +20,7 @@ fi
 
 cp "$SPEC_DEV_TARGET_DIR"/*.output "$1"
 
-(cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_clear_cache.sh)")
+# (cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_clear_cache.sh)")
 (cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_clear_operation.sh)")
 (cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_clear_operation_time.sh)")
 (cd $INIT_PWD/scripts && bash "$(readlink -f $INIT_PWD/scripts/ioctl_clear_operation_cache_hit.sh)")

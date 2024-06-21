@@ -37,7 +37,7 @@ def gen_output_folders(folder, iterations):
 def run_script(folder, script_name, iterations):
     execution_times = []
     script_output = output_dir + "/" + script_stdout
-    print(f'{script_output} - start run')
+    print(f'{script_name} - start run')
     with open(script_output, 'a') as f:
         for i in range(iterations):
             iteration = i + 1

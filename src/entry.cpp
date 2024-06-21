@@ -36,7 +36,7 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
     auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
     Operations::inc_operation(OperationFunction::getattr);
-    const auto path_string{Util::rel_to_abs_path(std::move(path_))};
+    const auto path_string{Util::rel_to_abs_path(path_)};
     LOG(DEBUG) << "path_string: " << path_string << std::endl;
 
     const auto cu_stat_opt{CurCache::md_cache_table.get(path_string)};
@@ -527,7 +527,7 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 };
 
 int main(const int argc, const char* argv[]) {
-    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::fatal);
+    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
     LOG(TRACE) << " " << std::endl;
 
     auto new_args{Util::process_args(argc, argv)};
