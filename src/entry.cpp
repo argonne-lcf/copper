@@ -261,7 +261,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         auto fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
         if(!fs_stream_opt.has_value()) { LOG(ERROR) << "failed to open fstream" << std::endl; return Constants::fs_operation_success; }
 
-        LOG(ERROR) << "logging operation time" << std::endl;
+        LOG(ERROR) << "logging operation time (ms)" << std::endl;
         fs_stream_opt.value() << Operations::log_operation_time << std::endl;
     } else if(cmd == Constants::ioctl_log_operation_cache_hit) {
         std::string output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_cache_hit_output_filename;
@@ -527,7 +527,7 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 };
 
 int main(const int argc, const char* argv[]) {
-    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
+    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::error);
     LOG(TRACE) << " " << std::endl;
 
     auto new_args{Util::process_args(argc, argv)};

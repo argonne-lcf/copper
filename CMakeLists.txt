@@ -24,6 +24,8 @@ set(SOURCES
     src/fs/util.cpp
     src/cache/tree_cache_table.cpp
     src/metric/operations.cpp
+        src/metric/cache_event.cpp
+        src/metric/cache_event.h
 )
 
 # Create executable
