@@ -37,8 +37,8 @@ class Constants {
 
     static inline std::string log_cache_output_filename = "log_cache.output";
 
-    static inline std::string log_operation_output_filename = "log_cache_operation.output";
-    static inline std::string log_operation_time_output_filename = "log_cache_operation_time.output";
+    static inline std::string log_operation_output_filename = "log_operation.output";
+    static inline std::string log_operation_time_output_filename = "log_operation_time.output";
 
     static inline std::string log_cache_hit_output_filename = "log_cache_hit.output";
     static inline std::string log_cache_miss_output_filename = "log_cache_miss.output";
