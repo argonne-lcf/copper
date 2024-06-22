@@ -1,4 +1,5 @@
 #!/bin/bash
+set -o nounset
 
 if [ ! -f env.sh ]
 then

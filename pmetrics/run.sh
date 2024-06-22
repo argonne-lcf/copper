@@ -1,4 +1,5 @@
 #!/bin/bash
+set -o nounset
 
 ITERATIONS=1
 
