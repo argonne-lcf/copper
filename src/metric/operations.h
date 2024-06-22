@@ -5,9 +5,9 @@
 #include <iostream>
 #include <ostream>
 
-#include "metrics.h"
 #include "../aixlog.h"
 #include "../fs/util.h"
+#include "metrics.h"
 
 enum class OperationFunction {
     getattr = 0,

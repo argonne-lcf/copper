@@ -3,4 +3,4 @@
 
 #define COLLECT_METRICS 1
 
-#endif //METRICS_H
+#endif // METRICS_H

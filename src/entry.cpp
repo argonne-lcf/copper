@@ -31,8 +31,6 @@
         return Constants::fs_operation_success;                \
     }
 
-#define COLLECT_METRICS 1
-
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
@@ -239,7 +237,6 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     if(cache) {
         CurCache::tree_cache_table.put_force(path_string, std::move(entries));
     }
-
 
     auto stop = std::chrono::high_resolution_clock::now();
     Operations::inc_operation_timer(
