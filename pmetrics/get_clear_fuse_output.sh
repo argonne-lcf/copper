@@ -13,26 +13,28 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-RUN_IOCTL="$(readlink -f "$INIT_PWD"/scripts/run_ioctl.sh)"
+RUN_IOCTL="$(readlink -f "$SCRIPTS_DIR"/run_ioctl.sh)"
 
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_LOG_CACHE")
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_LOG_OPERATION")
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_LOG_OPERATION_TIME")
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_LOG_OPERATION_CACHE_HIT")
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_LOG_OPERATION_CACHE_MISS")
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_LOG_DATA_CACHE_EVENT")
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_LOG_DIR_CACHE_EVENT")
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_LOG_MD_CACHE_EVENT")
+(cd "$SCRIPTS_DIR" && bash "$RUN_IOCTL" "$IOCTL_LOG_CACHE")
+(cd "$SCRIPTS_DIR" && bash "$RUN_IOCTL" "$IOCTL_LOG_OPERATION")
+(cd "$SCRIPTS_DIR" && bash "$RUN_IOCTL" "$IOCTL_LOG_OPERATION_TIME")
+(cd "$SCRIPTS_DIR" && bash "$RUN_IOCTL" "$IOCTL_LOG_OPERATION_CACHE_HIT")
+(cd "$SCRIPTS_DIR" && bash "$RUN_IOCTL" "$IOCTL_LOG_OPERATION_CACHE_MISS")
+(cd "$SCRIPTS_DIR" && bash "$RUN_IOCTL" "$IOCTL_LOG_DATA_CACHE_EVENT")
+(cd "$SCRIPTS_DIR" && bash "$RUN_IOCTL" "$IOCTL_LOG_DIR_CACHE_EVENT")
+(cd "$SCRIPTS_DIR" && bash "$RUN_IOCTL" "$IOCTL_LOG_MD_CACHE_EVENT")
+(cd "$SCRIPTS_DIR" && bash "$RUN_IOCTL" "$IOCTL_LOG_OPERATION_NEG")
 
 cp "$SPEC_DEV_TARGET_DIR"/*.output "$1"
 
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_CLEAR_CACHE")
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_CLEAR_OPERATION")
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_CLEAR_OPERATION_TIME")
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_CLEAR_OPERATION_CACHE_HIT")
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_CLEAR_OPERATION_CACHE_MISS")
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_CLEAR_DATA_CACHE_EVENT")
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_CLEAR_DATA_CACHE_EVENT")
-(cd "$INIT_PWD"/scripts && bash "$RUN_IOCTL" "$IOCTL_CLEAR_DATA_CACHE_EVENT")
+(cd "$SCRIPT_DIR" && bash "$RUN_IOCTL" "$IOCTL_CLEAR_CACHE")
+(cd "$SCRIPT_DIR" && bash "$RUN_IOCTL" "$IOCTL_CLEAR_OPERATION")
+(cd "$SCRIPT_DIR" && bash "$RUN_IOCTL" "$IOCTL_CLEAR_OPERATION_TIME")
+(cd "$SCRIPT_DIR" && bash "$RUN_IOCTL" "$IOCTL_CLEAR_OPERATION_CACHE_HIT")
+(cd "$SCRIPT_DIR" && bash "$RUN_IOCTL" "$IOCTL_CLEAR_OPERATION_CACHE_MISS")
+(cd "$SCRIPT_DIR" && bash "$RUN_IOCTL" "$IOCTL_CLEAR_DATA_CACHE_EVENT")
+(cd "$SCRIPT_DIR" && bash "$RUN_IOCTL" "$IOCTL_CLEAR_DATA_CACHE_EVENT")
+(cd "$SCRIPT_DIR" && bash "$RUN_IOCTL" "$IOCTL_CLEAR_DATA_CACHE_EVENT")
+(cd "$SCRIPT_DIR" && bash "$RUN_IOCTL" "$IOCTL_CLEAR_OPERATION_NEG")
 
 rm "$SPEC_DEV_TARGET_DIR"/*.output
