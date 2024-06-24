@@ -19,17 +19,18 @@
 #include "fs/util.h"
 #include "metric/cache_event.h"
 #include "metric/operations.h"
+#include "metric/metrics.h"
 
 #define NOT_IMPLEMENTED(func)                                                      \
     {                                                                              \
         LOG(DEBUG) << " " << std::endl;                                            \
-        auto start = Util::start_operation(func);                                  \
-        return Util::stop_operation(func, start, Constants::fs_operation_success); \
+        auto start = Metric::start_operation(func);                                  \
+        return Metric::stop_operation(func, start, Constants::fs_operation_success); \
     }
 
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
-    auto [path_string, start] = Util::start_cache_operation(OperationFunction::getattr, path_);
+    auto [path_string, start] = Metric::start_cache_operation(OperationFunction::getattr, path_);
 
     const auto cu_stat_opt{CurCache::md_cache_table.get(path_string)};
 
@@ -37,14 +38,14 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
     if(!cu_stat_opt.has_value()) {
         if(lstat(path_string.c_str(), stbuf) == -1) {
             LOG(WARNING) << "failed to passthrough stat" << std::endl;
-            return Util::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
+            return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
             CacheEvent::md_cache_event_table, path_string, start, -errno);
         }
 
         const auto new_cu_stat = new CuStat{stbuf};
         CurCache::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
 
-        return Util::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_miss,
+        return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_miss,
         CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
     }
 
@@ -52,13 +53,13 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
 
     cu_stat->cp_to_buf(stbuf);
 
-    return Util::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_hit,
+    return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_hit,
     CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
 }
 
 static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
-    auto [path_string, start] = Util::start_cache_operation(OperationFunction::open, path_);
+    auto [path_string, start] = Metric::start_cache_operation(OperationFunction::open, path_);
 
     const auto entry_opt = CurCache::md_cache_table.get(path_string);
 
@@ -68,14 +69,14 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
 
         if(fd == -1) {
             LOG(WARNING) << "failed to passthrough open" << std::endl;
-            return Util::stop_cache_operation(
+            return Metric::stop_cache_operation(
             OperationFunction::open, OperationResult::neg, CacheEvent::md_cache_event_table, path_string, start, -errno);
         }
 
         struct stat* new_st{};
         if(stat(path_string.c_str(), new_st) == -1) {
             LOG(WARNING) << "failed to passthrough stat" << std::endl;
-            return Util::stop_cache_operation(
+            return Metric::stop_cache_operation(
             OperationFunction::open, OperationResult::neg, CacheEvent::md_cache_event_table, path_string, start, -errno);
         }
 
@@ -84,19 +85,19 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
 
         fi->fh = fd;
 
-        return Util::stop_cache_operation(OperationFunction::open, OperationResult::cache_miss,
+        return Metric::stop_cache_operation(OperationFunction::open, OperationResult::cache_miss,
         CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
     }
 
     fi->fh = entry_opt.value()->get_st()->st_ino;
 
-    return Util::stop_cache_operation(OperationFunction::open, OperationResult::cache_hit,
+    return Metric::stop_cache_operation(OperationFunction::open, OperationResult::cache_hit,
     CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
 }
 
 static int cu_fuse_read(const char* path_, char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
-    auto [path_string, start] = Util::start_cache_operation(OperationFunction::read, path_);
+    auto [path_string, start] = Metric::start_cache_operation(OperationFunction::read, path_);
 
     const auto entry_opt = CurCache::data_cache_table.get(path_string);
     std::vector<std::byte>* bytes = nullptr;
@@ -113,7 +114,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
             cache = true;
         } catch(std::runtime_error&) {
             LOG(WARNING) << "failed to passthrough read" << std::endl;
-            return Util::stop_cache_operation(OperationFunction::read, OperationResult::neg,
+            return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
             CacheEvent::data_cache_event_table, path_string, start, -ENOENT);
         }
     } else {
@@ -133,10 +134,10 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     if(cache) {
         CurCache::data_cache_table.put_force(path_string, std::move(*bytes));
         delete bytes;
-        return Util::stop_cache_operation(OperationFunction::read, OperationResult::cache_miss,
+        return Metric::stop_cache_operation(OperationFunction::read, OperationResult::cache_miss,
         CacheEvent::data_cache_event_table, path_string, start, write_size);
     } else {
-        return Util::stop_cache_operation(OperationFunction::read, OperationResult::cache_hit,
+        return Metric::stop_cache_operation(OperationFunction::read, OperationResult::cache_hit,
         CacheEvent::data_cache_event_table, path_string, start, write_size);
     }
 }
@@ -144,7 +145,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
 static int
 cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_t offset, struct fuse_file_info* fi, enum fuse_readdir_flags flags) {
     LOG(DEBUG) << " " << std::endl;
-    auto [path_string, start] = Util::start_cache_operation(OperationFunction::readdir, path_);
+    auto [path_string, start] = Metric::start_cache_operation(OperationFunction::readdir, path_);
 
     const auto& tree_cache_table_entry_opt = CurCache::tree_cache_table.get(path_string);
     std::vector<std::string> entries{};
@@ -155,7 +156,7 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
         DIR* dp = opendir(path_string.c_str());
         if(dp == nullptr) {
             LOG(WARNING) << "failed to passthrough readdir" << std::endl;
-            return Util::stop_cache_operation(OperationFunction::readdir, OperationResult::neg,
+            return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::neg,
             CacheEvent::dir_cache_event_table, path_string, start, -errno);
         }
 
@@ -183,17 +184,17 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
 
     if(cache) {
         CurCache::tree_cache_table.put_force(path_string, std::move(entries));
-        return Util::stop_cache_operation(OperationFunction::readdir, OperationResult::cache_miss,
+        return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::cache_miss,
         CacheEvent::dir_cache_event_table, path_string, start, Constants::fs_operation_success);
     } else {
-        return Util::stop_cache_operation(OperationFunction::readdir, OperationResult::cache_hit,
+        return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::cache_hit,
         CacheEvent::dir_cache_event_table, path_string, start, Constants::fs_operation_success);
     }
 }
 
 static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file_info*, unsigned int flags, void* data) {
     LOG(DEBUG) << " " << std::endl;
-    auto [path_string, start] = Util::start_cache_operation(OperationFunction::ioctl, path_);
+    auto [path_string, start] = Metric::start_cache_operation(OperationFunction::ioctl, path_);
 
     std::string output;
     std::optional<std::ofstream> fs_stream_opt = std::nullopt;
@@ -204,7 +205,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(output.c_str());
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
+            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging cache" << std::endl;
@@ -224,7 +225,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
+            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging operation" << std::endl;
@@ -235,7 +236,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
+            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging operation time (ms)" << std::endl;
@@ -246,7 +247,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
+            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging operation cache hit" << std::endl;
@@ -257,7 +258,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
+            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging operation cache miss" << std::endl;
@@ -283,7 +284,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(output.c_str());
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
+            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging data cache event" << std::endl;
@@ -294,7 +295,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
+            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging dir cache event" << std::endl;
@@ -305,7 +306,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
+            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging md cache event" << std::endl;
@@ -328,7 +329,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
+            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging operation neg event" << std::endl;
@@ -342,12 +343,12 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     default: LOG(WARNING) << "unknown cmd" << std::endl; break;
     }
 
-    return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_success);
+    return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_success);
 }
 
 static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
     LOG(DEBUG) << " " << std::endl;
-    auto start = Util::start_operation(OperationFunction::init);
+    auto start = Metric::start_operation(OperationFunction::init);
 
     // NOTE: docs (https://libfuse.github.io/doxygen/structfuse__config.html#a3e84d36c87733fcafc594b18a6c3dda8)
 
@@ -466,13 +467,13 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // DOCS: The remaining options are used by libfuse internally and should not be touched.
     // cfg->show_help
 
-    Util::stop_operation(OperationFunction::init, start, Constants::fs_operation_success);
+    Metric::stop_operation(OperationFunction::init, start, Constants::fs_operation_success);
     return nullptr;
 }
 
 static void cu_fuse_destroy(void* private_data) {
     LOG(DEBUG) << " " << std::endl;
-    auto start = Util::start_operation(OperationFunction::destroy);
+    auto start = Metric::start_operation(OperationFunction::destroy);
 
     CurCache::data_cache_table.cache.clear();
     CurCache::md_cache_table.cache.clear();
@@ -481,7 +482,7 @@ static void cu_fuse_destroy(void* private_data) {
     CacheEvent::reset_dir_cache_event();
     CacheEvent::reset_md_cache_event();
 
-    Util::stop_operation(OperationFunction::destroy, start, Constants::fs_operation_success);
+    Metric::stop_operation(OperationFunction::destroy, start, Constants::fs_operation_success);
 }
 
 // clang-format off

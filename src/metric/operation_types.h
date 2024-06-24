@@ -1,6 +1,8 @@
 #ifndef CU_FUSE_OPERATION_TYPES_H
 #define CU_FUSE_OPERATION_TYPES_H
 
+#include <chrono>
+
 struct OpRes {
     unsigned int cache_hit = 0;
     unsigned int cache_miss = 0;
@@ -54,5 +56,7 @@ enum class OperationFunction {
     lseek,
     size,
 };
+
+using tp = std::chrono::time_point<std::chrono::system_clock>;
 
 #endif // CU_FUSE_OPERATION_TYPES_H
