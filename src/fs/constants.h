@@ -4,15 +4,15 @@
 #include <optional>
 #define FUSE_USE_VERSION 31
 #include <fuse.h>
+#include <string>
 
 class Constants {
     public:
     static inline std::optional<std::string> target_path{std::nullopt};
-    static constexpr unsigned int max_args{10};
     static inline std::string usage{"cu_fuse <FUSE_PARAMS> -tpath <ABS_TARGET_PATH> <ABS_VIEW_PATH>"};
     static constexpr unsigned int fs_operation_success{0};
+    static constexpr unsigned int fs_operation_error{1};
     static inline std::optional<fuse_fill_dir_flags> fill_dir_plus = std::nullopt;
-    static constexpr unsigned int max_print_cache_table_entries = 3;
 
     static constexpr unsigned int ioctl_clear_cache{100};
 
@@ -35,6 +35,9 @@ class Constants {
     static constexpr unsigned int ioctl_clear_dir_cache_event{1500};
     static constexpr unsigned int ioctl_clear_md_cache_event{1600};
 
+    static constexpr unsigned int ioctl_log_operation_neg{1700};
+    static constexpr unsigned int ioctl_clear_operation_neg{1800};
+
     static inline std::string log_cache_output_filename = "cache.output";
 
     static inline std::string log_operation_output_filename = "operation_count.output";
@@ -46,6 +49,8 @@ class Constants {
     static inline std::string log_data_cache_event_output_filename = "data_cache_event.output";
     static inline std::string log_dir_cache_event_output_filename = "dir_cache_event.output";
     static inline std::string log_md_cache_event_output_filename = "md_cache_event.output";
+
+    static inline std::string log_operation_neg_output_filename = "operation_neg.output";
 };
 
 #endif // CONSTANTS_H

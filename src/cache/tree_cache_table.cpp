@@ -1,5 +1,6 @@
 #include "tree_cache_table.h"
 
+// NOTE: including in header creates circular include
 #include "cur_cache.h"
 
 void TreeCacheTable::add_to_tree_cache(const std::string& path_string, const bool is_file) {

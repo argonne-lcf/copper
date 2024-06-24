@@ -59,6 +59,12 @@ void Operations::inc_operation(OperationFunction func) {
 #endif
 }
 
+void Operations::inc_operation_neg(OperationFunction func) {
+#ifdef COLLECT_METRICS
+    operation_neg[static_cast<int>(func)]++;
+#endif
+}
+
 void Operations::inc_operation_timer(OperationFunction func, const long time) {
 #ifdef COLLECT_METRICS
     operation_timer[static_cast<long>(func)] += time;
@@ -73,6 +79,11 @@ void Operations::inc_operation_cache_hit(OperationFunction func, const bool cach
         operation_cache_miss[static_cast<int>(func)]++;
     }
 #endif
+}
+
+std::ostream& Operations::log_operation_neg(std::ostream& os) {
+    log_operation_helper<int>("operation_neg", os, operation_neg);
+    return os;
 }
 
 std::ostream& Operations::log_operation(std::ostream& os) {

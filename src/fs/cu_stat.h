@@ -1,7 +1,6 @@
 #ifndef STAT_H
 #define STAT_H
 
-#include "../aixlog.h"
 #include <cstring>
 #include <ostream>
 #include <sys/stat.h>

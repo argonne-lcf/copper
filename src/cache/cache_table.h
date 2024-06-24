@@ -7,8 +7,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include "../aixlog.h"
-
 template <typename K, typename V> class CacheTable {
     public:
     using Key = K;

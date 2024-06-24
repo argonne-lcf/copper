@@ -23,5 +23,10 @@
   "directory": "/home/theassembler1/src/cu_fuse/build",
   "command": "/usr/bin/c++  -I/home/theassembler1/src/cu_fuse/external/fuse3/install/include/fuse3 -std=gnu++17 -o CMakeFiles/cu_fuse.dir/src/metric/operations.cpp.o -c /home/theassembler1/src/cu_fuse/src/metric/operations.cpp",
   "file": "/home/theassembler1/src/cu_fuse/src/metric/operations.cpp"
+},
+{
+  "directory": "/home/theassembler1/src/cu_fuse/build",
+  "command": "/usr/bin/c++  -I/home/theassembler1/src/cu_fuse/external/fuse3/install/include/fuse3 -std=gnu++17 -o CMakeFiles/cu_fuse.dir/src/metric/cache_event.cpp.o -c /home/theassembler1/src/cu_fuse/src/metric/cache_event.cpp",
+  "file": "/home/theassembler1/src/cu_fuse/src/metric/cache_event.cpp"
 }
 ]

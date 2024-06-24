@@ -14,114 +14,89 @@
 #include <vector>
 
 #include "aixlog.h"
-#include "cache/data_cache_table.h"
-#include "cache/md_cache_table.h"
+#include "cache/cur_cache.h"
 #include "fs/constants.h"
 #include "fs/util.h"
 #include "metric/cache_event.h"
 #include "metric/operations.h"
 
-#define NOT_IMPLEMENTED(func)                                  \
-    {                                                          \
-        LOG(TRACE) << "function not implemented" << std::endl; \
-        Operations::inc_operation(func);                       \
-        return Constants::fs_operation_success;                \
+#define NOT_IMPLEMENTED(func)                                                      \
+    {                                                                              \
+        LOG(DEBUG) << " " << std::endl;                                            \
+        auto start = Util::start_operation(func);                                  \
+        return Util::stop_operation(func, start, Constants::fs_operation_success); \
     }
 
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
-    auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
-    Operations::inc_operation(OperationFunction::getattr);
-    const auto path_string{Util::rel_to_abs_path(path_)};
-    LOG(DEBUG) << "path_string: " << path_string << std::endl;
+    auto [path_string, start] = Util::start_cache_operation(OperationFunction::getattr, path_);
 
     const auto cu_stat_opt{CurCache::md_cache_table.get(path_string)};
 
     // FIXME: make rpc request or root functionality here
     if(!cu_stat_opt.has_value()) {
-        CacheEvent::record_md_cache_event(path_string, false);
-        Operations::inc_operation_cache_hit(OperationFunction::getattr, false);
-        LOG(DEBUG) << "not in cache" << std::endl;
-
         if(lstat(path_string.c_str(), stbuf) == -1) {
             LOG(WARNING) << "failed to passthrough stat" << std::endl;
-            return -errno;
+            return Util::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
+            CacheEvent::md_cache_event_table, path_string, start, -errno);
         }
 
         const auto new_cu_stat = new CuStat{stbuf};
         CurCache::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
 
-        return Constants::fs_operation_success;
+        return Util::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_miss,
+        CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
     }
 
-    CacheEvent::record_md_cache_event(path_string, true);
-    Operations::inc_operation_cache_hit(OperationFunction::getattr, true);
-
-    LOG(DEBUG) << "in cache" << std::endl;
     const auto cu_stat = cu_stat_opt.value();
 
     cu_stat->cp_to_buf(stbuf);
 
-    auto stop = std::chrono::high_resolution_clock::now();
-    Operations::inc_operation_timer(
-    OperationFunction::getattr, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
-    return Constants::fs_operation_success;
+    return Util::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_hit,
+    CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
 }
 
 static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
-    auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
-    Operations::inc_operation(OperationFunction::open);
-    const auto path_string{Util::rel_to_abs_path(path_)};
-    LOG(DEBUG) << "path_string: " << path_string << std::endl;
+    auto [path_string, start] = Util::start_cache_operation(OperationFunction::open, path_);
 
     const auto entry_opt = CurCache::md_cache_table.get(path_string);
 
     // FIXME: make rpc request or root functionality here
     if(!entry_opt.has_value()) {
-        CacheEvent::record_md_cache_event(path_string, false);
-        Operations::inc_operation_cache_hit(OperationFunction::open, false);
-        LOG(DEBUG) << "not in cache" << path_string << std::endl;
-
         const int fd = open(path_string.c_str(), fi->flags);
 
         if(fd == -1) {
             LOG(WARNING) << "failed to passthrough open" << std::endl;
-            return -errno;
+            return Util::stop_cache_operation(
+            OperationFunction::open, OperationResult::neg, CacheEvent::md_cache_event_table, path_string, start, -errno);
         }
 
         struct stat* new_st{};
         if(stat(path_string.c_str(), new_st) == -1) {
             LOG(WARNING) << "failed to passthrough stat" << std::endl;
-            return -errno;
+            return Util::stop_cache_operation(
+            OperationFunction::open, OperationResult::neg, CacheEvent::md_cache_event_table, path_string, start, -errno);
         }
 
         const auto new_cu_stat = new CuStat{new_st};
         CurCache::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
 
         fi->fh = fd;
-        return Constants::fs_operation_success;
+
+        return Util::stop_cache_operation(OperationFunction::open, OperationResult::cache_miss,
+        CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
     }
 
-
-    CacheEvent::record_md_cache_event(path_string, true);
-    Operations::inc_operation_cache_hit(OperationFunction::open, true);
-
-    LOG(DEBUG) << "in cache" << std::endl;
     fi->fh = entry_opt.value()->get_st()->st_ino;
 
-    auto stop = std::chrono::high_resolution_clock::now();
-    Operations::inc_operation_timer(
-    OperationFunction::open, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
-    return Constants::fs_operation_success;
+    return Util::stop_cache_operation(OperationFunction::open, OperationResult::cache_hit,
+    CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
 }
 
 static int cu_fuse_read(const char* path_, char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) {
-    auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
-    Operations::inc_operation(OperationFunction::read);
-    const auto path_string{Util::rel_to_abs_path(path_)};
-    LOG(DEBUG) << "path_string: " << path_string << std::endl;
+    auto [path_string, start] = Util::start_cache_operation(OperationFunction::read, path_);
 
     const auto entry_opt = CurCache::data_cache_table.get(path_string);
     std::vector<std::byte>* bytes = nullptr;
@@ -132,27 +107,18 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
 
     // Allocate bytes if not in cache
     if(!entry_opt.has_value()) {
-        CacheEvent::record_data_cache_event(path_string, false);
-        Operations::inc_operation_cache_hit(OperationFunction::read, false);
-        LOG(DEBUG) << "not in cache" << std::endl;
-
         try {
             // Allocate new vector and read data into it
             bytes = new std::vector(Util::read_ent_file(path_string, true));
             cache = true;
         } catch(std::runtime_error&) {
             LOG(WARNING) << "failed to passthrough read" << std::endl;
-            return -ENOENT;
+            return Util::stop_cache_operation(OperationFunction::read, OperationResult::neg,
+            CacheEvent::data_cache_event_table, path_string, start, -ENOENT);
         }
     } else {
-        CacheEvent::record_data_cache_event(path_string, true);
-        Operations::inc_operation_cache_hit(OperationFunction::read, true);
-
-        LOG(DEBUG) << "in cache" << std::endl;
         bytes = entry_opt.value();
     }
-
-    LOG(DEBUG) << "bytes buffer cache size: " << bytes->size() << std::endl;
 
     int write_size = 0;
     if(offset < static_cast<off_t>(bytes->size())) {
@@ -162,32 +128,23 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
         // Copy data from bytes to buf
         std::memcpy(buf, bytes->data() + offset, copy_size);
         write_size = static_cast<int>(copy_size);
-    } else {
-        LOG(DEBUG) << "offset requested greater than file size" << std::endl;
     }
 
-    LOG(DEBUG) << "total read size: " << write_size << std::endl;
-
-    // Store in cache if newly allocated
     if(cache) {
         CurCache::data_cache_table.put_force(path_string, std::move(*bytes));
-        delete bytes; // Release memory after moving to cache
+        delete bytes;
+        return Util::stop_cache_operation(OperationFunction::read, OperationResult::cache_miss,
+        CacheEvent::data_cache_event_table, path_string, start, write_size);
+    } else {
+        return Util::stop_cache_operation(OperationFunction::read, OperationResult::cache_hit,
+        CacheEvent::data_cache_event_table, path_string, start, write_size);
     }
-
-    auto stop = std::chrono::high_resolution_clock::now();
-    Operations::inc_operation_timer(
-    OperationFunction::read, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
-
-    return write_size;
 }
 
 static int
 cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_t offset, struct fuse_file_info* fi, enum fuse_readdir_flags flags) {
-    auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
-    Operations::inc_operation(OperationFunction::readdir);
-    const auto path_string{Util::rel_to_abs_path(path_)};
-    LOG(DEBUG) << "path_string: " << path_string << std::endl;
+    auto [path_string, start] = Util::start_cache_operation(OperationFunction::readdir, path_);
 
     const auto& tree_cache_table_entry_opt = CurCache::tree_cache_table.get(path_string);
     std::vector<std::string> entries{};
@@ -195,14 +152,11 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
 
     // FIXME: make rpc request or root functionality here
     if(!tree_cache_table_entry_opt.has_value()) {
-        CacheEvent::record_dir_cache_event(path_string, false);
-        Operations::inc_operation_cache_hit(OperationFunction::readdir, false);
-        LOG(DEBUG) << "not in cache" << std::endl;
-
         DIR* dp = opendir(path_string.c_str());
         if(dp == nullptr) {
             LOG(WARNING) << "failed to passthrough readdir" << std::endl;
-            return -errno;
+            return Util::stop_cache_operation(OperationFunction::readdir, OperationResult::neg,
+            CacheEvent::dir_cache_event_table, path_string, start, -errno);
         }
 
         dirent* de;
@@ -213,10 +167,6 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
 
         cache = true;
     } else {
-        CacheEvent::record_dir_cache_event(path_string, true);
-        Operations::inc_operation_cache_hit(OperationFunction::readdir, true);
-
-        LOG(DEBUG) << "in cache" << std::endl;
         entries = *tree_cache_table_entry_opt.value();
     }
 
@@ -233,22 +183,17 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
 
     if(cache) {
         CurCache::tree_cache_table.put_force(path_string, std::move(entries));
+        return Util::stop_cache_operation(OperationFunction::readdir, OperationResult::cache_miss,
+        CacheEvent::dir_cache_event_table, path_string, start, Constants::fs_operation_success);
+    } else {
+        return Util::stop_cache_operation(OperationFunction::readdir, OperationResult::cache_hit,
+        CacheEvent::dir_cache_event_table, path_string, start, Constants::fs_operation_success);
     }
-
-    auto stop = std::chrono::high_resolution_clock::now();
-    Operations::inc_operation_timer(
-    OperationFunction::readdir, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
-
-    return Constants::fs_operation_success;
 }
 
 static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file_info*, unsigned int flags, void* data) {
-    auto start = std::chrono::high_resolution_clock::now();
-    LOG(TRACE) << " " << std::endl;
-    Operations::inc_operation(OperationFunction::ioctl);
-    auto path_string{Util::rel_to_abs_path(path_)};
-    LOG(DEBUG) << "path_string: " << path_string << std::endl;
-    LOG(DEBUG) << "cmd: " << cmd << std::endl;
+    LOG(DEBUG) << " " << std::endl;
+    auto [path_string, start] = Util::start_cache_operation(OperationFunction::ioctl, path_);
 
     std::string output;
     std::optional<std::ofstream> fs_stream_opt = std::nullopt;
@@ -259,7 +204,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(output.c_str());
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Constants::fs_operation_success;
+            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging cache" << std::endl;
@@ -279,7 +224,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Constants::fs_operation_success;
+            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging operation" << std::endl;
@@ -290,7 +235,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Constants::fs_operation_success;
+            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging operation time (ms)" << std::endl;
@@ -301,7 +246,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Constants::fs_operation_success;
+            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging operation cache hit" << std::endl;
@@ -312,7 +257,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Constants::fs_operation_success;
+            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging operation cache miss" << std::endl;
@@ -338,7 +283,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(output.c_str());
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Constants::fs_operation_success;
+            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging data cache event" << std::endl;
@@ -349,7 +294,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Constants::fs_operation_success;
+            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging dir cache event" << std::endl;
@@ -360,7 +305,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
         if(!fs_stream_opt.has_value()) {
             LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Constants::fs_operation_success;
+            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
         }
 
         LOG(INFO) << "logging md cache event" << std::endl;
@@ -378,19 +323,31 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         LOG(INFO) << "clearing md cache event" << std::endl;
         CacheEvent::reset_md_cache_event();
         break;
+    case(Constants::ioctl_log_operation_neg): {
+        output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_operation_neg_output_filename;
+        fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
+        if(!fs_stream_opt.has_value()) {
+            LOG(ERROR) << "failed to open fstream" << std::endl;
+            return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
+        }
+
+        LOG(INFO) << "logging operation neg event" << std::endl;
+        fs_stream_opt.value() << Operations::log_operation_neg << std::endl;
+        break;
+    }
+    case(Constants::ioctl_clear_operation_neg):
+        LOG(INFO) << "clearing operation neg event" << std::endl;
+        Operations::reset_operation_neg();
+        break;
     default: LOG(WARNING) << "unknown cmd" << std::endl; break;
     }
 
-    const auto stop = std::chrono::high_resolution_clock::now();
-    Operations::inc_operation_timer(
-    OperationFunction::ioctl, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
-    return Constants::fs_operation_success;
+    return Util::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_success);
 }
 
 static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
-    auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
-    Operations::inc_operation(OperationFunction::init);
+    auto start = Util::start_operation(OperationFunction::init);
 
     // NOTE: docs (https://libfuse.github.io/doxygen/structfuse__config.html#a3e84d36c87733fcafc594b18a6c3dda8)
 
@@ -509,16 +466,13 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // DOCS: The remaining options are used by libfuse internally and should not be touched.
     // cfg->show_help
 
-    auto stop = std::chrono::high_resolution_clock::now();
-    Operations::inc_operation_timer(
-    OperationFunction::init, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
+    Util::stop_operation(OperationFunction::init, start, Constants::fs_operation_success);
     return nullptr;
 }
 
 static void cu_fuse_destroy(void* private_data) {
-    auto start = std::chrono::high_resolution_clock::now();
     LOG(DEBUG) << " " << std::endl;
-    Operations::inc_operation(OperationFunction::destroy);
+    auto start = Util::start_operation(OperationFunction::destroy);
 
     CurCache::data_cache_table.cache.clear();
     CurCache::md_cache_table.cache.clear();
@@ -527,9 +481,7 @@ static void cu_fuse_destroy(void* private_data) {
     CacheEvent::reset_dir_cache_event();
     CacheEvent::reset_md_cache_event();
 
-    auto stop = std::chrono::high_resolution_clock::now();
-    Operations::inc_operation_timer(
-    OperationFunction::destroy, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
+    Util::stop_operation(OperationFunction::destroy, start, Constants::fs_operation_success);
 }
 
 // clang-format off
@@ -621,7 +573,7 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 };
 
 int main(const int argc, const char* argv[]) {
-    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
+    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::fatal);
     LOG(TRACE) << " " << std::endl;
 
     auto new_args{Util::process_args(argc, argv)};

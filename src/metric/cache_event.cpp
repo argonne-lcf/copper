@@ -1,51 +1,35 @@
 #include "cache_event.h"
 
-static void log_cache_event_helper(const std::string& table_name,
-std::ostream& os,
-std::unordered_map<std::string, std::pair<unsigned int, unsigned int>>& event_cache_table) {
+static void log_cache_event_helper(const std::string& table_name, std::ostream& os, std::unordered_map<std::string, OpRes>& event_cache_table) {
     os << Util::get_current_datetime() << std::endl;
 #ifdef COLLECT_METRICS
     os << table_name << " {" << std::endl;
     for(const auto& entry : event_cache_table) {
         os << entry.first << " {" << std::endl;
-        os << "cache hits | misses = " << entry.second.first << " | " << entry.second.second << std::endl;
+        os << "cache hits: " << entry.second.cache_hit << "," << std::endl;
+        os << "cache misses: " << entry.second.cache_miss << "," << std::endl;
+        os << "neg: " << entry.second.neg << std::endl;
         os << "}" << std::endl;
     }
     os << "}";
 #endif
 }
 
-static void record_cache_event_helper(const std::string& path,
-std::unordered_map<std::string, std::pair<unsigned int, unsigned int>>& event_cache_table,
-bool cache_hit) {
+static void record_cache_event_helper(const std::string& path, std::unordered_map<std::string, OpRes>& event_cache_table, OperationResult res) {
 #ifdef COLLECT_METRICS
-    std::pair<unsigned int, unsigned int>* event = nullptr;
+    auto& event = event_cache_table[path];
 
-    try {
-        event = &event_cache_table.at(path);
-    } catch(std::exception& e) {
-        event_cache_table.emplace(path, std::make_pair(0, 0));
-        event = &event_cache_table.at(path);
-    }
-
-    if(cache_hit) {
-        event->first++;
-    } else {
-        event->second++;
+    switch(res) {
+    case(OperationResult::cache_hit): event.cache_hit++; break;
+    case(OperationResult::cache_miss): event.cache_miss++; break;
+    case(OperationResult::neg): event.neg++; break;
+    default: LOG(ERROR) << "invalid operation result"; break;
     }
 #endif
 }
 
-void CacheEvent::record_data_cache_event(const std::string& path, const bool cach_hit) {
-    record_cache_event_helper(path, data_cache_event_table, cach_hit);
-}
-
-void CacheEvent::record_dir_cache_event(const std::string& path, const bool cach_hit) {
-    record_cache_event_helper(path, dir_cache_event_table, cach_hit);
-}
-
-void CacheEvent::record_md_cache_event(const std::string& path, const bool cach_hit) {
-    record_cache_event_helper(path, md_cache_event_table, cach_hit);
+void CacheEvent::record_cache_event(std::unordered_map<std::string, OpRes>& table, const std::string& path, OperationResult res) {
+    record_cache_event_helper(path, table, res);
 }
 
 std::ostream& CacheEvent::log_data_cache_event(std::ostream& os) {
