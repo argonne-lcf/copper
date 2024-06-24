@@ -3,7 +3,8 @@ set -o nounset
 
 # You need to set VIEW_DIR and TARGET_DIR
 
-export INIT_PWD=$(pwd)/..
+export ROOT_DIR=$(pwd)/..
+export SCRIPTS_DIR="$ROOT_DIR"/scripts
 export VIEW_DIR=
 export TARGET_DIR=
 export FUSE_FS="$INIT_PWD/build/cu_fuse"

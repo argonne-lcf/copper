@@ -4,15 +4,12 @@
 #include <cerrno>
 #include <chrono>
 #include <cstddef>
-#include <cstdio>
 #include <cstring>
 #include <dirent.h>
 #include <fcntl.h>
 #include <fuse.h>
 #include <optional>
 #include <sys/stat.h>
-#include <unistd.h>
-#include <unordered_map>
 #include <variant>
 #include <vector>
 
@@ -624,7 +621,7 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 };
 
 int main(const int argc, const char* argv[]) {
-    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::fatal);
+    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
     LOG(TRACE) << " " << std::endl;
 
     auto new_args{Util::process_args(argc, argv)};
