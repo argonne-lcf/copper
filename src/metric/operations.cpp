@@ -3,7 +3,6 @@
 template <typename t>
 static void
 log_operation_helper(const std::string& table_name, std::ostream& os, t (&table_array)[static_cast<int>(OperationFunction::size)]) {
-#ifdef COLLECT_METRICS
     os << Util::get_current_datetime() << std::endl;
 
     os << table_name << " {" << std::endl;
@@ -50,35 +49,26 @@ log_operation_helper(const std::string& table_name, std::ostream& os, t (&table_
     os << "copy_file_range: " << table_array[t(OperationFunction::copy_file_range)] << "," << std::endl;
     os << "lseek: " << table_array[t(OperationFunction::lseek)] << std::endl;
     os << "}";
-#endif
 }
 
 void Operations::inc_operation(OperationFunction func) {
-#ifdef COLLECT_METRICS
     operation_counter[static_cast<int>(func)]++;
-#endif
 }
 
 void Operations::inc_operation_neg(OperationFunction func) {
-#ifdef COLLECT_METRICS
     operation_neg[static_cast<int>(func)]++;
-#endif
 }
 
 void Operations::inc_operation_timer(OperationFunction func, const long time) {
-#ifdef COLLECT_METRICS
     operation_timer[static_cast<long>(func)] += time;
-#endif
 }
 
 void Operations::inc_operation_cache_hit(OperationFunction func, const bool cache_hit) {
-#ifdef COLLECT_METRICS
     if(cache_hit) {
         operation_cache_hit[static_cast<int>(func)]++;
     } else {
         operation_cache_miss[static_cast<int>(func)]++;
     }
-#endif
 }
 
 std::ostream& Operations::log_operation_neg(std::ostream& os) {

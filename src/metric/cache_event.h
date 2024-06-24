@@ -9,7 +9,6 @@
 #include "../aixlog.h"
 #include "../fs/util.h"
 #include "../metric/cache_event.h"
-#include "metrics.h"
 #include "operation_types.h"
 
 class CacheEvent {

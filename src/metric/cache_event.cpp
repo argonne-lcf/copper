@@ -2,7 +2,6 @@
 
 static void log_cache_event_helper(const std::string& table_name, std::ostream& os, std::unordered_map<std::string, OpRes>& event_cache_table) {
     os << Util::get_current_datetime() << std::endl;
-#ifdef COLLECT_METRICS
     os << table_name << " {" << std::endl;
     for(const auto& entry : event_cache_table) {
         os << entry.first << " {" << std::endl;
@@ -12,11 +11,9 @@ static void log_cache_event_helper(const std::string& table_name, std::ostream& 
         os << "}" << std::endl;
     }
     os << "}";
-#endif
 }
 
 static void record_cache_event_helper(const std::string& path, std::unordered_map<std::string, OpRes>& event_cache_table, OperationResult res) {
-#ifdef COLLECT_METRICS
     auto& event = event_cache_table[path];
 
     switch(res) {
@@ -25,7 +22,6 @@ static void record_cache_event_helper(const std::string& path, std::unordered_ma
     case(OperationResult::neg): event.neg++; break;
     default: LOG(ERROR) << "invalid operation result"; break;
     }
-#endif
 }
 
 void CacheEvent::record_cache_event(std::unordered_map<std::string, OpRes>& table, const std::string& path, OperationResult res) {

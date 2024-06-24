@@ -1,7 +1,7 @@
 #ifndef METRICS_H
 #define METRICS_H
 
-#define COLLECT_METRICS 1
+#define COLLECT_METRICS
 
 #include <utility>
 #include <unordered_map>

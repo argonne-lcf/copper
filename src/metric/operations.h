@@ -6,7 +6,6 @@
 #include <ostream>
 
 #include "../fs/util.h"
-#include "metrics.h"
 #include "operation_types.h"
 
 class Operations {

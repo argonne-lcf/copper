@@ -7,13 +7,6 @@ tp Metric::start_operation(const OperationFunction func) {
     return start;
 }
 
-int Metric::stop_operation(const OperationFunction func, const tp start, const int ret) {
-    auto stop = std::chrono::high_resolution_clock::now();
-    Operations::inc_operation_timer(func, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
-
-    return ret;
-}
-
 std::pair<std::string, tp> Metric::start_cache_operation(OperationFunction func, const char* path) {
     Operations::inc_operation(func);
     auto start = std::chrono::high_resolution_clock::now();
@@ -24,12 +17,21 @@ std::pair<std::string, tp> Metric::start_cache_operation(OperationFunction func,
     return std::pair{path_string, start};
 }
 
+int Metric::stop_operation(const OperationFunction func, const tp start, const int ret) {
+#ifdef COLLECT_METRICS
+    auto stop = std::chrono::high_resolution_clock::now();
+    Operations::inc_operation_timer(func, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
+#endif
+    return ret;
+}
+
 int Metric::stop_cache_operation(OperationFunction func,
 OperationResult res,
 std::unordered_map<std::string, OpRes>& table,
 std::string& path_string,
 tp start,
 int ret) {
+#ifdef COLLECT_METRICS
     CacheEvent::record_cache_event(table, path_string, res);
 
     switch(res) {
@@ -51,5 +53,6 @@ int ret) {
     auto stop = std::chrono::high_resolution_clock::now();
     Operations::inc_operation_timer(func, std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count());
 
+#endif
     return ret;
 }
