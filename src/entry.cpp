@@ -12,6 +12,7 @@
 #include <sys/stat.h>
 #include <variant>
 #include <vector>
+#include <unistd.h>
 
 #include "aixlog.h"
 #include "cache/cur_cache.h"
@@ -485,8 +486,21 @@ static void cu_fuse_destroy(void* private_data) {
     Metric::stop_operation(OperationFunction::destroy, start, Constants::fs_operation_success);
 }
 
+static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) {
+    LOG(DEBUG) << " " << std::endl;
+    auto [path_string, start] = Metric::start_cache_operation(OperationFunction::readlink, path_);
+
+    const int res = static_cast<int>(readlink(path_string.c_str(), buf, size - 1));
+    if (res == -1) {
+        return Metric::stop_operation(OperationFunction::readlink, start, -errno);
+    }
+
+    buf[res] = '\0';
+
+    return Metric::stop_operation(OperationFunction::readlink, start, Constants::fs_operation_success);
+}
+
 // clang-format off
-static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) NOT_IMPLEMENTED(OperationFunction::readlink)
 static int cu_fuse_mknod(const char* path_, const mode_t mode, const dev_t rdev) NOT_IMPLEMENTED(OperationFunction::mknod)
 static int cu_fuse_mkdir(const char* path_, const mode_t mode) NOT_IMPLEMENTED(OperationFunction::mkdir)
 static int cu_fuse_unlink(const char* path_) NOT_IMPLEMENTED(OperationFunction::unlink)
@@ -574,7 +588,7 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 };
 
 int main(const int argc, const char* argv[]) {
-    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::fatal);
+    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
     LOG(TRACE) << " " << std::endl;
 
     auto new_args{Util::process_args(argc, argv)};
