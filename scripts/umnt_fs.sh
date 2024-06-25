@@ -7,7 +7,7 @@ then
 	exit 1
 fi
 
-source env.sh
+source ./env.sh
 
 function unmount() {
     echo "unmounting view dir"

@@ -3,14 +3,14 @@
 
 #define COLLECT_METRICS
 
-#include <utility>
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
+#include <utility>
 
-#include "operations.h"
-#include "operation_types.h"
 #include "../aixlog.h"
 #include "../fs/util.h"
+#include "operation_types.h"
+#include "operations.h"
 
 class Metric {
     public:

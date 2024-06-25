@@ -10,21 +10,21 @@
 #include <fuse.h>
 #include <optional>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <variant>
 #include <vector>
-#include <unistd.h>
 
 #include "aixlog.h"
 #include "cache/cur_cache.h"
 #include "fs/constants.h"
 #include "fs/util.h"
 #include "metric/cache_event.h"
-#include "metric/operations.h"
 #include "metric/metrics.h"
+#include "metric/operations.h"
 
-#define NOT_IMPLEMENTED(func)                                                      \
-    {                                                                              \
-        LOG(DEBUG) << " " << std::endl;                                            \
+#define NOT_IMPLEMENTED(func)                                                        \
+    {                                                                                \
+        LOG(DEBUG) << " " << std::endl;                                              \
         auto start = Metric::start_operation(func);                                  \
         return Metric::stop_operation(func, start, Constants::fs_operation_success); \
     }
@@ -193,6 +193,15 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     }
 }
 
+#define IOCTL_GET_FS_STREAM(filename)                                                                  \
+    output = std::filesystem::path(path_string).parent_path() += "/" + filename;                       \
+    fs_stream_opt = Util::try_get_fstream_from_path(output.c_str());                                   \
+    if(!fs_stream_opt.has_value()) {                                                                   \
+        LOG(ERROR) << "failed to open fstream" << std::endl;                                           \
+        return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error); \
+    }
+
+
 static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file_info*, unsigned int flags, void* data) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::ioctl, path_);
@@ -202,14 +211,9 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
 
     switch(cmd) {
     case(Constants::ioctl_log_cache):
-        output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_cache_output_filename;
-        fs_stream_opt = Util::try_get_fstream_from_path(output.c_str());
-        if(!fs_stream_opt.has_value()) {
-            LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
-        }
-
         LOG(INFO) << "logging cache" << std::endl;
+
+        IOCTL_GET_FS_STREAM(Constants::log_cache_output_filename);
         fs_stream_opt.value() << Util::get_current_datetime() << std::endl;
         fs_stream_opt.value() << CurCache::tree_cache_table << std::endl;
         fs_stream_opt.value() << CurCache::data_cache_table << std::endl;
@@ -222,47 +226,27 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         CurCache::md_cache_table.cache.clear();
         break;
     case(Constants::ioctl_log_operation):
-        output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_operation_output_filename;
-        fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
-        if(!fs_stream_opt.has_value()) {
-            LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
-        }
-
         LOG(INFO) << "logging operation" << std::endl;
+
+        IOCTL_GET_FS_STREAM(Constants::log_operation_output_filename);
         fs_stream_opt.value() << Operations::log_operation << std::endl;
         break;
     case(Constants::ioctl_log_operation_time):
-        output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_operation_time_output_filename;
-        fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
-        if(!fs_stream_opt.has_value()) {
-            LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
-        }
-
         LOG(INFO) << "logging operation time (ms)" << std::endl;
+
+        IOCTL_GET_FS_STREAM(Constants::log_operation_time_output_filename);
         fs_stream_opt.value() << Operations::log_operation_time << std::endl;
         break;
     case(Constants::ioctl_log_operation_cache_hit):
-        output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_cache_hit_output_filename;
-        fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
-        if(!fs_stream_opt.has_value()) {
-            LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
-        }
-
         LOG(INFO) << "logging operation cache hit" << std::endl;
+
+        IOCTL_GET_FS_STREAM(Constants::log_cache_hit_output_filename);
         fs_stream_opt.value() << Operations::log_operation_cache_hit << std::endl;
         break;
     case(Constants::ioctl_log_operation_cache_miss):
-        output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_cache_miss_output_filename;
-        fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
-        if(!fs_stream_opt.has_value()) {
-            LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
-        }
-
         LOG(INFO) << "logging operation cache miss" << std::endl;
+
+        IOCTL_GET_FS_STREAM(Constants::log_cache_miss_output_filename);
         fs_stream_opt.value() << Operations::log_operation_cache_miss << std::endl;
         break;
     case(Constants::ioctl_clear_operation):
@@ -281,36 +265,21 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         LOG(INFO) << "clearing operation time" << std::endl;
         Operations::reset_operation_timer();
     case(Constants::ioctl_log_data_cache_event):
-        output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_data_cache_event_output_filename;
-        fs_stream_opt = Util::try_get_fstream_from_path(output.c_str());
-        if(!fs_stream_opt.has_value()) {
-            LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
-        }
-
         LOG(INFO) << "logging data cache event" << std::endl;
+
+        IOCTL_GET_FS_STREAM(Constants::log_data_cache_event_output_filename);
         fs_stream_opt.value() << CacheEvent::log_data_cache_event << std::endl;
         break;
     case(Constants::ioctl_log_dir_cache_event):
-        output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_dir_cache_event_output_filename;
-        fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
-        if(!fs_stream_opt.has_value()) {
-            LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
-        }
-
         LOG(INFO) << "logging dir cache event" << std::endl;
+
+        IOCTL_GET_FS_STREAM(Constants::log_dir_cache_event_output_filename);
         fs_stream_opt.value() << CacheEvent::log_dir_cache_event << std::endl;
         break;
     case(Constants::ioctl_log_md_cache_event):
-        output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_md_cache_event_output_filename;
-        fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
-        if(!fs_stream_opt.has_value()) {
-            LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
-        }
-
         LOG(INFO) << "logging md cache event" << std::endl;
+
+        IOCTL_GET_FS_STREAM(Constants::log_md_cache_event_output_filename);
         fs_stream_opt.value() << CacheEvent::log_md_cache_event << std::endl;
         break;
     case(Constants::ioctl_clear_data_cache_event):
@@ -326,14 +295,9 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         CacheEvent::reset_md_cache_event();
         break;
     case(Constants::ioctl_log_operation_neg): {
-        output = std::filesystem::path(path_string).parent_path() += "/" + Constants::log_operation_neg_output_filename;
-        fs_stream_opt = Util::try_get_fstream_from_path(static_cast<const char*>(output.c_str()));
-        if(!fs_stream_opt.has_value()) {
-            LOG(ERROR) << "failed to open fstream" << std::endl;
-            return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error);
-        }
-
         LOG(INFO) << "logging operation neg event" << std::endl;
+
+        IOCTL_GET_FS_STREAM(Constants::log_operation_neg_output_filename);
         fs_stream_opt.value() << Operations::log_operation_neg << std::endl;
         break;
     }
@@ -491,7 +455,7 @@ static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) {
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::readlink, path_);
 
     const int res = static_cast<int>(readlink(path_string.c_str(), buf, size - 1));
-    if (res == -1) {
+    if(res == -1) {
         return Metric::stop_operation(OperationFunction::readlink, start, -errno);
     }
 
