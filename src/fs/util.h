@@ -14,7 +14,7 @@
 #include <sys/stat.h>
 
 #include "../aixlog.h"
-#include "../cache/cur_cache.h"
+#include "../cache/cache_tables.h"
 #include "../fs/constants.h"
 #include "../metric/cache_event.h"
 #include "../metric/operation_types.h"

@@ -15,7 +15,7 @@
 #include <vector>
 
 #include "aixlog.h"
-#include "cache/cur_cache.h"
+#include "cache/cache_tables.h"
 #include "fs/constants.h"
 #include "fs/util.h"
 #include "metric/cache_event.h"
@@ -33,7 +33,7 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::getattr, path_);
 
-    const auto cu_stat_opt{CurCache::md_cache_table.get(path_string)};
+    const auto cu_stat_opt{CacheTables::md_cache_table.get(path_string)};
 
     // FIXME: make rpc request or root functionality here
     if(!cu_stat_opt.has_value()) {
@@ -44,7 +44,7 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
         }
 
         const auto new_cu_stat = new CuStat{stbuf};
-        CurCache::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
+        CacheTables::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
 
         return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_miss,
         CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
@@ -62,7 +62,7 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::open, path_);
 
-    const auto entry_opt = CurCache::md_cache_table.get(path_string);
+    const auto entry_opt = CacheTables::md_cache_table.get(path_string);
 
     // FIXME: make rpc request or root functionality here
     if(!entry_opt.has_value()) {
@@ -82,7 +82,7 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
         }
 
         const auto new_cu_stat = new CuStat{new_st};
-        CurCache::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
+        CacheTables::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
 
         fi->fh = fd;
 
@@ -100,7 +100,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::read, path_);
 
-    const auto entry_opt = CurCache::data_cache_table.get(path_string);
+    const auto entry_opt = CacheTables::data_cache_table.get(path_string);
     std::vector<std::byte>* bytes = nullptr;
     bool cache = false;
 
@@ -133,7 +133,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     }
 
     if(cache) {
-        CurCache::data_cache_table.put_force(path_string, std::move(*bytes));
+        CacheTables::data_cache_table.put_force(path_string, std::move(*bytes));
         delete bytes;
         return Metric::stop_cache_operation(OperationFunction::read, OperationResult::cache_miss,
         CacheEvent::data_cache_event_table, path_string, start, write_size);
@@ -148,7 +148,7 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::readdir, path_);
 
-    const auto& tree_cache_table_entry_opt = CurCache::tree_cache_table.get(path_string);
+    const auto& tree_cache_table_entry_opt = CacheTables::tree_cache_table.get(path_string);
     std::vector<std::string> entries{};
     bool cache = false;
 
@@ -184,7 +184,7 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     }
 
     if(cache) {
-        CurCache::tree_cache_table.put_force(path_string, std::move(entries));
+        CacheTables::tree_cache_table.put_force(path_string, std::move(entries));
         return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::cache_miss,
         CacheEvent::dir_cache_event_table, path_string, start, Constants::fs_operation_success);
     } else {
@@ -215,15 +215,15 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
 
         IOCTL_GET_FS_STREAM(Constants::log_cache_output_filename);
         fs_stream_opt.value() << Util::get_current_datetime() << std::endl;
-        fs_stream_opt.value() << CurCache::tree_cache_table << std::endl;
-        fs_stream_opt.value() << CurCache::data_cache_table << std::endl;
-        fs_stream_opt.value() << CurCache::md_cache_table << std::endl;
+        fs_stream_opt.value() << CacheTables::tree_cache_table << std::endl;
+        fs_stream_opt.value() << CacheTables::data_cache_table << std::endl;
+        fs_stream_opt.value() << CacheTables::md_cache_table << std::endl;
         break;
     case(Constants::ioctl_clear_cache):
         LOG(INFO) << "clearing cache" << std::endl;
-        CurCache::tree_cache_table.cache.clear();
-        CurCache::md_cache_table.cache.clear();
-        CurCache::md_cache_table.cache.clear();
+        CacheTables::tree_cache_table.cache.clear();
+        CacheTables::md_cache_table.cache.clear();
+        CacheTables::md_cache_table.cache.clear();
         break;
     case(Constants::ioctl_log_operation):
         LOG(INFO) << "logging operation" << std::endl;
@@ -440,9 +440,9 @@ static void cu_fuse_destroy(void* private_data) {
     LOG(DEBUG) << " " << std::endl;
     auto start = Metric::start_operation(OperationFunction::destroy);
 
-    CurCache::data_cache_table.cache.clear();
-    CurCache::md_cache_table.cache.clear();
-    CurCache::tree_cache_table.cache.clear();
+    CacheTables::data_cache_table.cache.clear();
+    CacheTables::md_cache_table.cache.clear();
+    CacheTables::tree_cache_table.cache.clear();
     CacheEvent::reset_data_cache_event();
     CacheEvent::reset_dir_cache_event();
     CacheEvent::reset_md_cache_event();

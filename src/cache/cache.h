@@ -1,18 +1,16 @@
 #ifndef CACHE_TABLE_H
 #define CACHE_TABLE_H
 
-#include <iostream>
 #include <optional>
 #include <stdexcept>
 #include <unordered_map>
-#include <vector>
 
-template <typename K, typename V> class CacheTable {
+template <typename K, typename V> class Cache {
     public:
     using Key = K;
     using Value = V;
 
-    CacheTable() {
+    Cache() {
         cache = std::unordered_map<Key, Value>();
     }
 
@@ -32,7 +30,7 @@ template <typename K, typename V> class CacheTable {
         }
     };
 
-    virtual ~CacheTable() = default;
+    virtual ~Cache() = default;
     std::unordered_map<Key, Value> cache;
 };
 

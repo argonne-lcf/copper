@@ -2,15 +2,14 @@
 #define MDCACHETABLE_H
 
 #include <string>
-#include <sys/stat.h>
 
 #include "../fs/cu_stat.h"
-#include "cache_table.h"
+#include "cache.h"
 
 using MDCacheTableKey = std::string;
 using MDCacheTableVal = CuStat;
 
-class MDCacheTable final : public CacheTable<MDCacheTableKey, MDCacheTableVal> {
+class MDCacheTable final : public Cache<MDCacheTableKey, MDCacheTableVal> {
     friend std::ostream& operator<<(std::ostream& os, const MDCacheTable& md_cache_table) {
         os << "md_cache_table {" << std::endl;
 

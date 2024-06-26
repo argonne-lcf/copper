@@ -5,7 +5,7 @@
 #include "md_cache_table.h"
 #include "tree_cache_table.h"
 
-class CurCache {
+class CacheTables {
     public:
     static inline MDCacheTable md_cache_table;
     static inline DataCacheTable data_cache_table;

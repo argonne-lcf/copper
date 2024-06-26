@@ -2,17 +2,16 @@
 #define TREE_CACHE_TABLE_H
 
 #include <filesystem>
-#include <optional>
 #include <string>
 #include <vector>
 
 #include "../aixlog.h"
-#include "cache_table.h"
+#include "cache.h"
 
 using TreeCacheTableKey = std::string;
 using TreeCacheTableVal = std::vector<std::string>;
 
-class TreeCacheTable final : public CacheTable<TreeCacheTableKey, TreeCacheTableVal> {
+class TreeCacheTable final : public Cache<TreeCacheTableKey, TreeCacheTableVal> {
     public:
     friend std::ostream& operator<<(std::ostream& os, const TreeCacheTable& tree_cache_table) {
         os << "tree_cache_table {" << std::endl;
