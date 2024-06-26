@@ -2,22 +2,22 @@
 
 template <typename t>
 static void
-log_operation_helper(const std::string& table_name, std::ostream& os, t (&table_array)[static_cast<int>(OperationFunction::size)]) {\
+log_operation_helper(const std::string& table_name, std::ostream& os, t (&table_array)[static_cast<int>(OperationFunction::size)]) {
     os << Util::get_current_datetime() << std::endl;
 
     std::vector<std::pair<int, t>> indexed_arr;
     indexed_arr.reserve(static_cast<int>(OperationFunction::size));
-    for (int i = 0; i < static_cast<int>(OperationFunction::size); ++i) {
+    for(int i = 0; i < static_cast<int>(OperationFunction::size); ++i) {
         indexed_arr.push_back(std::make_pair(table_array[i], i));
     }
 
     std::sort(indexed_arr.begin(), indexed_arr.end(), std::greater<>());
 
     os << table_name << " {" << std::endl;
-    for (size_t i = 0; i < indexed_arr.size(); ++i) {
+    for(size_t i = 0; i < indexed_arr.size(); ++i) {
         const auto& pair = indexed_arr[i];
         os << OperationFunctionNames[pair.second] << ": " << table_array[pair.second];
-        if (i != indexed_arr.size() - 1) {
+        if(i != indexed_arr.size() - 1) {
             os << ",";
         }
         os << std::endl;
