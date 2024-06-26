@@ -10,6 +10,7 @@ if len(sys.argv) < 2:
 
 its = int(sys.argv[1])
 output_dir = os.environ.get('JOB_OUTPUT_DIR')
+scripts_dir = os.environ.get('SCRIPTS_DIR')
 
 if output_dir is None:
     print("output_dir not found")
@@ -48,8 +49,8 @@ def run_script(folder, script_name, iterations):
             execution_times.append(end_time - start_time)
 
             if folder == "view":
-                final_dir = output_dir + "/" + folder + "/" + str(iteration)
-                command = ['./get_clear_fuse_output.sh', final_dir]
+                final_dir = output_dir + '/' + folder + '/' + str(iteration)
+                command = [scripts_dir + '/' + "filesystem_ioctl"  + '/' + 'get_clear_fuse_output.sh', final_dir]
                 try:
                     result = subprocess.run(command, capture_output=True, text=True, check=True)
                 except subprocess.CalledProcessError as e:

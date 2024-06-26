@@ -3,7 +3,7 @@ set -o nounset
 
 # You need to set VIEW_DIR and TARGET_DIR
 
-export ROOT_DIR=$(pwd)/..
+export ROOT_DIR=$(readlink -f "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/..")
 export SCRIPTS_DIR="$ROOT_DIR"/scripts
 export VIEW_DIR=
 export TARGET_DIR=
