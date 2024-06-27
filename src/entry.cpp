@@ -269,8 +269,8 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         IOCTL_GET_FS_STREAM(Constants::log_data_cache_event_output_filename);
         fs_stream_opt.value() << CacheEvent::log_data_cache_event << std::endl;
         break;
-    case(Constants::ioctl_log_dir_cache_event):
-        LOG(INFO) << "logging dir cache event" << std::endl;
+    case(Constants::ioctl_log_tree_cache_event):
+        LOG(INFO) << "logging tree cache event" << std::endl;
 
         IOCTL_GET_FS_STREAM(Constants::log_tree_cache_event_output_filename);
         fs_stream_opt.value() << CacheEvent::log_tree_cache_event << std::endl;

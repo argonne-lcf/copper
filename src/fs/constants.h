@@ -28,7 +28,7 @@ class Constants {
     static constexpr unsigned int ioctl_clear_operation_time{1000};
 
     static constexpr unsigned int ioctl_log_data_cache_event{1100};
-    static constexpr unsigned int ioctl_log_dir_cache_event{1200};
+    static constexpr unsigned int ioctl_log_tree_cache_event{1200};
     static constexpr unsigned int ioctl_log_md_cache_event{1300};
 
     static constexpr unsigned int ioctl_clear_data_cache_event{1400};
