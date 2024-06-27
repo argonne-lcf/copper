@@ -1,12 +1,12 @@
 #!/bin/bash
 set -o nounset
 
-# You need to set VIEW_DIR and TARGET_DIR
+# Set the VIEW_DIR to the mnt point
 
 export ROOT_DIR=$(readlink -f "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/..")
 export SCRIPTS_DIR="$ROOT_DIR"/scripts
 export VIEW_DIR=
-export TARGET_DIR=
+export TARGET_DIR=/
 export FUSE_FS="$ROOT_DIR/build/cu_fuse"
 export SPEC_DEV_VIEW_DIR="$VIEW_DIR/dev"
 export SPEC_DEV_TARGET_DIR="$TARGET_DIR/dev"
@@ -33,4 +33,5 @@ export IOCTL_LOG_TREE_CACHE_EVENT=1200
 export IOCTL_LOG_MD_CACHE_EVENT=1300
 export IOCTL_LOG_OPERATION_CACHE_NEG=1700
 
-export IOCTL_RESET_FS=1800
+export IOCTL_RESET_FS=1900
+export IOCTL_LOG_ALL_METRICS=2000

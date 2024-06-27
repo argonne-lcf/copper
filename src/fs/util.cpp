@@ -19,6 +19,10 @@ std::string Util::rel_to_abs_path(const char* path) {
         return Constants::target_path.value();
     }
 
+    if(Constants::target_path.value() == "/") {
+        return std::string{path};
+    }
+
     const auto suffix{path};
     const auto abs_path{Constants::target_path.value() + suffix};
 
