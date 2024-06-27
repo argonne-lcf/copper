@@ -11,9 +11,9 @@ export SCRIPTS_DIR="$ROOT_DIR"/scripts
 export TARGET_DIR=/
 export FUSE_FS="$ROOT_DIR/build/cu_fuse"
 # the directory for which the dev directory will be created
-export SPEC_DEV_DIR_DIR="$(readlink -f ~)"
-export SPEC_DEV_DIR=$SPEC_DEV_DIR_DIR/dev
-export SPEC_DEV_VIEW_DIR="$(readlink -f $VIEW_DIR/$SPEC_DEV_DIR)"
+export SPEC_DEV_PARENT_DIR="$(readlink -f ~)"
+export SPEC_DEV_DIR=$SPEC_DEV_PARENT_DIR/dev
+export SPEC_DEV_VIEW_DIR="$(readlink -f $VIEW_DIR/"$SPEC_DEV_DIR")"
 export SPEC_DEV_VIEW="$SPEC_DEV_VIEW_DIR/.spec_dev"
 export SPEC_DEV_TARGET="$SPEC_DEV_DIR/.spec_dev"
 

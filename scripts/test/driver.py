@@ -40,6 +40,7 @@ def get_all_metrics(folder, iteration):
     try:
         result = subprocess.run(command, capture_output=True, text=True, check=True)
     except subprocess.CalledProcessError as e:
+        print(e.stdout)
         if e.stderr:
             print(e.stderr)
             sys.exit(1)
@@ -49,6 +50,7 @@ def reset_fs():
     try:
         result = subprocess.run(command, capture_output=True, text=True, check=True)
     except subprocess.CalledProcessError as e:
+        print(e.stdout)
         if e.stderr:
             print(e.stderr)
             sys.exit(1)
