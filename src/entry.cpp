@@ -133,24 +133,24 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
         bytes = entry_opt.value();
     }
 
-    int write_size = 0;
+    int read_size = 0;
     if(offset < static_cast<off_t>(bytes->size())) {
         // Calculate the amount to copy, ensuring not to exceed the bounds of the vector
         size_t copy_size = std::min(static_cast<size_t>(size), bytes->size() - static_cast<size_t>(offset));
 
         // Copy data from bytes to buf
         std::memcpy(buf, bytes->data() + offset, copy_size);
-        write_size = static_cast<int>(copy_size);
+        read_size = static_cast<int>(copy_size);
     }
 
     if(cache) {
         CacheTables::data_cache_table.put_force(path_string, std::move(*bytes));
         delete bytes;
         return Metric::stop_cache_operation(OperationFunction::read, OperationResult::cache_miss,
-        CacheEvent::data_cache_event_table, path_string, start, write_size);
+        CacheEvent::data_cache_event_table, path_string, start, read_size);
     } else {
         return Metric::stop_cache_operation(OperationFunction::read, OperationResult::cache_hit,
-        CacheEvent::data_cache_event_table, path_string, start, write_size);
+        CacheEvent::data_cache_event_table, path_string, start, read_size);
     }
 }
 
