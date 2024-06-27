@@ -158,7 +158,7 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
         if(dp == nullptr) {
             LOG(WARNING) << "failed to passthrough readdir" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::neg,
-            CacheEvent::dir_cache_event_table, path_string, start, -errno);
+            CacheEvent::tree_cache_event_table, path_string, start, -errno);
         }
 
         dirent* de;
@@ -186,10 +186,10 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     if(cache) {
         CacheTables::tree_cache_table.put_force(path_string, std::move(entries));
         return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::cache_miss,
-        CacheEvent::dir_cache_event_table, path_string, start, Constants::fs_operation_success);
+        CacheEvent::tree_cache_event_table, path_string, start, Constants::fs_operation_success);
     } else {
         return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::cache_hit,
-        CacheEvent::dir_cache_event_table, path_string, start, Constants::fs_operation_success);
+        CacheEvent::tree_cache_event_table, path_string, start, Constants::fs_operation_success);
     }
 }
 
@@ -201,7 +201,6 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
         return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error); \
     }
 
-
 static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file_info*, unsigned int flags, void* data) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::ioctl, path_);
@@ -210,10 +209,10 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     std::optional<std::ofstream> fs_stream_opt = std::nullopt;
 
     switch(cmd) {
-    case(Constants::ioctl_log_cache):
+    case(Constants::ioctl_log_cache_tables):
         LOG(INFO) << "logging cache" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::log_cache_output_filename);
+        IOCTL_GET_FS_STREAM(Constants::log_cache_tables_output_filename);
         fs_stream_opt.value() << Util::get_current_datetime() << std::endl;
         fs_stream_opt.value() << CacheTables::tree_cache_table << std::endl;
         fs_stream_opt.value() << CacheTables::data_cache_table << std::endl;
@@ -273,8 +272,8 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     case(Constants::ioctl_log_dir_cache_event):
         LOG(INFO) << "logging dir cache event" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::log_dir_cache_event_output_filename);
-        fs_stream_opt.value() << CacheEvent::log_dir_cache_event << std::endl;
+        IOCTL_GET_FS_STREAM(Constants::log_tree_cache_event_output_filename);
+        fs_stream_opt.value() << CacheEvent::log_tree_cache_event << std::endl;
         break;
     case(Constants::ioctl_log_md_cache_event):
         LOG(INFO) << "logging md cache event" << std::endl;
@@ -286,9 +285,9 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         LOG(INFO) << "clearing data cache event" << std::endl;
         CacheEvent::reset_data_cache_event();
         break;
-    case(Constants::ioctl_clear_dir_cache_event):
-        LOG(INFO) << "clearing dir cache event" << std::endl;
-        CacheEvent::reset_dir_cache_event();
+    case(Constants::ioctl_clear_tree_cache_event):
+        LOG(INFO) << "clearing tree cache event" << std::endl;
+        CacheEvent::reset_tree_cache_event();
         break;
     case(Constants::ioctl_clear_md_cache_event):
         LOG(INFO) << "clearing md cache event" << std::endl;
@@ -297,13 +296,21 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     case(Constants::ioctl_log_operation_neg): {
         LOG(INFO) << "logging operation neg event" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::log_operation_neg_output_filename);
+        IOCTL_GET_FS_STREAM(Constants::log_operation_cache_neg_output_filename);
         fs_stream_opt.value() << Operations::log_operation_neg << std::endl;
         break;
     }
     case(Constants::ioctl_clear_operation_neg):
         LOG(INFO) << "clearing operation neg event" << std::endl;
-        Operations::reset_operation_neg();
+        Operations::reset_operation_cache_neg();
+        break;
+    case(Constants::ioctl_log_all_metrics):
+        LOG(INFO) << "loggin all metrics" << std::endl;
+        Util::log_all_metrics(path_string);
+        break;
+    case(Constants::ioctl_reset_fs):
+        LOG(INFO) << "resetting filesystem" << std::endl;
+        Util::reset_fs();
         break;
     default: LOG(WARNING) << "unknown cmd" << std::endl; break;
     }
@@ -440,12 +447,7 @@ static void cu_fuse_destroy(void* private_data) {
     LOG(DEBUG) << " " << std::endl;
     auto start = Metric::start_operation(OperationFunction::destroy);
 
-    CacheTables::data_cache_table.cache.clear();
-    CacheTables::md_cache_table.cache.clear();
-    CacheTables::tree_cache_table.cache.clear();
-    CacheEvent::reset_data_cache_event();
-    CacheEvent::reset_dir_cache_event();
-    CacheEvent::reset_md_cache_event();
+    Util::reset_fs();
 
     Metric::stop_operation(OperationFunction::destroy, start, Constants::fs_operation_success);
 }

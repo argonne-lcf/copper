@@ -34,6 +34,24 @@ def gen_output_folders(folder, iterations):
         except Exception as e:
             print(f"Failed to create directory '{final_dir}': {e}")
 
+def get_all_metrics(folder, iteration):
+    final_dir = output_dir + '/' + folder + '/' + str(iteration)
+    command = [scripts_dir + '/' + "filesystem_ioctl"  + '/' + 'get_all_metrics.sh', final_dir]
+    try:
+        result = subprocess.run(command, capture_output=True, text=True, check=True)
+    except subprocess.CalledProcessError as e:
+        if e.stderr:
+            print(e.stderr)
+            sys.exit(1)
+
+def reset_fs():
+    command = [scripts_dir + '/' + "filesystem_ioctl"  + '/' + 'reset_fs.sh']
+    try:
+        result = subprocess.run(command, capture_output=True, text=True, check=True)
+    except subprocess.CalledProcessError as e:
+        if e.stderr:
+            print(e.stderr)
+            sys.exit(1)
 
 def run_script(folder, script_name, iterations):
     execution_times = []
@@ -49,14 +67,8 @@ def run_script(folder, script_name, iterations):
             execution_times.append(end_time - start_time)
 
             if folder == "view":
-                final_dir = output_dir + '/' + folder + '/' + str(iteration)
-                command = [scripts_dir + '/' + "filesystem_ioctl"  + '/' + 'get_clear_fuse_output.sh', final_dir]
-                try:
-                    result = subprocess.run(command, capture_output=True, text=True, check=True)
-                except subprocess.CalledProcessError as e:
-                    if e.stderr:
-                        print(e.stderr)
-                        sys.exit(1)
+                get_all_metrics(folder, iteration)
+                reset_fs()
 
     total_time = sum(execution_times)
     if iterations >= 2:
@@ -72,5 +84,7 @@ def run_script(folder, script_name, iterations):
 
 
 gen_output_folders("view", its)
+
+reset_fs()
 run_script("view", view_script, its)
 run_script("target", target_script, its)

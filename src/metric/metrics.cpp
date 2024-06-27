@@ -45,7 +45,7 @@ int ret) {
         break;
     case(OperationResult::neg):
         LOG(DEBUG) << "cache neg" << std::endl;
-        Operations::inc_operation_neg(func);
+        Operations::inc_operation_cache_neg(func);
         break;
     default: LOG(ERROR) << "invalid OperationResults" << std::endl; break;
     }

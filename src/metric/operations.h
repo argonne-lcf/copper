@@ -13,7 +13,7 @@ class Operations {
     static void inc_operation(OperationFunction func);
     static void inc_operation_timer(OperationFunction func, long time);
     static void inc_operation_cache_hit(OperationFunction func, bool cache_hit);
-    static void inc_operation_neg(OperationFunction func);
+    static void inc_operation_cache_neg(OperationFunction func);
 
     static void reset_operation_counter() {
         memset(operation_counter, 0, sizeof(OperationFunction::size));
@@ -27,8 +27,8 @@ class Operations {
     static void reset_operation_cache_miss() {
         memset(operation_cache_miss, 0, sizeof(OperationFunction::size));
     }
-    static void reset_operation_neg() {
-        memset(operation_neg, 0, sizeof(OperationFunction::size));
+    static void reset_operation_cache_neg() {
+        memset(operation_cache_neg, 0, sizeof(OperationFunction::size));
     }
 
     static std::ostream& log_operation(std::ostream& os);
@@ -42,7 +42,7 @@ class Operations {
     static inline long operation_timer[static_cast<long>(OperationFunction::size)]{};
     static inline int operation_cache_hit[static_cast<int>(OperationFunction::size)]{};
     static inline int operation_cache_miss[static_cast<int>(OperationFunction::size)]{};
-    static inline int operation_neg[static_cast<int>(OperationFunction::size)]{};
+    static inline int operation_cache_neg[static_cast<int>(OperationFunction::size)]{};
 };
 
 

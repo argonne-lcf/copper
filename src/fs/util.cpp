@@ -1,5 +1,6 @@
 #include "util.h"
 
+#include "../metric/metrics.h"
 #include "../metric/operations.h"
 
 std::string Util::rel_to_abs_path(const char* path) {
@@ -100,4 +101,55 @@ std::string Util::get_current_datetime() {
     strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
 
     return buf;
+}
+
+#define GET_FS_STREAM(path_string, filename)                                     \
+    output = std::filesystem::path(path_string).parent_path() += "/" + filename; \
+    fs_stream_opt = Util::try_get_fstream_from_path(output.c_str());             \
+    if(!fs_stream_opt.has_value()) {                                             \
+        LOG(ERROR) << "failed to open fstream" << std::endl;                     \
+        return;                                                                  \
+    }                                                                            \
+    fs_stream_opt.value() << Util::get_current_datetime() << std::endl;
+
+void Util::log_all_metrics(const std::string& path_string) {
+    std::string output;
+    std::optional<std::ofstream> fs_stream_opt = std::nullopt;
+
+    GET_FS_STREAM(path_string, Constants::log_cache_tables_output_filename);
+    fs_stream_opt.value() << CacheTables::tree_cache_table << std::endl;
+    fs_stream_opt.value() << CacheTables::data_cache_table << std::endl;
+    fs_stream_opt.value() << CacheTables::md_cache_table << std::endl;
+    GET_FS_STREAM(path_string, Constants::log_operation_output_filename);
+    fs_stream_opt.value() << Operations::log_operation << std::endl;
+    GET_FS_STREAM(path_string, Constants::log_operation_time_output_filename);
+    fs_stream_opt.value() << Operations::log_operation_time << std::endl;
+    GET_FS_STREAM(path_string, Constants::log_cache_hit_output_filename);
+    fs_stream_opt.value() << Operations::log_operation_cache_hit << std::endl;
+    GET_FS_STREAM(path_string, Constants::log_cache_miss_output_filename);
+    fs_stream_opt.value() << Operations::log_operation_cache_miss << std::endl;
+    GET_FS_STREAM(path_string, Constants::log_data_cache_event_output_filename);
+    fs_stream_opt.value() << CacheEvent::log_data_cache_event << std::endl;
+    GET_FS_STREAM(path_string, Constants::log_tree_cache_event_output_filename);
+    fs_stream_opt.value() << CacheEvent::log_tree_cache_event << std::endl;
+    GET_FS_STREAM(path_string, Constants::log_md_cache_event_output_filename);
+    fs_stream_opt.value() << CacheEvent::log_md_cache_event << std::endl;
+    GET_FS_STREAM(path_string, Constants::log_operation_cache_neg_output_filename);
+    fs_stream_opt.value() << Operations::log_operation_neg << std::endl;
+}
+
+void Util::reset_fs() {
+    CacheTables::data_cache_table.cache.clear();
+    CacheTables::md_cache_table.cache.clear();
+    CacheTables::tree_cache_table.cache.clear();
+
+    CacheEvent::reset_data_cache_event();
+    CacheEvent::reset_md_cache_event();
+    CacheEvent::reset_tree_cache_event();
+
+    Operations::reset_operation_cache_hit();
+    Operations::reset_operation_cache_miss();
+    Operations::reset_operation_counter();
+    Operations::reset_operation_cache_neg();
+    Operations::reset_operation_timer();
 }

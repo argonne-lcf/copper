@@ -29,8 +29,8 @@ void Operations::inc_operation(OperationFunction func) {
     operation_counter[static_cast<int>(func)]++;
 }
 
-void Operations::inc_operation_neg(OperationFunction func) {
-    operation_neg[static_cast<int>(func)]++;
+void Operations::inc_operation_cache_neg(OperationFunction func) {
+    operation_cache_neg[static_cast<int>(func)]++;
 }
 
 void Operations::inc_operation_timer(OperationFunction func, const long time) {
@@ -46,26 +46,26 @@ void Operations::inc_operation_cache_hit(OperationFunction func, const bool cach
 }
 
 std::ostream& Operations::log_operation_neg(std::ostream& os) {
-    log_operation_helper<int>("operation_neg", os, operation_neg);
+    log_operation_helper<int>("Aggregate Operation Cache Negative", os, operation_cache_neg);
     return os;
 }
 
 std::ostream& Operations::log_operation(std::ostream& os) {
-    log_operation_helper<int>("operation_counter", os, operation_counter);
+    log_operation_helper<int>("Aggregate Operation Counter", os, operation_counter);
     return os;
 }
 
 std::ostream& Operations::log_operation_time(std::ostream& os) {
-    log_operation_helper<long>("operation_timer (microseconds)", os, operation_timer);
+    log_operation_helper<long>("Aggregate Operation Time (microseconds)", os, operation_timer);
     return os;
 }
 
 std::ostream& Operations::log_operation_cache_hit(std::ostream& os) {
-    log_operation_helper<int>("operation_cache_hit", os, operation_cache_hit);
+    log_operation_helper<int>("Aggregate Operation Cache Hit", os, operation_cache_hit);
     return os;
 }
 
 std::ostream& Operations::log_operation_cache_miss(std::ostream& os) {
-    log_operation_helper<int>("operation_cache_miss", os, operation_cache_miss);
+    log_operation_helper<int>("Aggregate Operation Cache Miss", os, operation_cache_miss);
     return os;
 }

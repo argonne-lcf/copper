@@ -29,16 +29,16 @@ void CacheEvent::record_cache_event(std::unordered_map<std::string, OpRes>& tabl
 }
 
 std::ostream& CacheEvent::log_data_cache_event(std::ostream& os) {
-    log_cache_event_helper("data_cache_event_table", os, data_cache_event_table);
+    log_cache_event_helper("Data Cache Events", os, data_cache_event_table);
     return os;
 }
 
 std::ostream& CacheEvent::log_md_cache_event(std::ostream& os) {
-    log_cache_event_helper("md_cache_event_table", os, md_cache_event_table);
+    log_cache_event_helper("Metdata Cache Events", os, md_cache_event_table);
     return os;
 }
 
-std::ostream& CacheEvent::log_dir_cache_event(std::ostream& os) {
-    log_cache_event_helper("dir_cache_event_table", os, dir_cache_event_table);
+std::ostream& CacheEvent::log_tree_cache_event(std::ostream& os) {
+    log_cache_event_helper("Tree Cache Events", os, tree_cache_event_table);
     return os;
 }

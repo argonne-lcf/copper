@@ -16,14 +16,14 @@ class CacheEvent {
     static void record_cache_event(std::unordered_map<std::string, OpRes>& table, const std::string& path, OperationResult res);
 
     static std::ostream& log_data_cache_event(std::ostream& os);
-    static std::ostream& log_dir_cache_event(std::ostream& os);
+    static std::ostream& log_tree_cache_event(std::ostream& os);
     static std::ostream& log_md_cache_event(std::ostream& os);
 
     static void reset_data_cache_event() {
         data_cache_event_table.clear();
     }
-    static void reset_dir_cache_event() {
-        dir_cache_event_table.clear();
+    static void reset_tree_cache_event() {
+        tree_cache_event_table.clear();
     }
     static void reset_md_cache_event() {
         md_cache_event_table.clear();
@@ -33,7 +33,7 @@ class CacheEvent {
     //       pair.second is cache misses
     //       first should never be > 1
     static inline std::unordered_map<std::string, OpRes> data_cache_event_table;
-    static inline std::unordered_map<std::string, OpRes> dir_cache_event_table;
+    static inline std::unordered_map<std::string, OpRes> tree_cache_event_table;
     static inline std::unordered_map<std::string, OpRes> md_cache_event_table;
 };
 

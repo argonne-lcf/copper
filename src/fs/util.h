@@ -32,6 +32,11 @@ class Util {
     static std::optional<std::ofstream> try_get_fstream_from_path(const char* path);
 
     static std::string get_current_datetime();
+
+    static void log_all_metrics(const std::string& path_string);
+
+    // NOTE: clears all caches and metics
+    static void reset_fs();
 };
 
 #endif // UTIL_H
