@@ -573,6 +573,17 @@ int main(const int argc, const char* argv[]) {
 
     auto new_args{Util::process_args(argc, argv)};
 
+    if(Constants::log_type == "stdout") {
+        AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level))});
+    } else if(Constants::log_type == "file") {
+        AixLog::Log::init({std::make_shared<AixLog::SinkFile>(
+        static_cast<AixLog::Severity>(Constants::log_level), Constants::log_output_path.value())});
+    } else if(Constants::log_type == "file_and_stdout") {
+        AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level)),
+        std::make_shared<AixLog::SinkFile>(
+        static_cast<AixLog::Severity>(Constants::log_level), Constants::log_output_path.value())});
+    }
+
     std::vector<char*> ptrs;
     ptrs.reserve(new_args.size());
     for(std::string& str : new_args) {
