@@ -37,6 +37,9 @@ class Util {
 
     // NOTE: clears all caches and metics
     static void reset_fs();
+
+    // NOTE: checks whether path_string will cause recursive passthrough operation
+    static bool is_recursive_path_string(const std::string& path_string);
 };
 
 #endif // UTIL_H

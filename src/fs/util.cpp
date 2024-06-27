@@ -51,6 +51,15 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
             Constants::target_path = std::string(argv[i + 1]);
             LOG(DEBUG) << "-tpath was found: " << Constants::target_path.value() << std::endl;
             i += 2;
+        } else if(original_string_args[i] == "-vpath") {
+            if(i + 2 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -vpath");
+            }
+
+            Constants::view_path = std::string(argv[i + 1]);
+            LOG(DEBUG) << "-vpath was found: " << Constants::view_path.value() << std::endl;
+            i += 2;
         } else {
             new_string_args.push_back(original_string_args[i]);
             i++;
@@ -60,6 +69,11 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
     if(!Constants::target_path.has_value()) {
         LOG(FATAL) << Constants::usage << std::endl;
         throw std::runtime_error("-tpath argument not found");
+    }
+
+    if(!Constants::view_path.has_value()) {
+        LOG(FATAL) << Constants::usage << std::endl;
+        throw std::runtime_error("-vpath argument not found");
     }
 
     return new_string_args;
@@ -156,4 +170,15 @@ void Util::reset_fs() {
     Operations::reset_operation_counter();
     Operations::reset_operation_cache_neg();
     Operations::reset_operation_timer();
+}
+
+bool Util::is_recursive_path_string(const std::string& path_string) {
+    if(!Constants::view_path.has_value()) {
+        throw std::runtime_error("view_path was std::nullopt!");
+    }
+
+    const auto& view_path_value = Constants::view_path.value();
+    auto res = std::mismatch(view_path_value.begin(), view_path_value.end(), path_string.begin());
+
+    return res.first == view_path_value.end();
 }

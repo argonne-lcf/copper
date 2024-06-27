@@ -9,7 +9,9 @@
 class Constants {
     public:
     static inline std::optional<std::string> target_path{std::nullopt};
-    static inline std::string usage{"cu_fuse <FUSE_PARAMS> -tpath <ABS_TARGET_PATH> <ABS_VIEW_PATH>"};
+    static inline std::optional<std::string> view_path{std::nullopt};
+
+    static inline std::string usage{"cu_fuse <FUSE_PARAMS> -tpath <ABS_TARGET_PATH> -vpath <ABS_VIEW_PATH> <ABS_VIEW_PATH>"};
     static constexpr unsigned int fs_operation_success{0};
     static constexpr unsigned int fs_operation_error{1};
     static inline std::optional<fuse_fill_dir_flags> fill_dir_plus = std::nullopt;

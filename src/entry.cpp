@@ -22,6 +22,14 @@
 #include "metric/metrics.h"
 #include "metric/operations.h"
 
+#define CHECK_RECURSIVE(path_string)                                                   \
+    {                                                                                  \
+        if(Util::is_recursive_path_string(path_string)) {                              \
+            LOG(WARNING) << "path_string was recursive: " << path_string << std::endl; \
+            return -ENOENT;                                                            \
+        }                                                                              \
+    }
+
 #define NOT_IMPLEMENTED(func)                                                        \
     {                                                                                \
         LOG(DEBUG) << " " << std::endl;                                              \
@@ -32,6 +40,7 @@
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::getattr, path_);
+    CHECK_RECURSIVE(path_string);
 
     const auto cu_stat_opt{CacheTables::md_cache_table.get(path_string)};
 
@@ -61,6 +70,7 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
 static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::open, path_);
+    CHECK_RECURSIVE(path_string);
 
     const auto entry_opt = CacheTables::md_cache_table.get(path_string);
 
@@ -99,6 +109,7 @@ static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
 static int cu_fuse_read(const char* path_, char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::read, path_);
+    CHECK_RECURSIVE(path_string);
 
     const auto entry_opt = CacheTables::data_cache_table.get(path_string);
     std::vector<std::byte>* bytes = nullptr;
@@ -147,6 +158,7 @@ static int
 cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_t offset, struct fuse_file_info* fi, enum fuse_readdir_flags flags) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::readdir, path_);
+    CHECK_RECURSIVE(path_string);
 
     const auto& tree_cache_table_entry_opt = CacheTables::tree_cache_table.get(path_string);
     std::vector<std::string> entries{};
@@ -204,6 +216,7 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
 static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file_info*, unsigned int flags, void* data) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::ioctl, path_);
+    CHECK_RECURSIVE(path_string);
 
     std::string output;
     std::optional<std::ofstream> fs_stream_opt = std::nullopt;
@@ -455,6 +468,7 @@ static void cu_fuse_destroy(void* private_data) {
 static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::readlink, path_);
+    CHECK_RECURSIVE(path_string);
 
     const int res = static_cast<int>(readlink(path_string.c_str(), buf, size - 1));
     if(res == -1) {
@@ -554,7 +568,7 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 };
 
 int main(const int argc, const char* argv[]) {
-    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::fatal);
+    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
     LOG(TRACE) << " " << std::endl;
 
     auto new_args{Util::process_args(argc, argv)};

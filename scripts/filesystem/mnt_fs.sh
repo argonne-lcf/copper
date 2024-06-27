@@ -14,16 +14,6 @@ function unmount() {
     fusermount -u $VIEW_DIR || true
 }
 
-function create_folder() {
-    if [ -d $1 ]
-    then
-        echo "$1 already exists - skipping creation"
-    else
-        echo "creating $1"
-        mkdir $1
-    fi
-}
-
 echo "VIEW_DIR: $VIEW_DIR"
 echo "TARGET_DIR: $TARGET_DIR"
 
@@ -45,6 +35,6 @@ else
 fi
 
 echo "mounting fuse distributed cache to view dir"
-$FUSE_FS -tpath $TARGET_DIR -f -s $VIEW_DIR
+$FUSE_FS -tpath $TARGET_DIR -vpath $VIEW_DIR -f -s $VIEW_DIR
 
 unmount || { echo "already unmounted"; exit 0; }
