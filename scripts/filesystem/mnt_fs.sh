@@ -27,11 +27,6 @@ function create_folder() {
 echo "VIEW_DIR: $VIEW_DIR"
 echo "TARGET_DIR: $TARGET_DIR"
 
-create_folder $VIEW_DIR
-create_folder $TARGET_DIR
-
-unmount
-
 if [ -f $FUSE_FS ]
 then
     echo "found cu_fuse binary"

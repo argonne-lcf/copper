@@ -25,4 +25,4 @@ echo "RUN_IOCTL: $RUN_IOCTL"
 
 (cd "$SCRIPTS_IOCTL_DIR" && bash "$RUN_IOCTL" "$IOCTL_LOG_ALL_METRICS")
 
-cp -f "$SPEC_DEV_TARGET_DIR"/*.output "$1"
+cp -f "$SPEC_DEV_DIR"/*.output "$1"

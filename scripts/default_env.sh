@@ -1,17 +1,21 @@
 #!/bin/bash
 set -o nounset
 
-# Set the VIEW_DIR to the mnt point
+# set for mnt to work
+export VIEW_DIR=
+# set for tests to work
+export PY_PACKAGES_DIR=
 
 export ROOT_DIR=$(readlink -f "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/..")
 export SCRIPTS_DIR="$ROOT_DIR"/scripts
-export VIEW_DIR=
 export TARGET_DIR=/
 export FUSE_FS="$ROOT_DIR/build/cu_fuse"
-export SPEC_DEV_VIEW_DIR="$VIEW_DIR/dev"
-export SPEC_DEV_TARGET_DIR="$TARGET_DIR/dev"
+# the directory for which the dev directory will be created
+export SPEC_DEV_DIR_DIR="$(readlink -f ~)"
+export SPEC_DEV_DIR=$SPEC_DEV_DIR_DIR/dev
+export SPEC_DEV_VIEW_DIR="$(readlink -f $VIEW_DIR/$SPEC_DEV_DIR)"
 export SPEC_DEV_VIEW="$SPEC_DEV_VIEW_DIR/.spec_dev"
-export SPEC_DEV_TARGET="$SPEC_DEV_TARGET_DIR/.spec_dev"
+export SPEC_DEV_TARGET="$SPEC_DEV_DIR/.spec_dev"
 
 export IOCTL_CLEAR_CACHE_TABLES=100
 export IOCTL_CLEAR_OPERATION=700

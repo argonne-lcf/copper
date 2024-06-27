@@ -10,6 +10,8 @@ if spec_dev is None:
 if ioctl_request_code is None:
     print("ioctl_request_code not found")
 
+print(f"opening file: {spec_dev}")
+
 fd = os.open(spec_dev, os.O_RDWR)
 try:
     print(f"ioctl with cmd: {ioctl_request_code}")

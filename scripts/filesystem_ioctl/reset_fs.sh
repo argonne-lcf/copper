@@ -20,4 +20,4 @@ echo "RUN_IOCTL: $RUN_IOCTL"
 
 (cd "$SCRIPTS_IOCTL_DIR" && bash "$RUN_IOCTL" "$IOCTL_RESET_FS")
 
-rm "$SPEC_DEV_TARGET_DIR"/*.output || true
+rm "$SPEC_DEV_DIR"/*.output || true

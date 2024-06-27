@@ -1,10 +1,13 @@
-import sys 
+import sys
 import os
 
-view_dir = os.environ['TARGET_DIR']
-packages = view_dir + "/" + "packages"
+print("target_test script")
 
-sys.path.insert(0, packages)
+packages_dir = os.environ['PY_PACKAGES_DIR']
+
+print(f"packages dir: {packages_dir}")
+
+sys.path.insert(0, packages_dir)
 
 import numpy
 print(numpy.__file__)
