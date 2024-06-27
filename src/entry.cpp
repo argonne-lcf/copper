@@ -37,6 +37,13 @@
         return Metric::stop_operation(func, start, Constants::fs_operation_success); \
     }
 
+#define NOT_IMPLEMENTED_SPECIFY_RETURN(func, ret)        \
+    {                                                    \
+        LOG(DEBUG) << " " << std::endl;                  \
+        auto start = Metric::start_operation(func);      \
+        return Metric::stop_operation(func, start, ret); \
+    }
+
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::getattr, path_);
@@ -491,7 +498,9 @@ static int cu_fuse_link(const char* from_, const char* to_) NOT_IMPLEMENTED(Oper
 static int cu_fuse_chmod(const char* path_, const mode_t mode, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::chmod)
 static int cu_fuse_chown(const char* path_, const uid_t uid, const gid_t gid, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::chown)
 static int cu_fuse_truncate(const char*, off_t, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::truncate)
-static int cu_fuse_write(const char* path_, const char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::write)
+// NOTE: need to return write size or some many programs will continue attempting to write
+static int cu_fuse_write(const char* path_, const char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi)
+    NOT_IMPLEMENTED_SPECIFY_RETURN(OperationFunction::write, size)
 static int cu_fuse_statfs(const char* path_, struct statvfs* stbuf) NOT_IMPLEMENTED(OperationFunction::statfs)
 static int cu_fuse_flush(const char*, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::flush)
 static int cu_fuse_release(const char* path_, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::release)
