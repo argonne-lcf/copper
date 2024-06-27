@@ -60,6 +60,34 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
             Constants::view_path = std::string(argv[i + 1]);
             LOG(DEBUG) << "-vpath was found: " << Constants::view_path.value() << std::endl;
             i += 2;
+        } else if(original_string_args[i] == "-log_level") {
+            if(i + 2 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -log_level");
+            }
+
+            // NOTE: aixlog starts at 0 so - 1
+            Constants::log_level = std::stoi(std::string(argv[i + 1]));
+            LOG(DEBUG) << "-log_level was found: " << Constants::log_level << std::endl;
+            i += 2;
+        } else if(original_string_args[i] == "-log_type") {
+            if(i + 2 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -log_type");
+            }
+
+            Constants::log_type = std::string(argv[i + 1]);
+            LOG(DEBUG) << "-log_type was found: " << Constants::log_type << std::endl;
+            i += 2;
+        } else if(original_string_args[i] == "-log_output_path") {
+            if(i + 2 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -log_output_path");
+            }
+
+            Constants::log_output_path = std::string(argv[i + 1]);
+            LOG(DEBUG) << "-log_output_path was found: " << Constants::log_output_path.value() << std::endl;
+            i += 2;
         } else {
             new_string_args.push_back(original_string_args[i]);
             i++;
@@ -74,6 +102,21 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
     if(!Constants::view_path.has_value()) {
         LOG(FATAL) << Constants::usage << std::endl;
         throw std::runtime_error("-vpath argument not found");
+    }
+
+    if(Constants::log_type != "stdout" && Constants::log_type != "file" && Constants::log_type != "file_and_stdout") {
+        LOG(FATAL) << Constants::usage << std::endl;
+        throw std::runtime_error("-invalid log_type argument");
+    }
+
+    if(Constants::log_level < 0 || Constants::log_level > 6) {
+        LOG(FATAL) << Constants::usage << std::endl;
+        throw std::runtime_error("-invalid log_level argument");
+    }
+
+    if((Constants::log_type == "file" || Constants::log_type == "file_and_stdout") && Constants::log_output_path == std::nullopt) {
+        LOG(FATAL) << Constants::usage << std::endl;
+        throw std::runtime_error("-log_output_path required because -log_type file or file_and_stdout");
     }
 
     return new_string_args;

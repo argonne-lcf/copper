@@ -6,6 +6,14 @@ export VIEW_DIR=
 # set for tests to work
 export PY_PACKAGES_DIR=
 
+# log settings
+# 0-6 from most amount of information to least
+export LOG_LEVEL=1
+# file/stdout/file_and_stdout
+export LOG_TYPE=stdout
+# only used if LOG_TYPE=file
+export LOG_OUTPUT_PATH=$(readlink -f ~/copper.log)
+
 export ROOT_DIR=$(readlink -f "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/..")
 export SCRIPTS_DIR="$ROOT_DIR"/scripts
 export TARGET_DIR=/
