@@ -218,13 +218,13 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt.value() << CacheTables::data_cache_table << std::endl;
         fs_stream_opt.value() << CacheTables::md_cache_table << std::endl;
         break;
-    case(Constants::ioctl_clear_cache):
+    case(Constants::ioctl_clear_cache_tables):
         LOG(INFO) << "clearing cache" << std::endl;
         CacheTables::tree_cache_table.cache.clear();
         CacheTables::md_cache_table.cache.clear();
         CacheTables::md_cache_table.cache.clear();
         break;
-    case(Constants::ioctl_log_operation):
+    case(Constants::ioctl_log_operation_count):
         LOG(INFO) << "logging operation" << std::endl;
 
         IOCTL_GET_FS_STREAM(Constants::log_operation_output_filename);
@@ -248,7 +248,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         IOCTL_GET_FS_STREAM(Constants::log_cache_miss_output_filename);
         fs_stream_opt.value() << Operations::log_operation_cache_miss << std::endl;
         break;
-    case(Constants::ioctl_clear_operation):
+    case(Constants::ioctl_clear_operation_count):
         LOG(INFO) << "clearing operation" << std::endl;
         Operations::reset_operation_counter();
         break;
