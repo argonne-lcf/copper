@@ -13,6 +13,10 @@
 #include <unistd.h>
 #include <variant>
 #include <vector>
+#include <sys/types.h>
+#ifdef HAVE_SETXATTR
+#include <sys/xattr.h>
+#endif
 
 #include "aixlog.h"
 #include "cache/cache_tables.h"
@@ -487,6 +491,20 @@ static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) {
     return Metric::stop_operation(OperationFunction::readlink, start, Constants::fs_operation_success);
 }
 
+#ifdef HAVE_SETXATTR
+static int cu_fuse_getxattr(const char* path_, const char* name, char* value, size_t size) {
+    LOG(DEBUG) << " " << std::endl;
+    auto [path_string, start] = Metric::start_cache_operation(OperationFunction::getxattr, path_);
+
+    int res = lgetxattr(path_string.c_str(), name, value, size);
+    if(res == -1) {
+        return Metric::stop_operation(OperationFunction::getxattr, start, -errno);
+    }
+
+    return Metric::stop_operation(OperationFunction::getxattr, start, res);;
+}
+#endif
+
 // clang-format off
 static int cu_fuse_mknod(const char* path_, const mode_t mode, const dev_t rdev) NOT_IMPLEMENTED(OperationFunction::mknod)
 static int cu_fuse_mkdir(const char* path_, const mode_t mode) NOT_IMPLEMENTED(OperationFunction::mkdir)
@@ -505,10 +523,11 @@ static int cu_fuse_statfs(const char* path_, struct statvfs* stbuf) NOT_IMPLEMEN
 static int cu_fuse_flush(const char*, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::flush)
 static int cu_fuse_release(const char* path_, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::release)
 static int cu_fuse_fsync(const char* path_, const int isdatasync, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::fsync)
+#ifdef HAVE_SETXATTR
 static int cu_fuse_setxattr(const char*, const char*, const char*, size_t, int) NOT_IMPLEMENTED(OperationFunction::setxattr)
-static int cu_fuse_getxattr(const char*, const char*, char*, size_t) NOT_IMPLEMENTED(OperationFunction::getxattr)
 static int cu_fuse_listxattr(const char*, char*, size_t) NOT_IMPLEMENTED(OperationFunction::listxattr)
 static int cu_fuse_removexattr(const char*, const char*) NOT_IMPLEMENTED(OperationFunction::removexattr)
+#endif
 static int cu_fuse_opendir(const char*, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::opendir)
 static int cu_fuse_releasedir(const char*, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::releasedir)
 static int cu_fuse_fsyncdir(const char*, int, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::fsyncdir)
@@ -550,10 +569,12 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 .flush = cu_fuse_flush,
 .release = cu_fuse_release,
 .fsync = cu_fuse_fsync,
+#ifdef HAVE_SETXATTR
 .setxattr = cu_fuse_setxattr,
 .getxattr = cu_fuse_getxattr,
 .listxattr = cu_fuse_listxattr,
 .removexattr = cu_fuse_removexattr,
+#endif
 .opendir = cu_fuse_opendir,
 .readdir = cu_fuse_readdir,
 .releasedir = cu_fuse_releasedir,

@@ -10,3 +10,4 @@ cmake-build-debug
 CMakeLists.txt.user
 **.output
 **.stdout
+__pycache__/
