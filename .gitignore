@@ -66,3 +66,8 @@ CMakeLists.txt.user
 **.output
 **.stdout
 __pycache__/
+.vscode
+compile_commands.json
+run/*.log
+run/rpc_shutdown
+run/copper_address_book.txt 

@@ -1,13 +1,13 @@
 #!/bin/bash
 set -o nounset
 
-if [ ! -f ../env.sh ]
-then
-	echo "env.sh not found. please cp default_env.sh and set appropriate ENV vars"
-	exit 1
-fi
+# if [ ! -f ../env.sh ]
+# then
+# 	echo "env.sh not found. please cp default_env.sh and set appropriate ENV vars"
+# 	exit 1
+# fi
 
-source ../env.sh
+# source ../filesystem/env.sh
 
 function unmount() {
     echo "unmounting"
@@ -40,6 +40,7 @@ $FUSE_FS -tpath $TARGET_DIR                \
          -log_level $LOG_LEVEL             \
          -log_type $LOG_TYPE               \
          -log_output_path $LOG_OUTPUT_PATH \
-         -f -s $VIEW_DIR
+         -f $VIEW_DIR # add -d for debugging fuse # chance of issue with -s # to check noah 
 
-unmount || { echo "already unmounted"; exit 0; }
+fusermount -u "$VIEW_DIR" || true
+# mpirun -np 7 -ppn 1 fusermount3 -u /lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/july1/copper/run/cu_fuse_view 
