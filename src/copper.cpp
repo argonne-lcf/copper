@@ -9,11 +9,13 @@
 #include <iostream>
 #include <thallium.hpp>
 #include <thallium/serialization/stl/string.hpp>
+#include <thallium/serialization/stl/vector.hpp>
 #include <array>
 #include <vector>
 #include <string>
 #include <fstream>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <unistd.h> 
 #include <cmath>
 #include <mutex>
@@ -28,7 +30,7 @@
 #include <ctime>
 
 namespace tl = thallium;
-extern tl::remote_procedure get_file_data;
+extern tl::remote_procedure rpc_lstat;
 int cu_hello_main(int argc, char *argv[], void* userdata); 
 
 std::vector<std::pair<std::string, std::string>> global_peer_pairs;
@@ -98,9 +100,9 @@ Node* root;
 class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> 
 {
     std::vector<tl::endpoint> m_peers;
-    tl::remote_procedure      m_get_file_data;
+    tl::remote_procedure      m_rpc_lstat;
     public:
-        ServerLocalCacheProvider(tl::engine serverEngine, const std::vector<std::string>& addresses) : tl::provider<ServerLocalCacheProvider>{std::move(serverEngine), 0} , m_get_file_data{define("get_file_data", &ServerLocalCacheProvider::getFileData)}
+        ServerLocalCacheProvider(tl::engine serverEngine, const std::vector<std::string>& addresses) : tl::provider<ServerLocalCacheProvider>{std::move(serverEngine), 0} , m_rpc_lstat{define("rpc_lstat", &ServerLocalCacheProvider::rpcLstat)}
         {
             get_engine().push_finalize_callback([this](){ delete this;});
             m_peers.reserve(addresses.size());
@@ -111,10 +113,10 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider>
             }
         }
 
-        void getFileData(const tl::request& req, const std::string& filename, const int req_bytes) 
+        void rpcLstat(const tl::request& req, const std::string& path_string) 
         {
             std::string req_from_addr = static_cast<std::string>(req.get_endpoint());
-            std::cout << "req_coming_from_addr " << req_from_addr  << " requested data for file : " << filename << " requested bytes : " << req_bytes << std::endl;
+            std::cout << "req_coming_from_addr " << req_from_addr  << " requested data for file : " << path_string << std::endl;
 
             std::string my_curr_node_addr = static_cast<std::string>(get_engine().self());
 
@@ -123,20 +125,21 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider>
             {
                 std::chrono::time_point<std::chrono::system_clock> start1, end1;
                 start1 = std::chrono::system_clock::now();
-                
-                char* buffer = new char[req_bytes];
-                for (int i = 0; i < req_bytes; i++) 
-                {
-                    buffer[i] = 'c';
-                }
-                std::string file_content =buffer;
 
+                struct stat st;
+                if(lstat(path_string.c_str(), &st) == -1)
+                {
+                       req.respond(std::vector<std::byte> (0));
+                       return;
+                }
+                std::vector<std::byte> content(sizeof(struct stat));
+                memcpy(content.data(), &st, sizeof(struct stat));
+                
                 end1 = std::chrono::system_clock::now();           
                 std::chrono::duration<double> elapsed_seconds1 = end1 - start1;
-                std::cout << "For requester " << req_from_addr << " Root Buffer creation time " << elapsed_seconds1.count() << " s " << " Bytes " << req_bytes << std::endl ; 
+                std::cout << "For requester " << req_from_addr << " Root Buffer creation time " << elapsed_seconds1.count() << " s "  << std::endl ; 
+                req.respond(content);
 
-                req.respond(file_content);
-    
                 // margo_instance_id mid;
                 // mid  = get_engine().get_margo_instance();
                 // char* state_file_name;
@@ -150,7 +153,7 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider>
                 std::string parentofmynode = "";
                 getParentfromtree(CopyofTree, my_curr_node_addr, parentofmynode);
                 std::cout << "Going to parent " <<parentofmynode << std::endl;
-                std::string file_content        = m_get_file_data.on(get_engine().lookup(parentofmynode))(filename, req_bytes);
+                std::vector<std::byte>  file_content = m_rpc_lstat.on(get_engine().lookup(parentofmynode))(path_string);
                 std::cout << "Hop trip my_curr_node_addr " <<my_curr_node_addr << std::endl;
                 req.respond(file_content);
             }
@@ -487,7 +490,10 @@ int main(int argc, char** argv)
         auto serverEngine = tl::engine{"cxi", THALLIUM_SERVER_MODE, 1, -1 };
         std::cout << "Server running at address " << serverEngine.self() << std::endl;
         serverEngine.enable_remote_shutdown();
-        get_file_data = serverEngine.define("get_file_data");
+        rpc_lstat = serverEngine.define("rpc_lstat");
+
+
+        
         new ServerLocalCacheProvider{serverEngine, node_address_data};
         sleep(10); //  barrier issue: all process need to wait until the server is created.
 
@@ -511,7 +517,7 @@ int main(int argc, char** argv)
         // for (int i = 0; i < 10; i++) 
         // {
         //     start = std::chrono::system_clock::now();
-        //     std::string client_file_content = get_file_data.on(serverEngine.self())(std::string{"/path/to/file"}, 4);  
+        //     std::string client_file_content = rpc_lstat.on(serverEngine.self())(std::string{"/path/to/file"}, 4);  
         //     end = std::chrono::system_clock::now();           
             
         //     std::chrono::duration<double> elapsed_seconds = end - start;

@@ -32,11 +32,12 @@
 #include <margo.h>
 #include <thallium.hpp>
 #include <thallium/serialization/stl/string.hpp>
+#include <thallium/serialization/stl/vector.hpp>
 
 namespace tl = thallium;
 
 tl::engine serverEngine;
-tl::remote_procedure get_file_data;
+tl::remote_procedure rpc_lstat;
 
 
 
@@ -68,36 +69,30 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
     CHECK_RECURSIVE(path_string);
 
     const auto cu_stat_opt{CacheTables::md_cache_table.get(path_string)};
-    // (void) fi;
-
-    // FIXME: make rpc request or root functionality here
     if(!cu_stat_opt.has_value()) 
     {
-        // if (lstat_rpc(path_string.c_str(), stbuf) == -1)
-
+        struct stat *st = new struct stat;
         {
             tl::engine *serverEngine = static_cast<tl::engine*>(fuse_get_context()->private_data);
             pthread_t tid;
             tid = pthread_self();
             std::cout << "from real fuse Server running at address " << serverEngine->self() << std::endl;
-            std::cout << "Thread ID: %ld" << tid << std::endl;
-            std::string client_file_content = get_file_data.on(serverEngine->self())(std::string("/path/to/file"), 4);  
+            std::cout << "Thread ID: " << tid << std::endl;
+            std::vector<std::byte> rpc_lstat_response = rpc_lstat.on(serverEngine->self())(path_string);  
+            if(rpc_lstat_response.size()==0) 
+            {
+                LOG(WARNING) << "failed to passthrough stat" << std::endl;
+                return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,CacheEvent::md_cache_event_table, path_string, start, -ENOENT);
+            }
 
-            std::cout << client_file_content << std::endl;
+            memcpy(st, rpc_lstat_response.data(), sizeof(struct stat));
+            auto new_cu_stat = new CuStat{st};
+            new_cu_stat->cp_to_buf(stbuf);
+            CacheTables::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
+            return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_miss,
+            CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
         }
 
-        if(lstat(path_string.c_str(), stbuf) == -1) 
-        {
-            LOG(WARNING) << "failed to passthrough stat" << std::endl;
-            return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
-            CacheEvent::md_cache_event_table, path_string, start, -errno);
-        }
-
-        const auto new_cu_stat = new CuStat{stbuf};
-        CacheTables::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
-
-        return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_miss,
-        CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
     }
 
     const auto cu_stat = cu_stat_opt.value();
