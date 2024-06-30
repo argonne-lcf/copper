@@ -1,13 +1,17 @@
 #!/bin/bash
 set -o nounset
 
-# if [ ! -f ../env.sh ]
-# then
-# 	echo "env.sh not found. please cp default_env.sh and set appropriate ENV vars"
-# 	exit 1
-# fi
+SCRIPT=$(realpath -s "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+ENV=$SCRIPTPATH/../env.sh
 
-# source ../filesystem/env.sh
+if [ ! -f $ENV ]
+then
+	echo "failed to find ENV: $ENV"
+	exit 1
+fi
+
+source $ENV
 
 function unmount() {
     echo "unmounting"

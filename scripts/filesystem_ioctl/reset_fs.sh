@@ -1,12 +1,17 @@
 #!/bin/bash
 set -o nounset
 
-if [ ! -f ../env.sh ]; then
-	echo "failed to find ../scripts/env.sh"
+SCRIPT=$(realpath -s "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+ENV=$SCRIPTPATH/../env.sh
+
+if [ ! -f $ENV ]
+then
+	echo "failed to find ENV: $ENV"
 	exit 1
 fi
 
-source ../env.sh
+source $ENV
 
 SCRIPTS_IOCTL_DIR=$(readlink -f "$SCRIPTS_DIR/filesystem_ioctl")
 RUN_IOCTL="$(readlink -f "$SCRIPTS_DIR"/filesystem_ioctl/run_ioctl.sh)"

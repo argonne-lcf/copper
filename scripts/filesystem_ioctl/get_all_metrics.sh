@@ -1,12 +1,17 @@
 #!/bin/bash
 set -o nounset
 
-if [ ! -f ../env.sh ]; then
-	echo "failed to find ../scripts/env.sh"
+SCRIPT=$(realpath -s "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+ENV=$SCRIPTPATH/../env.sh
+
+if [ ! -f $ENV ]
+then
+	echo "failed to find ENV: $ENV"
 	exit 1
 fi
 
-source ../env.sh
+source $ENV
 
 if [ -z "$1" ]; then
   echo "usage: get_clear_fuse_output.sh <output_dir>"

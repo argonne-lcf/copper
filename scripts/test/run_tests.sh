@@ -3,13 +3,17 @@ set -o nounset
 
 ITERATIONS=1
 
-if [ ! -f ../env.sh ]
+SCRIPT=$(realpath -s "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+ENV=$SCRIPTPATH/../env.sh
+
+if [ ! -f $ENV ]
 then
-	echo "failed to find ../scripts/env.sh"
+	echo "failed to find ENV: $ENV"
 	exit 1
 fi
 
-source ../env.sh
+source $ENV
 
 export JOB_ID=$(shuf -i 1-9999999 -n 1)
 mkdir "$(pwd)/job_${JOB_ID}"

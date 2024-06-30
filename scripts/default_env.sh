@@ -1,10 +1,14 @@
 #!/bin/bash
-# set -o nounset # not sure -causes bash: !ref: unbound variable - can be used for debugging
-# set +o nounset # fixes the above issue
+set -o nounset
+
 # set for mnt to work
 export VIEW_DIR=
 # set for tests to work
 export PY_PACKAGES_DIR=
+# set to location of fuse library directory required to build
+FUSE3_LIB=
+# set to location of fuse header directory required to build
+FUSE3_INCLUDE=
 
 # log settings
 # 0-6 from most amount of information to least
@@ -15,7 +19,6 @@ export PY_PACKAGES_DIR=
 # LOG_LEVEL=4 is  WARN  means prints from [4-6]
 # LOG_LEVEL=5 is  ERROR means prints from [5-6]
 # LOG_LEVEL=6 is  FATAL ERROR means prints from [6-6]
-
 export LOG_LEVEL=1
 # file/stdout/file_and_stdout
 export LOG_TYPE=stdout
