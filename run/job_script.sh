@@ -9,3 +9,7 @@ mpirun -np 2 -ppn 1 /lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/july1/co
 
 # mpirun -np 1 -ppn 1 ./shutdown 2
 mpirun -np 7 -ppn 1 fusermount3 -u /lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/july1/copper/run/cu_fuse_view
+# fusermount3 -u cu_fuse_view
+# ls cu_fuse_view
+
+# cat /lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/july1/copper/run/cu_fuse_view/home/kaushikvelusamy/for-khalid/openme.txt 

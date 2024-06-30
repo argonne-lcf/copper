@@ -28,9 +28,12 @@
 #include <queue>
 #include <chrono>
 #include <ctime>
+#include "fs/util.h"
 
 namespace tl = thallium;
 extern tl::remote_procedure rpc_lstat;
+extern tl::remote_procedure rpc_readfile;
+
 int cu_hello_main(int argc, char *argv[], void* userdata); 
 
 std::vector<std::pair<std::string, std::string>> global_peer_pairs;
@@ -100,10 +103,14 @@ Node* root;
 class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> 
 {
     std::vector<tl::endpoint> m_peers;
-    tl::remote_procedure      m_rpc_lstat;
+    static const uint16_t provider_id=0;
+
     public:
-        ServerLocalCacheProvider(tl::engine serverEngine, const std::vector<std::string>& addresses) : tl::provider<ServerLocalCacheProvider>{std::move(serverEngine), 0} , m_rpc_lstat{define("rpc_lstat", &ServerLocalCacheProvider::rpcLstat)}
+        ServerLocalCacheProvider(tl::engine& serverEngine, const std::vector<std::string>& addresses): tl::provider<ServerLocalCacheProvider>{serverEngine, provider_id} 
         {
+            define("rpc_lstat", &ServerLocalCacheProvider::rpcLstat);
+            define("rpc_readfile", &ServerLocalCacheProvider::rpcRead);
+
             get_engine().push_finalize_callback([this](){ delete this;});
             m_peers.reserve(addresses.size());
 
@@ -153,11 +160,46 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider>
                 std::string parentofmynode = "";
                 getParentfromtree(CopyofTree, my_curr_node_addr, parentofmynode);
                 std::cout << "Going to parent " <<parentofmynode << std::endl;
-                std::vector<std::byte>  file_content = m_rpc_lstat.on(get_engine().lookup(parentofmynode))(path_string);
+                std::vector<std::byte>  file_content = rpc_lstat.on(get_engine().lookup(parentofmynode))(path_string);
                 std::cout << "Hop trip my_curr_node_addr " <<my_curr_node_addr << std::endl;
                 req.respond(file_content);
             }
         }
+
+        void rpcRead(const tl::request& req, const std::string& path_string) 
+        {
+            std::string req_from_addr = static_cast<std::string>(req.get_endpoint());
+            std::cout << "req_coming_from_addr " << req_from_addr  << " requested data for file : " << path_string << std::endl;
+
+            std::string my_curr_node_addr = static_cast<std::string>(get_engine().self());
+
+            // if(root->data == static_cast<std::string>(req.get_endpoint()))
+            if(root->data == my_curr_node_addr)
+            {
+                std::chrono::time_point<std::chrono::system_clock> start1, end1;
+                start1 = std::chrono::system_clock::now();
+
+                std::vector<std::byte> content = Util::read_ent_file(path_string,true);
+                end1 = std::chrono::system_clock::now();           
+                std::chrono::duration<double> elapsed_seconds1 = end1 - start1;
+                std::cout << "For requester " << req_from_addr << " Root Buffer creation time " << elapsed_seconds1.count() << " s "  << std::endl ; 
+                std::cout << "from rpcRead bytes size: " << content.size() << std::endl;
+                req.respond(content);
+            }
+            else
+            {
+                Node* CopyofTree = root;
+                std::string parentofmynode = "";
+                getParentfromtree(CopyofTree, my_curr_node_addr, parentofmynode);
+                std::cout << "Going to parent " <<parentofmynode << std::endl;
+                std::vector<std::byte>  file_content = rpc_lstat.on(get_engine().lookup(parentofmynode))(path_string);
+                std::cout << "Hop trip my_curr_node_addr " <<my_curr_node_addr << std::endl;
+                req.respond(file_content);
+            }
+        }
+
+
+
 
         void getParentfromtree(Node* CopyofTree, std::string my_curr_node_addr, std::string &parentofmynode)
         {
@@ -490,10 +532,8 @@ int main(int argc, char** argv)
         auto serverEngine = tl::engine{"cxi", THALLIUM_SERVER_MODE, 1, -1 };
         std::cout << "Server running at address " << serverEngine.self() << std::endl;
         serverEngine.enable_remote_shutdown();
-        rpc_lstat = serverEngine.define("rpc_lstat");
-
-
-        
+        rpc_lstat       = serverEngine.define("rpc_lstat");     
+        rpc_readfile    = serverEngine.define("rpc_readfile");    
         new ServerLocalCacheProvider{serverEngine, node_address_data};
         sleep(10); //  barrier issue: all process need to wait until the server is created.
 
