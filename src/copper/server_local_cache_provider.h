@@ -72,4 +72,4 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> {
     ServerLocalCacheProvider& operator=(ServerLocalCacheProvider&&) = delete;
 };
 
-#endif //SERVER_LOCAL_CACHE_PROVIDER_H
+#endif // SERVER_LOCAL_CACHE_PROVIDER_H

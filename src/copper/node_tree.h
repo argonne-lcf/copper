@@ -51,17 +51,22 @@ class Node {
         return children;
     }
 
-    void getParent(Node* child) {}
-    void getSibilings(Node* child) {}
-    void getPathToRoot(Node* child) {}
-    void getPathToLeaf(Node* child) {}
-    void getBFS(Node* child) {}
-    void getDFS(Node* child) {}
+    void getParent(Node* child) {
+    }
+    void getSibilings(Node* child) {
+    }
+    void getPathToRoot(Node* child) {
+    }
+    void getPathToLeaf(Node* child) {
+    }
+    void getBFS(Node* child) {
+    }
+    void getDFS(Node* child) {
+    }
 };
 
 class NodeTree {
     public:
-
     static void printTree(Node* node);
     static void prettyPrintTree(Node* root, int depth, int dep_counter = 0);
     static int depth(Node* root);
@@ -71,4 +76,4 @@ class NodeTree {
     static void parse_nodelist_from_cxi_address_book();
 };
 
-#endif //NODE_TREE_H
+#endif // NODE_TREE_H

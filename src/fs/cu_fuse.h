@@ -28,15 +28,15 @@
 
 #include "../aixlog.h"
 #include "../cache/cache_tables.h"
-#include "constants.h"
-#include "util.h"
 #include "../metric/cache_event.h"
 #include "../metric/metrics.h"
 #include "../metric/operations.h"
+#include "constants.h"
+#include "util.h"
 
 class CuFuse {
     public:
     static int cu_hello_main(int argc, char* argv[], void* userdata);
 };
 
-#endif //CU_FUSE_H
+#endif // CU_FUSE_H

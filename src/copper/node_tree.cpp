@@ -193,7 +193,7 @@ void NodeTree::push_back_with_mutex(std::string hostname, std::string my_cxi_ser
 
 void NodeTree::get_hsn0_cxi_addr() {
     std::string my_hsn0_mac_id;
-    std::ifstream inFile("/sys/class/net/eth0/address");
+    std::ifstream inFile("/sys/class/net/hsn0/address");
     if(!inFile.is_open()) {
         std::cerr << "Error opening file" << std::endl;
     }
@@ -216,7 +216,7 @@ void NodeTree::get_hsn0_cxi_addr() {
 
     std::stringstream my_cxi_server_ip_hex_ss;
     my_cxi_server_ip_hex_ss << std::hex << my_cxi_server_ip_binary.to_ulong();
-    std::string my_cxi_server_ip_hex_str = "na+sm://0x" + my_cxi_server_ip_hex_ss.str();
+    std::string my_cxi_server_ip_hex_str = "ofi+cxi://0x" + my_cxi_server_ip_hex_ss.str();
     // std::cout << "my_cxi_server_ip_hex_str " << my_cxi_server_ip_hex_str << std::endl;
 
     char char_hostname[1024];
@@ -229,7 +229,7 @@ void NodeTree::get_hsn0_cxi_addr() {
 }
 
 void NodeTree::parse_nodelist_from_cxi_address_book() {
-    sleep(5); //  barrier issue: The first process needs to wait until all the remaining processes have written to the address book.
+    sleep(20); //  barrier issue: The first process needs to wait until all the remaining processes have written to the address book.
 
     std::ifstream inFile(ServerLocalCacheProvider::copper_address_book_name, std::ios::in);
 

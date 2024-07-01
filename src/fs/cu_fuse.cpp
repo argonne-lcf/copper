@@ -119,7 +119,8 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
         tl::engine* serverEngine = static_cast<tl::engine*>(fuse_get_context()->private_data);
         std::cout << "cu_fuse_read from real fuse Server running at address " << serverEngine->self() << std::endl;
         std::cout << "cu_fuse_read Thread ID: " << pthread_self() << std::endl;
-        std::pair<int, std::vector<std::byte>> rpc_readfile_response = std::move(rpc_readfile.on(serverEngine->self())(path_string));
+        std::pair<int, std::vector<std::byte>> rpc_readfile_response =
+        std::move(rpc_readfile.on(serverEngine->self())(path_string));
 
         if(rpc_readfile_response.first != 0) {
             return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
