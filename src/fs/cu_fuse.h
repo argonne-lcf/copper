@@ -28,6 +28,7 @@
 
 #include "../aixlog.h"
 #include "../cache/cache_tables.h"
+#include "../copper/server_local_cache_provider.h"
 #include "../metric/cache_event.h"
 #include "../metric/metrics.h"
 #include "../metric/operations.h"

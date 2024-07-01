@@ -39,15 +39,15 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
         tl::engine* serverEngine = static_cast<tl::engine*>(fuse_get_context()->private_data);
         std::cout << "cu_fuse_getattr from real cu_fuse_getattr Server running at address " << serverEngine->self() << std::endl;
         std::cout << "cu_fuse_getattr Thread ID: " << pthread_self() << std::endl;
-        std::pair<int, std::vector<std::byte>> rpc_lstat_response = std::move(rpc_lstat.on(serverEngine->self())(path_string));
+        ServerLocalCacheProvider::lstat_return_type rpc_lstat_response =
+        std::move(rpc_lstat.on(serverEngine->self())(path_string));
         if(rpc_lstat_response.first != 0) {
             LOG(WARNING) << "cu_fuse_getattr failed to passthrough stat" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
             CacheEvent::md_cache_event_table, path_string, start, rpc_lstat_response.first);
         }
 
-        memcpy(st, rpc_lstat_response.second.data(), sizeof(struct stat));
-        auto new_cu_stat = new CuStat{st};
+        auto new_cu_stat = new CuStat{rpc_lstat_response.second};
         new_cu_stat->cp_to_buf(stbuf);
         CacheTables::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
 
@@ -119,7 +119,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
         tl::engine* serverEngine = static_cast<tl::engine*>(fuse_get_context()->private_data);
         std::cout << "cu_fuse_read from real fuse Server running at address " << serverEngine->self() << std::endl;
         std::cout << "cu_fuse_read Thread ID: " << pthread_self() << std::endl;
-        std::pair<int, std::vector<std::byte>> rpc_readfile_response =
+        ServerLocalCacheProvider::read_return_type rpc_readfile_response =
         std::move(rpc_readfile.on(serverEngine->self())(path_string));
 
         if(rpc_readfile_response.first != 0) {
