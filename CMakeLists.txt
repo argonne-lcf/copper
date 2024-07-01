@@ -32,14 +32,17 @@ find_package(cereal CONFIG REQUIRED)
 get_target_property (CEREAL_INC cereal::cereal INTERFACE_INCLUDE_DIRECTORIES)
 
 set(SOURCES
-    src/cu_fuse.cpp
+    src/entry.cpp
+        src/fs/cu_fuse.cpp
     src/fs/cu_stat.cpp
     src/fs/util.cpp
     src/cache/tree_cache_table.cpp
     src/metric/operations.cpp
     src/metric/cache_event.cpp
     src/metric/metrics.cpp
-    src/copper.cpp
+    src/copper/server_local_cache_provider.cpp
+    src/copper/node_tree.cpp
+        src/fs/cu_fuse.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

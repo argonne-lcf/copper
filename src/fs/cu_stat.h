@@ -1,5 +1,5 @@
-#ifndef STAT_H
-#define STAT_H
+#ifndef CU_STAT_H
+#define CU_STAT_H
 
 #include <cstring>
 #include <ostream>
@@ -64,4 +64,4 @@ class CuStat {
     struct stat* st = nullptr;
 };
 
-#endif // STAT_H
+#endif // CU_STAT_H

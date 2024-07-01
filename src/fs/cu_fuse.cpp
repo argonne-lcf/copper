@@ -1,37 +1,4 @@
-#include <stdexcept>
-#define FUSE_USE_VERSION 31
-
-#include <cerrno>
-#include <chrono>
-#include <cstddef>
-#include <cstring>
-#include <dirent.h>
-#include <fcntl.h>
-#include <fuse.h>
-#include <optional>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <variant>
-#include <vector>
-#include <sys/types.h>
-#ifdef HAVE_SETXATTR
-#include <sys/xattr.h>
-#endif
-
-#include "aixlog.h"
-#include "cache/cache_tables.h"
-#include "fs/constants.h"
-#include "fs/util.h"
-#include "metric/cache_event.h"
-#include "metric/metrics.h"
-#include "metric/operations.h"
-
-#include <pthread.h>
-#include <margo.h>
-#include <thallium.hpp>
-#include <thallium/serialization/stl/string.hpp>
-#include <thallium/serialization/stl/pair.hpp>
-#include <thallium/serialization/stl/vector.hpp>
+#include "cu_fuse.h"
 
 namespace tl = thallium;
 
@@ -61,30 +28,29 @@ tl::remote_procedure rpc_readfile;
         return Metric::stop_operation(func, start, ret); \
     }
 
-static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info *fi) {
+static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::getattr, path_);
     CHECK_RECURSIVE(path_string);
 
     const auto cu_stat_opt{CacheTables::md_cache_table.get(path_string)};
-    if(!cu_stat_opt.has_value()) 
-    {
-        struct stat *st = new struct stat;
-        tl::engine *serverEngine = static_cast<tl::engine*>(fuse_get_context()->private_data);
+    if(!cu_stat_opt.has_value()) {
+        struct stat* st = new struct stat;
+        tl::engine* serverEngine = static_cast<tl::engine*>(fuse_get_context()->private_data);
         std::cout << "cu_fuse_getattr from real cu_fuse_getattr Server running at address " << serverEngine->self() << std::endl;
         std::cout << "cu_fuse_getattr Thread ID: " << pthread_self() << std::endl;
-        std::pair<int, std::vector<std::byte>> rpc_lstat_response = rpc_lstat.on(serverEngine->self())(path_string);
-        if(rpc_lstat_response.first != 0)
-        {
+        std::pair<int, std::vector<std::byte>> rpc_lstat_response = std::move(rpc_lstat.on(serverEngine->self())(path_string));
+        if(rpc_lstat_response.first != 0) {
             LOG(WARNING) << "cu_fuse_getattr failed to passthrough stat" << std::endl;
-            return Metric::stop_cache_operation(OperationFunction::getattr,
-            OperationResult::neg,CacheEvent::md_cache_event_table, path_string, start, rpc_lstat_response.first);
+            return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
+            CacheEvent::md_cache_event_table, path_string, start, rpc_lstat_response.first);
         }
 
         memcpy(st, rpc_lstat_response.second.data(), sizeof(struct stat));
         auto new_cu_stat = new CuStat{st};
         new_cu_stat->cp_to_buf(stbuf);
         CacheTables::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
+
         return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_miss,
         CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
     }
@@ -150,17 +116,17 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
 
     // Allocate bytes if not in cache
     if(!entry_opt.has_value()) {
-        tl::engine *serverEngine = static_cast<tl::engine*>(fuse_get_context()->private_data);
+        tl::engine* serverEngine = static_cast<tl::engine*>(fuse_get_context()->private_data);
         std::cout << "cu_fuse_read from real fuse Server running at address " << serverEngine->self() << std::endl;
         std::cout << "cu_fuse_read Thread ID: " << pthread_self() << std::endl;
-        std::pair<int, std::vector<std::byte>> rpc_readfile_response = rpc_readfile.on(serverEngine->self())(path_string);
+        std::pair<int, std::vector<std::byte>> rpc_readfile_response = std::move(rpc_readfile.on(serverEngine->self())(path_string));
 
         if(rpc_readfile_response.first != 0) {
             return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
             CacheEvent::data_cache_event_table, path_string, start, -rpc_readfile_response.first);
         }
 
-        bytes = new std::vector<std::byte>(rpc_readfile_response.second);
+        bytes = new std::vector{std::move(rpc_readfile_response.second)};
         std::cout << "cu_fuse_read bytes size: " << bytes->size() << std::endl;
 
         cache = true;
@@ -489,9 +455,9 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // cfg->show_help
 
     Metric::stop_operation(OperationFunction::init, start, Constants::fs_operation_success);
-    if (fuse_get_context()->private_data == nullptr)
-        LOG(FATAL)<<"my fuse_get_context()->private_data was null here -noah";
-        
+    if(fuse_get_context()->private_data == nullptr)
+        LOG(FATAL) << "my fuse_get_context()->private_data was null here -noah";
+
     return fuse_get_context()->private_data;
 }
 
@@ -529,7 +495,8 @@ static int cu_fuse_getxattr(const char* path_, const char* name, char* value, si
         return Metric::stop_operation(OperationFunction::getxattr, start, -errno);
     }
 
-    return Metric::stop_operation(OperationFunction::getxattr, start, res);;
+    return Metric::stop_operation(OperationFunction::getxattr, start, res);
+    ;
 }
 #endif
 
@@ -625,7 +592,7 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 .lseek = cu_fuse_lseek,
 };
 
-int cu_hello_main(int argc, char* argv[], void* userdata) {
+int CuFuse::cu_hello_main(int argc, char* argv[], void* userdata) {
     AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
     LOG(TRACE) << " " << std::endl;
 
