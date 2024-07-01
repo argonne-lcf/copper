@@ -30,6 +30,7 @@
 #include <margo.h>
 #include <thallium.hpp>
 #include <thallium/serialization/stl/string.hpp>
+#include <thallium/serialization/stl/pair.hpp>
 #include <thallium/serialization/stl/vector.hpp>
 
 namespace tl = thallium;
@@ -69,27 +70,23 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
     if(!cu_stat_opt.has_value()) 
     {
         struct stat *st = new struct stat;
+        tl::engine *serverEngine = static_cast<tl::engine*>(fuse_get_context()->private_data);
+        std::cout << "cu_fuse_getattr from real cu_fuse_getattr Server running at address " << serverEngine->self() << std::endl;
+        std::cout << "cu_fuse_getattr Thread ID: " << pthread_self() << std::endl;
+        std::pair<int, std::vector<std::byte>> rpc_lstat_response = rpc_lstat.on(serverEngine->self())(path_string);
+        if(rpc_lstat_response.first != 0)
         {
-            tl::engine *serverEngine = static_cast<tl::engine*>(fuse_get_context()->private_data);
-            pthread_t tid;
-            tid = pthread_self();
-            std::cout << "cu_fuse_getattr from real cu_fuse_getattr Server running at address " << serverEngine->self() << std::endl;
-            std::cout << "cu_fuse_getattr Thread ID: " << tid << std::endl;
-            std::vector<std::byte> rpc_lstat_response = rpc_lstat.on(serverEngine->self())(path_string);  
-            if(rpc_lstat_response.size()==0) 
-            {
-                LOG(WARNING) << "cu_fuse_getattr failed to passthrough stat" << std::endl;
-                return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,CacheEvent::md_cache_event_table, path_string, start, -ENOENT);
-            }
-
-            memcpy(st, rpc_lstat_response.data(), sizeof(struct stat));
-            auto new_cu_stat = new CuStat{st};
-            new_cu_stat->cp_to_buf(stbuf);
-            CacheTables::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
-            return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_miss,
-            CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
+            LOG(WARNING) << "cu_fuse_getattr failed to passthrough stat" << std::endl;
+            return Metric::stop_cache_operation(OperationFunction::getattr,
+            OperationResult::neg,CacheEvent::md_cache_event_table, path_string, start, rpc_lstat_response.first);
         }
 
+        memcpy(st, rpc_lstat_response.second.data(), sizeof(struct stat));
+        auto new_cu_stat = new CuStat{st};
+        new_cu_stat->cp_to_buf(stbuf);
+        CacheTables::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
+        return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_miss,
+        CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
     }
 
     const auto cu_stat = cu_stat_opt.value();
@@ -153,27 +150,20 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
 
     // Allocate bytes if not in cache
     if(!entry_opt.has_value()) {
-        try 
-        {
+        tl::engine *serverEngine = static_cast<tl::engine*>(fuse_get_context()->private_data);
+        std::cout << "cu_fuse_read from real fuse Server running at address " << serverEngine->self() << std::endl;
+        std::cout << "cu_fuse_read Thread ID: " << pthread_self() << std::endl;
+        std::pair<int, std::vector<std::byte>> rpc_readfile_response = rpc_readfile.on(serverEngine->self())(path_string);
 
-            tl::engine *serverEngine = static_cast<tl::engine*>(fuse_get_context()->private_data);
-            pthread_t tid;
-            tid = pthread_self();
-            std::cout << "cu_fuse_read from real fuse Server running at address " << serverEngine->self() << std::endl;
-            std::cout << "cu_fuse_read Thread ID: " << tid << std::endl;
-            std::vector<std::byte> rpc_readfile_response = rpc_readfile.on(serverEngine->self())(path_string);  
-            bytes = new std::vector<std::byte>(rpc_readfile_response);
-            std::cout << "cu_fuse_read bytes size: " << bytes->size() << std::endl;
-
-            // Allocate new vector and read data into it
-            // bytes = new std::vector(Util::read_ent_file(path_string, true));
-            cache = true;
-        } 
-        catch(std::runtime_error&) {
-            LOG(WARNING) << "cu_fuse_read failed to passthrough read" << std::endl;
+        if(rpc_readfile_response.first != 0) {
             return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
-            CacheEvent::data_cache_event_table, path_string, start, -ENOENT);
+            CacheEvent::data_cache_event_table, path_string, start, -rpc_readfile_response.first);
         }
+
+        bytes = new std::vector<std::byte>(rpc_readfile_response.second);
+        std::cout << "cu_fuse_read bytes size: " << bytes->size() << std::endl;
+
+        cache = true;
     } else {
         bytes = entry_opt.value();
     }

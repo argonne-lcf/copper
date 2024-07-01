@@ -9,6 +9,7 @@
 #include <iostream>
 #include <thallium.hpp>
 #include <thallium/serialization/stl/string.hpp>
+#include <thallium/serialization/stl/pair.hpp>
 #include <thallium/serialization/stl/vector.hpp>
 #include <array>
 #include <vector>
@@ -123,14 +124,14 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider>
             }
         }
 
+        using lstat_return_type = std::pair<int, std::vector<std::byte>>;
         void rpcLstat(const tl::request& req, const std::string& path_string) 
         {
             std::string req_from_addr = static_cast<std::string>(req.get_endpoint());
-            std::cout << "req_coming_from_addr " << req_from_addr  << " requested data for file : " << path_string << std::endl;
+            std::cout << "req_coming_from_addr " << req_from_addr  << " requested metadata for file : " << path_string << std::endl;
 
             std::string my_curr_node_addr = static_cast<std::string>(get_engine().self());
 
-            // if(root->data == static_cast<std::string>(req.get_endpoint()))
             if(root->data == my_curr_node_addr)
             {
                 std::chrono::time_point<std::chrono::system_clock> start1, end1;
@@ -139,36 +140,30 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider>
                 struct stat st;
                 if(lstat(path_string.c_str(), &st) == -1)
                 {
-                       req.respond(std::vector<std::byte> (0));
+                       req.respond(lstat_return_type(-errno, std::vector<std::byte>(0)));
                        return;
                 }
-                std::vector<std::byte> content(sizeof(struct stat));
-                memcpy(content.data(), &st, sizeof(struct stat));
-                
-                end1 = std::chrono::system_clock::now();           
-                std::chrono::duration<double> elapsed_seconds1 = end1 - start1;
-                std::cout << "For requester " << req_from_addr << " Root Buffer creation time " << elapsed_seconds1.count() << " s "  << std::endl ; 
-                req.respond(content);
 
-                // margo_instance_id mid;
-                // mid  = get_engine().get_margo_instance();
-                // char* state_file_name;
-                // margo_state_dump(mid, "margo-example-server", 1, &state_file_name);
-                // printf("# Runtime state dumped to %s\n", state_file_name);
-                // free(state_file_name);
+                std::vector<std::byte> stat_bytes(reinterpret_cast<std::byte*>(&st), reinterpret_cast<std::byte*>(&st) + sizeof(struct stat));
+                req.respond(lstat_return_type(0, stat_bytes));
+
+                end1 = std::chrono::system_clock::now();
+                std::chrono::duration<double> elapsed_seconds1 = end1 - start1;
+                std::cout << "for requester " << req_from_addr << " root buffer creation time " << elapsed_seconds1.count() << " s "  << std::endl ;
             }
             else
             {
                 Node* CopyofTree = root;
                 std::string parentofmynode = "";
                 getParentfromtree(CopyofTree, my_curr_node_addr, parentofmynode);
-                std::cout << "Going to parent " <<parentofmynode << std::endl;
-                std::vector<std::byte>  file_content = rpc_lstat.on(get_engine().lookup(parentofmynode))(path_string);
-                std::cout << "Hop trip my_curr_node_addr " << my_curr_node_addr << std::endl;
-                req.respond(file_content);
+                std::cout << "going to parent " <<parentofmynode << std::endl;
+                lstat_return_type lstat_response = rpc_lstat.on(get_engine().lookup(parentofmynode))(path_string);
+                std::cout << "hop trip my_curr_node_addr " << my_curr_node_addr << std::endl;
+                req.respond(lstat_response);
             }
         }
 
+        using read_return_type = std::pair<int, std::vector<std::byte>>;
         void rpcRead(const tl::request& req, const std::string& path_string) 
         {
             std::string req_from_addr = static_cast<std::string>(req.get_endpoint());
@@ -176,33 +171,36 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider>
 
             std::string my_curr_node_addr = static_cast<std::string>(get_engine().self());
 
-            // if(root->data == static_cast<std::string>(req.get_endpoint()))
             if(root->data == my_curr_node_addr)
             {
                 std::chrono::time_point<std::chrono::system_clock> start1, end1;
                 start1 = std::chrono::system_clock::now();
 
-                std::vector<std::byte> content = Util::read_ent_file(path_string,true);
-                end1 = std::chrono::system_clock::now();           
+                try {
+                    std::vector<std::byte> file_bytes = Util::read_ent_file(path_string,true);
+                    std::cout << "from rpcRead bytes size: " << file_bytes.size() << std::endl;
+                    req.respond(read_return_type(0, file_bytes));
+                    return;
+                } catch(std::exception& e) {
+                    std::cout << e.what() << std::endl;
+                    req.respond(read_return_type(-1, std::vector<std::byte>(0)));
+                }
+
+                end1 = std::chrono::system_clock::now();
                 std::chrono::duration<double> elapsed_seconds1 = end1 - start1;
-                std::cout << "For requester " << req_from_addr << " Root Buffer creation time " << elapsed_seconds1.count() << " s "  << std::endl ; 
-                std::cout << "from rpcRead bytes size: " << content.size() << std::endl;
-                req.respond(content);
+                std::cout << "for requester " << req_from_addr << " root buffer creation time " << elapsed_seconds1.count() << " s "  << std::endl ;
             }
             else
             {
                 Node* CopyofTree = root;
                 std::string parentofmynode = "";
                 getParentfromtree(CopyofTree, my_curr_node_addr, parentofmynode);
-                std::cout << "Going to parent " <<parentofmynode << std::endl;
-                std::vector<std::byte>  file_content = rpc_lstat.on(get_engine().lookup(parentofmynode))(path_string);
-                std::cout << "Hop trip my_curr_node_addr " <<my_curr_node_addr << std::endl;
-                req.respond(file_content);
+                std::cout << "going to parent " <<parentofmynode << std::endl;
+                read_return_type read_response = rpc_readfile.on(get_engine().lookup(parentofmynode))(path_string);
+                std::cout << "hop trip my_curr_node_addr " << my_curr_node_addr << std::endl;
+                req.respond(read_response);
             }
         }
-
-
-
 
         void getParentfromtree(Node* CopyofTree, std::string my_curr_node_addr, std::string &parentofmynode)
         {
