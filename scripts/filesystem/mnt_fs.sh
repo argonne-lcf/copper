@@ -13,9 +13,6 @@ fi
 
 source $ENV
 
-rm $ROOT_DIR/*.log
-rm $ROOT_DIR/copper_address_book.txt
-
 function unmount() {
     echo "unmounting"
     fusermount -u $VIEW_DIR || true
