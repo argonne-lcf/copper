@@ -31,8 +31,8 @@ cp default_env.sh env.sh
 #### Set the following variables in the copied `env.sh`
 ```
 export VIEW_DIR=<PATH_TO_MOUNT_DIRECTORY>
-FUSE3_LIB=<PATH_TO_FUSE_LIBRARY>
-FUSE3_INCLUDE=<PATH_TO_FUSE_HEADER>
+export FUSE3_LIB=<PATH_TO_FUSE_LIBRARY>
+export FUSE3_INCLUDE=<PATH_TO_FUSE_HEADER>
 ```
 
 #### Activate spack environment and build
