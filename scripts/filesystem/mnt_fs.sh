@@ -21,10 +21,6 @@ function unmount() {
 echo "unmounting possible prev mnt"
 fusermount -u "$VIEW_DIR" || true
 
-echo "removing old files"
-rm $ROOT_DIR/copper_address_book.txt
-rm $ROOT_DIR/*.log
-
 echo "VIEW_DIR: $VIEW_DIR"
 echo "TARGET_DIR: $TARGET_DIR"
 
