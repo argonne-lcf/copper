@@ -1,5 +1,5 @@
-#ifndef CUR_CACHE_H
-#define CUR_CACHE_H
+#ifndef CACH_TABLES_H
+#define CACH_TABLES_H
 
 #include "data_cache_table.h"
 #include "md_cache_table.h"
@@ -12,4 +12,4 @@ class CacheTables {
     static inline TreeCacheTable tree_cache_table;
 };
 
-#endif // CUR_CACHE_H
+#endif // CACH_TABLES_H
