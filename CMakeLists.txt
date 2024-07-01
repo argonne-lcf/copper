@@ -33,7 +33,7 @@ get_target_property (CEREAL_INC cereal::cereal INTERFACE_INCLUDE_DIRECTORIES)
 
 set(SOURCES
     src/entry.cpp
-        src/fs/cu_fuse.cpp
+    src/fs/cu_fuse.cpp
     src/fs/cu_stat.cpp
     src/fs/util.cpp
     src/cache/tree_cache_table.cpp
@@ -42,7 +42,6 @@ set(SOURCES
     src/metric/metrics.cpp
     src/copper/server_local_cache_provider.cpp
     src/copper/node_tree.cpp
-        src/fs/cu_fuse.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

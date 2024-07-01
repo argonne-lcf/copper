@@ -26,6 +26,7 @@
 #include <unistd.h>
 #include <vector>
 
+#include "../aixlog.h"
 #include "../fs/util.h"
 #include "node_tree.h"
 
