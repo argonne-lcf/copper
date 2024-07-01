@@ -27,12 +27,15 @@
 #include <thread>
 #include <queue>
 #include <chrono>
+#include <climits>
 #include <ctime>
 #include "fs/util.h"
 
 namespace tl = thallium;
 extern tl::remote_procedure rpc_lstat;
 extern tl::remote_procedure rpc_readfile;
+
+static std::string my_hostname = std::string("");
 
 int cu_hello_main(int argc, char *argv[], void* userdata); 
 
@@ -161,7 +164,7 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider>
                 getParentfromtree(CopyofTree, my_curr_node_addr, parentofmynode);
                 std::cout << "Going to parent " <<parentofmynode << std::endl;
                 std::vector<std::byte>  file_content = rpc_lstat.on(get_engine().lookup(parentofmynode))(path_string);
-                std::cout << "Hop trip my_curr_node_addr " <<my_curr_node_addr << std::endl;
+                std::cout << "Hop trip my_curr_node_addr " << my_curr_node_addr << std::endl;
                 req.respond(file_content);
             }
         }
@@ -426,7 +429,7 @@ void push_back_with_mutex(std::string  hostname, std::string  my_cxi_server_ip_h
 void get_hsn0_cxi_addr()
 {
     std::string my_hsn0_mac_id;
-    std::ifstream inFile("/sys/class/net/hsn0/address");
+    std::ifstream inFile("/sys/class/net/eth0/address");
     if (!inFile.is_open()) { std::cerr << "Error opening file" << std::endl; }
     inFile >> my_hsn0_mac_id;
     inFile.close();
@@ -447,7 +450,7 @@ void get_hsn0_cxi_addr()
 
     std::stringstream my_cxi_server_ip_hex_ss;
     my_cxi_server_ip_hex_ss << std::hex << my_cxi_server_ip_binary.to_ulong();
-    std::string my_cxi_server_ip_hex_str = "ofi+cxi://0x"+my_cxi_server_ip_hex_ss.str();
+    std::string my_cxi_server_ip_hex_str = "na+sm://0x"+my_cxi_server_ip_hex_ss.str();
     // std::cout << "my_cxi_server_ip_hex_str " << my_cxi_server_ip_hex_str << std::endl;
 
     char char_hostname[1024];
@@ -462,10 +465,11 @@ void get_hsn0_cxi_addr()
 
 void parse_nodelist_from_cxi_address_book()
 {
-    sleep(10); //  barrier issue: The first process needs to wait until all the remaining processes have written to the address book. 
+    sleep(5); //  barrier issue: The first process needs to wait until all the remaining processes have written to the address book.
 
     std::ifstream inFile(copper_address_book_name, std::ios::in);
 
+    std::cout  << "opening file" << std::endl;
     if (!inFile.is_open()) 
     {
         std::cout  << "Error opening file" << std::endl;
@@ -476,101 +480,80 @@ void parse_nodelist_from_cxi_address_book()
 
     while (getline(inFile, line))   
     {
-        // std::cout  << getpid() << "   "<< line << std::endl;
+        std::cout  << getpid() << ":" << line << std::endl;
         size_t pos = line.find(" ");
         std::string first_part_hostname = line.substr(0, pos);
         std::string second_part_cxi     = line.substr(pos + 1);
-        // std::cout  << first_part_hostname << second_part_cxi << std::endl;
+        std::cout  << first_part_hostname << ":" << second_part_cxi << std::endl;
         global_peer_pairs.push_back(make_pair(first_part_hostname, second_part_cxi)); 
         node_address_data.push_back(second_part_cxi);
     }
 
     inFile.close();
-
 }
 
 int main(int argc, char** argv) 
 {
+    std::cout << "1" << std::endl;
     char char_hostname[1024];
     gethostname(char_hostname, sizeof(char_hostname));
     std::string hostname(char_hostname);
     std::string curr_node_addr_server;
     std::string curr_node_addr_client;
-    std::string per_node_out_file = hostname+".log";
-    std::ofstream out(per_node_out_file);
 
+    std::string my_hostname = hostname+std::to_string(getpid()) + ".log";
+    std::cout << "attempting write to" << my_hostname << std::endl;
+
+    auto serverEngine = tl::engine{"na+sm", THALLIUM_SERVER_MODE, 1, -1 };
+    std::cout << "writing address to address book: " << serverEngine.self() << std::endl;
     copper_address_book_name = copper_address_book_name + ".txt";
+    std::ofstream out(copper_address_book_name, std::ios::app);
+    if (!out) {
+        std::cerr << "Failed to open the file: " << copper_address_book_name << std::endl;
+    } else {
+        std::cout << "File opened successfully: " << copper_address_book_name << std::endl;
+    }
+    out << serverEngine.self() << std::endl;
+    out.close();
 
+    out = std::ofstream(my_hostname);
     std::cout.rdbuf(out.rdbuf());
+    std::cout << "address written" << std::endl;
 
-    get_hsn0_cxi_addr(); 
+    std::cout << "parsing address book" << std::endl;
     parse_nodelist_from_cxi_address_book();
+    std::cout << "building tree" << std::endl;
     root = build_my_tree(root, node_address_data);
     printTree(root);
     int tree_depth = depth(root);
+
     std::cout<<"The depth of the tree is :" << tree_depth << std::endl;
     prettyPrintTree(root, tree_depth);
 
+    copper_address_book_name = copper_address_book_name + ".txt";
+    std::cout << "Server running at address " << serverEngine.self() << std::endl;
+    serverEngine.enable_remote_shutdown();
+    rpc_lstat       = serverEngine.define("rpc_lstat");
+    rpc_readfile    = serverEngine.define("rpc_readfile");
+    new ServerLocalCacheProvider{serverEngine, node_address_data};
+    sleep(5); //  barrier issue: all process need to wait until the server is created.
 
-    
-    // for (int i = 0; i <  node_address_data.size(); i++) 
-    // {
-    //     if (global_peer_pairs[i].first == hostname) 
-    //     {
-    //         // std::cout  << getpid() << hostname<< " "<< std::endl;
-    //         curr_node_addr_server =  global_peer_pairs[i].second;
-    //         curr_node_addr_client =  global_peer_pairs[i].second;
-    //         curr_node_addr_client.replace(curr_node_addr_client.length() - 1, 1, "1");
-    //         // std::cout  << getpid() << hostname<< " " 
-    //                     //   <<  "curr_node_addr_server " << curr_node_addr_server 
-    //                     //   <<  "curr_node_addr_client " << curr_node_addr_client  << std::endl;
-    //         break;
-    //     }
-    // }
- 
+    std::cout  <<"Main pid " << getpid() << " " << std::endl;
+    pthread_t tid;
+    tid = pthread_self();
+    std::cout<<tid<<std::endl;
 
-        auto serverEngine = tl::engine{"cxi", THALLIUM_SERVER_MODE, 1, -1 };
-        std::cout << "Server running at address " << serverEngine.self() << std::endl;
-        serverEngine.enable_remote_shutdown();
-        rpc_lstat       = serverEngine.define("rpc_lstat");     
-        rpc_readfile    = serverEngine.define("rpc_readfile");    
-        new ServerLocalCacheProvider{serverEngine, node_address_data};
-        sleep(10); //  barrier issue: all process need to wait until the server is created.
-
-        // [patch to solve the warm up issue as well as avoid 2nd sleep time]
-        // std::cout <<"Total number of compute nodes : " << node_address_data.size() << std::endl ;
-        // for (int i = 0; i < node_address_data.size(); i++) 
-        // {
-        //     std::cout  << "Debug node_address_data from func parse_nodelist_for_cxi " << getpid() << node_address_data[i] << std::endl;
-        // }
-
-        std::cout  <<"Main pid " << getpid() << " " << std::endl;
-        pthread_t tid;
-        tid = pthread_self();
-        std::cout<<tid<<std::endl;
-
-        // std::thread worker1(dummy_fuse_func, argc, argv);
-        // worker1.join();
-        // dummy_fuse_func( argc, argv);
+    if(root->data != static_cast<std::string>(serverEngine.self())) {
+        std::cout << "mounting" << std::endl;
         cu_hello_main(argc, argv, &serverEngine);
-        std::chrono::time_point<std::chrono::system_clock> start, end;
-        // for (int i = 0; i < 10; i++) 
-        // {
-        //     start = std::chrono::system_clock::now();
-        //     std::string client_file_content = rpc_lstat.on(serverEngine.self())(std::string{"/path/to/file"}, 4);  
-        //     end = std::chrono::system_clock::now();           
-            
-        //     std::chrono::duration<double> elapsed_seconds = end - start;
-        //     std::cout << "I'm the main requester " << curr_node_addr_server 
-        //               << " elapsed time " << elapsed_seconds.count() << " s " << " Bytes " << 4 << " iter " << i << std::endl ; 
-        //     // std::cout << "Finally received content : "  << client_file_content << std::endl;
-        // }
+    } else {
+        std::cout << "not mounting" << std::endl;
+    }
+    std::chrono::time_point<std::chrono::system_clock> start, end;
 
-        out.close();
-
-        std::cout << "Waiting on Finalize " << std::endl;
-        serverEngine.wait_for_finalize();
-        std::cout << "Successfully killed by remote shutdown process - closing down" << std::endl;
+    std::cout << "Waiting on Finalize " << std::endl;
+    serverEngine.wait_for_finalize();
+    std::cout << "Successfully killed by remote shutdown process - closing down" << std::endl;
 
     return 0;
 }

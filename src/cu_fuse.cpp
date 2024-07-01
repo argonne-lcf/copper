@@ -26,8 +26,6 @@
 #include "metric/metrics.h"
 #include "metric/operations.h"
 
-
-
 #include <pthread.h>
 #include <margo.h>
 #include <thallium.hpp>
@@ -39,8 +37,6 @@ namespace tl = thallium;
 tl::engine serverEngine;
 tl::remote_procedure rpc_lstat;
 tl::remote_procedure rpc_readfile;
-
-
 
 #define CHECK_RECURSIVE(path_string)                                                   \
     {                                                                                  \

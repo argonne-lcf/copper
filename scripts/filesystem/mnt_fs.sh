@@ -18,6 +18,13 @@ function unmount() {
     fusermount -u $VIEW_DIR || true
 }
 
+echo "unmounting possible prev mnt"
+fusermount -u "$VIEW_DIR" || true
+
+echo "removing old files"
+rm $ROOT_DIR/copper_address_book.txt
+rm $ROOT_DIR/*.log
+
 echo "VIEW_DIR: $VIEW_DIR"
 echo "TARGET_DIR: $TARGET_DIR"
 
@@ -44,7 +51,8 @@ $FUSE_FS -tpath $TARGET_DIR                \
          -log_level $LOG_LEVEL             \
          -log_type $LOG_TYPE               \
          -log_output_path $LOG_OUTPUT_PATH \
-         -f $VIEW_DIR # add -d for debugging fuse # chance of issue with -s # to check noah 
+         -f $VIEW_DIR # add -d for debugging fuse # chance of issue with -s # to check noah
+
 
 fusermount -u "$VIEW_DIR" || true
 # mpirun -np 7 -ppn 1 fusermount3 -u /lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/july1/copper/run/cu_fuse_view 
