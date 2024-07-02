@@ -2,7 +2,8 @@
 
 std::ostream& IoctlEvent::log_ioctl_event(std::ostream& os) {
     os << Util::get_current_datetime() << std::endl;
-    os << "Ioctl Events" << " {" << std::endl;
+    os << "Ioctl Events"
+       << " {" << std::endl;
 
     for(const auto& entry : ioctl_cache_event_table) {
         os << entry.first << " {" << std::endl;

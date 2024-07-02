@@ -21,9 +21,9 @@ export FUSE3_INCLUDE=
 # LOG_LEVEL=6 is  FATAL ERROR means prints from [6-6]
 export LOG_LEVEL=1
 # file/stdout/file_and_stdout
-export LOG_TYPE=stdout
-# only used if LOG_TYPE=file
-export LOG_OUTPUT_PATH=$(readlink -f ~/copper.log)
+export LOG_TYPE=file_and_stdout
+# only used if LOG_TYPE=file/file_and_stdout
+export LOG_OUTPUT_DIR=$(readlink -f ~/copper_logs)
 
 export ROOT_DIR=$(readlink -f "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/..")
 export SCRIPTS_DIR="$ROOT_DIR"/scripts
@@ -31,7 +31,7 @@ export TARGET_DIR=/
 export FUSE_FS="$ROOT_DIR/build/cu_fuse"
 # the directory for which the dev directory will be created
 export SPEC_DEV_PARENT_DIR="$(readlink -f ~)"
-export SPEC_DEV_DIR=$SPEC_DEV_PARENT_DIR/copper-metrics
+export SPEC_DEV_DIR=$SPEC_DEV_PARENT_DIR/copper_metrics
 export SPEC_DEV_VIEW_DIR="$(readlink -f $VIEW_DIR/"$SPEC_DEV_DIR")"
 export SPEC_DEV_VIEW="$SPEC_DEV_VIEW_DIR/.spec_ioctl_file"
 export SPEC_DEV_TARGET="$SPEC_DEV_DIR/.spec_ioctl_file"

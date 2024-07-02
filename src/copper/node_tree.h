@@ -26,6 +26,8 @@
 #include <unistd.h>
 #include <vector>
 
+#include "../aixlog.h"
+
 class Node {
     public:
     static Node* root;
@@ -71,7 +73,7 @@ class NodeTree {
     static void prettyPrintTree(Node* root, int depth, int dep_counter = 0);
     static int depth(Node* root);
     static Node* build_my_tree(Node* root, std::vector<std::string> node_address_data);
-    static void push_back_with_mutex(std::string hostname, std::string my_cxi_server_ip_hex_str);
+    static void push_back_with_mutex(const std::string& hostname, const std::string& my_cxi_server_ip_hex_str);
     static void get_hsn0_cxi_addr();
     static void parse_nodelist_from_cxi_address_book();
 };

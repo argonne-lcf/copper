@@ -35,12 +35,10 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
 
     const auto cu_stat_opt{CacheTables::md_cache_table.get(path_string)};
     if(!cu_stat_opt.has_value()) {
-        struct stat* st = new struct stat;
-        tl::engine* serverEngine = static_cast<tl::engine*>(fuse_get_context()->private_data);
-        std::cout << "cu_fuse_getattr from real cu_fuse_getattr Server running at address " << serverEngine->self() << std::endl;
-        std::cout << "cu_fuse_getattr Thread ID: " << pthread_self() << std::endl;
-        ServerLocalCacheProvider::lstat_return_type rpc_lstat_response =
-        std::move(rpc_lstat.on(serverEngine->self())(path_string));
+        const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
+        LOG(INFO, RPC_TAG) << "cu_fuse_getattr from real cu_fuse_getattr Server running at address " << engine->self() << std::endl;
+        LOG(INFO, RPC_TAG) << "cu_fuse_getattr Thread ID: " << pthread_self() << std::endl;
+        ServerLocalCacheProvider::lstat_return_type rpc_lstat_response = std::move(rpc_lstat.on(engine->self())(path_string));
         if(rpc_lstat_response.first != 0) {
             LOG(WARNING) << "cu_fuse_getattr failed to passthrough stat" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
@@ -116,11 +114,11 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
 
     // Allocate bytes if not in cache
     if(!entry_opt.has_value()) {
-        tl::engine* serverEngine = static_cast<tl::engine*>(fuse_get_context()->private_data);
-        std::cout << "cu_fuse_read from real fuse Server running at address " << serverEngine->self() << std::endl;
-        std::cout << "cu_fuse_read Thread ID: " << pthread_self() << std::endl;
+        const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
+        LOG(INFO, RPC_TAG) << "from real fuse server running at address: " << engine->self() << std::endl;
+        LOG(INFO, RPC_TAG) << "thread id: " << pthread_self() << std::endl;
         ServerLocalCacheProvider::read_return_type rpc_readfile_response =
-        std::move(rpc_readfile.on(serverEngine->self())(path_string));
+        std::move(rpc_readfile.on(engine->self())(path_string));
 
         if(rpc_readfile_response.first != 0) {
             return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
@@ -128,7 +126,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
         }
 
         bytes = new std::vector{std::move(rpc_readfile_response.second)};
-        std::cout << "cu_fuse_read bytes size: " << bytes->size() << std::endl;
+        LOG(INFO, RPC_TAG) << "byte size: " << bytes->size() << std::endl;
 
         cache = true;
     } else {
@@ -610,27 +608,5 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 };
 
 int CuFuse::cu_hello_main(int argc, char* argv[], void* userdata) {
-    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
-    LOG(TRACE) << " " << std::endl;
-
-    auto new_args{Util::process_args(argc, (const char**)argv)};
-
-    if(Constants::log_type == "stdout") {
-        AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level))});
-    } else if(Constants::log_type == "file") {
-        AixLog::Log::init({std::make_shared<AixLog::SinkFile>(
-        static_cast<AixLog::Severity>(Constants::log_level), Constants::log_output_path.value())});
-    } else if(Constants::log_type == "file_and_stdout") {
-        AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level)),
-        std::make_shared<AixLog::SinkFile>(
-        static_cast<AixLog::Severity>(Constants::log_level), Constants::log_output_path.value())});
-    }
-
-    std::vector<char*> ptrs;
-    ptrs.reserve(new_args.size());
-    for(std::string& str : new_args) {
-        ptrs.push_back(str.data());
-    }
-
-    return fuse_main(ptrs.size(), ptrs.data(), &cu_fuse_oper, userdata);
+    return fuse_main(argc, argv, &cu_fuse_oper, userdata);
 }

@@ -1,10 +1,10 @@
 #ifndef CACH_H
 #define CACH_H
 
+#include <mutex>
 #include <optional>
 #include <stdexcept>
 #include <unordered_map>
-#include <mutex>
 
 template <typename K, typename V> class Cache {
     public:
@@ -42,7 +42,6 @@ template <typename K, typename V> class Cache {
     static std::mutex mtx;
 };
 
-template <typename K, typename V>
-std::mutex Cache<K, V>::mtx;
+template <typename K, typename V> std::mutex Cache<K, V>::mtx;
 
 #endif // CACHE_H

@@ -30,11 +30,11 @@
 #include "../cache/cache_tables.h"
 #include "../copper/server_local_cache_provider.h"
 #include "../metric/cache_event.h"
+#include "../metric/ioctl_event.h"
 #include "../metric/metrics.h"
 #include "../metric/operations.h"
 #include "constants.h"
 #include "util.h"
-#include "../metric/ioctl_event.h"
 
 class CuFuse {
     public:

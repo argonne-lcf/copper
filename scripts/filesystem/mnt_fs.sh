@@ -37,8 +37,16 @@ then
   echo "found spec_dev: $SPEC_DEV_TARGET"
 else
   echo "creating spec_dev: $SPEC_DEV_TARGET"
-  mkdir -p "$(dirname "$SPEC_DEV_TARGET")" || true
+  mkdir -p "$(dirname "$SPEC_DEV_TARGET")"
   touch "$SPEC_DEV_TARGET"
+fi
+
+if [ -f "$LOG_OUTPUT_DIR" ]
+then
+  echo "found LOG_OUTPUT_DIR: $LOG_OUTPUT_DIR"
+else
+  echo "creating LOG_OUTPUT_DIR: $LOG_OUTPUT_DIR"
+  mkdir -p "$LOG_OUTPUT_DIR"
 fi
 
 echo "mounting fuse distributed cache to view dir"
@@ -46,7 +54,7 @@ $FUSE_FS -tpath $TARGET_DIR                \
          -vpath $VIEW_DIR                  \
          -log_level $LOG_LEVEL             \
          -log_type $LOG_TYPE               \
-         -log_output_path $LOG_OUTPUT_PATH \
+         -log_output_dir $LOG_OUTPUT_DIR \
          -f $VIEW_DIR # add -d for debugging fuse # chance of issue with -s # to check noah
 
 

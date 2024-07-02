@@ -1,8 +1,8 @@
 #include "util.h"
 
+#include "../metric/ioctl_event.h"
 #include "../metric/metrics.h"
 #include "../metric/operations.h"
-#include "../metric/ioctl_event.h"
 
 std::string Util::rel_to_abs_path(const char* path) {
     if(!path) {
@@ -80,14 +80,14 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
             Constants::log_type = std::string(argv[i + 1]);
             LOG(DEBUG) << "-log_type was found: " << Constants::log_type << std::endl;
             i += 2;
-        } else if(original_string_args[i] == "-log_output_path") {
+        } else if(original_string_args[i] == "-log_output_dir") {
             if(i + 2 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
-                throw std::runtime_error("no argument after -log_output_path");
+                throw std::runtime_error("no argument after -log_output_dir");
             }
 
-            Constants::log_output_path = std::string(argv[i + 1]);
-            LOG(DEBUG) << "-log_output_path was found: " << Constants::log_output_path.value() << std::endl;
+            Constants::log_output_dir = std::string(argv[i + 1]);
+            LOG(DEBUG) << "-log_output_dir was found: " << Constants::log_output_dir.value() << std::endl;
             i += 2;
         } else {
             new_string_args.push_back(original_string_args[i]);
@@ -115,7 +115,7 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
         throw std::runtime_error("-invalid log_level argument");
     }
 
-    if((Constants::log_type == "file" || Constants::log_type == "file_and_stdout") && Constants::log_output_path == std::nullopt) {
+    if((Constants::log_type == "file" || Constants::log_type == "file_and_stdout") && Constants::log_output_dir == std::nullopt) {
         LOG(FATAL) << Constants::usage << std::endl;
         throw std::runtime_error("-log_output_path required because -log_type file or file_and_stdout");
     }

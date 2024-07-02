@@ -5,7 +5,7 @@
 Node* Node::root = nullptr;
 
 void NodeTree::printTree(Node* node) {
-    std::cout << " Level " << node->level << " Child ID at this Level " << node->child_id << " Data " << node->data << std::endl;
+    LOG(INFO) << "level: " << node->level << ", child id at this level: " << node->child_id << ", data: " << node->data << std::endl;
     for(Node* child : node->getChildren()) {
         printTree(child);
     }
@@ -17,10 +17,10 @@ void NodeTree::prettyPrintTree(Node* root, int depth, int dep_counter) {
     }
 
     for(int i = 0; i < depth; i++) {
-        std::cout << "    ";
+        LOG(INFO) << "    ";
     }
 
-    std::cout << "(depth " << dep_counter << ") " << root->data << std::endl;
+    LOG(INFO)<< "(depth " << dep_counter << ") " << root->data << std::endl;
 
     for(Node* child : root->children) {
         prettyPrintTree(child, depth + 1, dep_counter + 1);
@@ -59,7 +59,7 @@ Node* NodeTree::build_my_tree(Node* root, std::vector<std::string> node_address_
     else
         max_children_per_parent = 7;
 
-    // std::cout <<  "max_children_per_parent : " << max_children_per_parent << std::endl;
+    // LOG(INFO) <<  "max_children_per_parent : " << max_children_per_parent << std::endl;
 
     int current_children_per_parent = 0;
     int my_current_level = 0;
@@ -74,7 +74,7 @@ Node* NodeTree::build_my_tree(Node* root, std::vector<std::string> node_address_
     for(int i_node_counter = 0; i_node_counter < node_address_data.size(); i_node_counter++) {
         if(i_node_counter == 0) {
             root = new Node(node_address_data[i_node_counter], nullptr, 0, 1); // At level 0
-            // std::cout << "node counter : " <<i_node_counter << " node ID: " << node_address_data[i_node_counter] << " level : " << my_current_level << std::endl;
+            // LOG(INFO) << "node counter : " <<i_node_counter << " node ID: " << node_address_data[i_node_counter] << " level : " << my_current_level << std::endl;
 
         } else {
             // To redirect a node to a level
@@ -85,7 +85,7 @@ Node* NodeTree::build_my_tree(Node* root, std::vector<std::string> node_address_
             my_current_level_before_trim = log((max_children_per_parent - 1) * i_node_counter + 1) / log(max_children_per_parent);
             my_current_level = floor(my_current_level_before_trim); // Dont touch this - log2(8) is not exactly 3 but only closer to 3
 
-            // std::cout << "node counter : " <<i_node_counter << " node ID: " << node_address_data[i_node_counter] << " level : " << my_current_level << std::endl;
+            // LOG(INFO) << "node counter : " <<i_node_counter << " node ID: " << node_address_data[i_node_counter] << " level : " << my_current_level << std::endl;
 
 
             if(my_current_level == 1) {
@@ -183,10 +183,9 @@ Node* NodeTree::build_my_tree(Node* root, std::vector<std::string> node_address_
     return root;
 }
 
-void NodeTree::push_back_with_mutex(std::string hostname, std::string my_cxi_server_ip_hex_str) {
-
+void NodeTree::push_back_with_mutex(const std::string& hostname, const std::string& my_cxi_server_ip_hex_str) {
     std::lock_guard<std::mutex> lock(ServerLocalCacheProvider::mtx);
-    std::ofstream myFile(ServerLocalCacheProvider::copper_address_book_name, std::ios_base::app);
+    std::ofstream myFile(Constants::copper_address_book_path, std::ios_base::app);
     myFile << hostname << " " << my_cxi_server_ip_hex_str << std::endl;
     myFile.close();
 }
@@ -195,10 +194,12 @@ void NodeTree::get_hsn0_cxi_addr() {
     std::string my_hsn0_mac_id;
     std::ifstream inFile("/sys/class/net/hsn0/address");
     if(!inFile.is_open()) {
-        std::cerr << "Error opening file" << std::endl;
+        LOG(FATAL) << "error opening address file" << std::endl;
+        throw std::runtime_error("error opening address file");
     }
     inFile >> my_hsn0_mac_id;
     inFile.close();
+
     std::erase(my_hsn0_mac_id, ':');
     std::string my_hsn0_nic_id = my_hsn0_mac_id.substr(my_hsn0_mac_id.length() - 5);
 
@@ -210,19 +211,16 @@ void NodeTree::get_hsn0_cxi_addr() {
 
     // valid bits(3) + NIC (20) + PID (9)
     std::string my_cxi_server_ip_binary_str = "001" + my_hsn0_nic_id_bin.to_string() + "000000000";
-    // std::cout << my_cxi_server_ip_binary_str << std::endl;
 
     std::bitset<32> my_cxi_server_ip_binary(my_cxi_server_ip_binary_str);
 
     std::stringstream my_cxi_server_ip_hex_ss;
     my_cxi_server_ip_hex_ss << std::hex << my_cxi_server_ip_binary.to_ulong();
     std::string my_cxi_server_ip_hex_str = "ofi+cxi://0x" + my_cxi_server_ip_hex_ss.str();
-    // std::cout << "my_cxi_server_ip_hex_str " << my_cxi_server_ip_hex_str << std::endl;
 
     char char_hostname[1024];
     gethostname(char_hostname, sizeof(char_hostname));
     std::string hostname(char_hostname);
-    // std::cout << hostname << std::endl;
 
     // replace mutex with oneapi/tbb/concurrent_vector.h tbb::concurrent_vector is not working currently with oneapi
     push_back_with_mutex(hostname, my_cxi_server_ip_hex_str);
@@ -231,22 +229,21 @@ void NodeTree::get_hsn0_cxi_addr() {
 void NodeTree::parse_nodelist_from_cxi_address_book() {
     sleep(20); //  barrier issue: The first process needs to wait until all the remaining processes have written to the address book.
 
-    std::ifstream inFile(ServerLocalCacheProvider::copper_address_book_name, std::ios::in);
+    std::ifstream inFile(Constants::copper_address_book_path, std::ios::in);
 
-    std::cout << "opening file" << std::endl;
+    LOG(INFO) << "opening file" << std::endl;
     if(!inFile.is_open()) {
-        std::cout << "Error opening file" << std::endl;
-        return;
+        LOG(FATAL) << "error opening copper address file at path: " << Constants::copper_address_book_path << std::endl;
+        throw std::runtime_error("error opening copper address file");
     }
 
     std::string line;
-
     while(getline(inFile, line)) {
-        std::cout << getpid() << ":" << line << std::endl;
+        LOG(INFO) << getpid() << ":" << line << std::endl;
         size_t pos = line.find(" ");
         std::string first_part_hostname = line.substr(0, pos);
         std::string second_part_cxi = line.substr(pos + 1);
-        std::cout << first_part_hostname << ":" << second_part_cxi << std::endl;
+        LOG(INFO) << first_part_hostname << ":" << second_part_cxi << std::endl;
         ServerLocalCacheProvider::global_peer_pairs.push_back(make_pair(first_part_hostname, second_part_cxi));
         ServerLocalCacheProvider::node_address_data.push_back(second_part_cxi);
     }

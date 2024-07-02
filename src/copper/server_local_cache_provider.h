@@ -30,6 +30,8 @@
 #include "../fs/util.h"
 #include "node_tree.h"
 
+#define RPC_TAG "rpc"
+
 namespace tl = thallium;
 
 extern tl::remote_procedure rpc_lstat;
@@ -40,7 +42,6 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> {
     static std::vector<std::pair<std::string, std::string>> global_peer_pairs;
     static std::mutex mtx;
     static std::vector<std::string> node_address_data;
-    static std::string copper_address_book_name;
     static std::vector<tl::endpoint> m_peers;
     static const uint16_t provider_id = 0;
     static std::string my_hostname;

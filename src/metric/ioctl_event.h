@@ -1,8 +1,8 @@
 #ifndef CU_FUSE_IOCTL_EVENT_H
 #define CU_FUSE_IOCTL_EVENT_H
 
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 
 #include "../fs/util.h"
 
