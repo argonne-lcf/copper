@@ -33,6 +33,7 @@
 #include "../metric/cache_event.h"
 #include "../metric/metrics.h"
 #include "../metric/operations.h"
+#include "../metric/ioctl_event.h"
 
 class CuFuse {
     public:

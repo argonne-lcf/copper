@@ -13,6 +13,7 @@ enum class OperationResult { cache_hit, cache_miss, neg };
 
 enum class OperationFunction {
     getattr = 0,
+    ext_getattr,
     readlink,
     mknod,
     mkdir,
@@ -59,6 +60,7 @@ enum class OperationFunction {
 
 const inline char* OperationFunctionNames[] = {
 "getattr",
+"ext_getattr",
 "readlink",
 "mknod",
 "mkdir",

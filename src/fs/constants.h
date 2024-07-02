@@ -55,6 +55,10 @@ class Constants {
     static constexpr unsigned int ioctl_reset_fs{1900};
     static constexpr unsigned int ioctl_log_all_metrics{2000};
 
+    static constexpr unsigned int ioctl_clear_ioctl_event{2100};
+    static constexpr unsigned int ioctl_log_ioctl_event{2200};
+
+
     static inline std::string log_cache_tables_output_filename = "cache_tables.output";
     static inline std::string log_operation_output_filename = "operation_count.output";
     static inline std::string log_operation_time_output_filename = "operation_time.output";
@@ -64,6 +68,7 @@ class Constants {
     static inline std::string log_tree_cache_event_output_filename = "tree_table_cache_event.output";
     static inline std::string log_md_cache_event_output_filename = "md_table_cache_event.output";
     static inline std::string log_operation_cache_neg_output_filename = "operation_cache_neg.output";
+    static inline std::string log_ioctl_cache_event_output_filename = "ioctl_cache_event.output";
 };
 
 #endif // CONSTANTS_H

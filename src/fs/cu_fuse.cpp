@@ -326,7 +326,21 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         LOG(INFO) << "resetting filesystem" << std::endl;
         Util::reset_fs();
         break;
-    default: LOG(WARNING) << "unknown cmd" << std::endl; break;
+    case(Constants::ioctl_log_ioctl_event):
+        LOG(INFO) << "logging ioctl event" << std::endl;
+
+        IOCTL_GET_FS_STREAM(Constants::log_ioctl_cache_event_output_filename);
+        fs_stream_opt.value() << IoctlEvent::log_ioctl_event << std::endl;
+        break;
+    case(Constants::ioctl_clear_ioctl_event):
+        LOG(INFO) << "clearing ioctl event" << std::endl;
+        IoctlEvent::reset_ioctl_event();
+        break;
+    default:
+        LOG(DEBUG) << "external ioctl with cmd: " << cmd << std::endl;
+        Operations::inc_operation(OperationFunction::ext_getattr);
+        IoctlEvent::record_ioctl_event(path_string, cmd);
+        break;
     }
 
     return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_success);
@@ -455,8 +469,10 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     // cfg->show_help
 
     Metric::stop_operation(OperationFunction::init, start, Constants::fs_operation_success);
-    if(fuse_get_context()->private_data == nullptr)
-        LOG(FATAL) << "my fuse_get_context()->private_data was null here -noah";
+    if(fuse_get_context()->private_data == nullptr) {
+        LOG(FATAL) << "my fuse_get_context()->private_data was null!";
+        throw std::runtime_error("my fuse_get_context()->private_data was null!");
+    }
 
     return fuse_get_context()->private_data;
 }

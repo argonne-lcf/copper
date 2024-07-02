@@ -2,6 +2,7 @@
 
 #include "../metric/metrics.h"
 #include "../metric/operations.h"
+#include "../metric/ioctl_event.h"
 
 std::string Util::rel_to_abs_path(const char* path) {
     if(!path) {
@@ -197,6 +198,8 @@ void Util::log_all_metrics(const std::string& path_string) {
     fs_stream_opt.value() << CacheEvent::log_md_cache_event << std::endl;
     GET_FS_STREAM(path_string, Constants::log_operation_cache_neg_output_filename);
     fs_stream_opt.value() << Operations::log_operation_neg << std::endl;
+    GET_FS_STREAM(path_string, Constants::log_ioctl_cache_event_output_filename);
+    fs_stream_opt.value() << IoctlEvent::log_ioctl_event << std::endl;
 }
 
 void Util::reset_fs() {
@@ -213,6 +216,8 @@ void Util::reset_fs() {
     Operations::reset_operation_counter();
     Operations::reset_operation_cache_neg();
     Operations::reset_operation_timer();
+
+    IoctlEvent::reset_ioctl_event();
 }
 
 bool Util::is_recursive_path_string(const std::string& path_string) {
