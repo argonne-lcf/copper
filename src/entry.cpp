@@ -35,7 +35,6 @@ int main(int argc, char** argv) {
 
     auto new_args{Util::process_args(argc, (const char**)argv)};
 
-
     char char_hostname[1024];
     gethostname(char_hostname, sizeof(char_hostname));
     std::string hostname(char_hostname);
@@ -55,7 +54,14 @@ int main(int argc, char** argv) {
         std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), output_file)});
     }
 
+
     Constants::copper_address_book_path = Constants::log_output_dir.value() + "/" + Constants::copper_address_book_filename;
+    std::ofstream copper_address_book(Constants::copper_address_book_path);
+    // Check if the file was successfully opened
+    if (!copper_address_book.is_open()) {
+        LOG(FATAL) << "unable to create and open copper address book at path: " << Constants::copper_address_book_path << std::endl;
+        throw std::runtime_error("unable to create and open copper address book");
+    }
 
     std::vector<char*> ptrs;
     ptrs.reserve(new_args.size());
