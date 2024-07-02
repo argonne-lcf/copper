@@ -30,6 +30,8 @@
 #include "../fs/util.h"
 #include "node_tree.h"
 
+#define RPC_TAG "rpc"
+
 namespace tl = thallium;
 
 extern tl::remote_procedure rpc_lstat;
