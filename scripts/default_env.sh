@@ -6,9 +6,9 @@ export VIEW_DIR=
 # set for tests to work
 export PY_PACKAGES_DIR=
 # set to location of fuse library directory required to build
-FUSE3_LIB=
+export FUSE3_LIB=
 # set to location of fuse header directory required to build
-FUSE3_INCLUDE=
+export FUSE3_INCLUDE=
 
 # log settings
 # 0-6 from most amount of information to least
@@ -58,3 +58,6 @@ export IOCTL_LOG_OPERATION_CACHE_NEG=1700
 
 export IOCTL_RESET_FS=1900
 export IOCTL_LOG_ALL_METRICS=2000
+
+export IOCTL_CLEAR_IOCTL_EVENT=2100
+export IOCTL_LOG_IOCTL_EVENT=2200
