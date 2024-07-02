@@ -34,6 +34,7 @@
 #include "../metric/operations.h"
 #include "constants.h"
 #include "util.h"
+#include "../metric/ioctl_event.h"
 
 class CuFuse {
     public:

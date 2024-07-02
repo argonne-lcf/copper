@@ -42,6 +42,7 @@ set(SOURCES
     src/metric/metrics.cpp
     src/copper/server_local_cache_provider.cpp
     src/copper/node_tree.cpp
+    src/metric/ioctl_event.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
