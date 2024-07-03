@@ -49,6 +49,9 @@ else
   mkdir -p "$LOG_OUTPUT_DIR"
 fi
 
+echo "removing old logs"
+rm "$LOG_OUTPUT_DIR"/*
+
 echo "mounting fuse distributed cache to view dir"
 $FUSE_FS -tpath $TARGET_DIR                \
          -vpath $VIEW_DIR                  \

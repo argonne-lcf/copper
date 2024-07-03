@@ -1,7 +1,6 @@
 #include "cache_event.h"
 
 static void log_cache_event_helper(const std::string& table_name, std::ostream& os, std::unordered_map<std::string, OpRes>& event_cache_table) {
-    os << Util::get_current_datetime() << std::endl;
     os << table_name << " {" << std::endl;
     for(const auto& entry : event_cache_table) {
         os << entry.first << " {" << std::endl;

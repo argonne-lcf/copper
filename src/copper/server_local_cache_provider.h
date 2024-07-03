@@ -30,7 +30,25 @@
 #include "../fs/util.h"
 #include "node_tree.h"
 
+#define RPC_METADATA_TAG "rpc_metadata"
+#define RPC_DATA_TAG "rpc_data"
 #define RPC_TAG "rpc"
+
+#define START_RPC_TIMER                                                                                \
+    LOG(TRACE, RPC_TAG) << __FUNCTION__ << " rpc timer for path_string: " << path_string << std::endl; \
+    LOG(TRACE, RPC_TAG) << __FUNCTION__ << " starting rpc timer" << std::endl;                         \
+    auto start = std::chrono::high_resolution_clock::now();
+#define STOP_RPC_TIMER                                                                                    \
+    {                                                                                                     \
+        LOG(TRACE, RPC_TAG) << __FUNCTION__ << " stopping rpc timer" << std::endl;                        \
+        auto end = std::chrono::high_resolution_clock::now();                                             \
+        std::chrono::duration<double, std::milli> diff = end - start;                                     \
+        LOG(TRACE, RPC_TAG) << __FUNCTION__ << " total rpc time: " << diff.count() << " ms" << std::endl; \
+    }
+#define TIME_RPC(expression) \
+    START_RPC_TIMER          \
+    expression;              \
+    STOP_RPC_TIMER
 
 namespace tl = thallium;
 

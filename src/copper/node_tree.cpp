@@ -5,7 +5,8 @@
 Node* Node::root = nullptr;
 
 void NodeTree::printTree(Node* node) {
-    LOG(INFO) << "level: " << node->level << ", child id at this level: " << node->child_id << ", data: " << node->data << std::endl;
+    LOG(INFO) << "level: " << node->level << ", child id at this level: " << node->child_id << ", data: " << node->data
+              << std::endl;
     for(Node* child : node->getChildren()) {
         printTree(child);
     }
@@ -20,7 +21,7 @@ void NodeTree::prettyPrintTree(Node* root, int depth, int dep_counter) {
         LOG(INFO) << "    ";
     }
 
-    LOG(INFO)<< "(depth " << dep_counter << ") " << root->data << std::endl;
+    LOG(INFO) << "(depth " << dep_counter << ") " << root->data << std::endl;
 
     for(Node* child : root->children) {
         prettyPrintTree(child, depth + 1, dep_counter + 1);
