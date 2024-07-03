@@ -171,8 +171,7 @@ std::string Util::get_current_datetime() {
     if(!fs_stream_opt.has_value()) {                                             \
         LOG(ERROR) << "failed to open fstream" << std::endl;                     \
         return;                                                                  \
-    }                                                                            \
-    fs_stream_opt.value() << Util::get_current_datetime() << std::endl;
+    }
 
 void Util::log_all_metrics(const std::string& path_string) {
     std::string output;

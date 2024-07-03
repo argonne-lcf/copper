@@ -1,10 +1,10 @@
 #ifndef DATA_CACHE_TABLE_H
 #define DATA_CACHE_TABLE_H
 
+#include <ostream>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <ostream>
 
 #include "cache.h"
 
