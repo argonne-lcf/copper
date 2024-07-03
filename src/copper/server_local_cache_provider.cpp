@@ -10,161 +10,189 @@ std::vector<std::string> ServerLocalCacheProvider::node_address_data;
 std::vector<tl::endpoint> ServerLocalCacheProvider::m_peers;
 std::string ServerLocalCacheProvider::my_hostname;
 
-void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const std::string& path_string) {
+void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest, const std::string& path_string) {
     std::string req_from_addr = static_cast<std::string>(req.get_endpoint());
     LOG(INFO, RPC_METADATA_TAG)
     << "req_coming_from_addr:" << req_from_addr << ", requested metadata for file: " << path_string << std::endl;
 
+    std::string my_curr_node_addr = static_cast<std::string>(get_engine().self());
+    lstat_return_type lstat_response;
+    bool cached = false;
+
     // NOTE: check if request can be resolved in local cache
     const auto entry_opt = CacheTables::md_cache_table.get(path_string);
-    if(entry_opt.has_value()) {
+    if(!dest && entry_opt.has_value()) {
         LOG(INFO, RPC_METADATA_TAG) << "found in local cache" << std::endl;
-        TIME_RPC(req.respond(lstat_return_type(Constants::fs_operation_success, entry_opt.value()->get_st_vec_cpy())));
-        return;
+        lstat_response = lstat_return_type(Constants::fs_operation_success, entry_opt.value()->get_st_vec_cpy());
+        cached = true;
+        goto respond;
     } else {
         LOG(INFO, RPC_METADATA_TAG) << "not found in local cache" << std::endl;
     }
 
-    std::string my_curr_node_addr = static_cast<std::string>(get_engine().self());
-
     if(Node::root->data == my_curr_node_addr) {
         CuStat cu_stat;
-
         if(lstat(path_string.c_str(), cu_stat.get_st()) == -1) {
-            TIME_RPC(req.respond(lstat_return_type(-errno, std::vector<std::byte>(0))));
+            lstat_response = lstat_return_type(-errno, std::vector<std::byte>(0));
+            goto respond;
         } else {
-            TIME_RPC(req.respond(lstat_return_type(0, cu_stat.get_move_st_vec())));
+            lstat_response = lstat_return_type(Constants::fs_operation_success, cu_stat.get_move_st_vec());
+            goto respond;
         }
     } else {
         std::string parentofmynode;
         getParentfromtree(Node::root, my_curr_node_addr, parentofmynode);
 
         LOG(INFO, RPC_METADATA_TAG) << "going to parent " << parentofmynode << std::endl;
-        lstat_return_type rpc_lstat_response = std::move(rpc_lstat.on(get_engine().lookup(parentofmynode))(path_string));
+        lstat_response = std::move(rpc_lstat.on(get_engine().lookup(parentofmynode))(false, path_string));
         LOG(INFO, RPC_METADATA_TAG) << "returned from parent " << parentofmynode << std::endl;
+        goto respond;
+    }
 
-        if(rpc_lstat_response.first == 0) {
-            LOG(INFO, RPC_METADATA_TAG) << "caching intermediate rpc_lstat_response" << std::endl;
+respond:
+    if(!cached && lstat_response.first == Constants::fs_operation_success) {
+        LOG(INFO, RPC_METADATA_TAG) << "caching intermediate rpc_lstat_response" << std::endl;
+        auto lstat_response_copy = new CuStat{lstat_response.second};
+        CacheTables::md_cache_table.put_force(path_string, std::move(*lstat_response_copy));
+    } else if(cached) {
+        LOG(INFO, RPC_METADATA_TAG) << "lstat response already cached" << std::endl;
+    } else {
+        LOG(INFO, RPC_METADATA_TAG) << "lstat response != 0, not caching intermediate rpc_lstat_response" << std::endl;
+    }
 
-            // NOTE: copies RPC response and moves into cache
-            auto new_cu_stat = new CuStat{rpc_lstat_response.second};
-            CacheTables::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
-        } else {
-            LOG(INFO, RPC_METADATA_TAG) << "lstat response != 0, not caching intermediate lstat_response" << std::endl;
-        }
-
-        LOG(INFO, RPC_METADATA_TAG) << "hop trip my_curr_node_addr " << my_curr_node_addr << std::endl;
-        TIME_RPC(req.respond(rpc_lstat_response));
+    if(!dest) {
+        TIME_RPC(req.respond(lstat_response));
+    } else {
+        // NOTE: final response so send status only
+        LOG(INFO, RPC_METADATA_TAG) << "returning final response to client" << std::endl;
+        TIME_RPC(req.respond(lstat_response.first));
     }
 }
 
-void ServerLocalCacheProvider::rpcRead(const tl::request& req, const std::string& path_string) {
+void ServerLocalCacheProvider::rpcRead(const tl::request& req, const bool dest, const std::string& path_string) {
      std::string req_from_addr = static_cast<std::string>(req.get_endpoint());
      LOG(INFO, RPC_TAG) << "req_coming_from_addr: " << req_from_addr << ", requested data for file: " << path_string << std::endl;
 
+     read_return_type read_response;
+     std::string my_curr_node_addr = static_cast<std::string>(get_engine().self());
+     bool cached = false;
+
      // NOTE: check if request can be resolved in local cache
      const auto entry_opt = CacheTables::data_cache_table.get(path_string);
-     if(entry_opt.has_value()) {
+     if(!dest && entry_opt.has_value()) {
          LOG(INFO, RPC_DATA_TAG) << "found in local cache" << std::endl;
          auto bytes = entry_opt.value();
-         LOG(INFO, RPC_DATA_TAG) << "bytes size: " << bytes->size() << std::endl;
-         TIME_RPC(req.respond(read_return_type(bytes->size(), std::vector<std::byte>(*bytes))));
-         return;
+         read_response = std::pair(bytes->size(), std::move(*bytes));
+         cached = true;
+         goto respond;
      } else {
          LOG(INFO, RPC_DATA_TAG) << "not found in local cache" << std::endl;
      }
 
-     std::string my_curr_node_addr = static_cast<std::string>(get_engine().self());
-
      if(Node::root->data == my_curr_node_addr) {
          try {
              const std::vector<std::byte>& file_bytes = Util::read_ent_file(path_string, true);
-             LOG(INFO, RPC_DATA_TAG) << "bytes size: " << file_bytes.size() << std::endl;
-             TIME_RPC(req.respond(read_return_type(0, file_bytes)));
-             return;
+             read_response = std::pair(0, file_bytes);
+             goto respond;
          } catch(std::exception& e) {
              LOG(WARNING, RPC_DATA_TAG) << e.what() << std::endl;
-             LOG(INFO, RPC_DATA_TAG) << "bytes size: " << 0 << std::endl;
-             TIME_RPC(req.respond(read_return_type(-1, std::vector<std::byte>(0))));
+             read_response = std::pair(-1, std::vector<std::byte>(0));
+             goto respond;
          }
      } else {
          std::string parentofmynode;
          getParentfromtree(Node::root, my_curr_node_addr, parentofmynode);
          LOG(INFO, RPC_DATA_TAG) << "going to parent " << parentofmynode << std::endl;
-         read_return_type rpc_readfile_response = std::move(rpc_readfile.on(get_engine().lookup(parentofmynode))(path_string));
+         read_response = std::move(rpc_readfile.on(get_engine().lookup(parentofmynode))(false, path_string));
          LOG(INFO, RPC_DATA_TAG) << "returned from parent " << parentofmynode << std::endl;
-
-         if(rpc_readfile_response.first >= 0) {
-             LOG(INFO, RPC_DATA_TAG) << "caching intermediate rpc_readfile_response" << std::endl;
-
-             // NOTE: copies RPC response and moves into cache
-             auto rpc_readfile_response_byte_copy = rpc_readfile_response.second;
-             CacheTables::data_cache_table.put_force(path_string, std::move(rpc_readfile_response_byte_copy));
-         } else {
-             LOG(INFO, RPC_DATA_TAG) << "readfile response < 0, not caching intermediate rpc_readfile_response" << std::endl;
-         }
-
-         LOG(INFO, RPC_DATA_TAG) << "hop trip my_curr_node_addr: " << my_curr_node_addr << std::endl;
-         LOG(INFO, RPC_DATA_TAG) << "bytes size: " << rpc_readfile_response.second.size() << std::endl;
-         TIME_RPC(req.respond(rpc_readfile_response));
+         goto respond;
      }
+
+respond:
+    if(!cached && read_response.first >= 0) {
+        LOG(INFO, RPC_READDIR_TAG) << "caching intermediate rpc_readfile_response" << std::endl;
+        auto read_response_copy = read_response.second;
+        CacheTables::data_cache_table.put_force(path_string, std::move(read_response_copy));
+    } else if(cached) {
+        LOG(INFO, RPC_DATA_TAG) << "readfile response already cached" << std::endl;
+    } else {
+        LOG(INFO, RPC_DATA_TAG) << "readfile response < 0, not caching intermediate rpc_readfile_response" << std::endl;
+    }
+
+    if(!dest) {
+        LOG(INFO, RPC_DATA_TAG) << "byte size: " << read_response.second.size() << std::endl;
+        TIME_RPC(req.respond(read_response));
+    } else {
+        // NOTE: final response so send status only
+        LOG(INFO, RPC_DATA_TAG) << "returning final response to client" << std::endl;
+        TIME_RPC(req.respond(read_response.first));
+    }
  }
 
- void ServerLocalCacheProvider::rpcReaddir(const tl::request& req, const std::string& path_string) {
+ void ServerLocalCacheProvider::rpcReaddir(const tl::request& req, const bool dest, const std::string& path_string) {
      std::string req_from_addr = static_cast<std::string>(req.get_endpoint());
      LOG(INFO, RPC_TAG) << "req_coming_from_addr: " << req_from_addr << ", requested readdir for file: " << path_string << std::endl;
 
+     readdir_return_type readdir_response;
+
      // NOTE: check if request can be resolved in local cache
      const auto entry_opt = CacheTables::tree_cache_table.get(path_string);
-     if(entry_opt.has_value()) {
+     std::string my_curr_node_addr = static_cast<std::string>(get_engine().self());
+     bool cached = false;
+
+     if(!dest && entry_opt.has_value()) {
          LOG(INFO, RPC_READDIR_TAG) << "found in local cache" << std::endl;
          auto paths = entry_opt.value();
-         LOG(INFO, RPC_READDIR_TAG) << "num paths: " << paths->size() << std::endl;
-         TIME_RPC(req.respond(readdir_return_type(Constants::fs_operation_success, std::vector<std::string>(*paths))));
-         return;
+         readdir_response = std::pair(Constants::fs_operation_success, std::move(*paths));
+         cached = true;
+         goto respond;
      } else {
          LOG(INFO, RPC_READDIR_TAG) << "not found in local cache" << std::endl;
      }
-
-     std::string my_curr_node_addr = static_cast<std::string>(get_engine().self());
 
      if(Node::root->data == my_curr_node_addr) {
          auto entries = std::vector<std::string>{};
          DIR* dp = opendir(path_string.c_str());
          if(dp == nullptr) {
              LOG(WARNING) << "failed to passthrough readdir" << std::endl;
-             TIME_RPC(req.respond(readdir_return_type(-errno, std::vector<std::string>{})));
-             return;
+             readdir_response = std::pair(-errno, std::vector<std::string>{});
+             goto respond;
          }
 
          dirent* de;
          while((de = readdir(dp)) != nullptr) {
-             LOG(TRACE) << "dir entry: " << de->d_name << std::endl;
              entries.emplace_back(de->d_name);
          }
          closedir(dp);
 
-         TIME_RPC(req.respond(readdir_return_type(Constants::fs_operation_success, entries)));
+         readdir_response = std::pair(Constants::fs_operation_success, entries);
+         goto respond;
      } else {
          std::string parentofmynode;
          getParentfromtree(Node::root, my_curr_node_addr, parentofmynode);
          LOG(INFO, RPC_READDIR_TAG) << "going to parent " << parentofmynode << std::endl;
-         readdir_return_type rpc_readdir_response = std::move(rpc_readdir.on(get_engine().lookup(parentofmynode))(path_string));
+         readdir_response = std::move(rpc_readdir.on(get_engine().lookup(parentofmynode))(false, path_string));
          LOG(INFO, RPC_READDIR_TAG) << "returned from parent " << parentofmynode << std::endl;
+         goto respond;
+     }
 
-         if(rpc_readdir_response.first == Constants::fs_operation_success) {
-             LOG(INFO, RPC_READDIR_TAG) << "caching intermediate rpc_readfile_response" << std::endl;
+ respond:
+     if(!cached && readdir_response.first == Constants::fs_operation_success) {
+         LOG(INFO, RPC_READDIR_TAG) << "caching intermediate rpc_readfile_response" << std::endl;
+         auto readdir_response_copy = readdir_response.second;
+         CacheTables::tree_cache_table.put_force(path_string, std::move(readdir_response_copy));
+     } else if (cached) {
+         LOG(INFO, RPC_READDIR_TAG) << "readdir response already cached" << std::endl;
+     } else {
+         LOG(INFO, RPC_READDIR_TAG) << "readdir response != 0, not caching intermediate rpc_readfile_response" << std::endl;
+     }
 
-             // NOTE: copies RPC response and moves into cache
-             auto rpc_readdir_response_copy = rpc_readdir_response.second;
-             CacheTables::tree_cache_table.put_force(path_string, std::move(rpc_readdir_response_copy));
-         } else {
-             LOG(INFO, RPC_READDIR_TAG) << "readdir response != 0, not caching intermediate rpc_readfile_response" << std::endl;
-         }
-
-         LOG(INFO, RPC_READDIR_TAG) << "hop trip my_curr_node_addr: " << my_curr_node_addr << std::endl;
-         LOG(INFO, RPC_READDIR_TAG) << "num paths: " << rpc_readdir_response.second.size() << std::endl;
-         TIME_RPC(req.respond(rpc_readdir_response));
+     if(!dest) {
+         TIME_RPC(req.respond(readdir_response));
+     } else {
+         // NOTE: final response so send status only
+         LOG(INFO, RPC_READDIR_TAG) << "returning final response to client" << std::endl;
+         TIME_RPC(req.respond(readdir_response.first));
      }
  }
 
