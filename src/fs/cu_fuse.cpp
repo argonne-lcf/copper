@@ -37,29 +37,22 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::getattr, path_);
     CHECK_RECURSIVE(path_string);
 
-    const auto cu_stat_opt{CacheTables::md_cache_table.get(path_string)};
+    auto cu_stat_opt{CacheTables::md_cache_table.get(path_string)};
     if(!cu_stat_opt.has_value()) {
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
         LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " from client running at address " << engine->self() << std::endl;
         LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " thread id: " << pthread_self() << std::endl;
-        TIME_RPC(ServerLocalCacheProvider::lstat_return_type rpc_lstat_response =
-                 std::move(rpc_lstat.on(engine->self())(path_string)));
-        if(rpc_lstat_response.first != 0) {
+        TIME_RPC(ServerLocalCacheProvider::lstat_final_return_type rpc_lstat_response = rpc_lstat.on(engine->self())(true, path_string));
+
+        if(rpc_lstat_response != 0) {
             LOG(WARNING) << "failed to passthrough stat" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
-            CacheEvent::md_cache_event_table, path_string, start, rpc_lstat_response.first);
+            CacheEvent::md_cache_event_table, path_string, start, rpc_lstat_response);
         }
-
-        auto new_cu_stat = new CuStat{rpc_lstat_response.second};
-        new_cu_stat->cp_to_buf(stbuf);
-        CacheTables::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
-
-        return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_miss,
-        CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
     }
 
+    cu_stat_opt = CacheTables::md_cache_table.get(path_string);
     const auto cu_stat = cu_stat_opt.value();
-
     cu_stat->cp_to_buf(stbuf);
 
     return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_hit,
@@ -82,18 +75,15 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
         LOG(INFO, CU_FUSE_RPC_DATA) << __FUNCTION__ << " from client running at address: " << engine->self() << std::endl;
         LOG(INFO, CU_FUSE_RPC_DATA) << __FUNCTION__ << " cu_fuse_read thread id: " << pthread_self() << std::endl;
-        TIME_RPC(ServerLocalCacheProvider::read_return_type rpc_readfile_response =
-                 std::move(rpc_readfile.on(engine->self())(path_string)));
+        TIME_RPC(ServerLocalCacheProvider::read_final_return_type rpc_readfile_response = rpc_readfile.on(engine->self())(true, path_string));
 
-        if(rpc_readfile_response.first != 0) {
+        if(rpc_readfile_response != 0) {
             LOG(WARNING) << "failed to passthrough readfile" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
-            CacheEvent::data_cache_event_table, path_string, start, -rpc_readfile_response.first);
+            CacheEvent::data_cache_event_table, path_string, start, -rpc_readfile_response);
         }
 
-        bytes = new std::vector{std::move(rpc_readfile_response.second)};
-        LOG(INFO, RPC_TAG) << "byte size: " << bytes->size() << std::endl;
-
+        bytes =  CacheTables::data_cache_table.get(path_string).value();
         cache = true;
     } else {
         bytes = entry_opt.value();
@@ -110,8 +100,6 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     }
 
     if(cache) {
-        CacheTables::data_cache_table.put_force(path_string, std::move(*bytes));
-        delete bytes;
         return Metric::stop_cache_operation(OperationFunction::read, OperationResult::cache_miss,
         CacheEvent::data_cache_event_table, path_string, start, read_size);
     } else {
@@ -134,17 +122,15 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
         LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " from client running at address " << engine->self() << std::endl;
         LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " thread id: " << pthread_self() << std::endl;
-        TIME_RPC(ServerLocalCacheProvider::readdir_return_type rpc_readdir_response =
-                 std::move(rpc_readdir.on(engine->self())(path_string)));
+        TIME_RPC(ServerLocalCacheProvider::readdir_final_return_type rpc_readdir_response = rpc_readdir.on(engine->self())(true, path_string));
 
-        if(rpc_readdir_response.first != Constants::fs_operation_success) {
+        if(rpc_readdir_response != Constants::fs_operation_success) {
             LOG(WARNING) << "failed to passthrough stat" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::neg,
-            CacheEvent::md_cache_event_table, path_string, start, -rpc_readdir_response.first);
+            CacheEvent::md_cache_event_table, path_string, start, -rpc_readdir_response);
         }
 
-        entries = std::move(rpc_readdir_response.second);
-
+        entries = *CacheTables::tree_cache_table.get(path_string).value();
         cache = true;
     } else {
         entries = *tree_cache_table_entry_opt.value();
@@ -162,7 +148,6 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     }
 
     if(cache) {
-        CacheTables::tree_cache_table.put_force(path_string, std::move(entries));
         return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::cache_miss,
         CacheEvent::tree_cache_event_table, path_string, start, Constants::fs_operation_success);
     } else {

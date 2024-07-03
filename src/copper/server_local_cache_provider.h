@@ -83,13 +83,16 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> {
     }
 
     using lstat_return_type = std::pair<int, std::vector<std::byte>>;
-    void rpcLstat(const tl::request& req, const std::string& path_string);
+    using lstat_final_return_type = int;
+    void rpcLstat(const tl::request& req, bool dest, const std::string& path_string);
 
     using read_return_type = std::pair<int, std::vector<std::byte>>;
-    void rpcRead(const tl::request& req, const std::string& path_string);
+    using read_final_return_type = int;
+    void rpcRead(const tl::request& req, bool dest, const std::string& path_string);
 
     using readdir_return_type = std::pair<int, std::vector<std::string>>;
-    void rpcReaddir(const tl::request& req, const std::string& path_string);
+    using readdir_final_return_type = int;
+    void rpcReaddir(const tl::request& req, bool dest, const std::string& path_string);
 
     static void getParentfromtree(Node* CopyofTree, std::string my_curr_node_addr, std::string& parentofmynode);
 
