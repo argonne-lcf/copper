@@ -5,6 +5,7 @@ namespace tl = thallium;
 tl::engine serverEngine;
 tl::remote_procedure rpc_lstat;
 tl::remote_procedure rpc_readfile;
+tl::remote_procedure rpc_readdir;
 
 #define CHECK_RECURSIVE(path_string)                                                   \
     {                                                                                  \
@@ -44,7 +45,7 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
         TIME_RPC(ServerLocalCacheProvider::lstat_return_type rpc_lstat_response =
                  std::move(rpc_lstat.on(engine->self())(path_string)));
         if(rpc_lstat_response.first != 0) {
-            LOG(WARNING) << "cu_fuse_getattr failed to passthrough stat" << std::endl;
+            LOG(WARNING) << "failed to passthrough stat" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
             CacheEvent::md_cache_event_table, path_string, start, rpc_lstat_response.first);
         }
@@ -77,7 +78,6 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     LOG(DEBUG) << "requested offset: " << offset << std::endl;
     LOG(DEBUG) << "requested size: " << size << std::endl;
 
-    // Allocate bytes if not in cache
     if(!entry_opt.has_value()) {
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
         LOG(INFO, CU_FUSE_RPC_DATA) << __FUNCTION__ << " from client running at address: " << engine->self() << std::endl;
@@ -86,6 +86,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
                  std::move(rpc_readfile.on(engine->self())(path_string)));
 
         if(rpc_readfile_response.first != 0) {
+            LOG(WARNING) << "failed to passthrough readfile" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
             CacheEvent::data_cache_event_table, path_string, start, -rpc_readfile_response.first);
         }
@@ -129,20 +130,20 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     std::vector<std::string> entries{};
     bool cache = false;
 
-    // FIXME: make rpc request or root functionality here
     if(!tree_cache_table_entry_opt.has_value()) {
-        DIR* dp = opendir(path_string.c_str());
-        if(dp == nullptr) {
-            LOG(WARNING) << "failed to passthrough readdir" << std::endl;
+        const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
+        LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " from client running at address " << engine->self() << std::endl;
+        LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " thread id: " << pthread_self() << std::endl;
+        TIME_RPC(ServerLocalCacheProvider::readdir_return_type rpc_readdir_response =
+                 std::move(rpc_readdir.on(engine->self())(path_string)));
+
+        if(rpc_readdir_response.first != Constants::fs_operation_success) {
+            LOG(WARNING) << "failed to passthrough stat" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::neg,
-            CacheEvent::tree_cache_event_table, path_string, start, -errno);
+            CacheEvent::md_cache_event_table, path_string, start, -rpc_readdir_response.first);
         }
 
-        dirent* de;
-        while((de = readdir(dp)) != nullptr) {
-            entries.emplace_back(de->d_name);
-        }
-        closedir(dp);
+        entries = std::move(rpc_readdir_response.second);
 
         cache = true;
     } else {

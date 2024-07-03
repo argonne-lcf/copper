@@ -25,25 +25,27 @@
 #include <thread>
 #include <unistd.h>
 #include <vector>
+#include <dirent.h>
 
 #include "../aixlog.h"
 #include "../fs/util.h"
 #include "node_tree.h"
 
-#define RPC_METADATA_TAG "rpc_metadata"
-#define RPC_DATA_TAG "rpc_data"
+#define RPC_METADATA_TAG "rpc_getattr"
+#define RPC_DATA_TAG "rpc_readfile"
+#define RPC_READDIR_TAG "rpc_readdir"
 #define RPC_TAG "rpc"
 
 #define START_RPC_TIMER                                                                                \
     LOG(TRACE, RPC_TAG) << __FUNCTION__ << " rpc timer for path_string: " << path_string << std::endl; \
     LOG(TRACE, RPC_TAG) << __FUNCTION__ << " starting rpc timer" << std::endl;                         \
-    auto start = std::chrono::high_resolution_clock::now();
+    auto rpc_start = std::chrono::high_resolution_clock::now();
 #define STOP_RPC_TIMER                                                                                    \
     {                                                                                                     \
         LOG(TRACE, RPC_TAG) << __FUNCTION__ << " stopping rpc timer" << std::endl;                        \
-        auto end = std::chrono::high_resolution_clock::now();                                             \
-        std::chrono::duration<double, std::milli> diff = end - start;                                     \
-        LOG(TRACE, RPC_TAG) << __FUNCTION__ << " total rpc time: " << diff.count() << " ms" << std::endl; \
+        auto rpc_end = std::chrono::high_resolution_clock::now();                                             \
+        std::chrono::duration<double, std::milli> rpc_diff = rpc_end - rpc_start;                                     \
+        LOG(TRACE, RPC_TAG) << __FUNCTION__ << " total rpc time: " << rpc_diff.count() << " ms" << std::endl; \
     }
 #define TIME_RPC(expression) \
     START_RPC_TIMER          \
@@ -54,6 +56,7 @@ namespace tl = thallium;
 
 extern tl::remote_procedure rpc_lstat;
 extern tl::remote_procedure rpc_readfile;
+extern tl::remote_procedure rpc_readdir;
 
 class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> {
     public:
@@ -69,6 +72,7 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> {
     : tl::provider<ServerLocalCacheProvider>{serverEngine, provider_id} {
         define("rpc_lstat", &ServerLocalCacheProvider::rpcLstat);
         define("rpc_readfile", &ServerLocalCacheProvider::rpcRead);
+        define("rpc_readdir", &ServerLocalCacheProvider::rpcReaddir);
 
         get_engine().push_finalize_callback([this]() { delete this; });
         m_peers.reserve(addresses.size());
@@ -83,6 +87,9 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> {
 
     using read_return_type = std::pair<int, std::vector<std::byte>>;
     void rpcRead(const tl::request& req, const std::string& path_string);
+
+    using readdir_return_type = std::pair<int, std::vector<std::string>>;
+    void rpcReaddir(const tl::request& req, const std::string& path_string);
 
     static void getParentfromtree(Node* CopyofTree, std::string my_curr_node_addr, std::string& parentofmynode);
 
