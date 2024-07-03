@@ -3,8 +3,6 @@
 template <typename t>
 static void
 log_operation_helper(const std::string& table_name, std::ostream& os, t (&table_array)[static_cast<int>(OperationFunction::size)]) {
-    os << Util::get_current_datetime() << std::endl;
-
     std::vector<std::pair<int, t>> indexed_arr;
     indexed_arr.reserve(static_cast<int>(OperationFunction::size));
     for(int i = 0; i < static_cast<int>(OperationFunction::size); ++i) {

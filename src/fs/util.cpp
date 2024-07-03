@@ -171,8 +171,7 @@ std::string Util::get_current_datetime() {
     if(!fs_stream_opt.has_value()) {                                             \
         LOG(ERROR) << "failed to open fstream" << std::endl;                     \
         return;                                                                  \
-    }                                                                            \
-    fs_stream_opt.value() << Util::get_current_datetime() << std::endl;
+    }
 
 void Util::log_all_metrics(const std::string& path_string) {
     std::string output;
@@ -200,6 +199,8 @@ void Util::log_all_metrics(const std::string& path_string) {
     fs_stream_opt.value() << Operations::log_operation_neg << std::endl;
     GET_FS_STREAM(path_string, Constants::log_ioctl_cache_event_output_filename);
     fs_stream_opt.value() << IoctlEvent::log_ioctl_event << std::endl;
+    GET_FS_STREAM(path_string, Constants::log_data_cache_size_output_filename);
+    fs_stream_opt.value() << DataCacheTable::get_data_size_metrics << std::endl;
 }
 
 void Util::reset_fs() {

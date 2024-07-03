@@ -9,5 +9,5 @@ print(f"packages dir: {packages_dir}")
 
 sys.path.insert(0, packages_dir)
 
-import numpy
-print(numpy.__file__)
+import torch 
+print(torch.__file__)

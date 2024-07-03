@@ -1,7 +1,6 @@
 #include "ioctl_event.h"
 
 std::ostream& IoctlEvent::log_ioctl_event(std::ostream& os) {
-    os << Util::get_current_datetime() << std::endl;
     os << "Ioctl Events"
        << " {" << std::endl;
 
