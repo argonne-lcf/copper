@@ -58,8 +58,10 @@ class Constants {
     static constexpr unsigned int ioctl_clear_ioctl_event{2100};
     static constexpr unsigned int ioctl_log_ioctl_event{2200};
 
+    static constexpr unsigned int ioctl_get_data_cache_size{2300};
+
     static inline std::string copper_address_book_filename = "copper_address_book.txt";
-    static inline std::string copper_address_book_path = "";
+    static inline std::string copper_address_book_path;
 
     static inline std::string log_cache_tables_output_filename = "cache_tables.output";
     static inline std::string log_operation_output_filename = "operation_count.output";
@@ -71,6 +73,7 @@ class Constants {
     static inline std::string log_md_cache_event_output_filename = "md_table_cache_event.output";
     static inline std::string log_operation_cache_neg_output_filename = "operation_cache_neg.output";
     static inline std::string log_ioctl_cache_event_output_filename = "ioctl_cache_event.output";
+    static inline std::string log_data_cache_size_output_filename = "data_cache_size.output";
 };
 
 #endif // CONSTANTS_H

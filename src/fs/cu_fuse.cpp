@@ -335,6 +335,11 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         LOG(INFO) << "clearing ioctl event" << std::endl;
         IoctlEvent::reset_ioctl_event();
         break;
+    case(Constants::ioctl_get_data_cache_size):
+        LOG(INFO) << "logging data cache size" << std::endl;
+        IOCTL_GET_FS_STREAM(Constants::log_data_cache_size_output_filename);
+        fs_stream_opt.value() << DataCacheTable::get_data_size_metrics << std::endl;
+        break;
     default:
         LOG(DEBUG) << "external ioctl with cmd: " << cmd << std::endl;
         Operations::inc_operation(OperationFunction::ext_getattr);
