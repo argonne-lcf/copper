@@ -82,6 +82,7 @@ int main(int argc, char** argv) {
     serverEngine.enable_remote_shutdown();
     rpc_lstat = serverEngine.define("rpc_lstat");
     rpc_readfile = serverEngine.define("rpc_readfile");
+    rpc_readdir = serverEngine.define("rpc_readdir");
     new ServerLocalCacheProvider{serverEngine, ServerLocalCacheProvider::node_address_data};
     sleep(20); //  barrier issue: all process need to wait until the server is created.
 
