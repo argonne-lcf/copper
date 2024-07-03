@@ -28,6 +28,9 @@ tl::remote_procedure rpc_readfile;
         return Metric::stop_operation(func, start, ret); \
     }
 
+#define CU_FUSE_RPC_DATA "cu_fuse_rpc_data"
+#define CU_FUSE_RPC_METADATA "cu_fuse_rpc_metadata"
+
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::getattr, path_);
@@ -36,9 +39,10 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
     const auto cu_stat_opt{CacheTables::md_cache_table.get(path_string)};
     if(!cu_stat_opt.has_value()) {
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
-        LOG(INFO, RPC_TAG) << "cu_fuse_getattr from real cu_fuse_getattr Server running at address " << engine->self() << std::endl;
-        LOG(INFO, RPC_TAG) << "cu_fuse_getattr Thread ID: " << pthread_self() << std::endl;
-        ServerLocalCacheProvider::lstat_return_type rpc_lstat_response = std::move(rpc_lstat.on(engine->self())(path_string));
+        LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " from client running at address " << engine->self() << std::endl;
+        LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " thread id: " << pthread_self() << std::endl;
+        TIME_RPC(ServerLocalCacheProvider::lstat_return_type rpc_lstat_response =
+                 std::move(rpc_lstat.on(engine->self())(path_string)));
         if(rpc_lstat_response.first != 0) {
             LOG(WARNING) << "cu_fuse_getattr failed to passthrough stat" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
@@ -61,45 +65,6 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
     CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
 }
 
-static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) {
-    LOG(DEBUG) << " " << std::endl;
-    auto [path_string, start] = Metric::start_cache_operation(OperationFunction::open, path_);
-    CHECK_RECURSIVE(path_string);
-
-    const auto entry_opt = CacheTables::md_cache_table.get(path_string);
-
-    // FIXME: make rpc request or root functionality here
-    if(!entry_opt.has_value()) {
-        const int fd = open(path_string.c_str(), fi->flags);
-
-        if(fd == -1) {
-            LOG(WARNING) << "failed to passthrough open" << std::endl;
-            return Metric::stop_cache_operation(
-            OperationFunction::open, OperationResult::neg, CacheEvent::md_cache_event_table, path_string, start, -errno);
-        }
-
-        struct stat* new_st{};
-        if(stat(path_string.c_str(), new_st) == -1) {
-            LOG(WARNING) << "failed to passthrough stat" << std::endl;
-            return Metric::stop_cache_operation(
-            OperationFunction::open, OperationResult::neg, CacheEvent::md_cache_event_table, path_string, start, -errno);
-        }
-
-        const auto new_cu_stat = new CuStat{new_st};
-        CacheTables::md_cache_table.put_force(path_string, std::move(*new_cu_stat));
-
-        fi->fh = fd;
-
-        return Metric::stop_cache_operation(OperationFunction::open, OperationResult::cache_miss,
-        CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
-    }
-
-    fi->fh = entry_opt.value()->get_st()->st_ino;
-
-    return Metric::stop_cache_operation(OperationFunction::open, OperationResult::cache_hit,
-    CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
-}
-
 static int cu_fuse_read(const char* path_, char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::read, path_);
@@ -115,10 +80,10 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     // Allocate bytes if not in cache
     if(!entry_opt.has_value()) {
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
-        LOG(INFO, RPC_TAG) << "from real fuse server running at address: " << engine->self() << std::endl;
-        LOG(INFO, RPC_TAG) << "thread id: " << pthread_self() << std::endl;
-        ServerLocalCacheProvider::read_return_type rpc_readfile_response =
-        std::move(rpc_readfile.on(engine->self())(path_string));
+        LOG(INFO, CU_FUSE_RPC_DATA) << __FUNCTION__ << " from client running at address: " << engine->self() << std::endl;
+        LOG(INFO, CU_FUSE_RPC_DATA) << __FUNCTION__ << " cu_fuse_read thread id: " << pthread_self() << std::endl;
+        TIME_RPC(ServerLocalCacheProvider::read_return_type rpc_readfile_response =
+                 std::move(rpc_readfile.on(engine->self())(path_string)));
 
         if(rpc_readfile_response.first != 0) {
             return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
@@ -226,7 +191,6 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         LOG(INFO) << "logging cache" << std::endl;
 
         IOCTL_GET_FS_STREAM(Constants::log_cache_tables_output_filename);
-        fs_stream_opt.value() << Util::get_current_datetime() << std::endl;
         fs_stream_opt.value() << CacheTables::tree_cache_table << std::endl;
         fs_stream_opt.value() << CacheTables::data_cache_table << std::endl;
         fs_stream_opt.value() << CacheTables::md_cache_table << std::endl;
@@ -334,6 +298,11 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     case(Constants::ioctl_clear_ioctl_event):
         LOG(INFO) << "clearing ioctl event" << std::endl;
         IoctlEvent::reset_ioctl_event();
+        break;
+    case(Constants::ioctl_get_data_cache_size):
+        LOG(INFO) << "logging data cache size" << std::endl;
+        IOCTL_GET_FS_STREAM(Constants::log_data_cache_size_output_filename);
+        fs_stream_opt.value() << DataCacheTable::get_data_size_metrics << std::endl;
         break;
     default:
         LOG(DEBUG) << "external ioctl with cmd: " << cmd << std::endl;
@@ -516,6 +485,7 @@ static int cu_fuse_getxattr(const char* path_, const char* name, char* value, si
 #endif
 
 // clang-format off
+static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::open)
 static int cu_fuse_mknod(const char* path_, const mode_t mode, const dev_t rdev) NOT_IMPLEMENTED(OperationFunction::mknod)
 static int cu_fuse_mkdir(const char* path_, const mode_t mode) NOT_IMPLEMENTED(OperationFunction::mkdir)
 static int cu_fuse_unlink(const char* path_) NOT_IMPLEMENTED(OperationFunction::unlink)
