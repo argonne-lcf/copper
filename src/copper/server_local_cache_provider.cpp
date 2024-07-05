@@ -98,7 +98,7 @@ void ServerLocalCacheProvider::rpcRead(const tl::request& req, const bool dest, 
         LOG(INFO, RPC_DATA_TAG) << "requesting data from underlying filesystem" << std::endl;
         try {
             const std::vector<std::byte>& file_bytes = Util::read_ent_file(path_string, true);
-            read_response = std::make_pair(0, file_bytes);
+            read_response = std::make_pair(file_bytes.size(), file_bytes);
         } catch(std::exception& e) {
             LOG(WARNING, RPC_DATA_TAG) << e.what() << std::endl;
             read_response = std::make_pair(-Constants::fs_operation_error, std::vector<std::byte>(0));

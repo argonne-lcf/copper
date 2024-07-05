@@ -1,5 +1,5 @@
 #!/bin/bash
-set -o nounset
+#set -o nounset
 
 ITERATIONS=1
 
@@ -19,6 +19,8 @@ export JOB_ID=$(shuf -i 1-9999999 -n 1)
 mkdir "$(pwd)/job_${JOB_ID}"
 export JOB_OUTPUT_DIR="$(pwd)/job_${JOB_ID}"
 
-python3 driver.py $ITERATIONS | tee "$JOB_OUTPUT_DIR/driver_output.stdout"
+module use /soft/preview-modulefiles/24.086.0
+module load frameworks/2024.04.15.002
 
+python3 driver.py $ITERATIONS | tee "$JOB_OUTPUT_DIR/driver_output.stdout"
 
