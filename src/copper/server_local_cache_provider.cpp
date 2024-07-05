@@ -69,9 +69,7 @@ void ServerLocalCacheProvider::rpcLstat(const tl::request& req, bool should_reso
     }
 
 #ifdef WAIT_ON_REDUNDANT_RPCS
-    if(cached) {
-        CacheTables::md_path_status_cache_table.update_cache_status(path_string, lstat_response.first);
-    }
+    CacheTables::md_path_status_cache_table.update_cache_status(path_string, lstat_response.first);
 #endif
 
     if(!dest) {
@@ -135,7 +133,6 @@ void ServerLocalCacheProvider::rpcRead(const tl::request& req, bool should_resol
         LOG(INFO, RPC_READDIR_TAG) << "caching intermediate rpc_readfile_response" << std::endl;
         auto read_response_copy = read_response.second;
         CacheTables::data_cache_table.put_force(path_string, std::move(read_response_copy));
-        cached = true;
     } else if(cached) {
         LOG(INFO, RPC_DATA_TAG) << "readfile response already cached" << std::endl;
     } else {
@@ -144,9 +141,7 @@ void ServerLocalCacheProvider::rpcRead(const tl::request& req, bool should_resol
 
 
 #ifdef WAIT_ON_REDUNDANT_RPCS
-    if(cached) {
-    	CacheTables::data_path_status_cache_table.update_cache_status(path_string, read_response.first);
-    }
+    CacheTables::data_path_status_cache_table.update_cache_status(path_string, read_response.first);
 #endif
 
     if(!dest) {
@@ -220,7 +215,6 @@ void ServerLocalCacheProvider::rpcReaddir(const tl::request& req, bool should_re
         LOG(INFO, RPC_READDIR_TAG) << "caching intermediate rpc_readfile_response" << std::endl;
         auto readdir_response_copy = readdir_response.second;
         CacheTables::tree_cache_table.put_force(path_string, std::move(readdir_response_copy));
-        cached = true;
     } else if(cached) {
         LOG(INFO, RPC_READDIR_TAG) << "readdir response already cached" << std::endl;
     } else {
@@ -228,9 +222,7 @@ void ServerLocalCacheProvider::rpcReaddir(const tl::request& req, bool should_re
     }
 
 #ifdef WAIT_ON_REDUNDANT_RPCS
-    if(cached) {
-        CacheTables::tree_path_status_cache_table.update_cache_status(path_string, readdir_response.first);
-    }
+    CacheTables::tree_path_status_cache_table.update_cache_status(path_string, readdir_response.first);
 #endif
 
     if(!dest) {
