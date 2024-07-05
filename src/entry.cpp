@@ -1,11 +1,9 @@
 #include "fs/util.h"
 #include <algorithm>
-#include <array>
 #include <bitset>
 #include <chrono>
 #include <climits>
 #include <cmath>
-#include <cstdlib>
 #include <ctime>
 #include <fstream>
 #include <iostream>
@@ -15,11 +13,8 @@
 #include <sstream>
 #include <string>
 #include <sys/socket.h>
-#include <sys/stat.h>
 #include <thallium.hpp>
 #include <thallium/serialization/stl/pair.hpp>
-#include <thallium/serialization/stl/string.hpp>
-#include <thallium/serialization/stl/vector.hpp>
 #include <thread>
 #include <unistd.h>
 #include <vector>
@@ -27,40 +22,40 @@
 #include "copper/node_tree.h"
 #include "copper/server_local_cache_provider.h"
 #include "fs/cu_fuse.h"
-#include "fs/util.h"
 
-int main(int argc, char** argv) {
+int main(int argc, const char** argv) {
     AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
     LOG(TRACE) << " " << std::endl;
 
-    auto new_args{Util::process_args(argc, (const char**)argv)};
+    auto new_args{Util::process_args(argc, argv)};
 
     char char_hostname[1024];
     gethostname(char_hostname, sizeof(char_hostname));
-    std::string hostname(char_hostname);
+    Constants::my_hostname = std::string(char_hostname);
+
+    auto serverEngine = tl::engine{"na+sm", THALLIUM_SERVER_MODE, true, 16};
+
+    Constants::copper_address_book_path = Constants::log_output_dir.value() + "/" + Constants::copper_address_book_filename;
+    LOG(INFO) << "creating copper address book at path: " << Constants::copper_address_book_path << std::endl;
+    std::ofstream out(Constants::copper_address_book_path, std::ios::app);
+    out << serverEngine.self() << std::endl;
+    out.close();
 
     if(Constants::log_type == "stdout") {
         AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level))});
     } else if(Constants::log_type == "file") {
-        auto output_file = Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::per_node_output_filename);
+        auto output_file =
+        Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::per_node_output_filename);
         LOG(INFO) << "output_file path: " << output_file << std::endl;
 
         AixLog::Log::init({std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), output_file)});
     } else if(Constants::log_type == "file_and_stdout") {
-        auto output_file = Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::per_node_output_filename);
+        auto output_file =
+        Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::per_node_output_filename);
         LOG(INFO) << "output_file path: " << output_file << std::endl;
 
         AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level)),
         std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), output_file)});
-    }
-
-
-    Constants::copper_address_book_path = Constants::log_output_dir.value() + "/" + Constants::copper_address_book_filename;
-    std::ofstream copper_address_book(Constants::copper_address_book_path);
-    // Check if the file was successfully opened
-    if (!copper_address_book.is_open()) {
-        LOG(FATAL) << "unable to create and open copper address book at path: " << Constants::copper_address_book_path << std::endl;
-        throw std::runtime_error("unable to create and open copper address book");
     }
 
     std::vector<char*> ptrs;
@@ -69,7 +64,7 @@ int main(int argc, char** argv) {
         ptrs.push_back(str.data());
     }
 
-    NodeTree::get_hsn0_cxi_addr();
+    // NodeTree::get_hsn0_cxi_addr();
     NodeTree::parse_nodelist_from_cxi_address_book();
     Node::root = NodeTree::build_my_tree(Node::root, ServerLocalCacheProvider::node_address_data);
     NodeTree::printTree(Node::root);
@@ -77,7 +72,6 @@ int main(int argc, char** argv) {
     LOG(INFO) << "the depth of the tree is: " << tree_depth << std::endl;
     NodeTree::prettyPrintTree(Node::root, tree_depth);
 
-    auto serverEngine = tl::engine{"cxi", THALLIUM_SERVER_MODE, 1, -1};
     LOG(INFO) << "server running at address: " << serverEngine.self() << std::endl;
     serverEngine.enable_remote_shutdown();
     ServerLocalCacheProvider::rpc_lstat = serverEngine.define("rpc_lstat");
@@ -91,7 +85,13 @@ int main(int argc, char** argv) {
     tid = pthread_self();
     LOG(INFO) << tid << std::endl;
 
-    CuFuse::cu_hello_main(ptrs.size(), ptrs.data(), &serverEngine);
+    if(Node::root->data != static_cast<std::string>(serverEngine.self())) {
+        LOG(INFO) << "mounting" << std::endl;
+        CuFuse::cu_hello_main(ptrs.size(), ptrs.data(), &serverEngine);
+    } else {
+        LOG(INFO) << "not mounting" << std::endl;
+    }
+
     std::chrono::time_point<std::chrono::system_clock> start, end;
 
     LOG(INFO) << "waiting on finalize..." << std::endl;
