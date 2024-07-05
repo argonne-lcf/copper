@@ -38,7 +38,7 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
         LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " from client running at address " << engine->self() << std::endl;
         LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " thread id: " << pthread_self() << std::endl;
         TIME_RPC_FUSE_THREAD(ServerLocalCacheProvider::lstat_final_return_type rpc_lstat_response =
-                 ServerLocalCacheProvider::rpc_lstat.on(engine->self())(false, true, path_string));
+                 ServerLocalCacheProvider::rpc_lstat.on(engine->self())(true, path_string));
 
         if(rpc_lstat_response != 0) {
             LOG(WARNING) << "failed to passthrough stat" << std::endl;
@@ -77,7 +77,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
         LOG(INFO, CU_FUSE_RPC_DATA) << __FUNCTION__ << " from client running at address: " << engine->self() << std::endl;
         LOG(INFO, CU_FUSE_RPC_DATA) << __FUNCTION__ << " cu_fuse_read thread id: " << pthread_self() << std::endl;
         TIME_RPC_FUSE_THREAD(ServerLocalCacheProvider::read_final_return_type rpc_readfile_response =
-                             ServerLocalCacheProvider::rpc_readfile.on(engine->self())(false, true, path_string));
+                             ServerLocalCacheProvider::rpc_readfile.on(engine->self())(true, path_string));
 
         if(rpc_readfile_response < 0) {
             LOG(WARNING) << "failed to passthrough readfile" << std::endl;
@@ -130,7 +130,7 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
         LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " from client running at address " << engine->self() << std::endl;
         LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " thread id: " << pthread_self() << std::endl;
         TIME_RPC_FUSE_THREAD(ServerLocalCacheProvider::readdir_final_return_type rpc_readdir_response =
-                 ServerLocalCacheProvider::rpc_readdir.on(engine->self())(false, true, path_string));
+                 ServerLocalCacheProvider::rpc_readdir.on(engine->self())(true, path_string));
 
         if(rpc_readdir_response != Constants::fs_operation_success) {
             LOG(WARNING) << "failed to passthrough stat" << std::endl;

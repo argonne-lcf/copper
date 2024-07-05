@@ -93,17 +93,15 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> {
 
     using lstat_return_type = std::pair<int, std::vector<std::byte>>;
     using lstat_final_return_type = int;
-    void rpcLstat(const tl::request& req, bool should_resolve, bool dest, const std::string& path_string) const;
+    void rpcLstat(const tl::request& req, bool dest, const std::string& path_string) const;
 
     using read_return_type = std::pair<int, std::vector<std::byte>>;
     using read_final_return_type = int;
-    void rpcRead(const tl::request& req, bool should_resolve, bool dest, const std::string& path_string) const;
+    void rpcRead(const tl::request& req, bool dest, const std::string& path_string) const;
 
     using readdir_return_type = std::pair<int, std::vector<std::string>>;
     using readdir_final_return_type = int;
-    void rpcReaddir(const tl::request& req, bool should_resolve, bool dest, const std::string& path_string) const;
-
-    static void getParentfromtree(Node* CopyofTree, std::string my_curr_node_addr, std::string& parentofmynode);
+    void rpcReaddir(const tl::request& req, bool dest, const std::string& path_string) const;
 
     ServerLocalCacheProvider(const ServerLocalCacheProvider&) = delete;
     ServerLocalCacheProvider(ServerLocalCacheProvider&&) = delete;
