@@ -20,8 +20,6 @@ void PathStatusCache::update_cache_status(const Key& key, const int status) {
     if(entry != cache.end()) {
         entry->second = status;
         cv.notify_all();
-    } else {
-	    LOG(ERROR) << "update cache status called but key was not found" << std::endl;
     }
 }
 
