@@ -22,7 +22,7 @@ void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest,
 
     // NOTE: check if request can be resolved in local cache
     const auto entry_opt = CacheTables::md_cache_table.get(path_string);
-    if(!dest && entry_opt.has_value()) {
+    if(entry_opt.has_value()) {
         LOG(INFO, RPC_METADATA_TAG) << "found in local cache" << std::endl;
         lstat_response = lstat_return_type(Constants::fs_operation_success, entry_opt.value()->get_st_vec_cpy());
         cached = true;
