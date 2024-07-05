@@ -1,5 +1,4 @@
 #include "path_status_cache.h"
-
 #include "cache_tables.h"
 
 bool PathStatusCache::check_and_put_force(const Key& key) {
@@ -14,17 +13,16 @@ bool PathStatusCache::check_and_put_force(const Key& key) {
     return true;
 }
 
-bool PathStatusCache::update_cache_status(const Key& key, const int status) {
+void PathStatusCache::update_cache_status(const Key& key, const int status) {
     std::lock_guard guard(mtx);
 
     auto entry = cache.find(key);
     if(entry != cache.end()) {
         entry->second = status;
         cv.notify_all();
-        return true;
+    } else {
+	LOG(ERROR) << "update cache status called but key was not found" << std::endl;
     }
-
-    return false;
 }
 
 
