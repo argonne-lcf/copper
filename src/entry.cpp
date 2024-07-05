@@ -39,27 +39,28 @@ int main(int argc, char** argv) {
     gethostname(char_hostname, sizeof(char_hostname));
     std::string hostname(char_hostname);
 
-    auto serverEngine = tl::engine{"na+sm", THALLIUM_SERVER_MODE, 1, -1};
-
-    Constants::copper_address_book_path = Constants::log_output_dir.value() + "/" + Constants::copper_address_book_filename;
-    LOG(INFO) << "creating copper address book at path: " << Constants::copper_address_book_path << std::endl;
-    std::ofstream out(Constants::copper_address_book_path, std::ios::app);
-    out << serverEngine.self() << std::endl;
-    out.close();
-
     if(Constants::log_type == "stdout") {
         AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level))});
     } else if(Constants::log_type == "file") {
-        auto output_file = Constants::log_output_dir.value() + "/" + hostname + std::to_string(getpid()) + ".log";
+        auto output_file = Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::per_node_output_filename);
         LOG(INFO) << "output_file path: " << output_file << std::endl;
 
         AixLog::Log::init({std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), output_file)});
     } else if(Constants::log_type == "file_and_stdout") {
-        auto output_file = Constants::log_output_dir.value() + "/" + hostname + std::to_string(getpid()) + ".log";
+        auto output_file = Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::per_node_output_filename);
         LOG(INFO) << "output_file path: " << output_file << std::endl;
 
         AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level)),
         std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), output_file)});
+    }
+
+
+    Constants::copper_address_book_path = Constants::log_output_dir.value() + "/" + Constants::copper_address_book_filename;
+    std::ofstream copper_address_book(Constants::copper_address_book_path);
+    // Check if the file was successfully opened
+    if (!copper_address_book.is_open()) {
+        LOG(FATAL) << "unable to create and open copper address book at path: " << Constants::copper_address_book_path << std::endl;
+        throw std::runtime_error("unable to create and open copper address book");
     }
 
     std::vector<char*> ptrs;
@@ -68,7 +69,7 @@ int main(int argc, char** argv) {
         ptrs.push_back(str.data());
     }
 
-    // NodeTree::get_hsn0_cxi_addr();
+    NodeTree::get_hsn0_cxi_addr();
     NodeTree::parse_nodelist_from_cxi_address_book();
     Node::root = NodeTree::build_my_tree(Node::root, ServerLocalCacheProvider::node_address_data);
     NodeTree::printTree(Node::root);
@@ -76,11 +77,12 @@ int main(int argc, char** argv) {
     LOG(INFO) << "the depth of the tree is: " << tree_depth << std::endl;
     NodeTree::prettyPrintTree(Node::root, tree_depth);
 
+    auto serverEngine = tl::engine{"cxi", THALLIUM_SERVER_MODE, 1, -1};
     LOG(INFO) << "server running at address: " << serverEngine.self() << std::endl;
     serverEngine.enable_remote_shutdown();
-    rpc_lstat = serverEngine.define("rpc_lstat");
-    rpc_readfile = serverEngine.define("rpc_readfile");
-    rpc_readdir = serverEngine.define("rpc_readdir");
+    ServerLocalCacheProvider::rpc_lstat = serverEngine.define("rpc_lstat");
+    ServerLocalCacheProvider::rpc_readfile = serverEngine.define("rpc_readfile");
+    ServerLocalCacheProvider::rpc_readdir = serverEngine.define("rpc_readdir");
     new ServerLocalCacheProvider{serverEngine, ServerLocalCacheProvider::node_address_data};
     sleep(20); //  barrier issue: all process need to wait until the server is created.
 
@@ -89,13 +91,7 @@ int main(int argc, char** argv) {
     tid = pthread_self();
     LOG(INFO) << tid << std::endl;
 
-    if(Node::root->data != static_cast<std::string>(serverEngine.self())) {
-        std::cout << "mounting" << std::endl;
-        CuFuse::cu_hello_main(ptrs.size(), ptrs.data(), &serverEngine);
-    } else {
-        std::cout << "not mounting" << std::endl;
-    }
-
+    CuFuse::cu_hello_main(ptrs.size(), ptrs.data(), &serverEngine);
     std::chrono::time_point<std::chrono::system_clock> start, end;
 
     LOG(INFO) << "waiting on finalize..." << std::endl;

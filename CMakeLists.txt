@@ -43,7 +43,12 @@ set(SOURCES
     src/copper/server_local_cache_provider.cpp
     src/copper/node_tree.cpp
     src/metric/ioctl_event.cpp
-        src/cache/data_cache_table.cpp
+    src/cache/data_cache_table.cpp
+    src/cache/md_cache_table.cpp
+    src/cache/md_cache_table.cpp
+    src/cache/path_status_cache.cpp
+    src/cache/path_status_cache.h
+    src/cache/path_status_cache.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

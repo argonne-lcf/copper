@@ -12,22 +12,22 @@ template <typename K, typename V> class Cache {
     using Value = V;
 
     Cache() {
-        //std::lock_guard<std::mutex> guard(mtx);
+        std::lock_guard guard(mtx);
         cache = std::unordered_map<Key, Value>();
     }
 
     virtual void put_force(Key key, Value&& val) {
-        //std::lock_guard<std::mutex> guard(mtx);
+        std::lock_guard guard(mtx);
         cache[key] = std::move(val);
     };
 
     virtual void remove(Key key) {
-        //std::lock_guard<std::mutex> guard(mtx);
+        std::lock_guard guard(mtx);
         cache.erase(key);
     }
 
     virtual std::optional<Value*> get(Key key) {
-        //std::lock_guard<std::mutex> guard(mtx);
+        std::lock_guard guard(mtx);
         try {
             return &cache.at(key);
         } catch(std::out_of_range& e) {
@@ -38,10 +38,9 @@ template <typename K, typename V> class Cache {
     virtual ~Cache() = default;
     std::unordered_map<Key, Value> cache;
 
-    private:
-    //static std::mutex mtx;
+    static std::mutex mtx;
 };
 
-//template <typename K, typename V> std::mutex Cache<K, V>::mtx;
+template <typename K, typename V> std::mutex Cache<K, V>::mtx;
 
 #endif // CACHE_H

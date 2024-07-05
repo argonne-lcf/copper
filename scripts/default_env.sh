@@ -30,8 +30,8 @@ export SCRIPTS_DIR="$ROOT_DIR"/scripts
 export TARGET_DIR=/
 export FUSE_FS="$ROOT_DIR/build/cu_fuse"
 # the directory for which the dev directory will be created
-export SPEC_DEV_PARENT_DIR="$(readlink -f ~)"
-export SPEC_DEV_DIR=$SPEC_DEV_PARENT_DIR/copper_metrics
+export SPEC_DEV_PARENT_DIR=$LOG_OUTPUT_DIR
+export SPEC_DEV_DIR="$SPEC_DEV_PARENT_DIR/metrics"
 export SPEC_DEV_VIEW_DIR="$(readlink -f $VIEW_DIR/"$SPEC_DEV_DIR")"
 export SPEC_DEV_VIEW="$SPEC_DEV_VIEW_DIR/.spec_ioctl_file"
 export SPEC_DEV_TARGET="$SPEC_DEV_DIR/.spec_ioctl_file"
@@ -63,3 +63,5 @@ export IOCTL_CLEAR_IOCTL_EVENT=2100
 export IOCTL_LOG_IOCTL_EVENT=2200
 
 export IOCTL_GET_DATA_CACHE_SIZE=2300
+export IOCTL_GET_TREE_CACHE_SIZE=2400
+export IOCTL_GET_MD_CACHE_SIZE=2500

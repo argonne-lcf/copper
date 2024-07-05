@@ -5,6 +5,7 @@
 #define FUSE_USE_VERSION 31
 #include <fuse.h>
 #include <string>
+#include <unistd.h>
 
 class Constants {
     public:
@@ -14,6 +15,7 @@ class Constants {
     // FIXME: make struct with strings for types
     static inline std::string log_type{"stdout"};
     static inline std::optional<std::string> log_output_dir{std::nullopt};
+    static inline std::string my_hostname;
 
     // clang-format off
     static inline std::string usage{"cu_fuse <FUSE_PARAMS> -tpath <ABS_TARGET_PATH> "
@@ -59,10 +61,16 @@ class Constants {
     static constexpr unsigned int ioctl_log_ioctl_event{2200};
 
     static constexpr unsigned int ioctl_get_data_cache_size{2300};
+    static constexpr unsigned int ioctl_get_tree_cache_size{2400};
+    static constexpr unsigned int ioctl_get_md_cache_size{2500};
 
     static inline std::string copper_address_book_filename = "copper_address_book.txt";
     static inline std::string copper_address_book_path;
 
+    static std::string get_output_filename(const std::string& suffix) {
+        return my_hostname + "-" + std::to_string(getpid()) + "-" + suffix;
+    }
+    static inline std::string per_node_output_filename = "output.log";
     static inline std::string log_cache_tables_output_filename = "cache_tables.output";
     static inline std::string log_operation_output_filename = "operation_count.output";
     static inline std::string log_operation_time_output_filename = "operation_time.output";
@@ -74,6 +82,8 @@ class Constants {
     static inline std::string log_operation_cache_neg_output_filename = "operation_cache_neg.output";
     static inline std::string log_ioctl_cache_event_output_filename = "ioctl_cache_event.output";
     static inline std::string log_data_cache_size_output_filename = "data_cache_size.output";
+    static inline std::string log_tree_cache_size_output_filename = "tree_cache_size.output";
+    static inline std::string log_md_cache_size_output_filename = "md_cache_size.output";
 };
 
 #endif // CONSTANTS_H

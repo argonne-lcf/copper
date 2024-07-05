@@ -10,19 +10,9 @@ using MDCacheTableKey = std::string;
 using MDCacheTableVal = CuStat;
 
 class MDCacheTable final : public Cache<MDCacheTableKey, MDCacheTableVal> {
-    friend std::ostream& operator<<(std::ostream& os, const MDCacheTable& md_cache_table) {
-        os << "md_cache_table {" << std::endl;
-
-        for(auto const& pair : md_cache_table.cache) {
-            os << pair.first << " {" << std::endl;
-            os << pair.second << std::endl;
-            os << "}" << std::endl;
-        }
-
-        os << "}";
-
-        return os;
-    }
+    public:
+    static std::ostream& get_data_size_metrics(std::ostream& os);
+    friend std::ostream& operator<<(std::ostream& os, const MDCacheTable& md_cache_table);
 };
 
 #endif // MDCACHETABLE_H
