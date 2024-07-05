@@ -32,7 +32,7 @@
 #include "../fs/util.h"
 #include "node_tree.h"
 
-#undef WAIT_ON_REDUNDANT_RPCS
+#define WAIT_ON_REDUNDANT_RPCS
 
 #define RPC_METADATA_TAG "rpc_getattr"
 #define RPC_DATA_TAG "rpc_readfile"

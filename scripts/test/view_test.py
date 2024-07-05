@@ -12,5 +12,5 @@ print(f"packages dir: {packages}")
 
 sys.path.insert(0, packages)
 
-import torch
-print(torch.__file__)
+import numpy
+print(numpy.__file__)
