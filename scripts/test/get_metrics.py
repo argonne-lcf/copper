@@ -15,8 +15,7 @@ def check_env_variable(variable_name):
         sys.exit(1)
     return value
 
-def parse_csv(file_path, csv_output_path, csv_header):
-    header_written = False
+def parse_csv(file_path, csv_output_path, csv_header, header_map):
     if not os.path.exists(file_path):
         print(f"File {file_path} not found. Skipping...")
         return
@@ -25,13 +24,17 @@ def parse_csv(file_path, csv_output_path, csv_header):
         reader = csv.reader(file)
         header = next(reader)
         print(f"Header: {csv_header}")
-        for row in reader:
-            print(f"Row: {row}")
-            with open(csv_output_path, "a", newline='') as t_file:
-                t_writer = csv.writer(t_file)
-                if not header_written:
-                    t_writer.writerow(csv_header)
-                    header_written = True
+        if csv_output_path not in header_map:
+            header_map[csv_output_path] = False  # Initialize header flag for this output file
+
+        with open(csv_output_path, "a", newline='') as t_file:
+            t_writer = csv.writer(t_file)
+            if not header_map[csv_output_path]:
+                t_writer.writerow(csv_header)
+                header_map[csv_output_path] = True  # Set header flag to True after writing once
+
+            for row in reader:
+                print(f"Row: {row}")
                 t_writer.writerow(row)
 
 def calculate_statistics(csv_file, top_perc, bot_perc):
@@ -71,7 +74,7 @@ def main(search_directory):
 
     # Find CSV files
     target_csv_files = find_csv_files(search_directory, '**/target/**/*.csv')
-    view_csv_files = find_csv_files(search_directory, '**/csv/**/*.csv')
+    view_csv_files = find_csv_files(search_directory, '**/view/**/*.csv')
 
     # Print found CSV files
     print("Target CSV files found:")
@@ -81,16 +84,19 @@ def main(search_directory):
     for csv_file in view_csv_files:
         print(csv_file)
 
+    # Dictionary to track header writing per output path
+    header_map = {}
+
     # Parse CSV files
     print("\nParsing view CSV files:")
     for csv_file in view_csv_files:
         print(f"Parsing file: {csv_file}")
-        parse_csv(csv_file, view_csv_output_path, csv_header)
+        parse_csv(csv_file, view_csv_output_path, csv_header, header_map)
 
     print("\nParsing target CSV files:")
     for csv_file in target_csv_files:
         print(f"Parsing file: {csv_file}")
-        parse_csv(csv_file, target_csv_output_path, csv_header)
+        parse_csv(csv_file, target_csv_output_path, csv_header, header_map)
 
     # Calculate statistics
     print(f"\nGenerating statistics for: {target_csv_output_path}")
