@@ -1,5 +1,4 @@
 #!/bin/bash
-#set -o nounset
 
 # SET TO WHAT SCRIPTS YOU WANT TO TEST
 #   Options:

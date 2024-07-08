@@ -1,5 +1,4 @@
 #!/bin/bash
-set -o nounset
 
 # set for mnt to work
 export VIEW_DIR=
