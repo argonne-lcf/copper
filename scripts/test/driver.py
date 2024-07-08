@@ -70,7 +70,7 @@ def run_script(folder, script_name, iterations):
 
             if folder == "view":
                 get_all_metrics(folder, iteration)
-                reset_fs()
+                #reset_fs()
 
     total_time = sum(execution_times)
     if iterations >= 2:
@@ -87,6 +87,6 @@ def run_script(folder, script_name, iterations):
 
 gen_output_folders("view", its)
 
-reset_fs()
+#reset_fs()
 run_script("view", view_script, its)
 run_script("target", target_script, its)

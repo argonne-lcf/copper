@@ -13,23 +13,8 @@ using TreeCacheTableVal = std::vector<std::string>;
 
 class TreeCacheTable final : public Cache<TreeCacheTableKey, TreeCacheTableVal> {
     public:
-    friend std::ostream& operator<<(std::ostream& os, const TreeCacheTable& tree_cache_table) {
-        os << "tree_cache_table {" << std::endl;
-
-        for(auto const& pair : tree_cache_table.cache) {
-            os << pair.first << " {" << std::endl;
-
-            for(auto const& child : pair.second) {
-                os << child << "," << std::endl;
-            }
-            os << "}" << std::endl;
-        }
-
-        os << "}";
-
-        return os;
-    }
-
+    static std::ostream& get_data_size_metrics(std::ostream& os);
+    friend std::ostream& operator<<(std::ostream& os, const TreeCacheTable& tree_cache_table);
     static void add_to_tree_cache(const std::string& path_string, bool is_file);
 };
 

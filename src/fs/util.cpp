@@ -177,30 +177,34 @@ void Util::log_all_metrics(const std::string& path_string) {
     std::string output;
     std::optional<std::ofstream> fs_stream_opt = std::nullopt;
 
-    GET_FS_STREAM(path_string, Constants::log_cache_tables_output_filename);
+    GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_cache_tables_output_filename));
     fs_stream_opt.value() << CacheTables::tree_cache_table << std::endl;
     fs_stream_opt.value() << CacheTables::data_cache_table << std::endl;
     fs_stream_opt.value() << CacheTables::md_cache_table << std::endl;
-    GET_FS_STREAM(path_string, Constants::log_operation_output_filename);
+    GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_operation_output_filename));
     fs_stream_opt.value() << Operations::log_operation << std::endl;
-    GET_FS_STREAM(path_string, Constants::log_operation_time_output_filename);
+    GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_operation_time_output_filename));
     fs_stream_opt.value() << Operations::log_operation_time << std::endl;
-    GET_FS_STREAM(path_string, Constants::log_cache_hit_output_filename);
+    GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_cache_hit_output_filename));
     fs_stream_opt.value() << Operations::log_operation_cache_hit << std::endl;
-    GET_FS_STREAM(path_string, Constants::log_cache_miss_output_filename);
+    GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_cache_miss_output_filename));
     fs_stream_opt.value() << Operations::log_operation_cache_miss << std::endl;
-    GET_FS_STREAM(path_string, Constants::log_data_cache_event_output_filename);
+    GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_data_cache_event_output_filename));
     fs_stream_opt.value() << CacheEvent::log_data_cache_event << std::endl;
-    GET_FS_STREAM(path_string, Constants::log_tree_cache_event_output_filename);
+    GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_tree_cache_event_output_filename));
     fs_stream_opt.value() << CacheEvent::log_tree_cache_event << std::endl;
-    GET_FS_STREAM(path_string, Constants::log_md_cache_event_output_filename);
+    GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_md_cache_event_output_filename));
     fs_stream_opt.value() << CacheEvent::log_md_cache_event << std::endl;
-    GET_FS_STREAM(path_string, Constants::log_operation_cache_neg_output_filename);
+    GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_operation_cache_neg_output_filename));
     fs_stream_opt.value() << Operations::log_operation_neg << std::endl;
-    GET_FS_STREAM(path_string, Constants::log_ioctl_cache_event_output_filename);
+    GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_ioctl_cache_event_output_filename));
     fs_stream_opt.value() << IoctlEvent::log_ioctl_event << std::endl;
-    GET_FS_STREAM(path_string, Constants::log_data_cache_size_output_filename);
+    GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_data_cache_size_output_filename));
     fs_stream_opt.value() << DataCacheTable::get_data_size_metrics << std::endl;
+    GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_tree_cache_size_output_filename));
+    fs_stream_opt.value() << TreeCacheTable::get_data_size_metrics << std::endl;
+    GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_md_cache_size_output_filename));
+    fs_stream_opt.value() << MDCacheTable::get_data_size_metrics << std::endl;
 }
 
 void Util::reset_fs() {

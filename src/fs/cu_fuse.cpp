@@ -2,11 +2,6 @@
 
 namespace tl = thallium;
 
-tl::engine serverEngine;
-tl::remote_procedure rpc_lstat;
-tl::remote_procedure rpc_readfile;
-tl::remote_procedure rpc_readdir;
-
 #define CHECK_RECURSIVE(path_string)                                                   \
     {                                                                                  \
         if(Util::is_recursive_path_string(path_string)) {                              \
@@ -42,12 +37,18 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
         LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " from client running at address " << engine->self() << std::endl;
         LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " thread id: " << pthread_self() << std::endl;
-        TIME_RPC(ServerLocalCacheProvider::lstat_final_return_type rpc_lstat_response = rpc_lstat.on(engine->self())(true, path_string));
+        TIME_RPC_FUSE_THREAD(ServerLocalCacheProvider::lstat_final_return_type rpc_lstat_response =
+                 ServerLocalCacheProvider::rpc_lstat.on(engine->self())(true, path_string));
 
         if(rpc_lstat_response != 0) {
             LOG(WARNING) << "failed to passthrough stat" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
             CacheEvent::md_cache_event_table, path_string, start, rpc_lstat_response);
+        }
+
+        if(!CacheTables::md_cache_table.get(path_string).has_value()) {
+            LOG(ERROR) << "expected value to exist after rpc caching" << std::endl;
+            return -ENOENT;
         }
     }
 
@@ -75,15 +76,21 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
         LOG(INFO, CU_FUSE_RPC_DATA) << __FUNCTION__ << " from client running at address: " << engine->self() << std::endl;
         LOG(INFO, CU_FUSE_RPC_DATA) << __FUNCTION__ << " cu_fuse_read thread id: " << pthread_self() << std::endl;
-        TIME_RPC(ServerLocalCacheProvider::read_final_return_type rpc_readfile_response = rpc_readfile.on(engine->self())(true, path_string));
+        TIME_RPC_FUSE_THREAD(ServerLocalCacheProvider::read_final_return_type rpc_readfile_response =
+                             ServerLocalCacheProvider::rpc_readfile.on(engine->self())(true, path_string));
 
-        if(rpc_readfile_response != 0) {
+        if(rpc_readfile_response < 0) {
             LOG(WARNING) << "failed to passthrough readfile" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
-            CacheEvent::data_cache_event_table, path_string, start, -rpc_readfile_response);
+            CacheEvent::data_cache_event_table, path_string, start, rpc_readfile_response);
         }
 
-        bytes =  CacheTables::data_cache_table.get(path_string).value();
+        if(!CacheTables::data_cache_table.get(path_string).has_value()) {
+            LOG(ERROR) << "expected value to exist after rpc caching" << std::endl;
+            return -1;
+        }
+
+        bytes = CacheTables::data_cache_table.get(path_string).value();
         cache = true;
     } else {
         bytes = entry_opt.value();
@@ -122,12 +129,18 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
         LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " from client running at address " << engine->self() << std::endl;
         LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " thread id: " << pthread_self() << std::endl;
-        TIME_RPC(ServerLocalCacheProvider::readdir_final_return_type rpc_readdir_response = rpc_readdir.on(engine->self())(true, path_string));
+        TIME_RPC_FUSE_THREAD(ServerLocalCacheProvider::readdir_final_return_type rpc_readdir_response =
+                 ServerLocalCacheProvider::rpc_readdir.on(engine->self())(true, path_string));
 
         if(rpc_readdir_response != Constants::fs_operation_success) {
             LOG(WARNING) << "failed to passthrough stat" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::neg,
-            CacheEvent::md_cache_event_table, path_string, start, -rpc_readdir_response);
+            CacheEvent::md_cache_event_table, path_string, start, rpc_readdir_response);
+        }
+
+        if(!CacheTables::tree_cache_table.get(path_string).has_value()) {
+            LOG(ERROR) << "expected value to exist after rpc caching" << std::endl;
+            return -ENOENT;
         }
 
         entries = *CacheTables::tree_cache_table.get(path_string).value();
@@ -176,7 +189,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     case(Constants::ioctl_log_cache_tables):
         LOG(INFO) << "logging cache" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::log_cache_tables_output_filename);
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_cache_tables_output_filename));
         fs_stream_opt.value() << CacheTables::tree_cache_table << std::endl;
         fs_stream_opt.value() << CacheTables::data_cache_table << std::endl;
         fs_stream_opt.value() << CacheTables::md_cache_table << std::endl;
@@ -190,25 +203,25 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     case(Constants::ioctl_log_operation_count):
         LOG(INFO) << "logging operation" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::log_operation_output_filename);
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_operation_output_filename));
         fs_stream_opt.value() << Operations::log_operation << std::endl;
         break;
     case(Constants::ioctl_log_operation_time):
         LOG(INFO) << "logging operation time (ms)" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::log_operation_time_output_filename);
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_operation_time_output_filename));
         fs_stream_opt.value() << Operations::log_operation_time << std::endl;
         break;
     case(Constants::ioctl_log_operation_cache_hit):
         LOG(INFO) << "logging operation cache hit" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::log_cache_hit_output_filename);
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_cache_hit_output_filename));
         fs_stream_opt.value() << Operations::log_operation_cache_hit << std::endl;
         break;
     case(Constants::ioctl_log_operation_cache_miss):
         LOG(INFO) << "logging operation cache miss" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::log_cache_miss_output_filename);
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_cache_miss_output_filename));
         fs_stream_opt.value() << Operations::log_operation_cache_miss << std::endl;
         break;
     case(Constants::ioctl_clear_operation_count):
@@ -229,19 +242,19 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     case(Constants::ioctl_log_data_cache_event):
         LOG(INFO) << "logging data cache event" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::log_data_cache_event_output_filename);
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_data_cache_event_output_filename));
         fs_stream_opt.value() << CacheEvent::log_data_cache_event << std::endl;
         break;
     case(Constants::ioctl_log_tree_cache_event):
         LOG(INFO) << "logging tree cache event" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::log_tree_cache_event_output_filename);
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_tree_cache_event_output_filename));
         fs_stream_opt.value() << CacheEvent::log_tree_cache_event << std::endl;
         break;
     case(Constants::ioctl_log_md_cache_event):
         LOG(INFO) << "logging md cache event" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::log_md_cache_event_output_filename);
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_md_cache_event_output_filename));
         fs_stream_opt.value() << CacheEvent::log_md_cache_event << std::endl;
         break;
     case(Constants::ioctl_clear_data_cache_event):
@@ -259,7 +272,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     case(Constants::ioctl_log_operation_neg): {
         LOG(INFO) << "logging operation neg event" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::log_operation_cache_neg_output_filename);
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_operation_cache_neg_output_filename));
         fs_stream_opt.value() << Operations::log_operation_neg << std::endl;
         break;
     }
@@ -278,7 +291,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     case(Constants::ioctl_log_ioctl_event):
         LOG(INFO) << "logging ioctl event" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::log_ioctl_cache_event_output_filename);
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_ioctl_cache_event_output_filename));
         fs_stream_opt.value() << IoctlEvent::log_ioctl_event << std::endl;
         break;
     case(Constants::ioctl_clear_ioctl_event):
@@ -287,8 +300,18 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         break;
     case(Constants::ioctl_get_data_cache_size):
         LOG(INFO) << "logging data cache size" << std::endl;
-        IOCTL_GET_FS_STREAM(Constants::log_data_cache_size_output_filename);
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_data_cache_size_output_filename));
         fs_stream_opt.value() << DataCacheTable::get_data_size_metrics << std::endl;
+        break;
+    case(Constants::ioctl_get_tree_cache_size):
+        LOG(INFO) << "logging tree cache size" << std::endl;
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_tree_cache_size_output_filename));
+        fs_stream_opt.value() << TreeCacheTable::get_data_size_metrics << std::endl;
+        break;
+    case(Constants::ioctl_get_md_cache_size):
+        LOG(INFO) << "logging md cache size" << std::endl;
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_md_cache_size_output_filename));
+        fs_stream_opt.value() << MDCacheTable::get_data_size_metrics << std::endl;
         break;
     default:
         LOG(DEBUG) << "external ioctl with cmd: " << cmd << std::endl;

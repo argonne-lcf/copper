@@ -184,11 +184,28 @@ Node* NodeTree::build_my_tree(Node* root, std::vector<std::string> node_address_
     return root;
 }
 
-void NodeTree::push_back_with_mutex(const std::string& hostname, const std::string& my_cxi_server_ip_hex_str) {
-    std::lock_guard<std::mutex> lock(ServerLocalCacheProvider::mtx);
-    std::ofstream myFile(Constants::copper_address_book_path, std::ios_base::app);
-    myFile << hostname << " " << my_cxi_server_ip_hex_str << std::endl;
-    myFile.close();
+
+void NodeTree::push_back_address(const std::string& hostname, const std::string& my_cxi_server_ip_hex_str) {
+    // NOTE: 0644 - read and write permissions for the owner and read-only permissions for others
+    const int fd = open(Constants::copper_address_book_path.c_str(), O_WRONLY | O_APPEND | O_CREAT, 0644);
+    if(fd == -1) {
+        throw std::runtime_error("failed to open file for writing");
+    }
+
+    if(flock(fd, LOCK_EX) == -1) {
+        close(fd);
+        throw std::runtime_error("failed to lock file");
+    }
+
+    const std::string data = hostname + " " + my_cxi_server_ip_hex_str + "\n";
+    if(write(fd, data.c_str(), data.size()) == -1) {
+        flock(fd, LOCK_UN); // Unlock the file before closing
+        close(fd);          // Close the file descriptor
+        throw std::runtime_error("failed to write to file");
+    }
+
+    flock(fd, LOCK_UN);
+    close(fd);
 }
 
 void NodeTree::get_hsn0_cxi_addr() {
@@ -224,7 +241,7 @@ void NodeTree::get_hsn0_cxi_addr() {
     std::string hostname(char_hostname);
 
     // replace mutex with oneapi/tbb/concurrent_vector.h tbb::concurrent_vector is not working currently with oneapi
-    push_back_with_mutex(hostname, my_cxi_server_ip_hex_str);
+    push_back_address(hostname, my_cxi_server_ip_hex_str);
 }
 
 void NodeTree::parse_nodelist_from_cxi_address_book() {
@@ -245,9 +262,19 @@ void NodeTree::parse_nodelist_from_cxi_address_book() {
         std::string first_part_hostname = line.substr(0, pos);
         std::string second_part_cxi = line.substr(pos + 1);
         LOG(INFO) << first_part_hostname << ":" << second_part_cxi << std::endl;
-        ServerLocalCacheProvider::global_peer_pairs.push_back(make_pair(first_part_hostname, second_part_cxi));
-        ServerLocalCacheProvider::node_address_data.push_back(second_part_cxi);
+        ServerLocalCacheProvider::global_peer_pairs.emplace_back(first_part_hostname, second_part_cxi);
+        ServerLocalCacheProvider::node_address_data.emplace_back(second_part_cxi);
     }
 
     inFile.close();
+}
+
+
+void NodeTree::getParentfromtree(Node* CopyofTree, const std::string& my_curr_node_addr, std::string& parentofmynode) {
+    if(my_curr_node_addr == CopyofTree->data) {
+        parentofmynode = CopyofTree->my_parent->data;
+    }
+    for(Node* child : CopyofTree->getChildren()) {
+        getParentfromtree(child, my_curr_node_addr, parentofmynode);
+    }
 }

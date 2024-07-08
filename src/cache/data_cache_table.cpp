@@ -34,3 +34,15 @@ std::ostream& DataCacheTable::get_data_size_metrics(std::ostream& os) {
 
     return os;
 }
+
+std::ostream& operator<<(std::ostream& os, const DataCacheTable& data_cache_table) {
+    os << "data_cache_table {" << std::endl;
+    for(auto const& entry : data_cache_table.cache) {
+        os << entry.first << " {" << std::endl;
+        os << "data_size: " << entry.second.size() << std::endl;
+        os << "}" << std::endl;
+    }
+    os << "}";
+
+    return os;
+}
