@@ -1,5 +1,4 @@
 #!/bin/bash
-set -o nounset
 
 SCRIPT=$(realpath -s "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
