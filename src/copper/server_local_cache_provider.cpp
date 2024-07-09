@@ -10,181 +10,98 @@ tl::remote_procedure ServerLocalCacheProvider::rpc_lstat;
 tl::remote_procedure ServerLocalCacheProvider::rpc_readfile;
 tl::remote_procedure ServerLocalCacheProvider::rpc_readdir;
 
-void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest, const std::string& path_string) const {
+void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const std::string& path_string) const {
     const auto& req_from_addr = static_cast<std::string>(req.get_endpoint());
     const auto& my_curr_node_addr = static_cast<std::string>(get_engine().self());
 
     LOG(INFO, RPC_METADATA_TAG) << "my address:" << my_curr_node_addr << std::endl;
     LOG(INFO, RPC_METADATA_TAG) << "req_coming_from_addr:" << req_from_addr << ", path_string: " << path_string << std::endl;
 
-    lstat_return_type lstat_response;
-    bool cached = false;
-
-    // NOTE: check if request can be resolved in local cache
     const auto entry_opt = CacheTables::md_cache_table.get(path_string);
+
+    // NOTE: check if it is in local cache
     if(entry_opt.has_value()) {
         LOG(INFO, RPC_METADATA_TAG) << "found in local cache" << std::endl;
-        lstat_response = lstat_return_type(Constants::fs_operation_success, entry_opt.value()->get_st_vec_cpy());
-        cached = true;
-    } else if(Node::root->data == my_curr_node_addr) {
+        TIME_RPC(req.respond(static_cast<lstat_return_type>(std::make_pair(0, entry_opt.value()->get_vec()))));
+    }
+    // NOTE: check if we are root
+    else if(Node::root->data == my_curr_node_addr) {
         LOG(INFO, RPC_METADATA_TAG) << "requesting data from underlying filesystem" << std::endl;
         CuStat cu_stat;
+
+        // NOTE: we are root and operation succeeded respond to requested
         if(lstat(path_string.c_str(), cu_stat.get_st()) == -1) {
-            lstat_response = lstat_return_type(-errno, std::vector<std::byte>(0));
+            const lstat_return_type& lstat_response = static_cast<lstat_return_type>(std::make_pair(-errno, std::vector<std::byte>(0)));
+            TIME_RPC(req.respond(lstat_response));
+            CacheTables::md_cache_table.put_force(path_string, std::move(cu_stat));
         } else {
-            lstat_response = lstat_return_type(Constants::fs_operation_success, cu_stat.get_move_st_vec());
+            TIME_RPC(req.respond(static_cast<lstat_return_type>(std::make_pair(0, cu_stat.get_vec()))));
         }
+    // NOTE: we are not root, and it is not in local cache so request data from parent only if we are not the root node
     } else {
-        std::string parentofmynode;
-        NodeTree::getParentfromtree(Node::root, my_curr_node_addr, parentofmynode);
-#ifdef BLOCK_REDUNDANT_RPCS
-        // NOTE: were the first one to make rpc request
-        if(!CacheTables::md_path_status_cache_table.check_and_put_force(path_string)) {
-            LOG(INFO, RPC_METADATA_TAG) << "first to request path_string" << std::endl;
-            LOG(INFO, RPC_METADATA_TAG) << "going to parent " << parentofmynode << std::endl;
-#endif
-            lstat_response = std::move(rpc_lstat.on(get_engine().lookup(parentofmynode))(false, path_string));
-#ifdef BLOCK_REDUNDANT_RPCS
-            LOG(INFO, RPC_METADATA_TAG) << "returned from parent " << parentofmynode << std::endl;
-        } else { // NOTE: request already made wait for cache to be filled
-            LOG(INFO, RPC_METADATA_TAG) << " not first to request path_string, waiting on cache entry..." << std::endl;
-            int status = CacheTables::md_path_status_cache_table.wait_on_cache_status(path_string);
-
-            if(status != 0) {
-                lstat_response = std::make_pair(status, std::vector<std::byte>(0));
-            } else {
-                assert(CacheTables::md_cache_table.get(path_string).has_value());
-                lstat_response = std::make_pair(status, CacheTables::md_cache_table.get(path_string).value()->get_st_vec_cpy());
-            }
-        }
-#endif
-    }
-
-    if(!cached && lstat_response.first == Constants::fs_operation_success) {
-        LOG(INFO, RPC_METADATA_TAG) << "caching intermediate rpc_lstat_response" << std::endl;
-        const auto lstat_response_copy = new CuStat{lstat_response.second};
-        CacheTables::md_cache_table.put_force(path_string, std::move(*lstat_response_copy));
-    } else if(cached) {
-        LOG(INFO, RPC_METADATA_TAG) << "lstat response already cached" << std::endl;
-    } else {
-        LOG(INFO, RPC_METADATA_TAG) << "lstat response != 0, not caching intermediate rpc_lstat_response" << std::endl;
-    }
-
-#ifdef BLOCK_REDUNDANT_RPCS
-    CacheTables::md_path_status_cache_table.update_cache_status(path_string, lstat_response.first);
-#endif
-
-    if(!dest) {
-        TIME_RPC(req.respond(lstat_response));
-    } else {
-        // NOTE: final response so send status only
-        LOG(INFO, RPC_METADATA_TAG) << "returning final response to client" << std::endl;
-        TIME_RPC(req.respond(lstat_response.first));
+        const auto& parent = NodeTree::get_parent_from_tree(Node::root, my_curr_node_addr);
+        LOG(INFO, RPC_METADATA_TAG) << "parent node: " << parent << std::endl;
+        const lstat_return_type& lstat_response = rpc_lstat.on(get_engine().lookup(parent))(path_string);
+        TIME_RPC(req.respond(static_cast<lstat_return_type>(lstat_response)));
+        CacheTables::md_cache_table.put_force(path_string, CuStat{lstat_response.second});
     }
 }
 
-void ServerLocalCacheProvider::rpcRead(const tl::request& req, const bool dest, const std::string& path_string) const {
+void ServerLocalCacheProvider::rpcRead(const tl::request& req, const std::string& path_string) const {
     const auto& req_from_addr = static_cast<std::string>(req.get_endpoint());
     const auto& my_curr_node_addr = static_cast<std::string>(get_engine().self());
 
     LOG(INFO, RPC_DATA_TAG) << "my address:" << my_curr_node_addr << std::endl;
     LOG(INFO, RPC_DATA_TAG) << "req_coming_from_addr: " << req_from_addr << ", path_string: " << path_string << std::endl;
 
-    read_return_type read_response;
-    bool cached = false;
-
-    // NOTE: check if request can be resolved in local cache
     const auto entry_opt = CacheTables::data_cache_table.get(path_string);
-    if(!dest && entry_opt.has_value()) {
+    // NOTE: check if it is in local cache
+    if(entry_opt.has_value()) {
         LOG(INFO, RPC_DATA_TAG) << "found in local cache" << std::endl;
         const auto bytes = entry_opt.value();
-        read_response = std::make_pair(bytes->size(), std::move(*bytes));
-        cached = true;
-    } else if(Node::root->data == my_curr_node_addr) {
+        TIME_RPC(req.respond(static_cast<read_return_type>(std::make_pair(bytes->size(), *bytes))));
+    }
+    // NOTE: check if we are root
+    else if(Node::root->data == my_curr_node_addr) {
         LOG(INFO, RPC_DATA_TAG) << "requesting data from underlying filesystem" << std::endl;
         try {
-            const std::vector<std::byte>& file_bytes = Util::read_ent_file(path_string, true);
-            read_response = std::make_pair(file_bytes.size(), file_bytes);
+            std::vector<std::byte> file_bytes = Util::read_ent_file(path_string, true);
+            TIME_RPC(req.respond(static_cast<read_return_type>(std::make_pair(file_bytes.size(), file_bytes))));
+            CacheTables::data_cache_table.put_force(path_string, std::move(file_bytes));
         } catch(std::exception& e) {
             LOG(WARNING, RPC_DATA_TAG) << e.what() << std::endl;
-            read_response = std::make_pair(-Constants::fs_operation_error, std::vector<std::byte>(0));
+            TIME_RPC(req.respond(static_cast<read_return_type>(std::make_pair(-Constants::fs_operation_error, std::vector<std::byte>(0)))));
         }
+    // NOTE: we are not root, and it is not in local cache so request data from parent only if we are not the root node
     } else {
-        std::string parentofmynode;
-        NodeTree::getParentfromtree(Node::root, my_curr_node_addr, parentofmynode);
-#ifdef BLOCK_REDUNDANT_RPCS
-        // NOTE: were the first one to make rpc request
-        if(!CacheTables::data_path_status_cache_table.check_and_put_force(path_string)) {
-            LOG(INFO, RPC_DATA_TAG) << "first to request path_string" << std::endl;
-            LOG(INFO, RPC_DATA_TAG) << "going to parent " << parentofmynode << std::endl;
-#endif
-            read_response = std::move(rpc_readfile.on(get_engine().lookup(parentofmynode))(false, path_string));
-#ifdef BLOCK_REDUNDANT_RPCS
-            LOG(INFO, RPC_DATA_TAG) << "returned from parent " << parentofmynode << std::endl;
-        } else {
-            // NOTE: request already made wait for cache to be filled
-            LOG(INFO, RPC_DATA_TAG) << " not first to request path_string, waiting on cache entry..." << std::endl;
-            int status = CacheTables::data_path_status_cache_table.wait_on_cache_status(path_string);
-
-            if(status < 0) {
-                read_response = std::make_pair(status, std::vector<std::byte>(0));
-            } else {
-                assert(CacheTables::data_cache_table.get(path_string).has_value());
-                read_response = std::make_pair(status, *CacheTables::data_cache_table.get(path_string).value());
-            }
-        }
-#endif
-    }
-
-    if(!cached && read_response.first >= 0) {
-        LOG(INFO, RPC_READDIR_TAG) << "caching intermediate rpc_readfile_response" << std::endl;
-        auto read_response_copy = read_response.second;
-        CacheTables::data_cache_table.put_force(path_string, std::move(read_response_copy));
-    } else if(cached) {
-        LOG(INFO, RPC_DATA_TAG) << "readfile response already cached" << std::endl;
-    } else {
-        LOG(INFO, RPC_DATA_TAG) << "readfile response < 0, not caching intermediate rpc_readfile_response" << std::endl;
-    }
-
-#ifdef BLOCK_REDUNDANT_RPCS
-    CacheTables::data_path_status_cache_table.update_cache_status(path_string, read_response.first);
-#endif
-
-    if(!dest) {
-        LOG(INFO, RPC_DATA_TAG) << "byte size: " << read_response.second.size() << std::endl;
-        TIME_RPC(req.respond(read_response));
-    } else {
-        // NOTE: final response so send status only
-        LOG(INFO, RPC_DATA_TAG) << "returning final response to client" << std::endl;
-        TIME_RPC(req.respond(read_response.first));
+        const auto& parent = NodeTree::get_parent_from_tree(Node::root, my_curr_node_addr);
+        read_return_type read_response = rpc_readfile.on(get_engine().lookup(parent))(path_string);
+        TIME_RPC(req.respond(static_cast<read_return_type>(read_response)));
+        CacheTables::data_cache_table.put_force(path_string, std::move(read_response.second));
     }
 }
 
-void ServerLocalCacheProvider::rpcReaddir(const tl::request& req, const bool dest, const std::string& path_string) const {
+void ServerLocalCacheProvider::rpcReaddir(const tl::request& req, const std::string& path_string) const {
     const auto& req_from_addr = static_cast<std::string>(req.get_endpoint());
     const auto& my_curr_node_addr = static_cast<std::string>(get_engine().self());
 
     LOG(INFO, RPC_READDIR_TAG) << "my address:" << my_curr_node_addr << std::endl;
     LOG(INFO, RPC_READDIR_TAG) << "req_coming_from_addr: " << req_from_addr << ", path_string: " << path_string << std::endl;
 
-    readdir_return_type readdir_response;
-
     // NOTE: check if request can be resolved in local cache
     const auto entry_opt = CacheTables::tree_cache_table.get(path_string);
-    bool cached = false;
-
-    if(!dest && entry_opt.has_value()) {
+    // NOTE: check if it is in local cache
+    if(entry_opt.has_value()) {
         LOG(INFO, RPC_READDIR_TAG) << "found in local cache" << std::endl;
-        const auto paths = entry_opt.value();
-        readdir_response = std::make_pair(Constants::fs_operation_success, std::move(*paths));
-        cached = true;
+        TIME_RPC(req.respond(static_cast<readdir_return_type >(std::make_pair(Constants::fs_operation_success, *entry_opt.value()))));
+    // NOTE: check if we are root
     } else if(Node::root->data == my_curr_node_addr) {
         LOG(INFO, RPC_READDIR_TAG) << "requesting data from underlying filesystem" << std::endl;
         auto entries = std::vector<std::string>{};
         DIR* dp = opendir(path_string.c_str());
         if(dp == nullptr) {
             LOG(WARNING) << "failed to passthrough readdir" << std::endl;
-            readdir_response = std::make_pair(-errno, std::vector<std::string>{});
+            TIME_RPC(req.respond(static_cast<readdir_return_type >(std::make_pair(-errno, std::vector<std::string>{}))));
         } else {
             dirent* de;
             while((de = readdir(dp)) != nullptr) {
@@ -192,53 +109,14 @@ void ServerLocalCacheProvider::rpcReaddir(const tl::request& req, const bool des
             }
             closedir(dp);
 
-            readdir_response = std::make_pair(Constants::fs_operation_success, entries);
+            TIME_RPC(req.respond(static_cast<readdir_return_type >(std::make_pair(Constants::fs_operation_success, entries))));
+            CacheTables::tree_cache_table.put_force(path_string, std::move(entries));
         }
+    // NOTE: we are not root, and it is not in local cache so request data from parent only if we are not the root node
     } else {
-        std::string parentofmynode;
-        NodeTree::getParentfromtree(Node::root, my_curr_node_addr, parentofmynode);
-#ifdef BLOCK_REDUNDANT_RPCS
-        // NOTE: were the first one to make rpc request
-        if(!CacheTables::tree_path_status_cache_table.check_and_put_force(path_string)) {
-            LOG(INFO, RPC_READDIR_TAG) << "first to request path_string" << std::endl;
-            LOG(INFO, RPC_READDIR_TAG) << "going to parent " << parentofmynode << std::endl;
-#endif
-            readdir_response = std::move(rpc_readdir.on(get_engine().lookup(parentofmynode))(false, path_string));
-#ifdef BLOCK_REDUNDANT_RPCS
-            LOG(INFO, RPC_READDIR_TAG) << "returned from parent " << parentofmynode << std::endl;
-        } else { // NOTE: request already made wait for cache to be filled
-            LOG(INFO, RPC_READDIR_TAG) << " not first to request path_string, waiting on cache entry..." << std::endl;
-            const auto status = CacheTables::tree_path_status_cache_table.wait_on_cache_status(path_string);
-
-            if(status != 0) {
-                readdir_response = std::make_pair(status, std::vector<std::string>());
-            } else {
-                assert(CacheTables::tree_cache_table.get(path_string).has_value());
-                readdir_response = std::make_pair(status, *CacheTables::tree_cache_table.get(path_string).value());
-            }
-        }
-#endif
-    }
-
-    if(!cached && readdir_response.first == Constants::fs_operation_success) {
-        LOG(INFO, RPC_READDIR_TAG) << "caching intermediate rpc_readfile_response" << std::endl;
-        auto readdir_response_copy = readdir_response.second;
-        CacheTables::tree_cache_table.put_force(path_string, std::move(readdir_response_copy));
-    } else if(cached) {
-        LOG(INFO, RPC_READDIR_TAG) << "readdir response already cached" << std::endl;
-    } else {
-        LOG(INFO, RPC_READDIR_TAG) << "readdir response != 0, not caching intermediate rpc_readfile_response" << std::endl;
-    }
-
-#ifdef BLOCK_REDUNDANT_RPCS
-    CacheTables::tree_path_status_cache_table.update_cache_status(path_string, readdir_response.first);
-#endif
-
-    if(!dest) {
-        TIME_RPC(req.respond(readdir_response));
-    } else {
-        // NOTE: final response so send status only
-        LOG(INFO, RPC_READDIR_TAG) << "returning final response to client" << std::endl;
-        TIME_RPC(req.respond(readdir_response.first));
+        const auto& parent = NodeTree::get_parent_from_tree(Node::root, my_curr_node_addr);
+        readdir_return_type readdir_response = rpc_readdir.on(get_engine().lookup(parent))(path_string);
+        TIME_RPC(req.respond(static_cast<readdir_return_type>(readdir_response)));
+        CacheTables::tree_cache_table.put_force(path_string, std::move(readdir_response.second));
     }
 }

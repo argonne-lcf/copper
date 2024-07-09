@@ -3,6 +3,7 @@
 
 #include <condition_variable>
 #include <string>
+#include <cassert>
 
 #include "../aixlog.h"
 #include "cache.h"

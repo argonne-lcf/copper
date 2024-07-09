@@ -151,18 +151,9 @@ std::optional<std::ofstream> Util::try_get_fstream_from_path(const char* path) {
         return std::nullopt;
     }
 
-    LOG(DEBUG) << "succesfully opened path: " << output_path_string << std::endl;
+    LOG(DEBUG) << "successfully opened path: " << output_path_string << std::endl;
 
     return file;
-}
-
-std::string Util::get_current_datetime() {
-    const time_t now = time(nullptr);
-    char buf[80];
-    const tm tstruct = *localtime(&now);
-    strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
-
-    return buf;
 }
 
 #define GET_FS_STREAM(path_string, filename)                                     \
