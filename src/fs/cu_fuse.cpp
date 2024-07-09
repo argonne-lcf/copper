@@ -48,7 +48,7 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
 
         if(!CacheTables::md_cache_table.get(path_string).has_value()) {
             LOG(ERROR) << "expected value to exist after rpc caching" << std::endl;
-            return -ENOENT;
+            assert(0);
         }
     }
 
@@ -87,7 +87,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
 
         if(!CacheTables::data_cache_table.get(path_string).has_value()) {
             LOG(ERROR) << "expected value to exist after rpc caching" << std::endl;
-            return -1;
+            assert(0);
         }
 
         bytes = CacheTables::data_cache_table.get(path_string).value();
@@ -140,7 +140,7 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
 
         if(!CacheTables::tree_cache_table.get(path_string).has_value()) {
             LOG(ERROR) << "expected value to exist after rpc caching" << std::endl;
-            return -ENOENT;
+            assert(0);
         }
 
         entries = *CacheTables::tree_cache_table.get(path_string).value();

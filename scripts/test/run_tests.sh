@@ -5,7 +5,7 @@
 #     1. view
 #     2. target
 #     3. view_and_target
-export WHAT_TO_TEST=target
+export WHAT_TO_TEST=view
 
 SCRIPT=$(realpath -s "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
@@ -39,8 +39,8 @@ mkdir -p $TEST_OUTPUT_TARGET_DIR
 export VIEW_SCRIPT_PATH=$SCRIPTS_DIR/test/view_test.py
 export TARGET_SCRIPT_PATH=$SCRIPTS_DIR/test/target_test.py
 
-module use /soft/preview-modulefiles/24.086.0
-module load frameworks/2024.04.15.002
+# module use /soft/preview-modulefiles/24.086.0
+# module load frameworks/2024.04.15.002
 
 python3 driver.py | tee "$TEST_OUTPUT_DIR/driver_output.stdout"
 

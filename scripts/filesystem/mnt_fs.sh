@@ -48,8 +48,17 @@ else
   mkdir -p "$LOG_OUTPUT_DIR"
 fi
 
+
+if [[ $SINGLE_THREADED_FUSE == "ON" ]]; then
+  echo "running fuse in single-threaded mode"
+  export ST="-s"
+else
+  echo "running fuse in multi-threaded mode"
+fi
+
 echo "removing old logs"
 rm "$LOG_OUTPUT_DIR"/*
+
 
 echo "mounting fuse distributed cache to view dir"
 $FUSE_FS -tpath $TARGET_DIR                \
@@ -57,7 +66,7 @@ $FUSE_FS -tpath $TARGET_DIR                \
          -log_level $LOG_LEVEL             \
          -log_type $LOG_TYPE               \
          -log_output_dir $LOG_OUTPUT_DIR \
-         -f $VIEW_DIR # add -d for debugging fuse # chance of issue with -s # to check noah
+         -f $ST $VIEW_DIR # add -d for debugging fuse # chance of issue with -s # to check noah
 
 
 fusermount -u "$VIEW_DIR" || true

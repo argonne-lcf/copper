@@ -8,10 +8,10 @@ std::ostream& MDCacheTable::get_data_size_metrics(std::ostream& os) {
     std::size_t num_elements = 0;
 
     os << "all entries should be 144 bytes" << std::endl;
-    for(const auto& entry : CacheTables::md_cache_table.cache) {
+    for(auto& entry : CacheTables::md_cache_table.cache) {
         const auto& path = entry.first;
 
-        os << path << ": " << entry.second.get_st_vec_cpy().size() << std::endl;
+        os << path << ": " << entry.second.get_vec().size() << std::endl;
 
         num_bytes += 144;
         num_elements++;
