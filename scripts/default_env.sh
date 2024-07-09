@@ -8,6 +8,10 @@ export PY_PACKAGES_DIR=
 export FUSE3_LIB=
 # set to location of fuse header directory required to build
 export FUSE3_INCLUDE=
+# set to either ON/OFF to enable/disable blocking redundant rpcs
+export BLOCK_REDUNDANT_RPCS=ON
+# set to either ON/OFF to enable/disable single-threaded fuse
+export SINGLE_THREADED_FUSE=ON
 
 # log settings
 # 0-6 from most amount of information to least

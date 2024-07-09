@@ -7,6 +7,13 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_COMPILER mpicxx)
 
+if (BLOCK_REDUNDANT_RPCS)
+    message(STATUS "BLOCK_REDUNDANT_RPC is enabled")
+    add_definitions(-DBLOCK_REDUNDANT_RPCS=1)
+else()
+    message(STATUS "BLOCK_REDUNDANT_RPC is not enabled")
+endif()
+
 if(NOT DEFINED FUSE3_INCLUDE)
     message(FATAL_ERROR "Required variable FUSE3_INCLUDE is not defined. Please set -DFUSE3_INCLUDE=<path> when invoking CMake.")
 endif()
