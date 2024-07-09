@@ -10,7 +10,7 @@ export FUSE3_LIB=
 export FUSE3_INCLUDE=
 # set to either ON/OFF to enable/disable blocking redundant rpcs
 export BLOCK_REDUNDANT_RPCS=ON
-# set to either ON/OFF to enable/disable single-threaded fuse
+# set to either ON/OFF to enable/disable fuse single-threaded/multi-threaded
 export SINGLE_THREADED_FUSE=ON
 
 # log settings

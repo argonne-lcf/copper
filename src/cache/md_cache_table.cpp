@@ -11,7 +11,7 @@ std::ostream& MDCacheTable::get_data_size_metrics(std::ostream& os) {
     for(const auto& entry : CacheTables::md_cache_table.cache) {
         const auto& path = entry.first;
 
-        os << path << ": " << entry.second.get_st_vec_cpy().size() << std::endl;
+        os << path << ": " << entry.second.get_vec().size() << std::endl;
 
         num_bytes += 144;
         num_elements++;
