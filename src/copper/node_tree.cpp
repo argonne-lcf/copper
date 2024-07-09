@@ -273,13 +273,17 @@ void NodeTree::parse_nodelist_from_cxi_address_book() {
 
 std::string NodeTree::get_parent_from_tree(const Node* node, const std::string& my_curr_node_addr) {
     if(my_curr_node_addr == node->data) {
-       return node->my_parent->data;
+       if(node->my_parent != nullptr) {
+           return node->my_parent->data;
+       } else {
+           // NOTE: we are the root node
+           return node->data;
+       }
     }
 
     for(Node* child : node->children) {
         return NodeTree::get_parent_from_tree(child, my_curr_node_addr);
     }
 
-    // NOTE: we are the root node so just make rpc to us
-    return node->my_parent->data;
+    assert(0);
 }
