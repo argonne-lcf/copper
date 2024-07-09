@@ -48,7 +48,8 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
 
         if(!CacheTables::md_cache_table.get(path_string).has_value()) {
             LOG(ERROR) << "expected value to exist after rpc caching" << std::endl;
-            return -ENOENT;
+            return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
+            CacheEvent::md_cache_event_table, path_string, start, -ENOENT);
         }
     }
 
@@ -65,7 +66,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::read, path_);
     CHECK_RECURSIVE(path_string);
 
-    const auto entry_opt = CacheTables::data_cache_table.get(path_string);
+    const auto& entry_opt = CacheTables::data_cache_table.get(path_string);
     std::vector<std::byte>* bytes = nullptr;
     bool cache = false;
 
@@ -87,7 +88,8 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
 
         if(!CacheTables::data_cache_table.get(path_string).has_value()) {
             LOG(ERROR) << "expected value to exist after rpc caching" << std::endl;
-            return -1;
+            return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
+            CacheEvent::data_cache_event_table, path_string, start, -ENOENT);
         }
 
         bytes = CacheTables::data_cache_table.get(path_string).value();
@@ -140,7 +142,8 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
 
         if(!CacheTables::tree_cache_table.get(path_string).has_value()) {
             LOG(ERROR) << "expected value to exist after rpc caching" << std::endl;
-            return -ENOENT;
+            return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::neg,
+            CacheEvent::md_cache_event_table, path_string, start, -ENOENT);
         }
 
         entries = *CacheTables::tree_cache_table.get(path_string).value();

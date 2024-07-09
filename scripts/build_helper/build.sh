@@ -1,5 +1,4 @@
 #!/bin/bash
-set -o nounset
 
 # module use /soft/preview-modulefiles/24.086.0
 # module load frameworks/2024.04.15.002
@@ -38,10 +37,11 @@ else
 	mkdir build
 fi
 
-cmake -DCMAKE_VERBOSE_MAKEFILE=ON        \
-      -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-      -DFUSE3_LIB=$FUSE3_LIB             \
-      -DFUSE3_INCLUDE=$FUSE3_INCLUDE     \
+cmake -DBLOCK_REDUNDANT_RPCS="$BLOCK_REDUNDANT_RPCS" \
+      -DCMAKE_VERBOSE_MAKEFILE=ON                    \
+      -DCMAKE_EXPORT_COMPILE_COMMANDS=ON             \
+      -DFUSE3_LIB="$FUSE3_LIB"                       \
+      -DFUSE3_INCLUDE="$FUSE3_INCLUDE"               \
       -Bbuild || { echo "Failed to create compile commands"; exit 1; }
 cp build/compile_commands.json . || { echo "Failed to copy compile commands"; exit 1; }
 
