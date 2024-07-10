@@ -31,7 +31,7 @@ def reset_fs():
     reset_fs_script = os.path.join(os.environ.get('SCRIPTS_DIR'), 'filesystem_ioctl', 'get_all_metrics.sh')
     command = [reset_fs_script]
     try:
-        result = subprocess.run(command, capture_output=True, text=True, check=True)
+        subprocess.run(command, capture_output=True, text=True, check=True)
     except subprocess.CalledProcessError as e:
         print(e.stdout)
         if e.stderr:
@@ -48,29 +48,37 @@ def run_script(view_dir, packages_dir, view, get_metrics, script_path, output_fo
     try:
         env = os.environ.copy()
         # Save the original PYTHONPATH
-        original_python_path = os.environ.get('PYTHONPATH', '')
+        original_python_path = env.get('PYTHONPATH', '')
         # Set the new PYTHONPATH
         new_python_path = packages_dir
 
+        print(f"{hostname}-{test_id}: packages_dir: {packages_dir}")
+
         # prepend mount directory
         if view:
+            print(f"{hostname}-{test_id}: view dir: {view_dir}")
+            print(f"{hostname}-{test_id}: prepending view dir to packages dir")
             new_python_path = view_dir + "/" + packages_dir
 
+
+        print(f"{hostname}-{test_id}: appending new_python_path: {new_python_path}")
         start_time = time.time()
         env['PYTHONPATH'] = f"{original_python_path}:{new_python_path}" if original_python_path else new_python_path
         print(f"{hostname}-{test_id}: using PYTHONPATH: {env['PYTHONPATH']}")
         print(f"{hostname}-{test_id}: start_time: {start_time}")
+
         with open(script_output, 'a') as f:
-            subprocess.run(['python3', script_path], stdout=f, check=True)
+            subprocess.run(['python3', script_path], stdout=f, check=True, env=env)
+
         end_time = time.time()
+        print(f"{hostname}-{test_id}: end_time: {end_time}")
 
         # Restore the original PYTHONPATH
         if original_python_path:
-            os.environ['PYTHONPATH'] = original_python_path
+            env['PYTHONPATH'] = original_python_path
         else:
-            del os.environ['PYTHONPATH']
+            env.pop('PYTHONPATH', None)
 
-        print(f"{hostname}-{test_id}: end_time: {end_time}")
         total_time = end_time - start_time
         print(f"{hostname}-{test_id}: total time - {total_time}")
 

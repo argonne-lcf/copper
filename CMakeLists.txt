@@ -8,10 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_COMPILER mpicxx)
 
 if (BLOCK_REDUNDANT_RPCS)
-    message(STATUS "BLOCK_REDUNDANT_RPC is enabled")
+    message(STATUS "BLOCK_REDUNDANT_RPCS is enabled")
     add_definitions(-DBLOCK_REDUNDANT_RPCS=1)
 else()
-    message(STATUS "BLOCK_REDUNDANT_RPC is not enabled")
+    message(STATUS "BLOCK_REDUNDANT_RPCS is not enabled")
 endif()
 
 if(NOT DEFINED FUSE3_INCLUDE)
