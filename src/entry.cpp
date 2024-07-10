@@ -64,10 +64,10 @@ int main(int argc, const char** argv) {
     NodeTree::get_hsn0_cxi_addr();
     NodeTree::parse_nodelist_from_cxi_address_book();
     Node::root = NodeTree::build_my_tree(Node::root, ServerLocalCacheProvider::node_address_data);
-    NodeTree::printTree(Node::root);
+    NodeTree::print_tree(Node::root);
     int tree_depth = NodeTree::depth(Node::root);
     LOG(INFO) << "the depth of the tree is: " << tree_depth << std::endl;
-    NodeTree::prettyPrintTree(Node::root, tree_depth);
+    NodeTree::pretty_print_tree(Node::root, tree_depth);
 
     LOG(INFO) << "server running at address: " << serverEngine.self() << std::endl;
     serverEngine.enable_remote_shutdown();
