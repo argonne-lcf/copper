@@ -61,10 +61,6 @@ void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest,
 #endif
     }
 
-#ifdef BLOCK_REDUNDANT_RPCS
-    CacheTables::md_path_status_cache_table.update_cache_status(path_string, lstat_response.first);
-#endif
-
     if(!cached && lstat_response.first == Constants::fs_operation_success) {
         LOG(INFO, RPC_METADATA_TAG) << "caching intermediate rpc_lstat_response" << std::endl;
         CacheTables::md_cache_table.put_force(path_string, CuStat{lstat_response.second});
@@ -73,6 +69,10 @@ void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest,
     } else {
         LOG(INFO, RPC_METADATA_TAG) << "lstat response != 0, not caching intermediate rpc_lstat_response" << std::endl;
     }
+
+#ifdef BLOCK_REDUNDANT_RPCS
+    CacheTables::md_path_status_cache_table.update_cache_status(path_string, lstat_response.first);
+#endif
 
     if(!dest) {
         TIME_RPC(req.respond(lstat_response));
@@ -137,10 +137,6 @@ void ServerLocalCacheProvider::rpcRead(const tl::request& req, const bool dest, 
 #endif
     }
 
-#ifdef BLOCK_REDUNDANT_RPCS
-    CacheTables::data_path_status_cache_table.update_cache_status(path_string, read_response.first);
-#endif
-
     if(!cached && read_response.first >= 0) {
         LOG(INFO, RPC_READDIR_TAG) << "caching intermediate rpc_readfile_response" << std::endl;
         CacheTables::data_cache_table.put_force(path_string, std::vector<std::byte>(read_response.second));
@@ -149,6 +145,10 @@ void ServerLocalCacheProvider::rpcRead(const tl::request& req, const bool dest, 
     } else {
         LOG(INFO, RPC_DATA_TAG) << "readfile response < 0, not caching intermediate rpc_readfile_response" << std::endl;
     }
+
+#ifdef BLOCK_REDUNDANT_RPCS
+    CacheTables::data_path_status_cache_table.update_cache_status(path_string, read_response.first);
+#endif
 
     if(!dest) {
         LOG(INFO, RPC_DATA_TAG) << "byte size: " << read_response.second.size() << std::endl;

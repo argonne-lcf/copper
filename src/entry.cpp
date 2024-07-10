@@ -62,7 +62,7 @@ int main(int argc, const char** argv) {
     }
     
     NodeTree::push_back_address(Constants::my_hostname, serverEngine.self());
-    LOG(INFO) << "wrote adderss sleeping for synchronization" << std::endl;
+    LOG(INFO) << "wrote address sleeping for synchronization" << std::endl;
     sleep(10);
     NodeTree::parse_nodelist_from_cxi_address_book();
     Node::root = NodeTree::build_my_tree(Node::root, ServerLocalCacheProvider::node_address_data);
@@ -77,7 +77,8 @@ int main(int argc, const char** argv) {
     ServerLocalCacheProvider::rpc_readfile = serverEngine.define("rpc_readfile");
     ServerLocalCacheProvider::rpc_readdir = serverEngine.define("rpc_readdir");
     new ServerLocalCacheProvider{serverEngine, ServerLocalCacheProvider::node_address_data};
-    sleep(20); //  barrier issue: all process need to wait until the server is created.
+    LOG(INFO) << "created engine sleeping for synchronization" << std::endl;
+    sleep(10); //  barrier issue: all process need to wait until the server is created.
 
     LOG(INFO) << "main pid: " << getpid() << " " << std::endl;
     pthread_t tid;
