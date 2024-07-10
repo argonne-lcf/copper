@@ -55,6 +55,8 @@ void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest,
                 assert(CacheTables::md_cache_table.get(path_string).has_value());
                 lstat_response = std::make_pair(status, CacheTables::md_cache_table.get(path_string).value()->get_vec());
             }
+
+            cached = true;
         }
 #endif
     }
@@ -129,6 +131,8 @@ void ServerLocalCacheProvider::rpcRead(const tl::request& req, const bool dest, 
                 assert(CacheTables::data_cache_table.get(path_string).has_value());
                 read_response = std::make_pair(status, *CacheTables::data_cache_table.get(path_string).value());
             }
+
+            cached = true;
         }
 #endif
     }
@@ -210,6 +214,8 @@ void ServerLocalCacheProvider::rpcReaddir(const tl::request& req, const bool des
                 assert(CacheTables::tree_cache_table.get(path_string).has_value());
                 readdir_response = std::make_pair(status, *CacheTables::tree_cache_table.get(path_string).value());
             }
+
+            cached = true;
         }
 #endif
     }
