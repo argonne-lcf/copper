@@ -31,14 +31,14 @@ def reset_fs():
     reset_fs_script = os.path.join(os.environ.get('SCRIPTS_DIR'), 'filesystem_ioctl', 'get_all_metrics.sh')
     command = [reset_fs_script]
     try:
-        result = subprocess.run(command, capture_output=True, text=True, check=True)
+        subprocess.run(command, capture_output=True, text=True, check=True)
     except subprocess.CalledProcessError as e:
         print(e.stdout)
         if e.stderr:
             print(e.stderr)
         sys.exit(1)
 
-def run_script(get_metrics, script_path, output_folder, time_output_path):
+def run_script(view_dir, packages_dir, view, get_metrics, script_path, output_folder, time_output_path):
     hostname = os.environ.get('HOSTNAME')
     test_id = os.environ.get('TEST_ID')
     print(f'{hostname}-{test_id}: {script_path} - start run')
@@ -46,12 +46,39 @@ def run_script(get_metrics, script_path, output_folder, time_output_path):
     script_output = os.path.join(output_folder, script_stdout)
 
     try:
+        env = os.environ.copy()
+        # Save the original PYTHONPATH
+        original_python_path = env.get('PYTHONPATH', '')
+        # Set the new PYTHONPATH
+        new_python_path = packages_dir
+
+        print(f"{hostname}-{test_id}: packages_dir: {packages_dir}")
+
+        # prepend mount directory
+        if view:
+            print(f"{hostname}-{test_id}: view dir: {view_dir}")
+            print(f"{hostname}-{test_id}: prepending view dir to packages dir")
+            new_python_path = view_dir + "/" + packages_dir
+
+
+        print(f"{hostname}-{test_id}: appending new_python_path: {new_python_path}")
         start_time = time.time()
+        env['PYTHONPATH'] = f"{original_python_path}:{new_python_path}" if original_python_path else new_python_path
+        print(f"{hostname}-{test_id}: using PYTHONPATH: {env['PYTHONPATH']}")
         print(f"{hostname}-{test_id}: start_time: {start_time}")
+
         with open(script_output, 'a') as f:
-            subprocess.run(['python3', script_path], stdout=f, check=True)
+            subprocess.run(['python3', script_path], stdout=f, check=True, env=env)
+
         end_time = time.time()
         print(f"{hostname}-{test_id}: end_time: {end_time}")
+
+        # Restore the original PYTHONPATH
+        if original_python_path:
+            env['PYTHONPATH'] = original_python_path
+        else:
+            env.pop('PYTHONPATH', None)
+
         total_time = end_time - start_time
         print(f"{hostname}-{test_id}: total time - {total_time}")
 
@@ -79,19 +106,20 @@ def main():
         print("Invalid value for WHAT_TO_TEST.")
         sys.exit(1)
 
-    scripts_dir = os.environ.get('SCRIPTS_DIR')
+    view_dir = os.environ.get('VIEW_DIR')
+    packages_dir = os.environ.get('PY_PACKAGES_DIR')
 
     if what_to_test in ["view_and_target", "view"]:
         view_script_path = os.environ.get('VIEW_SCRIPT_PATH')
         view_output_dir = os.environ.get('TEST_OUTPUT_VIEW_DIR')
         test_time_view_path = os.environ.get('TEST_TIME_VIEW_PATH')
-        run_script(True, view_script_path, view_output_dir, test_time_view_path)
+        run_script(view_dir, packages_dir, True, True, view_script_path, view_output_dir, test_time_view_path)
 
     if what_to_test in ["view_and_target", "target"]:
         target_script_path = os.environ.get('TARGET_SCRIPT_PATH')
         target_output_dir = os.environ.get('TEST_OUTPUT_TARGET_DIR')
         test_time_target_path = os.environ.get('TEST_TIME_TARGET_PATH')
-        run_script(False, target_script_path, target_output_dir, test_time_target_path)
+        run_script(view_dir, packages_dir, False, False, target_script_path, target_output_dir, test_time_target_path)
 
 if __name__ == "__main__":
     main()
