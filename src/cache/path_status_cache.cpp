@@ -1,5 +1,4 @@
 #include "path_status_cache.h"
-#include "cache_tables.h"
 
 bool PathStatusCache::check_and_put_force(const Key& key) {
     std::lock_guard guard(mtx);
