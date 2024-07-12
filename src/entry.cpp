@@ -60,14 +60,16 @@ int main(int argc, const char** argv) {
     for(std::string& str : new_args) {
         ptrs.push_back(str.data());
     }
-
-    NodeTree::get_hsn0_cxi_addr();
+    
+    NodeTree::push_back_address(Constants::my_hostname, serverEngine.self());
+    LOG(INFO) << "wrote address sleeping for synchronization" << std::endl;
+    sleep(10);
     NodeTree::parse_nodelist_from_cxi_address_book();
     Node::root = NodeTree::build_my_tree(Node::root, ServerLocalCacheProvider::node_address_data);
-    NodeTree::printTree(Node::root);
+    NodeTree::print_tree(Node::root);
     int tree_depth = NodeTree::depth(Node::root);
     LOG(INFO) << "the depth of the tree is: " << tree_depth << std::endl;
-    NodeTree::prettyPrintTree(Node::root, tree_depth);
+    NodeTree::pretty_print_tree(Node::root, tree_depth);
 
     LOG(INFO) << "server running at address: " << serverEngine.self() << std::endl;
     serverEngine.enable_remote_shutdown();
@@ -75,7 +77,8 @@ int main(int argc, const char** argv) {
     ServerLocalCacheProvider::rpc_readfile = serverEngine.define("rpc_readfile");
     ServerLocalCacheProvider::rpc_readdir = serverEngine.define("rpc_readdir");
     new ServerLocalCacheProvider{serverEngine, ServerLocalCacheProvider::node_address_data};
-    sleep(20); //  barrier issue: all process need to wait until the server is created.
+    LOG(INFO) << "created engine sleeping for synchronization" << std::endl;
+    sleep(10); //  barrier issue: all process need to wait until the server is created.
 
     LOG(INFO) << "main pid: " << getpid() << " " << std::endl;
     pthread_t tid;

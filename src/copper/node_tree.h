@@ -38,9 +38,9 @@ class Node {
 
 class NodeTree {
     public:
-    static void printTree(Node* node);
-    static void prettyPrintTree(Node* root, int depth, int dep_counter = 0);
-    static void getParentfromtree(Node* CopyofTree, const std::string& my_curr_node_addr, std::string& parentofmynode);
+    static void print_tree(Node* node);
+    static void pretty_print_tree(Node* root, int depth, int dep_counter = 0);
+    static void get_parent_from_tree(Node* CopyofTree, const std::string& my_curr_node_addr, std::string& parentofmynode);
     static int depth(Node* root);
     static Node* build_my_tree(Node* root, std::vector<std::string> node_address_data);
     static void push_back_address(const std::string& hostname, const std::string& my_cxi_server_ip_hex_str);

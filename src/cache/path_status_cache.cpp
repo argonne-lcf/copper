@@ -1,5 +1,4 @@
 #include "path_status_cache.h"
-#include "cache_tables.h"
 
 bool PathStatusCache::check_and_put_force(const Key& key) {
     std::lock_guard guard(mtx);
@@ -27,9 +26,8 @@ void PathStatusCache::update_cache_status(const Key& key, const int status) {
 int PathStatusCache::wait_on_cache_status(const Key& key) {
     std::unique_lock lock(mtx);
 
-    if(!cache[key].has_value()) {
-        auto pred = [&]() { return cache[key].has_value(); };
-        cv.wait(lock, pred);
-    }
+    auto pred = [&]() { return cache[key].has_value(); };
+    cv.wait(lock, pred);
+
     return cache[key].value();
 }

@@ -23,6 +23,10 @@ export LOG_LEVEL=1
 export LOG_TYPE=file_and_stdout
 # only used if LOG_TYPE=file/file_and_stdout
 export LOG_OUTPUT_DIR=$(readlink -f ~/copper_logs)
+# set to either ON/OFF to enable/disable blocking redundant rpcs
+export BLOCK_REDUNDANT_RPCS=ON
+# set to either ON/OFF to enable/disable fuse single-threaded/multi-threaded
+export SINGLE_THREADED_FUSE=OFF
 
 export ROOT_DIR=$(readlink -f "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/..")
 export SCRIPTS_DIR="$ROOT_DIR"/scripts
