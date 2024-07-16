@@ -74,12 +74,15 @@ void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest,
     CacheTables::md_path_status_cache_table.update_cache_status(path_string, lstat_response.first);
 #endif
 
+    auto filename = "lstat_rpc.txt";
     if(!dest) {
-        TIME_RPC(req.respond(lstat_response));
+	int byte_size = lstat_response.second.size();
+        TIME_RPC_TO_FILE(req.respond(lstat_response), filename, byte_size);
     } else {
         // NOTE: final response so send status only
         LOG(INFO, RPC_METADATA_TAG) << "returning final response to client" << std::endl;
-        TIME_RPC(req.respond(lstat_response.first));
+	int byte_size = sizeof(int);
+        TIME_RPC_TO_FILE(req.respond(lstat_response.first), filename, byte_size);
     }
 }
 
@@ -150,13 +153,16 @@ void ServerLocalCacheProvider::rpcRead(const tl::request& req, const bool dest, 
     CacheTables::data_path_status_cache_table.update_cache_status(path_string, read_response.first);
 #endif
 
+    auto filename = "read_rpc.txt";
     if(!dest) {
         LOG(INFO, RPC_DATA_TAG) << "byte size: " << read_response.second.size() << std::endl;
-        TIME_RPC(req.respond(read_response));
+	int byte_size = read_response.second.size();
+        TIME_RPC_TO_FILE(req.respond(read_response), filename, byte_size);
     } else {
         // NOTE: final response so send status only
         LOG(INFO, RPC_DATA_TAG) << "returning final response to client" << std::endl;
-        TIME_RPC(req.respond(read_response.first));
+	int byte_size = sizeof(int);
+        TIME_RPC_TO_FILE(req.respond(read_response.first), filename, byte_size);
     }
 }
 

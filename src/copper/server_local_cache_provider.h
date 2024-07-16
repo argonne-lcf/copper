@@ -37,6 +37,29 @@
 #define RPC_READDIR_TAG "rpc_readdir"
 #define RPC_TAG "rpc"
 
+#define START_RPC_TIMER_TO_FILE(thread_location)                                                                                         \
+    LOG(TRACE, RPC_TAG) << __FUNCTION__ << " " << thread_location << " rpc timer for path_string: " << path_string << std::endl; \
+    LOG(TRACE, RPC_TAG) << __FUNCTION__ << " " << thread_location << " starting rpc timer" << std::endl;                         \
+    auto rpc_start = std::chrono::high_resolution_clock::now();
+
+#define STOP_RPC_TIMER_TO_FILE(thread_location, file_name, byte_size)                                                                                              \
+    {                                                                                                                                \
+        LOG(TRACE, RPC_TAG) << __FUNCTION__ << " " << thread_location << " stopping rpc timer" << std::endl;                         \
+        auto rpc_end = std::chrono::high_resolution_clock::now();                                                                    \
+        std::chrono::duration<double, std::milli> rpc_diff = rpc_end - rpc_start;                                                    \
+        LOG(TRACE, RPC_TAG) << __FUNCTION__ << " " thread_location << " total rpc time: " << rpc_diff.count() << " ms" << std::endl; \
+        std::ofstream ofs(std::filesystem::path(std::getenv("HOME")) / file_name, std::ios_base::app);                                \
+        if (ofs.is_open()) {                                                                                                         \
+            ofs << byte_size << "," << rpc_diff.count() << std::endl;                                      \
+        }                                                                                                                            \
+    }
+
+#define TIME_RPC_TO_FILE(expression, file_name, byte_size)         \
+    START_RPC_TIMER_TO_FILE("copper thread") \
+    expression;                                            \
+    STOP_RPC_TIMER_TO_FILE("copper thread", file_name, byte_size)
+
+
 #define START_RPC_TIMER(thread_location)                                                                                         \
     LOG(TRACE, RPC_TAG) << __FUNCTION__ << " " << thread_location << " rpc timer for path_string: " << path_string << std::endl; \
     LOG(TRACE, RPC_TAG) << __FUNCTION__ << " " << thread_location << " starting rpc timer" << std::endl;                         \

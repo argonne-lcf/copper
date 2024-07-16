@@ -5,7 +5,7 @@
 #     1. view
 #     2. target
 #     3. view_and_target
-export WHAT_TO_TEST=view_and_target
+export WHAT_TO_TEST=view
 
 SCRIPT=$(realpath -s "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")

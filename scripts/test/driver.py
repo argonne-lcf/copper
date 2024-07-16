@@ -17,8 +17,8 @@ def check_environment_variables():
             sys.exit(1)
 
 def get_all_metrics(folder):
-    reset_fs_script = os.path.join(os.environ.get('SCRIPTS_DIR'), 'filesystem_ioctl', 'get_all_metrics.sh')
-    command = [reset_fs_script, folder]
+    get_all_metrics_script = os.path.join(os.environ.get('SCRIPTS_DIR'), 'filesystem_ioctl', 'get_all_metrics.sh')
+    command = [get_all_metrics_script, folder]
     try:
         subprocess.run(command, capture_output=True, text=True, check=True)
     except subprocess.CalledProcessError as e:
@@ -63,7 +63,7 @@ def run_script(view_dir, packages_dir, view, get_metrics, script_path, output_fo
 
         print(f"{hostname}-{test_id}: appending new_python_path: {new_python_path}")
         start_time = time.time()
-        env['PYTHONPATH'] = f"{original_python_path}:{new_python_path}" if original_python_path else new_python_path
+        env['PYTHONPATH'] = f"{new_python_path}:{original_python_path}" if original_python_path else new_python_path
         print(f"{hostname}-{test_id}: using PYTHONPATH: {env['PYTHONPATH']}")
         print(f"{hostname}-{test_id}: start_time: {start_time}")
 
