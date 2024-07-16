@@ -63,7 +63,7 @@ def run_script(view_dir, packages_dir, view, get_metrics, script_path, output_fo
 
         print(f"{hostname}-{test_id}: appending new_python_path: {new_python_path}")
         start_time = time.time()
-        env['PYTHONPATH'] = f"{original_python_path}:{new_python_path}" if original_python_path else new_python_path
+        env['PYTHONPATH'] = f"{new_python_path}:{original_python_path}" if original_python_path else new_python_path
         print(f"{hostname}-{test_id}: using PYTHONPATH: {env['PYTHONPATH']}")
         print(f"{hostname}-{test_id}: start_time: {start_time}")
 
