@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.6)
 
 set(PROJECT_NAME cu_fuse)
+set(SHUTDOWN_PROJECT_NAME cu_fuse_shutdown)
 project(${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 20)
@@ -55,6 +56,11 @@ set(SOURCES
     src/cache/path_status_cache.cpp
 )
 
+set(SHUTDOWN_SOURCES src_shutdown/rpc_shutdown.cpp)
+
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${FUSE3_INCLUDE}")
 target_link_libraries(${PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM fuse3)
+
+add_executable(${SHUTDOWN_PROJECT_NAME} ${SHUTDOWN_SOURCES})
+target_link_libraries(${SHUTDOWN_PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM fuse3)
