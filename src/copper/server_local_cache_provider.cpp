@@ -71,7 +71,7 @@ void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest,
     }
 
 #ifdef BLOCK_REDUNDANT_RPCS
-    CacheTables::md_path_status_cache_table.update_cache_status(path_string, lstat_response.first);
+    //CacheTables::md_path_status_cache_table.update_cache_status(path_string, lstat_response.first);
 #endif
 
     if(!dest) {
@@ -147,7 +147,7 @@ void ServerLocalCacheProvider::rpcRead(const tl::request& req, const bool dest, 
     }
 
 #ifdef BLOCK_REDUNDANT_RPCS
-    CacheTables::data_path_status_cache_table.update_cache_status(path_string, read_response.first);
+    //CacheTables::data_path_status_cache_table.update_cache_status(path_string, read_response.first);
 #endif
 
     if(!dest) {
@@ -230,7 +230,7 @@ void ServerLocalCacheProvider::rpcReaddir(const tl::request& req, const bool des
     }
 
 #ifdef BLOCK_REDUNDANT_RPCS
-    CacheTables::tree_path_status_cache_table.update_cache_status(path_string, readdir_response.first);
+    //CacheTables::tree_path_status_cache_table.update_cache_status(path_string, readdir_response.first);
 #endif
 
     if(!dest) {

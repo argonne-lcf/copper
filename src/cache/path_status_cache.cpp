@@ -18,16 +18,25 @@ void PathStatusCache::update_cache_status(const Key& key, const int status) {
     auto entry = cache.find(key);
     if(entry != cache.end()) {
         entry->second = status;
-        cv.notify_all();
+        //cv.notify_all();
     }
 }
 
-
 int PathStatusCache::wait_on_cache_status(const Key& key) {
-    std::unique_lock lock(mtx);
+    for(;;) {
+        mtx.lock();
 
-    auto pred = [&]() { return cache[key].has_value(); };
-    cv.wait(lock, pred);
+        if(cache[key].has_value()) {
+            mtx.unlock();
+            return cache[key].value();
+        }
 
-    return cache[key].value();
+        mtx.unlock();
+        tl::thread::yield();
+    }
+
+    //auto pred = [&]() { return cache[key].has_value(); };
+    //cv.wait(lock, pred);
+
+    //return cache[key].value();
 }

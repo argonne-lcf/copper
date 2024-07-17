@@ -17,9 +17,9 @@ class PathStatusCache final : public TLCache<PathStatusCacheTableKey, PathStatus
     public:
     bool check_and_put_force(const Key& key);
     void update_cache_status(const Key&, int status);
-    int wait_on_cache_status(const Key& key);
+    [[noreturn]] int wait_on_cache_status(const Key& key);
 
-    tl::condition_variable cv;
+    //tl::condition_variable cv;
 };
 
 #endif // PATH_STATUS_CACHE_H
