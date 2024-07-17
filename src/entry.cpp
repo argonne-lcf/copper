@@ -60,9 +60,8 @@ int main(int argc, const char** argv) {
     for(std::string& str : new_args) {
         ptrs.push_back(str.data());
     }
-  
+
     NodeTree::get_hsn0_cxi_addr();
-    //NodeTree::push_back_address(Constants::my_hostname, serverEngine.self());
     LOG(INFO) << "wrote address sleeping for synchronization" << std::endl;
     sleep(10);
     NodeTree::parse_nodelist_from_cxi_address_book();
