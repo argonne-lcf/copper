@@ -60,7 +60,7 @@ set(SHUTDOWN_SOURCES src_shutdown/rpc_shutdown.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${FUSE3_INCLUDE}")
-target_link_libraries(${PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM)
+target_link_libraries(${PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM fuse3)
 
 add_executable(${SHUTDOWN_PROJECT_NAME} ${SHUTDOWN_SOURCES})
-target_link_libraries(${SHUTDOWN_PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM fuse3)
+target_link_libraries(${SHUTDOWN_PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM)
