@@ -3,6 +3,9 @@
 
 #include <mutex>
 #include <string>
+#include <unordered_map>
+#include <optional>
+#include <condition_variable>
 #include <thallium.hpp>
 
 namespace tl = thallium;
@@ -15,11 +18,14 @@ using PathStatusMDCacheTableVal = std::optional<int>;
 
 class PathStatusCache final : public TLCache<PathStatusCacheTableKey, PathStatusMDCacheTableVal> {
     public:
-    bool check_and_put_force(const Key& key);
-    void update_cache_status(const Key&, int status);
-    int wait_on_cache_status(const Key& key);
+    bool check_and_put_force(const PathStatusCacheTableKey& key);
+    void update_cache_status(const PathStatusCacheTableKey& key, int status);
+    int wait_on_cache_status(const PathStatusCacheTableKey& key);
 
-    tl::condition_variable cv;
+    private:
+    std::unordered_map<PathStatusCacheTableKey, PathStatusMDCacheTableVal> cache;
+    std::unordered_map<PathStatusCacheTableKey, tl::condition_variable> cvs;
+    tl::mutex mtx;
 };
 
 #endif // PATH_STATUS_CACHE_H
