@@ -1,11 +1,3 @@
-// module use /soft/preview-modulefiles/24.086.0
-// module load frameworks/2024.04.15.002
-// . /lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/git-spack/spack/share/spack/setup-env.sh 
-// spack env activate kaushik_env_1 
-// make file=shutdown
-// ./shutdown 2
-
-
 #include <thallium.hpp>
 #include <thallium/serialization/stl/string.hpp>
 #include <mpi.h>
@@ -17,22 +9,32 @@
 
 namespace tl = thallium;
 
-int main(int argc, char** argv) 
-{
-    sleep(atoi(argv[1]));  
+#define USAGE "./cu_fuse_shutdown <SLEEP_TIME> <COPPER_LOGS_DIR>"
+#define COPPER_ADDRESS_BOOK_FILE_NAME "copper_address_book.txt"
+
+int main(int argc, char** argv) {
+    if(argc <= 2) {
+        std::cerr << "usage: " << USAGE << std::endl;
+        return -1;
+    }
+
+    const std::string copper_logs_dir = argv[2];
+    const std::string address_book_abs_path = copper_logs_dir + "/" + COPPER_ADDRESS_BOOK_FILE_NAME;
+    auto sleep_time = atoi(argv[1]);
+
+    std::cout << "found copper_logs_dir: " << copper_logs_dir << std::endl;
+    std::cout << "copper address book absolute path: " << address_book_abs_path << std::endl;
+    std::cout << "sleeping for " << sleep_time << " seconds" << std::endl;
+    sleep(sleep_time);
 
     auto engine = tl::engine{"cxi://cxi0:1", THALLIUM_SERVER_MODE};
     std::cout << "shutdown Server running at address " << engine.self() << std::endl;
 
-    std::string copper_address_book_name = "./copper_address_book";
-    copper_address_book_name = copper_address_book_name + ".txt";
-
-
-    std::ifstream inFile(copper_address_book_name, std::ios::in);
+    std::ifstream inFile(address_book_abs_path, std::ios::in);
     if (!inFile.is_open()) 
     {
         std::cout  << "Error opening file" << std::endl;
-        return 0;
+        return -1;
     }
     std::string line;
     while (getline(inFile, line))   
