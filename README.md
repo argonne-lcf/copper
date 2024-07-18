@@ -66,7 +66,6 @@ export PY_PACKAGES_DIR=<PATH_TO_PY_ENV>
 
 spack env activate <MOCHI_ENV>
 sh copper/scripts/build_helper/build.sh
-
 ```
 
 ### How to start the copper service
@@ -85,12 +84,12 @@ pip install --target=/lus/flare/projects/Aurora_deployment/kaushik/copper/july12
 
 cd copper/july7/copper/scripts
 mpirun -np 7 -ppn 1 copper/scripts/tests/run_test.sh [update this file and run in a separate terminal]
-
 ```
 
 ### To stop the copper service
 
 ```
-# mpirun -np 7 -ppn 1 fusermount3 -u /lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/july1/copper/run/cu_fuse_view
-# mpirun -np 1 -ppn 1 build/rpc_shutdown #needs to be run only on 1 node with 1 ppn and requires the copper address book
+mpirun -np 7 -ppn 1 fusermount3 -u /lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/july1/copper/run/cu_fuse_view
+#needs to be run only on 1 node with 1 ppn and requires the copper address book
+sh scripts/filesystem/rpc_shutdown.sh
 ```
