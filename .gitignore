@@ -71,3 +71,5 @@ compile_commands.json
 run/*.log
 run/rpc_shutdown
 run/copper_address_book.txt 
+run/copper_conda_env
+run/cu_fuse_dir
