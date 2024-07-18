@@ -26,6 +26,7 @@ namespace tl = thallium;
 
 #define CU_FUSE_RPC_DATA "cu_fuse_rpc_data"
 #define CU_FUSE_RPC_METADATA "cu_fuse_rpc_metadata"
+#define MAX_FILE_CACHE_SIZE 1048576
 
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
@@ -71,6 +72,31 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
 
     LOG(DEBUG) << "requested offset: " << offset << std::endl;
     LOG(DEBUG) << "requested size: " << size << std::endl;
+
+    auto md_entry = CacheTables::md_cache_table.get(path_string);
+    if(md_entry.has_value()) {
+        struct stat* md_st = (struct stat*)md_entry.value()->get_vec().data();
+        if(md_st->st_size >= MAX_FILE_CACHE_SIZE) {
+            int fd;
+            int res;
+
+            if(fi == NULL)
+                fd = open(path_string.c_str(), O_RDONLY);
+            else
+                fd = fi->fh;
+
+            if (fd == -1)
+                return -errno;
+
+            res = pread(fd, buf, size, offset);
+            if (res == -1)
+                res = -errno;
+
+            if(fi == NULL)
+                close(fd);
+            return res;
+        }
+    }
 
     if(!entry_opt.has_value()) {
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
