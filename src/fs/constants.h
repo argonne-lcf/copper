@@ -16,6 +16,7 @@ class Constants {
     static inline std::string log_type{"stdout"};
     static inline std::optional<std::string> log_output_dir{std::nullopt};
     static inline std::string my_hostname;
+    static inline int es{1};
 
     // clang-format off
     static inline std::string usage{"cu_fuse <FUSE_PARAMS> -tpath <ABS_TARGET_PATH> "

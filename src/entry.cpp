@@ -33,7 +33,7 @@ int main(int argc, const char** argv) {
     gethostname(char_hostname, sizeof(char_hostname));
     Constants::my_hostname = std::string(char_hostname);
 
-    auto serverEngine = tl::engine{"cxi", THALLIUM_SERVER_MODE, true, 16};
+    auto serverEngine = tl::engine{"cxi", THALLIUM_SERVER_MODE, true, Constants::es};
 
     Constants::copper_address_book_path = Constants::log_output_dir.value() + "/" + Constants::copper_address_book_filename;
     LOG(INFO) << "creating copper address book at path: " << Constants::copper_address_book_path << std::endl;
@@ -61,7 +61,7 @@ int main(int argc, const char** argv) {
         ptrs.push_back(str.data());
     }
     
-    NodeTree::get_hsn0_cxi_addr();
+    NodeTree::push_back_address(Constants::my_hostname, serverEngine.self());
     LOG(INFO) << "wrote address sleeping for synchronization" << std::endl;
     sleep(10);
     NodeTree::parse_nodelist_from_cxi_address_book();

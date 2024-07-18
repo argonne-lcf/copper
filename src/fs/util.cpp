@@ -71,6 +71,10 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
             Constants::log_level = std::stoi(std::string(argv[i + 1]));
             LOG(DEBUG) << "-log_level was found: " << Constants::log_level << std::endl;
             i += 2;
+	} else if(original_string_args[i] == "-es") {
+	    Constants::es = std::stoi(std::string(argv[i+1]));
+	    LOG(DEBUG) << "-es was found: " << Constants::es << std::endl;
+	    i += 2;
         } else if(original_string_args[i] == "-log_type") {
             if(i + 2 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
