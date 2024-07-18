@@ -66,10 +66,6 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::read, path_);
     CHECK_RECURSIVE(path_string);
 
-    const auto entry_opt = CacheTables::data_cache_table.get(path_string);
-    std::vector<std::byte>* bytes = nullptr;
-    bool cache = false;
-
     LOG(DEBUG) << "requested offset: " << offset << std::endl;
     LOG(DEBUG) << "requested size: " << size << std::endl;
 
@@ -77,26 +73,23 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     if(md_entry.has_value()) {
         struct stat* md_st = (struct stat*)md_entry.value()->get_vec().data();
         if(md_st->st_size >= MAX_FILE_CACHE_SIZE) {
-            int fd;
-            int res;
+            LOG(INFO) << "file larger than max cacheable size... going to lustre" << std::endl;
 
-            if(fi == NULL)
-                fd = open(path_string.c_str(), O_RDONLY);
-            else
-                fd = fi->fh;
-
-            if (fd == -1)
-                return -errno;
-
-            res = pread(fd, buf, size, offset);
-            if (res == -1)
+            int fd = open(path_string.c_str(), O_RDONLY);
+            int res = pread(fd, buf, size, offset);
+            if (res == -1) {
                 res = -errno;
+            }
+            close(fd);
 
-            if(fi == NULL)
-                close(fd);
-            return res;
+            return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
+            CacheEvent::data_cache_event_table, path_string, start, res);
         }
     }
+
+    const auto entry_opt = CacheTables::data_cache_table.get(path_string);
+    std::vector<std::byte>* bytes = nullptr;
+    bool cache = false;
 
     if(!entry_opt.has_value()) {
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
