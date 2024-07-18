@@ -44,7 +44,7 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
         if(original_string_args[i] == "--plus") {
             Constants::fill_dir_plus = FUSE_FILL_DIR_PLUS;
         } else if(original_string_args[i] == "-tpath") {
-            if(i + 2 >= original_string_args.size()) {
+            if(i + 1 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
                 throw std::runtime_error("no argument after -tpath");
             }
@@ -53,7 +53,7 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
             LOG(DEBUG) << "-tpath was found: " << Constants::target_path.value() << std::endl;
             i += 2;
         } else if(original_string_args[i] == "-vpath") {
-            if(i + 2 >= original_string_args.size()) {
+            if(i + 1 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
                 throw std::runtime_error("no argument after -vpath");
             }
@@ -62,7 +62,7 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
             LOG(DEBUG) << "-vpath was found: " << Constants::view_path.value() << std::endl;
             i += 2;
         } else if(original_string_args[i] == "-log_level") {
-            if(i + 2 >= original_string_args.size()) {
+            if(i + 1 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
                 throw std::runtime_error("no argument after -log_level");
             }
@@ -71,12 +71,26 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
             Constants::log_level = std::stoi(std::string(argv[i + 1]));
             LOG(DEBUG) << "-log_level was found: " << Constants::log_level << std::endl;
             i += 2;
-	} else if(original_string_args[i] == "-es") {
-	    Constants::es = std::stoi(std::string(argv[i+1]));
-	    LOG(DEBUG) << "-es was found: " << Constants::es << std::endl;
-	    i += 2;
+	    } else if(original_string_args[i] == "-es") {
+            if(i + 1 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -es");
+            }
+
+            Constants::es = std::stoi(std::string(argv[i+1]));
+            LOG(DEBUG) << "-es was found: " << Constants::es << std::endl;
+            i += 2;
+        } else if(original_string_args[i] == "-max_cacheable_byte_size") {
+            if(i + 1 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -max_cacheable_byte_size");
+            }
+
+            Constants::max_cacheable_byte_size = std::stoi(std::string(argv[i+1]));
+            LOG(DEBUG) << "-max_cacheable_byte_size was found: " << Constants::max_cacheable_byte_size << std::endl;
+            i += 2;
         } else if(original_string_args[i] == "-log_type") {
-            if(i + 2 >= original_string_args.size()) {
+            if(i + 1 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
                 throw std::runtime_error("no argument after -log_type");
             }
@@ -85,7 +99,7 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
             LOG(DEBUG) << "-log_type was found: " << Constants::log_type << std::endl;
             i += 2;
         } else if(original_string_args[i] == "-log_output_dir") {
-            if(i + 2 >= original_string_args.size()) {
+            if(i + 1 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
                 throw std::runtime_error("no argument after -log_output_dir");
             }
@@ -158,15 +172,6 @@ std::optional<std::ofstream> Util::try_get_fstream_from_path(const char* path) {
     LOG(DEBUG) << "succesfully opened path: " << output_path_string << std::endl;
 
     return file;
-}
-
-std::string Util::get_current_datetime() {
-    const time_t now = time(nullptr);
-    char buf[80];
-    const tm tstruct = *localtime(&now);
-    strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
-
-    return buf;
 }
 
 #define GET_FS_STREAM(path_string, filename)                                     \

@@ -26,7 +26,6 @@ namespace tl = thallium;
 
 #define CU_FUSE_RPC_DATA "cu_fuse_rpc_data"
 #define CU_FUSE_RPC_METADATA "cu_fuse_rpc_metadata"
-#define MAX_FILE_CACHE_SIZE 1048576
 
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
@@ -72,7 +71,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     auto md_entry = CacheTables::md_cache_table.get(path_string);
     if(md_entry.has_value()) {
         struct stat* md_st = (struct stat*)md_entry.value()->get_vec().data();
-        if(md_st->st_size >= MAX_FILE_CACHE_SIZE) {
+        if(md_st->st_size >= Constants::max_cacheable_byte_size) {
             LOG(INFO) << "file larger than max cacheable size... going to lustre" << std::endl;
 
             int fd = open(path_string.c_str(), O_RDONLY);

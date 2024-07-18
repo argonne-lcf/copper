@@ -17,6 +17,7 @@ class Constants {
     static inline std::optional<std::string> log_output_dir{std::nullopt};
     static inline std::string my_hostname;
     static inline int es{1};
+    static inline int max_cacheable_byte_size{1048576};
 
     // clang-format off
     static inline std::string usage{"cu_fuse <FUSE_PARAMS> -tpath <ABS_TARGET_PATH> "
@@ -24,6 +25,8 @@ class Constants {
                                                             "-log_level <0-6> "
                                                             "-log_type <file/stdout/file_and_stdout> "
                                                             "-log_output_dir <ABS_LOG_OUTPUT_DIR_PATH>"
+                                                            "-es <NUM_EXECUTION_STREAMS>"
+                                                            "-max_cacheable_byte_size <MAX_CACHEABLE_BYTE_SIZE>"
                                                             " <ABS_VIEW_PATH>"};
     // clang-format on
 
