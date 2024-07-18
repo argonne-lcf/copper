@@ -88,8 +88,8 @@ def run_script(view_dir, packages_dir, view, get_metrics, script_path, output_fo
             t_writer.writerow(["hostname", "test_id", "start_time", "end_time", "total_time"])
             t_writer.writerow(data)
 
-        if get_metrics:
-            get_all_metrics(output_folder)
+        # if get_metrics:
+        #    get_all_metrics(output_folder)
 
     except subprocess.CalledProcessError as e:
         print(f"Error running {script_path}: {e}")
