@@ -61,7 +61,7 @@ int main(int argc, const char** argv) {
         ptrs.push_back(str.data());
     }
     
-    NodeTree::push_back_address(Constants::my_hostname, serverEngine.self());
+    NodeTree::get_hsn0_cxi_addr();
     LOG(INFO) << "wrote address sleeping for synchronization" << std::endl;
     sleep(10);
     NodeTree::parse_nodelist_from_cxi_address_book();
