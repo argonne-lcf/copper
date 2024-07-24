@@ -32,6 +32,7 @@ export ROOT_DIR=$(readlink -f "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.
 export SCRIPTS_DIR="$ROOT_DIR"/scripts
 export TARGET_DIR=/
 export FUSE_FS="$ROOT_DIR/build/cu_fuse"
+export RPC_SHUTDOWN="$ROOT_DIR/build/cu_fuse_shutdown"
 # the directory for which the dev directory will be created
 export SPEC_DEV_PARENT_DIR=$LOG_OUTPUT_DIR
 export SPEC_DEV_DIR="$SPEC_DEV_PARENT_DIR/metrics"
