@@ -17,6 +17,6 @@ std::ostream& IoctlEvent::log_ioctl_event(std::ostream& os) {
 }
 
 void IoctlEvent::record_ioctl_event(const std::string& path, int cmd) {
-    auto& cmds = ioctl_cache_event_table[path];
-    cmds.push_back(cmd);
+    // auto& cmds = ioctl_cache_event_table[path];
+    // cmds.push_back(cmd);
 }
