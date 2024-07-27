@@ -39,7 +39,7 @@
 
 class CuFuse {
     public:
-    static int cu_hello_main(int argc, char* argv[], void* userdata);
+    static int cu_hello_main(int argc, char* argv[]);
 };
 
 #endif // CU_FUSE_H

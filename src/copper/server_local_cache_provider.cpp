@@ -1,15 +1,6 @@
 #include "server_local_cache_provider.h"
 #include <cassert>
 
-std::vector<std::pair<std::string, std::string>> ServerLocalCacheProvider::global_peer_pairs;
-std::mutex ServerLocalCacheProvider::mtx;
-std::vector<std::string> ServerLocalCacheProvider::node_address_data;
-std::vector<tl::endpoint> ServerLocalCacheProvider::m_peers;
-
-tl::remote_procedure ServerLocalCacheProvider::rpc_lstat;
-tl::remote_procedure ServerLocalCacheProvider::rpc_readfile;
-tl::remote_procedure ServerLocalCacheProvider::rpc_readdir;
-
 void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest, const std::string& path_string) const {
     const auto& req_from_addr = static_cast<std::string>(req.get_endpoint());
     const auto& my_curr_node_addr = static_cast<std::string>(get_engine().self());

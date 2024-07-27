@@ -64,16 +64,15 @@ namespace tl = thallium;
 
 class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> {
     public:
-    static std::vector<std::pair<std::string, std::string>> global_peer_pairs;
-    static std::mutex mtx;
-    static std::vector<std::string> node_address_data;
-    static std::vector<tl::endpoint> m_peers;
+    static inline std::vector<std::pair<std::string, std::string>> global_peer_pairs;
+    static inline std::vector<std::string> node_address_data;
+    static inline std::vector<tl::endpoint> m_peers;
     static constexpr uint16_t provider_id = 0;
 
-    static tl::remote_procedure rpc_lstat;
-    static tl::remote_procedure rpc_readfile;
-    static tl::remote_procedure rpc_readdir;
-
+    static inline tl::remote_procedure rpc_lstat;
+    static inline tl::remote_procedure rpc_readfile;
+    static inline tl::remote_procedure rpc_readdir;
+    static inline std::atomic<tl::engine*> my_engine{nullptr};
 
     ServerLocalCacheProvider(const tl::engine& serverEngine, const std::vector<std::string>& addresses)
     : tl::provider<ServerLocalCacheProvider>{serverEngine, provider_id} {

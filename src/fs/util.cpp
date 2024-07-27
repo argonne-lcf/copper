@@ -30,7 +30,7 @@ std::string Util::rel_to_abs_path(const char* path) {
     return abs_path;
 }
 
-std::vector<std::string> Util::process_args(const int argc, const char* argv[]) {
+std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
     umask(0);
 
     auto original_string_args{std::vector<std::string>()};
@@ -71,13 +71,13 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
             Constants::log_level = std::stoi(std::string(argv[i + 1]));
             LOG(DEBUG) << "-log_level was found: " << Constants::log_level << std::endl;
             i += 2;
-	    } else if(original_string_args[i] == "-es") {
+        } else if(original_string_args[i] == "-es") {
             if(i + 1 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
                 throw std::runtime_error("no argument after -es");
             }
 
-            Constants::es = std::stoi(std::string(argv[i+1]));
+            Constants::es = std::stoi(std::string(argv[i + 1]));
             LOG(DEBUG) << "-es was found: " << Constants::es << std::endl;
             i += 2;
         } else if(original_string_args[i] == "-max_cacheable_byte_size") {
@@ -86,7 +86,7 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
                 throw std::runtime_error("no argument after -max_cacheable_byte_size");
             }
 
-            Constants::max_cacheable_byte_size = std::stoi(std::string(argv[i+1]));
+            Constants::max_cacheable_byte_size = std::stoi(std::string(argv[i + 1]));
             LOG(DEBUG) << "-max_cacheable_byte_size was found: " << Constants::max_cacheable_byte_size << std::endl;
             i += 2;
         } else if(original_string_args[i] == "-log_type") {
@@ -138,6 +138,31 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
         throw std::runtime_error("-log_output_path required because -log_type file or file_and_stdout");
     }
 
+    return new_string_args;
+}
+
+std::vector<std::string> Util::fuse_args(int argc, char* argv[]) {
+    umask(0);
+
+    auto original_string_args{std::vector<std::string>()};
+    for(int i{0}; i < argc; i++) {
+        std::string cur_string{argv[i]};
+        original_string_args.push_back(cur_string);
+    }
+
+    auto new_string_args{std::vector<std::string>()};
+    for(int i{0}; i < original_string_args.size();) {
+        auto cur = original_string_args[i];
+        if(cur != "--plus") {
+            i++;
+        } else if(cur == "-tpath" || cur == "-vpath" || cur == "-log_level" || cur == "-es" ||
+        cur == "-max_cacheable_byte_size" || cur == "-log_type" || cur == "-log_output_dir") {
+            i += 2;
+        } else {
+            new_string_args.push_back(original_string_args[i]);
+            i++;
+        }
+    }
     return new_string_args;
 }
 

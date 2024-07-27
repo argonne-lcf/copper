@@ -19,12 +19,18 @@
 #include "../metric/cache_event.h"
 #include "../metric/operation_types.h"
 
+struct Args {
+    int argc;
+    char** argv;
+};
+
 class Util {
     public:
     static std::string rel_to_abs_path(const char* path);
 
     // NOTE: returns the new argc and argv to be passed to FUSE
-    static std::vector<std::string> process_args(int argc, const char* argv[]);
+    static std::vector<std::string> process_args(int argc, char* argv[]);
+    static std::vector<std::string> fuse_args(int argc, char* argv[]);
 
     // NOTE: reads entire file found by path into std::vector<std::byte>
     static std::vector<std::byte> read_ent_file(const std::string& path, bool is_file);
