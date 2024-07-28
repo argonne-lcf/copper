@@ -410,8 +410,8 @@ static void cu_fuse_destroy(void* private_data) {
     LOG(DEBUG) << " " << std::endl;
     auto start = Metric::start_operation(OperationFunction::destroy);
 
-    const tl::engine *engine = static_cast<tl::engine*>(private_data);
-    engine->shutdown_remote_engine(engine->self());
+    tl::engine *engine = static_cast<tl::engine*>(private_data);
+    engine->finalize();
 
     Util::reset_fs();
 
