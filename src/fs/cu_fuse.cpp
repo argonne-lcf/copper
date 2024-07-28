@@ -375,7 +375,7 @@ static void start_thallium_engine() {
         LOG(INFO) << "setting my_engine" << std::endl;
         ServerLocalCacheProvider::my_engine = server_engine;
 
-	std::thread tl_thread(&thallium::engine::wait_for_finalize, serverEngine);
+	std::thread tl_thread(&thallium::engine::wait_for_finalize, server_engine);
         tl_thread.detach();
 
     } catch(const std::exception& e) {
