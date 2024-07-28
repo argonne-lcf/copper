@@ -66,7 +66,6 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> {
     public:
     static inline std::vector<std::pair<std::string, std::string>> global_peer_pairs;
     static inline std::vector<std::string> node_address_data;
-    static inline std::vector<tl::endpoint> m_peers;
     static constexpr uint16_t provider_id = 0;
 
     static inline tl::remote_procedure rpc_lstat;
@@ -81,11 +80,6 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> {
         define("rpc_readdir", &ServerLocalCacheProvider::rpcReaddir);
 
         get_engine().push_finalize_callback([this]() { delete this; });
-        m_peers.reserve(addresses.size());
-
-        for(auto& address : addresses) {
-            m_peers.push_back(get_engine().lookup(address));
-        }
     }
 
     using lstat_return_type = std::pair<int, std::vector<std::byte>>;
