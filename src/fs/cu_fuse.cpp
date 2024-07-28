@@ -359,6 +359,7 @@ static void start_thallium_engine() {
         LOG(INFO) << "hostname: " << Constants::my_hostname << std::endl;
         LOG(INFO) << "getting cxi addr and writing to copper address book" << std::endl;
         NodeTree::get_hsn0_cxi_addr();
+        //NodeTree::push_back_address(Constants::my_hostname, server_engine->self());
 
         LOG(INFO) << "wrote address sleeping for synchronization" << std::endl;
         sleep(10);
@@ -389,12 +390,6 @@ static void start_thallium_engine() {
 
 static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
     auto start = Metric::start_operation(OperationFunction::init);
-
-    char char_hostname[1024];
-    gethostname(char_hostname, sizeof(char_hostname));
-    Constants::my_hostname = std::string(char_hostname);
-
-    LOG(INFO) << "hostname found to be: " << char_hostname << std::endl;
 
     // NOTE: docs (https://libfuse.github.io/doxygen/structfuse__config.html#a3e84d36c87733fcafc594b18a6c3dda8)
     cfg->entry_timeout = 0;
@@ -557,6 +552,13 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 int CuFuse::cu_hello_main(int argc, char* argv[]) {
     AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
     LOG(DEBUG) << " " << std::endl;
+
+    char char_hostname[1024];
+    gethostname(char_hostname, sizeof(char_hostname));
+    Constants::my_hostname = std::string(char_hostname);
+
+    LOG(INFO) << "hostname found to be: " << char_hostname << std::endl;
+
     auto new_args = Util::process_args(argc, argv);
 
     Constants::copper_address_book_path = Constants::log_output_dir.value() + "/" + Constants::copper_address_book_filename;
