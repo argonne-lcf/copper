@@ -359,7 +359,7 @@ static void start_thallium_engine() {
         LOG(INFO) << "hostname: " << Constants::my_hostname << std::endl;
         LOG(INFO) << "getting cxi addr and writing to copper address book" << std::endl;
         NodeTree::get_hsn0_cxi_addr();
-        NodeTree::push_back_address(Constants::my_hostname, server_engine->self());
+        // NodeTree::push_back_address(Constants::my_hostname, server_engine->self());
 
         LOG(INFO) << "wrote address sleeping for synchronization" << std::endl;
         sleep(10);
