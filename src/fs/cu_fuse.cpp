@@ -351,12 +351,7 @@ static void start_thallium_engine() {
             LOG(FATAL) << e.what() << std::endl;
             return;
         }
-
-        char char_hostname[1024];
-        gethostname(char_hostname, sizeof(char_hostname));
-        Constants::my_hostname = std::string(char_hostname);
-
-        LOG(INFO) << "hostname: " << Constants::my_hostname << std::endl;
+        
         LOG(INFO) << "getting cxi addr and writing to copper address book" << std::endl;
         NodeTree::get_hsn0_cxi_addr();
         // NodeTree::push_back_address(Constants::my_hostname, server_engine->self());
