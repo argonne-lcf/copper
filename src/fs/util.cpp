@@ -141,31 +141,6 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
     return new_string_args;
 }
 
-std::vector<std::string> Util::fuse_args(int argc, char* argv[]) {
-    umask(0);
-
-    auto original_string_args{std::vector<std::string>()};
-    for(int i{0}; i < argc; i++) {
-        std::string cur_string{argv[i]};
-        original_string_args.push_back(cur_string);
-    }
-
-    auto new_string_args{std::vector<std::string>()};
-    for(int i{0}; i < original_string_args.size();) {
-        auto cur = original_string_args[i];
-        if(cur != "--plus") {
-            i++;
-        } else if(cur == "-tpath" || cur == "-vpath" || cur == "-log_level" || cur == "-es" ||
-        cur == "-max_cacheable_byte_size" || cur == "-log_type" || cur == "-log_output_dir") {
-            i += 2;
-        } else {
-            new_string_args.push_back(original_string_args[i]);
-            i++;
-        }
-    }
-    return new_string_args;
-}
-
 std::vector<std::byte> Util::read_ent_file(const std::string& path, bool is_file) {
     if(std::ifstream source_file{path, std::ios::binary}) {
         std::streamsize file_size{};

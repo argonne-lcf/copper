@@ -344,11 +344,20 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
 static void start_thallium_engine() {
     try {
         LOG(INFO) << "starting thallium engine" << std::endl;
-        auto serverEngine = new tl::engine{"cxi", THALLIUM_SERVER_MODE, true, Constants::es};
+        tl::engine* server_engine;
+        try {
+            server_engine = new tl::engine{"cxi", THALLIUM_SERVER_MODE, true, Constants::es};
+        } catch(std::exception& e) {
+            LOG(FATAL) << e.what() << std::endl;
+            return;
+        }
 
         char char_hostname[1024];
         gethostname(char_hostname, sizeof(char_hostname));
         Constants::my_hostname = std::string(char_hostname);
+
+        LOG(INFO) << "hostname: " << Constants::my_hostname << std::endl;
+        LOG(INFO) << "getting cxi addr and writing to copper address book" << std::endl;
         NodeTree::get_hsn0_cxi_addr();
 
         LOG(INFO) << "wrote address sleeping for synchronization" << std::endl;
@@ -360,18 +369,18 @@ static void start_thallium_engine() {
         LOG(INFO) << "the depth of the tree is: " << tree_depth << std::endl;
         NodeTree::pretty_print_tree(Node::root, tree_depth);
 
-        LOG(INFO) << "server running at address: " << serverEngine->self() << std::endl;
-        serverEngine->enable_remote_shutdown();
-        ServerLocalCacheProvider::rpc_lstat = serverEngine->define("rpc_lstat");
-        ServerLocalCacheProvider::rpc_readfile = serverEngine->define("rpc_readfile");
-        ServerLocalCacheProvider::rpc_readdir = serverEngine->define("rpc_readdir");
-        new ServerLocalCacheProvider{*serverEngine, ServerLocalCacheProvider::node_address_data};
+        LOG(INFO) << "server running at address: " << server_engine->self() << std::endl;
+        server_engine->enable_remote_shutdown();
+        ServerLocalCacheProvider::rpc_lstat = server_engine->define("rpc_lstat");
+        ServerLocalCacheProvider::rpc_readfile = server_engine->define("rpc_readfile");
+        ServerLocalCacheProvider::rpc_readdir = server_engine->define("rpc_readdir");
+        new ServerLocalCacheProvider{*server_engine, ServerLocalCacheProvider::node_address_data};
 
         LOG(INFO) << "setting my_engine" << std::endl;
-        ServerLocalCacheProvider::my_engine = serverEngine;
+        ServerLocalCacheProvider::my_engine = server_engine;
 
         LOG(INFO) << "waiting on finalize..." << std::endl;
-        serverEngine->wait_for_finalize();
+        server_engine->wait_for_finalize();
         LOG(INFO) << "successfully killed by remote shutdown process - closing down" << std::endl;
     } catch(const std::exception& e) {
         std::cerr << "Exception caught in thread: " << e.what() << std::endl;
@@ -379,33 +388,6 @@ static void start_thallium_engine() {
 }
 
 static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
-    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
-    LOG(DEBUG) << " " << std::endl;
-
-    // NOTE: should be Args* from cu_fuse_main
-    Args* args = static_cast<Args*>(fuse_get_context()->private_data);
-    Util::process_args(args->argc, args->argv);
-
-    Constants::copper_address_book_path = Constants::log_output_dir.value() + "/" + Constants::copper_address_book_filename;
-    LOG(INFO) << "copper address located at path: " << Constants::copper_address_book_path << std::endl;
-
-    if(Constants::log_type == "stdout") {
-        AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level))});
-    } else if(Constants::log_type == "file") {
-        auto output_file =
-        Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::per_node_output_filename);
-        LOG(INFO) << "output_file path: " << output_file << std::endl;
-
-        AixLog::Log::init({std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), output_file)});
-    } else if(Constants::log_type == "file_and_stdout") {
-        auto output_file =
-        Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::per_node_output_filename);
-        LOG(INFO) << "output_file path: " << output_file << std::endl;
-
-        AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level)),
-        std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), output_file)});
-    }
-
     auto start = Metric::start_operation(OperationFunction::init);
 
     char char_hostname[1024];
@@ -573,7 +555,30 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 };
 
 int CuFuse::cu_hello_main(int argc, char* argv[]) {
-    auto new_args{Util::fuse_args(argc, argv)};
+    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
+    LOG(DEBUG) << " " << std::endl;
+    auto new_args = Util::process_args(argc, argv);
+
+    Constants::copper_address_book_path = Constants::log_output_dir.value() + "/" + Constants::copper_address_book_filename;
+    LOG(INFO) << "copper address located at path: " << Constants::copper_address_book_path << std::endl;
+
+    if(Constants::log_type == "stdout") {
+        AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level))});
+    } else if(Constants::log_type == "file") {
+        auto output_file =
+        Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::per_node_output_filename);
+        LOG(INFO) << "output_file path: " << output_file << std::endl;
+
+        AixLog::Log::init({std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), output_file)});
+    } else if(Constants::log_type == "file_and_stdout") {
+        auto output_file =
+        Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::per_node_output_filename);
+        LOG(INFO) << "output_file path: " << output_file << std::endl;
+
+        AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level)),
+        std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), output_file)});
+    }
+
 
     std::vector<char*> ptrs;
     ptrs.reserve(new_args.size());
@@ -581,6 +586,5 @@ int CuFuse::cu_hello_main(int argc, char* argv[]) {
         ptrs.push_back(str.data());
     }
 
-    auto args = new Args{.argc = argc, .argv = argv};
-    return fuse_main(ptrs.size(), ptrs.data(), &cu_fuse_oper, args);
+    return fuse_main(ptrs.size(), ptrs.data(), &cu_fuse_oper, nullptr);
 }

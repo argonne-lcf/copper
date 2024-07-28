@@ -66,8 +66,4 @@ $FUSE_FS -tpath $TARGET_DIR                \
          -log_level $LOG_LEVEL             \
          -log_type $LOG_TYPE               \
          -log_output_dir $LOG_OUTPUT_DIR \
-         -f $ST $VIEW_DIR # add -d for debugging fuse # chance of issue with -s # to check noah
-
-
-fusermount -u "$VIEW_DIR" || true
-# mpirun -np 7 -ppn 1 fusermount3 -u /lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/july1/copper/run/cu_fuse_view 
+         $ST $VIEW_DIR
