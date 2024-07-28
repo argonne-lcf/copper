@@ -344,13 +344,12 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
 static void start_thallium_engine() {
     try {
         LOG(INFO) << "starting thallium engine" << std::endl;
-        auto serverEngine = new tl::engine{"na+sm", THALLIUM_SERVER_MODE, true, Constants::es};
+        auto serverEngine = new tl::engine{"cxi", THALLIUM_SERVER_MODE, true, Constants::es};
 
         char char_hostname[1024];
         gethostname(char_hostname, sizeof(char_hostname));
         Constants::my_hostname = std::string(char_hostname);
-        NodeTree::push_back_address(char_hostname, serverEngine->self());
-        // NodeTree::get_hsn0_cxi_addr();
+        NodeTree::get_hsn0_cxi_addr();
 
         LOG(INFO) << "wrote address sleeping for synchronization" << std::endl;
         sleep(10);
