@@ -212,7 +212,7 @@ void NodeTree::get_hsn0_cxi_addr() {
     std::string my_hsn0_mac_id;
     std::ifstream inFile("/sys/class/net/hsn0/address");
     if(!inFile.is_open()) {
-        LOG(FATAL) << "error opening address file" << std::endl;
+        LOG(FATAL) << "error opening address file - " << errno << std::endl;
         throw std::runtime_error("error opening address file");
     }
     inFile >> my_hsn0_mac_id;
