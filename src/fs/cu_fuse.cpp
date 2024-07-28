@@ -375,12 +375,14 @@ static void start_thallium_engine() {
         LOG(INFO) << "setting my_engine" << std::endl;
         ServerLocalCacheProvider::my_engine = server_engine;
 
-        LOG(INFO) << "waiting on finalize..." << std::endl;
-        server_engine->wait_for_finalize();
-        LOG(INFO) << "successfully killed by remote shutdown process - closing down" << std::endl;
+	std::thread tl_thread(&thallium::engine::wait_for_finalize, serverEngine);
+        tl_thread.detach();
+
     } catch(const std::exception& e) {
         std::cerr << "Exception caught in thread: " << e.what() << std::endl;
     }
+
+    return;
 }
 
 static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
@@ -398,15 +400,7 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     cfg->ac_attr_timeout_set = 0;
     cfg->nullpath_ok = false;
 
-    std::thread tl_thread(start_thallium_engine);
-    tl_thread.detach();
-
-    LOG(INFO) << "created engine in seperate thread waiting sleeping for synchronization" << std::endl;
-    sleep(10);
-    while(!ServerLocalCacheProvider::my_engine) {
-        LOG(WARNING) << "serverEngine still unitialized" << std::endl;
-        sleep(1);
-    }
+    start_thallium_engine();
 
     Metric::stop_operation(OperationFunction::init, start, 0);
     return ServerLocalCacheProvider::my_engine;
@@ -415,6 +409,9 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
 static void cu_fuse_destroy(void* private_data) {
     LOG(DEBUG) << " " << std::endl;
     auto start = Metric::start_operation(OperationFunction::destroy);
+
+    const tl::engine *engine = static_cast<tl::engine*>(private_data);
+    engine->shutdown_remote_engine(engine->self());
 
     Util::reset_fs();
 
