@@ -344,6 +344,13 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
 static void start_thallium_engine() {
     try {
         LOG(INFO) << "starting thallium engine" << std::endl;
+
+        auto logger = new TLLogger();
+        tl::logger::set_global_logger(logger);
+
+        // FIXME: default to trace for now;
+        tl::logger::set_global_log_level(tl::logger::level::trace);
+
         tl::engine* server_engine;
         try {
             server_engine = new tl::engine{"cxi", THALLIUM_SERVER_MODE, true, Constants::es};
@@ -352,6 +359,9 @@ static void start_thallium_engine() {
             LOG(FATAL) << e.what() << std::endl;
             return;
         }
+
+        server_engine->set_logger(logger);
+        server_engine->set_log_level(tl::logger::level::debug);
         
         LOG(INFO) << "Generating CXI address from nodefile: " << Constants::nodefile << std::endl;
         //NodeTree::get_hsn0_cxi_addr();
@@ -359,6 +369,7 @@ static void start_thallium_engine() {
 
         //LOG(INFO) << "wrote address sleeping for synchronization" << std::endl;
         //sleep(60);
+        // NodeTree::push_back_address(Constants::my_hostname, server_engine->self());
         //NodeTree::parse_nodelist_from_cxi_address_book();
         NodeTree::generate_nodelist_from_nodefile(Constants::nodefile);
         Node::root = NodeTree::build_my_tree(Node::root, ServerLocalCacheProvider::node_address_data);
@@ -574,7 +585,6 @@ int CuFuse::cu_hello_main(int argc, char* argv[]) {
         AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level)),
         std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), output_file)});
     }
-
 
     std::vector<char*> ptrs;
     ptrs.reserve(new_args.size());

@@ -34,6 +34,7 @@
 #include "../metric/ioctl_event.h"
 #include "../metric/metrics.h"
 #include "../metric/operations.h"
+#include "../tl_logger.h"
 #include "constants.h"
 #include "util.h"
 

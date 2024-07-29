@@ -46,7 +46,7 @@ class NodeTree {
     static void push_back_address(const std::string& hostname, const std::string& my_cxi_server_ip_hex_str);
     static void get_hsn0_cxi_addr();
     static void parse_nodelist_from_cxi_address_book();
-    static void NodeTree::generate_nodelist_from_nodefile(const std::string& filename);
+    static void generate_nodelist_from_nodefile(const std::string& filename);
 };
 
 #endif // NODE_TREE_H
