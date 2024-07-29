@@ -80,7 +80,15 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
             Constants::es = std::stoi(std::string(argv[i + 1]));
             LOG(DEBUG) << "-es was found: " << Constants::es << std::endl;
             i += 2;
-        } else if(original_string_args[i] == "-max_cacheable_byte_size") {
+        } else if (original_string_args[i] == "-nf") {
+            if(i + 1 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -nf");
+            }
+	    Constants::nodefile = std::string(argv[i+1]);
+            LOG(DEBUG) << "-nf was found: " << Constants::nodefile << std::endl;
+            i += 2;
+	} else if(original_string_args[i] == "-max_cacheable_byte_size") {
             if(i + 1 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
                 throw std::runtime_error("no argument after -max_cacheable_byte_size");

@@ -18,6 +18,7 @@ class Constants {
     static inline std::string my_hostname;
     static inline int es{1};
     static inline int max_cacheable_byte_size{1048576};
+    static inline std::string nodefile{"/nodefile"};
 
     // clang-format off
     static inline std::string usage{"cu_fuse <FUSE_PARAMS> -tpath <ABS_TARGET_PATH> "
@@ -27,6 +28,7 @@ class Constants {
                                                             "-log_output_dir <ABS_LOG_OUTPUT_DIR_PATH>"
                                                             "-es <NUM_EXECUTION_STREAMS>"
                                                             "-max_cacheable_byte_size <MAX_CACHEABLE_BYTE_SIZE>"
+							    "-nf <PBS_NODEFILE>"
                                                             " <ABS_VIEW_PATH>"};
     // clang-format on
 

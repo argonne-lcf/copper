@@ -347,18 +347,20 @@ static void start_thallium_engine() {
         tl::engine* server_engine;
         try {
             server_engine = new tl::engine{"cxi", THALLIUM_SERVER_MODE, true, Constants::es};
+	    LOG(INFO) << "engine started" << std::endl;
         } catch(std::exception& e) {
             LOG(FATAL) << e.what() << std::endl;
             return;
         }
         
-        LOG(INFO) << "getting cxi addr and writing to copper address book" << std::endl;
-        NodeTree::get_hsn0_cxi_addr();
+        LOG(INFO) << "Generating CXI address from nodefile: " << Constants::nodefile << std::endl;
+        //NodeTree::get_hsn0_cxi_addr();
         // NodeTree::push_back_address(Constants::my_hostname, server_engine->self());
 
-        LOG(INFO) << "wrote address sleeping for synchronization" << std::endl;
-        sleep(10);
-        NodeTree::parse_nodelist_from_cxi_address_book();
+        //LOG(INFO) << "wrote address sleeping for synchronization" << std::endl;
+        //sleep(60);
+        //NodeTree::parse_nodelist_from_cxi_address_book();
+        NodeTree::generate_nodelist_from_nodefile(Constants::nodefile);
         Node::root = NodeTree::build_my_tree(Node::root, ServerLocalCacheProvider::node_address_data);
         NodeTree::print_tree(Node::root);
         int tree_depth = NodeTree::depth(Node::root);
