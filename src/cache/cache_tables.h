@@ -1,5 +1,5 @@
-#ifndef CACH_TABLES_H
-#define CACH_TABLES_H
+#ifndef CACHE_TABLES_H
+#define CACHE_TABLES_H
 
 #include "data_cache_table.h"
 #include "md_cache_table.h"
@@ -17,4 +17,4 @@ class CacheTables {
     static inline PathStatusCache tree_path_status_cache_table;
 };
 
-#endif // CACH_TABLES_H
+#endif // CACHE_TABLES_H

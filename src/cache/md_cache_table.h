@@ -1,5 +1,5 @@
-#ifndef MDCACHETABLE_H
-#define MDCACHETABLE_H
+#ifndef MD_CACHE_TABLE_H
+#define MD_CACHE_TABLE_H
 
 #include <string>
 
@@ -15,4 +15,4 @@ class MDCacheTable final : public Cache<MDCacheTableKey, MDCacheTableVal> {
     friend std::ostream& operator<<(std::ostream& os, const MDCacheTable& md_cache_table);
 };
 
-#endif // MDCACHETABLE_H
+#endif // MD_CACHE_TABLE_H

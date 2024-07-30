@@ -1,10 +1,13 @@
-#ifndef CACH_H
-#define CACH_H
+#ifndef CACHE_H
+#define CACHE_H
 
 #include <mutex>
 #include <optional>
 #include <stdexcept>
 #include <unordered_map>
+#include <thallium.hpp>
+
+namespace tl = thallium;
 
 template <typename K, typename V> class Cache {
     public:
@@ -38,7 +41,7 @@ template <typename K, typename V> class Cache {
     virtual ~Cache() = default;
     std::unordered_map<Key, Value> cache;
 
-    std::mutex mtx;
+    tl::mutex mtx;
 };
 
 #endif // CACHE_H

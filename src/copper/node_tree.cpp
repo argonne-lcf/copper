@@ -189,23 +189,29 @@ Node* NodeTree::build_my_tree(Node* root, std::vector<std::string> node_address_
 
 void NodeTree::push_back_address(const std::string& hostname, const std::string& my_cxi_server_ip_hex_str) {
     // NOTE: 0644 - read and write permissions for the owner and read-only permissions for others
+    LOG(INFO) << "creating/opening copper address book for writing" << std::endl;
     const int fd = open(Constants::copper_address_book_path.c_str(), O_WRONLY | O_APPEND | O_CREAT, 0644);
+
     if(fd == -1) {
+        LOG(FATAL) << "failed to open file for writing, path: " << Constants::copper_address_book_path.c_str() << ", errno: " << errno << std::endl;
         throw std::runtime_error("failed to open file for writing");
     }
 
+    LOG(INFO) << "creating/opening copper address book for writing" << std::endl;
     if(flock(fd, LOCK_EX) == -1) {
         close(fd);
+        LOG(FATAL) << "failed to lock file, path: " << Constants::copper_address_book_path.c_str() << ", errno: " << errno << std::endl;
         throw std::runtime_error("failed to lock file");
     }
-
+    LOG(INFO) << "creating/opening copper address book for writing" << std::endl;
     const std::string data = hostname + " " + my_cxi_server_ip_hex_str + "\n";
     if(write(fd, data.c_str(), data.size()) == -1) {
-        flock(fd, LOCK_UN); // Unlock the file before closing
-        close(fd);          // Close the file descriptor
+        close(fd);
+        flock(fd, LOCK_UN);
+        LOG(FATAL) << "failed to write to file, path: " << Constants::copper_address_book_path.c_str() << ", errno: " << errno << std::endl;
         throw std::runtime_error("failed to write to file");
     }
-
+    LOG(INFO) << "creating/opening copper address book for writing" << std::endl;
     flock(fd, LOCK_UN);
     close(fd);
 }

@@ -5,7 +5,7 @@ void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest,
     const auto& req_from_addr = static_cast<std::string>(req.get_endpoint());
     const auto& my_curr_node_addr = static_cast<std::string>(get_engine().self());
 
-    LOG(INFO, RPC_METADATA_TAG) << "my address:" << my_curr_node_addr << std::endl;
+    LOG(INFO, RPC_METADATA_TAG) << "my address: " << my_curr_node_addr << std::endl;
     LOG(INFO, RPC_METADATA_TAG) << "req_coming_from_addr:" << req_from_addr << ", path_string: " << path_string << std::endl;
 
     lstat_return_type lstat_response;
@@ -78,7 +78,7 @@ void ServerLocalCacheProvider::rpcRead(const tl::request& req, const bool dest, 
     const auto& req_from_addr = static_cast<std::string>(req.get_endpoint());
     const auto& my_curr_node_addr = static_cast<std::string>(get_engine().self());
 
-    LOG(INFO, RPC_DATA_TAG) << "my address:" << my_curr_node_addr << std::endl;
+    LOG(INFO, RPC_DATA_TAG) << "my address: " << my_curr_node_addr << std::endl;
     LOG(INFO, RPC_DATA_TAG) << "req_coming_from_addr: " << req_from_addr << ", path_string: " << path_string << std::endl;
 
     read_return_type read_response;

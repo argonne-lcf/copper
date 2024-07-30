@@ -8,12 +8,12 @@
 namespace tl = thallium;
 
 #include "../aixlog.h"
-#include "tl_cache.h"
+#include "cache.h"
 
 using PathStatusCacheTableKey = std::string;
 using PathStatusMDCacheTableVal = std::optional<int>;
 
-class PathStatusCache final : public TLCache<PathStatusCacheTableKey, PathStatusMDCacheTableVal> {
+class PathStatusCache final : public Cache<PathStatusCacheTableKey, PathStatusMDCacheTableVal> {
     public:
     bool check_and_put_force(const Key& key);
     void update_cache_status(const Key&, int status);
