@@ -345,10 +345,11 @@ static void start_thallium_engine() {
     try {
         LOG(INFO) << "starting thallium engine" << std::endl;
 
+        LOG(INFO) << "redirecting stderr to output_file" << std::endl;
+        freopen(Constants::output_filename_path.c_str(), "a", stderr);
+
         auto logger = new TLLogger();
         tl::logger::set_global_logger(logger);
-
-        // FIXME: default to trace for now;
         tl::logger::set_global_log_level(tl::logger::level::trace);
 
         tl::engine* server_engine;
@@ -569,21 +570,17 @@ int CuFuse::cu_hello_main(int argc, char* argv[]) {
     Constants::copper_address_book_path = Constants::log_output_dir.value() + "/" + Constants::copper_address_book_filename;
     LOG(INFO) << "copper address located at path: " << Constants::copper_address_book_path << std::endl;
 
+    Constants::pid = std::to_string(getpid());
+    Constants::output_filename_path = Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::output_filename_suffix);
+    LOG(INFO) << "output filename path: " << Constants::output_filename_path << std::endl;
+
     if(Constants::log_type == "stdout") {
         AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level))});
     } else if(Constants::log_type == "file") {
-        auto output_file =
-        Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::per_node_output_filename);
-        LOG(INFO) << "output_file path: " << output_file << std::endl;
-
-        AixLog::Log::init({std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), output_file)});
+        AixLog::Log::init({std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), Constants::output_filename_path)});
     } else if(Constants::log_type == "file_and_stdout") {
-        auto output_file =
-        Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::per_node_output_filename);
-        LOG(INFO) << "output_file path: " << output_file << std::endl;
-
         AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level)),
-        std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), output_file)});
+        std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), Constants::output_filename_path)});
     }
 
     std::vector<char*> ptrs;

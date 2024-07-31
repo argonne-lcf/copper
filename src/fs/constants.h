@@ -73,10 +73,14 @@ class Constants {
     static inline std::string copper_address_book_filename = "copper_address_book.txt";
     static inline std::string copper_address_book_path;
 
-    static std::string get_output_filename(const std::string& suffix) {
-        return my_hostname + "-" + std::to_string(getpid()) + "-" + suffix;
+    static inline std::string pid;
+
+    static inline std::string output_filename_suffix = "output.log";
+    static inline std::string output_filename_path;
+    static std::string get_output_filename(std::string suffix) {
+        return my_hostname + "-" + Constants::pid + "-" + suffix;
     }
-    static inline std::string per_node_output_filename = "output.log";
+
     static inline std::string log_cache_tables_output_filename = "cache_tables.output";
     static inline std::string log_operation_output_filename = "operation_count.output";
     static inline std::string log_operation_time_output_filename = "operation_time.output";
