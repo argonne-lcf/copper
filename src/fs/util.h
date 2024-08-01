@@ -27,7 +27,7 @@ class Util {
     static std::vector<std::string> process_args(int argc, char* argv[]);
 
     // NOTE: reads entire file found by path into std::vector<std::byte>
-    static std::vector<std::byte> read_ent_file(const std::string& path, bool is_file);
+    static std::vector<std::byte> read_ent_file(const std::string& path);
 
     static std::optional<std::ofstream> try_get_fstream_from_path(const char* path);
 

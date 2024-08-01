@@ -141,7 +141,7 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
     return new_string_args;
 }
 
-std::vector<std::byte> Util::read_ent_file(const std::string& path, bool is_file) {
+std::vector<std::byte> Util::read_ent_file(const std::string& path) {
     if(std::ifstream source_file{path, std::ios::binary}) {
         std::streamsize file_size{};
         file_size = static_cast<std::streamsize>(std::filesystem::file_size(path));
