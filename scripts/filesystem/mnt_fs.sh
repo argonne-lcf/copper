@@ -56,14 +56,12 @@ else
   echo "running fuse in multi-threaded mode"
 fi
 
-echo "removing old logs"
-rm "$LOG_OUTPUT_DIR"/*
-
-
 echo "mounting fuse distributed cache to view dir"
-$FUSE_FS -tpath $TARGET_DIR                \
-         -vpath $VIEW_DIR                  \
-         -log_level $LOG_LEVEL             \
-         -log_type $LOG_TYPE               \
-         -log_output_dir $LOG_OUTPUT_DIR \
-         $ST $VIEW_DIR
+$FUSE_FS -tpath $TARGET_DIR                          \
+         -vpath $VIEW_DIR                            \
+         -log_level $LOG_LEVEL                       \
+         -log_type $LOG_TYPE                         \
+         -log_output_dir $LOG_OUTPUT_DIR             \
+         -addr_write_sync_time $ADDR_WRITE_SYNC_TIME \
+         -net_type $NET_TYPE                         \
+         $ST -f $VIEW_DIR

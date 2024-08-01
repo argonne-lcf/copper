@@ -346,7 +346,9 @@ static void start_thallium_engine() {
         LOG(INFO) << "starting thallium engine" << std::endl;
 
         LOG(INFO) << "redirecting stderr to output_file" << std::endl;
-        freopen(Constants::output_filename_path.c_str(), "a", stderr);
+        if(freopen(Constants::output_filename_path.c_str(), "a", stderr) == nullptr) {
+            LOG(ERROR) << "failed to redirect stderr to path: " << Constants::output_filename_path << std::endl;
+        };
 
         auto logger = new TLLogger();
         tl::logger::set_global_logger(logger);
@@ -354,7 +356,7 @@ static void start_thallium_engine() {
 
         tl::engine* server_engine;
         try {
-            server_engine = new tl::engine{"cxi", THALLIUM_SERVER_MODE, true, Constants::es};
+            server_engine = new tl::engine{Constants::network_type, THALLIUM_SERVER_MODE, true, Constants::es};
 	    LOG(INFO) << "engine started" << std::endl;
         } catch(std::exception& e) {
             LOG(FATAL) << e.what() << std::endl;
@@ -363,16 +365,34 @@ static void start_thallium_engine() {
 
         server_engine->set_logger(logger);
         server_engine->set_log_level(tl::logger::level::debug);
-        
-        LOG(INFO) << "Generating CXI address from nodefile: " << Constants::nodefile << std::endl;
-        //NodeTree::get_hsn0_cxi_addr();
-        // NodeTree::push_back_address(Constants::my_hostname, server_engine->self());
 
-        //LOG(INFO) << "wrote address sleeping for synchronization" << std::endl;
-        //sleep(60);
-        // NodeTree::push_back_address(Constants::my_hostname, server_engine->self());
-        //NodeTree::parse_nodelist_from_cxi_address_book();
-        NodeTree::generate_nodelist_from_nodefile(Constants::nodefile);
+        LOG(INFO) << "using network type: " << Constants::network_type << std::endl;
+
+        if(Constants::nodefile.has_value()) {
+            LOG(INFO) << "using nodefile to init addresses" << std::endl;
+            LOG(INFO) << "Generating CXI address from nodefile: " << Constants::nodefile.value() << std::endl;
+            NodeTree::generate_nodelist_from_nodefile(Constants::nodefile.value());
+        } else if(Constants::network_type == "cxi") {
+            LOG(INFO) << "parsing cxi network file to init addresses" << std::endl;
+            NodeTree::get_hsn0_cxi_addr();
+
+            LOG(INFO) << "address written to address_book... sleeping for synchronization time: " << Constants::address_write_sync_time << std::endl;
+            sleep(Constants::address_write_sync_time);
+
+            NodeTree::parse_nodelist_from_address_book();
+        } else if(Constants::network_type == "na+sm" || Constants::network_type == "tcp") {
+            LOG(INFO) << "using address from server engine to init addresses" << std::endl;
+            NodeTree::push_back_address(Constants::my_hostname, server_engine->self());
+
+            LOG(INFO) << "address written to address_book... sleeping for synchronization time: " << Constants::address_write_sync_time << std::endl;
+            sleep(Constants::address_write_sync_time);
+
+            NodeTree::parse_nodelist_from_address_book();
+        } else {
+            LOG(FATAL) << "invalid network type" << std::endl;
+            return;
+        }
+
         Node::root = NodeTree::build_my_tree(Node::root, ServerLocalCacheProvider::node_address_data);
         NodeTree::print_tree(Node::root);
         int tree_depth = NodeTree::depth(Node::root);
@@ -395,8 +415,6 @@ static void start_thallium_engine() {
     } catch(const std::exception& e) {
         std::cerr << "Exception caught in thread: " << e.what() << std::endl;
     }
-
-    return;
 }
 
 static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
@@ -424,7 +442,7 @@ static void cu_fuse_destroy(void* private_data) {
     LOG(DEBUG) << " " << std::endl;
     auto start = Metric::start_operation(OperationFunction::destroy);
 
-    tl::engine *engine = static_cast<tl::engine*>(private_data);
+    auto engine = static_cast<tl::engine*>(private_data);
     engine->finalize();
 
     Util::reset_fs();

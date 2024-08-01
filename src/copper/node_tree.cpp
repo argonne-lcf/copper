@@ -9,7 +9,7 @@ Node* Node::root = nullptr;
 void NodeTree::print_tree(Node* node) {
     LOG(INFO) << "level: " << node->level << ", child id at this level: " << node->child_id << ", data: " << node->data
               << std::endl;
-    for(Node* child : node->getChildren()) {
+    for(Node* child : node->get_children()) {
         print_tree(child);
     }
 }
@@ -286,7 +286,7 @@ void NodeTree::generate_nodelist_from_nodefile(const std::string& filename)
     return;
 }
 
-void NodeTree::parse_nodelist_from_cxi_address_book() {
+void NodeTree::parse_nodelist_from_address_book() {
     std::ifstream inFile(Constants::copper_address_book_path, std::ios::in);
 
     LOG(INFO) << "opening file" << std::endl;
@@ -298,7 +298,7 @@ void NodeTree::parse_nodelist_from_cxi_address_book() {
     std::string line;
     while(getline(inFile, line)) {
         LOG(INFO) << getpid() << ":" << line << std::endl;
-        size_t pos = line.find(" ");
+        size_t pos = line.find(' ');
         std::string first_part_hostname = line.substr(0, pos);
         std::string second_part_cxi = line.substr(pos + 1);
         LOG(INFO) << first_part_hostname << ":" << second_part_cxi << std::endl;
@@ -310,11 +310,11 @@ void NodeTree::parse_nodelist_from_cxi_address_book() {
 }
 
 
-void NodeTree::get_parent_from_tree(Node* CopyofTree, const std::string& my_curr_node_addr, std::string& parentofmynode) {
-    if(my_curr_node_addr == CopyofTree->data) {
-        parentofmynode = CopyofTree->my_parent->data;
+void NodeTree::get_parent_from_tree(Node* copy_of_tree, const std::string& my_curr_node_addr, std::string& parent) {
+    if(my_curr_node_addr == copy_of_tree->data) {
+        parent = copy_of_tree->my_parent->data;
     }
-    for(Node* child : CopyofTree->getChildren()) {
-        get_parent_from_tree(child, my_curr_node_addr, parentofmynode);
+    for(Node* child : copy_of_tree->get_children()) {
+        get_parent_from_tree(child, my_curr_node_addr, parent);
     }
 }

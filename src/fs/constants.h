@@ -9,16 +9,18 @@
 
 class Constants {
     public:
-    static inline std::optional<std::string> target_path{std::nullopt};
+    static inline std::string target_path{"/"};
     static inline std::optional<std::string> view_path{std::nullopt};
-    static inline int log_level{1};
+    static inline int log_level{0};
     // FIXME: make struct with strings for types
-    static inline std::string log_type{"stdout"};
+    static inline std::string log_type{"file_and_stdout"};
     static inline std::optional<std::string> log_output_dir{std::nullopt};
     static inline std::string my_hostname;
     static inline int es{1};
     static inline int max_cacheable_byte_size{1048576};
-    static inline std::string nodefile{"/nodefile"};
+    static inline int address_write_sync_time{5};
+    static inline std::optional<std::string> nodefile{std::nullopt};
+    static inline std::string network_type{"cxi"};
 
     // clang-format off
     static inline std::string usage{"cu_fuse <FUSE_PARAMS> -tpath <ABS_TARGET_PATH> "
@@ -28,7 +30,9 @@ class Constants {
                                                             "-log_output_dir <ABS_LOG_OUTPUT_DIR_PATH>"
                                                             "-es <NUM_EXECUTION_STREAMS>"
                                                             "-max_cacheable_byte_size <MAX_CACHEABLE_BYTE_SIZE>"
-							    "-nf <PBS_NODEFILE>"
+							                                "-nf <PBS_NODEFILE>"
+                                                            "-net_type <cxi/na+sm/tcp>"
+                                                            "-addr_write_sync_time <time sec>"
                                                             " <ABS_VIEW_PATH>"};
     // clang-format on
 
