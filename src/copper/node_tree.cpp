@@ -1,20 +1,18 @@
 #include "node_tree.h"
 
+#include <cassert>
+
 #include "server_local_cache_provider.h"
 
-#include <assert.h>
-
-Node* Node::root = nullptr;
-
-void NodeTree::print_tree(Node* node) {
-    LOG(INFO) << "level: " << node->level << ", child id at this level: " << node->child_id << ", data: " << node->data
+void NodeTree::print_tree(const Node* node) {
+    LOG(INFO) << "level: " << node->level << ", child id at this level: " << node->child_id << ", addr: " << node->addr
               << std::endl;
     for(Node* child : node->get_children()) {
         print_tree(child);
     }
 }
 
-void NodeTree::pretty_print_tree(Node* root, int depth, int dep_counter) {
+void NodeTree::pretty_print_tree(const Node* root, int depth, int dep_counter) {
     if(root == nullptr) {
         return;
     }
@@ -23,14 +21,14 @@ void NodeTree::pretty_print_tree(Node* root, int depth, int dep_counter) {
         LOG(INFO) << "    ";
     }
 
-    LOG(INFO) << "(depth " << dep_counter << ") " << root->data << std::endl;
+    LOG(INFO) << "(depth " << dep_counter << ") " << root->addr << std::endl;
 
     for(Node* child : root->children) {
         pretty_print_tree(child, depth + 1, dep_counter + 1);
     }
 }
 
-int NodeTree::depth(Node* root) {
+int NodeTree::depth(const Node* root) {
     if(root == nullptr) {
         return 0;
     }
@@ -310,9 +308,9 @@ void NodeTree::parse_nodelist_from_address_book() {
 }
 
 
-void NodeTree::get_parent_from_tree(Node* copy_of_tree, const std::string& my_curr_node_addr, std::string& parent) {
-    if(my_curr_node_addr == copy_of_tree->data) {
-        parent = copy_of_tree->my_parent->data;
+void NodeTree::get_parent_from_tree(const Node* copy_of_tree, const std::string& my_curr_node_addr, std::string& parent) {
+    if(my_curr_node_addr == copy_of_tree->addr) {
+        parent = copy_of_tree->parent->addr;
     }
     for(Node* child : copy_of_tree->get_children()) {
         get_parent_from_tree(child, my_curr_node_addr, parent);

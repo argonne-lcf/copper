@@ -393,7 +393,19 @@ static void start_thallium_engine() {
             return;
         }
 
+        LOG(INFO) << "building rpc overlay network tree" << std::endl;
         Node::root = NodeTree::build_my_tree(Node::root, ServerLocalCacheProvider::node_address_data);
+
+        LOG(INFO) << "setting parent node addr" << std::endl;
+        if(Node::root->addr != std::string(server_engine->self())) {
+            std::string parent{};
+            NodeTree::get_parent_from_tree(Node::root, server_engine->self(), parent);
+            Node::parent_addr = parent;
+            LOG(INFO) << "non-root node setting parent addr: " << Node::parent_addr.value() << std::endl;
+        } else {
+            LOG(INFO) << "root node not setting parent addr" << std::endl;
+        }
+
         NodeTree::print_tree(Node::root);
         int tree_depth = NodeTree::depth(Node::root);
         LOG(INFO) << "the depth of the tree is: " << tree_depth << std::endl;
