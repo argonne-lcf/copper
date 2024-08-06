@@ -1,7 +1,9 @@
 # Aurora Address Book Generator
 
 ## Generating get ent entries
+```
 python3 gen_ent_hostst.py filepath
+```
 
 contents of filepath should look like:
 ```
@@ -10,7 +12,9 @@ x4000c0s0b0n0.hsn.cm.aurora.alcf.anl.gov.
 ```
 
 ## Generating address book
+```
 python3 gen_address_book.py filepath1 filepath2
+```
 
 contents of filepath1 should look like:
 ```
