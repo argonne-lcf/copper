@@ -30,6 +30,7 @@
 #include "../aixlog.h"
 #include "../cache/cache_tables.h"
 #include "../fs/util.h"
+#include "../metric/metrics.h"
 #include "node_tree.h"
 
 #define RPC_METADATA_TAG "rpc_getattr"

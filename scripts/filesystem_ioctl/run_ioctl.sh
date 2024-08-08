@@ -13,10 +13,15 @@ fi
 source $ENV
 
 if [ -z "$1" ]; then
-  echo "usage: run_ioctl.sh <CMD>"
+  echo "usage: run_ioctl.sh <CMD> <PATH>"
+  exit 1
+fi
+
+if [ -z "$2" ]; then
+  echo "usage: run_ioctl.sh <CMD> <PATH>"
   exit 1
 fi
 
 source ../env.sh
 
-python3 ioctl.py "$1"
+python3 ioctl.py "$1" "$2"

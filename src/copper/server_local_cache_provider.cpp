@@ -53,9 +53,11 @@ void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest,
     }
 
     if(!cached && lstat_response.first == Constants::fs_operation_success) {
+        Metric::stat_inter_cache_miss++;
         LOG(INFO, RPC_METADATA_TAG) << "caching intermediate rpc_lstat_response" << std::endl;
         CacheTables::md_cache_table.put_force(path_string, CuStat{lstat_response.second});
     } else if(cached) {
+        Metric::stat_inter_cache_hit++;
         LOG(INFO, RPC_METADATA_TAG) << "lstat response already cached" << std::endl;
     } else {
         LOG(INFO, RPC_METADATA_TAG) << "lstat response != 0, not caching intermediate rpc_lstat_response" << std::endl;
@@ -128,9 +130,11 @@ void ServerLocalCacheProvider::rpcRead(const tl::request& req, const bool dest, 
     }
 
     if(!cached && read_response.first >= 0) {
+        Metric::read_inter_cache_miss++;
         LOG(INFO, RPC_READDIR_TAG) << "caching intermediate rpc_readfile_response" << std::endl;
         CacheTables::data_cache_table.put_force(path_string, std::vector<std::byte>(read_response.second));
     } else if(cached) {
+        Metric::read_inter_cache_hit++;
         LOG(INFO, RPC_DATA_TAG) << "readfile response already cached" << std::endl;
     } else {
         LOG(INFO, RPC_DATA_TAG) << "readfile response < 0, not caching intermediate rpc_readfile_response" << std::endl;
@@ -220,9 +224,11 @@ void ServerLocalCacheProvider::rpcReaddir(const tl::request& req, const bool des
     }
 
     if(!cached && readdir_response.first == Constants::fs_operation_success) {
+        Metric::readdir_inter_cache_hit++;
         LOG(INFO, RPC_READDIR_TAG) << "caching intermediate rpc_readfile_response" << std::endl;
         CacheTables::tree_cache_table.put_force(path_string, std::vector<std::string>(readdir_response.second));
     } else if(cached) {
+        Metric::readdir_inter_cache_miss++;
         LOG(INFO, RPC_READDIR_TAG) << "readdir response already cached" << std::endl;
     } else {
         LOG(INFO, RPC_READDIR_TAG) << "readdir response != 0, not caching intermediate rpc_readfile_response" << std::endl;

@@ -202,6 +202,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
 
     std::string output;
     std::optional<std::ofstream> fs_stream_opt = std::nullopt;
+    Node* my_node = nullptr;
 
     switch(cmd) {
     case(Constants::ioctl_log_cache_tables):
@@ -221,7 +222,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     case(Constants::ioctl_log_operation_count):
         LOG(INFO) << "logging operation" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_operation_output_filename));
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::my_hostname + "-" + Constants::log_operation_output_filename));
         fs_stream_opt.value() << Operations::log_operation << std::endl;
         break;
     case(Constants::ioctl_log_operation_time):
@@ -233,13 +234,13 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     case(Constants::ioctl_log_operation_cache_hit):
         LOG(INFO) << "logging operation cache hit" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_cache_hit_output_filename));
+        IOCTL_GET_FS_STREAM(Constants::my_hostname + "-" + Constants::get_output_filename(Constants::log_cache_hit_output_filename));
         fs_stream_opt.value() << Operations::log_operation_cache_hit << std::endl;
         break;
     case(Constants::ioctl_log_operation_cache_miss):
         LOG(INFO) << "logging operation cache miss" << std::endl;
 
-        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_cache_miss_output_filename));
+        IOCTL_GET_FS_STREAM(Constants::my_hostname + "-" + Constants::get_output_filename(Constants::log_cache_miss_output_filename));
         fs_stream_opt.value() << Operations::log_operation_cache_miss << std::endl;
         break;
     case(Constants::ioctl_clear_operation_count):
@@ -318,18 +319,40 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         break;
     case(Constants::ioctl_get_data_cache_size):
         LOG(INFO) << "logging data cache size" << std::endl;
-        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_data_cache_size_output_filename));
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::my_hostname + "-" + Constants::log_data_cache_size_output_filename));
         fs_stream_opt.value() << DataCacheTable::get_data_size_metrics << std::endl;
         break;
     case(Constants::ioctl_get_tree_cache_size):
         LOG(INFO) << "logging tree cache size" << std::endl;
-        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_tree_cache_size_output_filename));
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::my_hostname + "-" + Constants::log_tree_cache_size_output_filename));
         fs_stream_opt.value() << TreeCacheTable::get_data_size_metrics << std::endl;
         break;
     case(Constants::ioctl_get_md_cache_size):
         LOG(INFO) << "logging md cache size" << std::endl;
-        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::log_md_cache_size_output_filename));
+        IOCTL_GET_FS_STREAM(Constants::get_output_filename(Constants::my_hostname + "-" + Constants::log_md_cache_size_output_filename));
         fs_stream_opt.value() << MDCacheTable::get_data_size_metrics << std::endl;
+        break;
+    case(Constants::ioctL_get_inter_cache_res):
+        IOCTL_GET_FS_STREAM(std::string(Constants::my_hostname + "-inter_cache_results.txt"));
+        my_node = NodeTree::get_my_node(Node::root);
+        fs_stream_opt.value() << "addr: " << my_node->addr << std::endl;
+
+        if(my_node->parent_addr.has_value()) {            
+            fs_stream_opt.value() << "parentaddr: " << my_node->parent_addr.value() << std::endl;
+        } else {
+            fs_stream_opt.value() << "parentaddr: " << std::endl;
+        }
+
+        fs_stream_opt.value() << "level: " << my_node->level << std::endl << std::endl;
+        
+        fs_stream_opt.value() << "statintercachehit: " << Metric::stat_inter_cache_hit << std::endl;
+        fs_stream_opt.value() << "statintercachemiss: " << Metric::stat_inter_cache_miss << std::endl << std::endl;
+
+        fs_stream_opt.value() << "readintercachehit: " << Metric::read_inter_cache_hit << std::endl;
+        fs_stream_opt.value() << "readintercachemiss: " << Metric::read_inter_cache_miss << std::endl << std::endl;
+
+        fs_stream_opt.value() << "readdirintercachehit: " << Metric::readdir_inter_cache_hit << std::endl;
+        fs_stream_opt.value() << "readdirintercachemiss: " << Metric::readdir_inter_cache_miss << std::endl << std::endl;
         break;
     default:
         LOG(DEBUG) << "external ioctl with cmd: " << cmd << std::endl;
@@ -405,6 +428,9 @@ static void start_thallium_engine() {
         } else {
             LOG(INFO) << "root node not setting parent addr" << std::endl;
         }
+
+        LOG(INFO) << "setting myaddr" << std::endl;
+        Node::my_addr = server_engine->self();
 
         NodeTree::print_tree(Node::root);
         int tree_depth = NodeTree::depth(Node::root);

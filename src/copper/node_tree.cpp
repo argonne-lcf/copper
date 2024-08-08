@@ -18,10 +18,10 @@ void NodeTree::pretty_print_tree(const Node* root, int depth, int dep_counter) {
     }
 
     for(int i = 0; i < depth; i++) {
-        LOG(INFO) << "    ";
+        LOG(FATAL) << "    ";
     }
 
-    LOG(INFO) << "(depth " << dep_counter << ") " << root->addr << std::endl;
+    LOG(FATAL) << "(depth " << dep_counter << ") " << root->addr << std::endl;
 
     for(Node* child : root->children) {
         pretty_print_tree(child, depth + 1, dep_counter + 1);
@@ -312,7 +312,24 @@ void NodeTree::get_parent_from_tree(const Node* copy_of_tree, const std::string&
     if(my_curr_node_addr == copy_of_tree->addr) {
         parent = copy_of_tree->parent->addr;
     }
+    
     for(Node* child : copy_of_tree->get_children()) {
         get_parent_from_tree(child, my_curr_node_addr, parent);
     }
+}
+
+Node* NodeTree::get_my_node(Node* cur_node) {
+    if(Node::my_addr == cur_node->addr) {
+        return cur_node;
+    }
+
+    for(Node* child: cur_node->get_children()) {
+        Node* res = get_my_node(child);
+
+        if(res) {
+            return res;
+        }
+    }
+
+    return nullptr;
 }

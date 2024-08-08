@@ -18,8 +18,10 @@ class Node {
 
     const int level;
     const std::string addr;
-    static inline std::optional<std::string> parent_addr{std::nullopt};
     const int child_id;
+
+    static inline std::string my_addr{};
+    static inline std::optional<std::string> parent_addr{std::nullopt};
 
     Node(std::string addr, Node* parent, const int level, const int child_id) : addr{std::move(addr)}, parent{parent}, level{level}, child_id{child_id} {
     }
@@ -36,6 +38,7 @@ class NodeTree {
     static void get_parent_from_tree(const Node* copy_of_tree, const std::string& my_curr_node_addr, std::string& parent);
     static int depth(const Node* root);
     static Node* build_my_tree(Node* root, std::vector<std::string> node_address_data);
+    static Node* get_my_node(Node* root);
     static void push_back_address(const std::string& hostname, const std::string& my_cxi_server_ip_hex_str);
     static void get_hsn0_cxi_addr();
     static void parse_nodelist_from_address_book();

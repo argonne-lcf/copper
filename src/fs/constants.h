@@ -74,6 +74,8 @@ class Constants {
     static constexpr unsigned int ioctl_get_tree_cache_size{2400};
     static constexpr unsigned int ioctl_get_md_cache_size{2500};
 
+    static constexpr unsigned int ioctL_get_inter_cache_res{2600};
+
     static inline std::string copper_address_book_filename = "copper_address_book.txt";
     static inline std::string copper_address_book_path;
 
