@@ -1,15 +1,6 @@
 #include "server_local_cache_provider.h"
 #include <cassert>
 
-std::vector<std::pair<std::string, std::string>> ServerLocalCacheProvider::global_peer_pairs;
-std::mutex ServerLocalCacheProvider::mtx;
-std::vector<std::string> ServerLocalCacheProvider::node_address_data;
-std::vector<tl::endpoint> ServerLocalCacheProvider::m_peers;
-
-tl::remote_procedure ServerLocalCacheProvider::rpc_lstat;
-tl::remote_procedure ServerLocalCacheProvider::rpc_readfile;
-tl::remote_procedure ServerLocalCacheProvider::rpc_readdir;
-
 void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest, const std::string& path_string) const {
     const auto& req_from_addr = static_cast<std::string>(req.get_endpoint());
     const auto& my_curr_node_addr = static_cast<std::string>(get_engine().self());
@@ -25,25 +16,25 @@ void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest,
         LOG(INFO, RPC_METADATA_TAG) << "found in local cache" << std::endl;
         lstat_response = lstat_return_type(Constants::fs_operation_success, entry_opt.value()->get_vec());
         cached = true;
-    } else if(Node::root->data == my_curr_node_addr) {
+    } else if(Node::root->addr == my_curr_node_addr) {
         LOG(INFO, RPC_METADATA_TAG) << "requesting data from underlying filesystem" << std::endl;
         CuStat cu_stat;
         if(lstat(path_string.c_str(), cu_stat.get_st()) == -1) {
+            LOG(ERROR) << "storage stat for path: " << path_string << " returned with errno: " << errno << std::endl;
             lstat_response = lstat_return_type(-errno, std::vector<std::byte>(0));
         } else {
             lstat_response = lstat_return_type(Constants::fs_operation_success, cu_stat.get_vec());
         }
     } else {
-        std::string parent;
-        NodeTree::get_parent_from_tree(Node::root, my_curr_node_addr, parent);
+        assert(Node::parent_addr.has_value());
 #ifdef BLOCK_REDUNDANT_RPCS
         // NOTE: were the first one to make rpc request
         if(!CacheTables::md_path_status_cache_table.check_and_put_force(path_string)) {
             LOG(INFO, RPC_METADATA_TAG) << "first to request path_string" << std::endl;
 #endif
-            LOG(INFO, RPC_METADATA_TAG) << "going to parent " << parent << std::endl;
-            lstat_response = rpc_lstat.on(get_engine().lookup(parent))(false, path_string);
-            LOG(INFO, RPC_METADATA_TAG) << "returned from parent " << parent << std::endl;
+            LOG(INFO, RPC_METADATA_TAG) << "going to parent " << Node::parent_addr.value() << std::endl;
+            lstat_response = rpc_lstat.on(get_engine().lookup(Node::parent_addr.value()))(false, path_string);
+            LOG(INFO, RPC_METADATA_TAG) << "returned from parent " << Node::parent_addr.value() << std::endl;
 #ifdef BLOCK_REDUNDANT_RPCS
         } else { // NOTE: request already made wait for cache to be filled
             LOG(INFO, RPC_METADATA_TAG) << " not first to request path_string, waiting on cache entry..." << std::endl;
@@ -99,26 +90,25 @@ void ServerLocalCacheProvider::rpcRead(const tl::request& req, const bool dest, 
         const auto bytes = entry_opt.value();
         read_response = std::make_pair(bytes->size(), *bytes);
         cached = true;
-    } else if(Node::root->data == my_curr_node_addr) {
+    } else if(Node::root->addr == my_curr_node_addr) {
         LOG(INFO, RPC_DATA_TAG) << "requesting data from underlying filesystem" << std::endl;
         try {
-            const std::vector<std::byte>& file_bytes = Util::read_ent_file(path_string, true);
+            const std::vector<std::byte>& file_bytes = Util::read_ent_file(path_string);
             read_response = std::make_pair(file_bytes.size(), file_bytes);
         } catch(std::exception& e) {
             LOG(WARNING, RPC_DATA_TAG) << e.what() << std::endl;
             read_response = std::make_pair(-Constants::fs_operation_error, std::vector<std::byte>(0));
         }
     } else {
-        std::string parent;
-        NodeTree::get_parent_from_tree(Node::root, my_curr_node_addr, parent);
+        assert(Node::parent_addr.has_value());
 #ifdef BLOCK_REDUNDANT_RPCS
         // NOTE: were the first one to make rpc request
         if(!CacheTables::data_path_status_cache_table.check_and_put_force(path_string)) {
             LOG(INFO, RPC_DATA_TAG) << "first to request path_string" << std::endl;
 #endif
-            LOG(INFO, RPC_DATA_TAG) << "going to parent " << parent << std::endl;
-            read_response = rpc_readfile.on(get_engine().lookup(parent))(false, path_string);
-            LOG(INFO, RPC_DATA_TAG) << "returned from parent " << parent << std::endl;
+            LOG(INFO, RPC_DATA_TAG) << "going to parent " << Node::parent_addr.value() << std::endl;
+            read_response = rpc_readfile.on(get_engine().lookup(Node::parent_addr.value() ))(false, path_string);
+            LOG(INFO, RPC_DATA_TAG) << "returned from parent " << Node::parent_addr.value() << std::endl;
 #ifdef BLOCK_REDUNDANT_RPCS
         } else {
             // NOTE: request already made wait for cache to be filled
@@ -176,40 +166,49 @@ void ServerLocalCacheProvider::rpcReaddir(const tl::request& req, const bool des
         const auto paths = entry_opt.value();
         readdir_response = std::make_pair(Constants::fs_operation_success, *paths);
         cached = true;
-    } else if(Node::root->data == my_curr_node_addr) {
+    } else if(Node::root->addr == my_curr_node_addr) {
         LOG(INFO, RPC_READDIR_TAG) << "requesting data from underlying filesystem" << std::endl;
         auto entries = std::vector<std::string>{};
         DIR* dp = opendir(path_string.c_str());
         if(dp == nullptr) {
             LOG(WARNING) << "failed to passthrough readdir" << std::endl;
-            readdir_response = std::make_pair(-errno, std::vector<std::string>{});
+            LOG(ERROR) << "storage opendir for path: " << path_string << " returned with errno: " << errno << std::endl;
+            readdir_response = std::make_pair(-errno, std::vector<std::string>(0));
         } else {
-            dirent* de;
+            // NOTE: when readdir returns nullptr it means either:
+            //       1. end of directory
+            //       2. errno was set to a nonzero value
+            dirent* de; errno = 0;
             while((de = readdir(dp)) != nullptr) {
-                entries.emplace_back(de->d_name);
+                entries.emplace_back(de->d_name); errno = 0;
             }
-            closedir(dp);
 
-            readdir_response = std::make_pair(Constants::fs_operation_success, entries);
+            if(errno != 0) {
+                LOG(ERROR) << "storage readdir for path: " << path_string << " returned with errno: " << errno << std::endl;
+                readdir_response = std::make_pair(-errno, std::vector<std::string>(0));
+            } else {
+                readdir_response = std::make_pair(Constants::fs_operation_success, entries);
+            }
+
+            closedir(dp);
         }
     } else {
-        std::string parent;
-        NodeTree::get_parent_from_tree(Node::root, my_curr_node_addr, parent);
+        assert(Node::parent_addr.has_value());
 #ifdef BLOCK_REDUNDANT_RPCS
         // NOTE: were the first one to make rpc request
         if(!CacheTables::tree_path_status_cache_table.check_and_put_force(path_string)) {
             LOG(INFO, RPC_READDIR_TAG) << "first to request path_string" << std::endl;
 #endif
-            LOG(INFO, RPC_READDIR_TAG) << "going to parent " << parent << std::endl;
-            readdir_response = rpc_readdir.on(get_engine().lookup(parent))(false, path_string);
-            LOG(INFO, RPC_READDIR_TAG) << "returned from parent " << parent << std::endl;
+            LOG(INFO, RPC_READDIR_TAG) << "going to parent " << Node::parent_addr.value() << std::endl;
+            readdir_response = rpc_readdir.on(get_engine().lookup(Node::parent_addr.value() ))(false, path_string);
+            LOG(INFO, RPC_READDIR_TAG) << "returned from parent " << Node::parent_addr.value()  << std::endl;
 #ifdef BLOCK_REDUNDANT_RPCS
         } else { // NOTE: request already made wait for cache to be filled
             LOG(INFO, RPC_READDIR_TAG) << "not first to request path_string, waiting on cache entry..." << std::endl;
             const auto status = CacheTables::tree_path_status_cache_table.wait_on_cache_status(path_string);
 
             if(status != Constants::fs_operation_success) {
-                readdir_response = std::make_pair(status, std::vector<std::string>());
+                readdir_response = std::make_pair(status, std::vector<std::string>(0));
             } else {
                 assert(CacheTables::tree_cache_table.get(path_string).has_value());
                 readdir_response = std::make_pair(status, *CacheTables::tree_cache_table.get(path_string).value());

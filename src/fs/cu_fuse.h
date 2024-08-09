@@ -34,12 +34,13 @@
 #include "../metric/ioctl_event.h"
 #include "../metric/metrics.h"
 #include "../metric/operations.h"
+#include "../tl_logger.h"
 #include "constants.h"
 #include "util.h"
 
 class CuFuse {
     public:
-    static int cu_hello_main(int argc, char* argv[], void* userdata);
+    static int cu_hello_main(int argc, char* argv[]);
 };
 
 #endif // CU_FUSE_H

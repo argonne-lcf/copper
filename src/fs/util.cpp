@@ -2,7 +2,6 @@
 
 #include "../metric/ioctl_event.h"
 #include "../metric/metrics.h"
-#include "../metric/operations.h"
 
 std::string Util::rel_to_abs_path(const char* path) {
     if(!path) {
@@ -10,27 +9,21 @@ std::string Util::rel_to_abs_path(const char* path) {
         throw std::runtime_error("path was null");
     }
 
-    if(!Constants::target_path.has_value()) {
-        LOG(FATAL) << Constants::usage << std::endl;
-        throw std::runtime_error("-tpath argument not found");
-    }
-
     if(strcmp(path, "/") == 0) {
-        LOG(DEBUG) << "operation on /" << std::endl;
-        return Constants::target_path.value();
+        return Constants::target_path;
     }
 
-    if(Constants::target_path.value() == "/") {
+    if(Constants::target_path == "/") {
         return std::string{path};
     }
 
     const auto suffix{path};
-    const auto abs_path{Constants::target_path.value() + suffix};
+    const auto abs_path{Constants::target_path + suffix};
 
     return abs_path;
 }
 
-std::vector<std::string> Util::process_args(const int argc, const char* argv[]) {
+std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
     umask(0);
 
     auto original_string_args{std::vector<std::string>()};
@@ -50,7 +43,7 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
             }
 
             Constants::target_path = std::string(argv[i + 1]);
-            LOG(DEBUG) << "-tpath was found: " << Constants::target_path.value() << std::endl;
+            LOG(DEBUG) << "-tpath was found: " << Constants::target_path << std::endl;
             i += 2;
         } else if(original_string_args[i] == "-vpath") {
             if(i + 1 >= original_string_args.size()) {
@@ -71,23 +64,50 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
             Constants::log_level = std::stoi(std::string(argv[i + 1]));
             LOG(DEBUG) << "-log_level was found: " << Constants::log_level << std::endl;
             i += 2;
-	    } else if(original_string_args[i] == "-es") {
+        } else if(original_string_args[i] == "-es") {
             if(i + 1 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
                 throw std::runtime_error("no argument after -es");
             }
 
-            Constants::es = std::stoi(std::string(argv[i+1]));
+            Constants::es = std::stoi(std::string(argv[i + 1]));
             LOG(DEBUG) << "-es was found: " << Constants::es << std::endl;
             i += 2;
-        } else if(original_string_args[i] == "-max_cacheable_byte_size") {
+        } else if (original_string_args[i] == "-nf") {
+            if(i + 1 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -nf");
+            }
+
+	        Constants::nodefile = std::string(argv[i+1]);
+            LOG(DEBUG) << "-nf was found: " << Constants::nodefile.value() << std::endl;
+            i += 2;
+	    } else if(original_string_args[i] == "-max_cacheable_byte_size") {
             if(i + 1 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
                 throw std::runtime_error("no argument after -max_cacheable_byte_size");
             }
 
-            Constants::max_cacheable_byte_size = std::stoi(std::string(argv[i+1]));
+            Constants::max_cacheable_byte_size = std::stoi(std::string(argv[i + 1]));
             LOG(DEBUG) << "-max_cacheable_byte_size was found: " << Constants::max_cacheable_byte_size << std::endl;
+            i += 2;
+        } else if(original_string_args[i] == "-net_type") {
+            if(i + 1 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -net_type");
+            }
+
+            Constants::network_type = std::string(argv[i + 1]);
+            LOG(DEBUG) << "-net_type was found: " << Constants::network_type << std::endl;
+            i += 2;
+        } else if(original_string_args[i] == "-addr_write_sync_time") {
+            if(i + 1 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -addr_write_sync_time");
+            }
+
+            Constants::address_write_sync_time = std::stoi(std::string(argv[i + 1]));
+            LOG(DEBUG) << "-addr_write_sync_time was found: " << Constants::address_write_sync_time << std::endl;
             i += 2;
         } else if(original_string_args[i] == "-log_type") {
             if(i + 1 >= original_string_args.size()) {
@@ -113,35 +133,15 @@ std::vector<std::string> Util::process_args(const int argc, const char* argv[]) 
         }
     }
 
-    if(!Constants::target_path.has_value()) {
-        LOG(FATAL) << Constants::usage << std::endl;
-        throw std::runtime_error("-tpath argument not found");
-    }
-
     if(!Constants::view_path.has_value()) {
         LOG(FATAL) << Constants::usage << std::endl;
         throw std::runtime_error("-vpath argument not found");
     }
 
-    if(Constants::log_type != "stdout" && Constants::log_type != "file" && Constants::log_type != "file_and_stdout") {
-        LOG(FATAL) << Constants::usage << std::endl;
-        throw std::runtime_error("-invalid log_type argument");
-    }
-
-    if(Constants::log_level < 0 || Constants::log_level > 6) {
-        LOG(FATAL) << Constants::usage << std::endl;
-        throw std::runtime_error("-invalid log_level argument");
-    }
-
-    if((Constants::log_type == "file" || Constants::log_type == "file_and_stdout") && Constants::log_output_dir == std::nullopt) {
-        LOG(FATAL) << Constants::usage << std::endl;
-        throw std::runtime_error("-log_output_path required because -log_type file or file_and_stdout");
-    }
-
     return new_string_args;
 }
 
-std::vector<std::byte> Util::read_ent_file(const std::string& path, bool is_file) {
+std::vector<std::byte> Util::read_ent_file(const std::string& path) {
     if(std::ifstream source_file{path, std::ios::binary}) {
         std::streamsize file_size{};
         file_size = static_cast<std::streamsize>(std::filesystem::file_size(path));

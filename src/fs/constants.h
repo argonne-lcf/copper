@@ -9,15 +9,18 @@
 
 class Constants {
     public:
-    static inline std::optional<std::string> target_path{std::nullopt};
+    static inline std::string target_path{"/"};
     static inline std::optional<std::string> view_path{std::nullopt};
-    static inline int log_level{1};
+    static inline int log_level{0};
     // FIXME: make struct with strings for types
-    static inline std::string log_type{"stdout"};
+    static inline std::string log_type{"file_and_stdout"};
     static inline std::optional<std::string> log_output_dir{std::nullopt};
     static inline std::string my_hostname;
     static inline int es{1};
     static inline int max_cacheable_byte_size{1048576};
+    static inline int address_write_sync_time{5};
+    static inline std::optional<std::string> nodefile{std::nullopt};
+    static inline std::string network_type{"cxi"};
 
     // clang-format off
     static inline std::string usage{"cu_fuse <FUSE_PARAMS> -tpath <ABS_TARGET_PATH> "
@@ -27,6 +30,9 @@ class Constants {
                                                             "-log_output_dir <ABS_LOG_OUTPUT_DIR_PATH>"
                                                             "-es <NUM_EXECUTION_STREAMS>"
                                                             "-max_cacheable_byte_size <MAX_CACHEABLE_BYTE_SIZE>"
+							                                "-nf <PBS_NODEFILE>"
+                                                            "-net_type <cxi/na+sm/tcp>"
+                                                            "-addr_write_sync_time <time sec>"
                                                             " <ABS_VIEW_PATH>"};
     // clang-format on
 
@@ -71,10 +77,14 @@ class Constants {
     static inline std::string copper_address_book_filename = "copper_address_book.txt";
     static inline std::string copper_address_book_path;
 
-    static std::string get_output_filename(const std::string& suffix) {
-        return my_hostname + "-" + std::to_string(getpid()) + "-" + suffix;
+    static inline std::string pid;
+
+    static inline std::string output_filename_suffix = "output.log";
+    static inline std::string output_filename_path;
+    static std::string get_output_filename(std::string suffix) {
+        return my_hostname + "-" + Constants::pid + "-" + suffix;
     }
-    static inline std::string per_node_output_filename = "output.log";
+
     static inline std::string log_cache_tables_output_filename = "cache_tables.output";
     static inline std::string log_operation_output_filename = "operation_count.output";
     static inline std::string log_operation_time_output_filename = "operation_time.output";

@@ -28,6 +28,11 @@ export BLOCK_REDUNDANT_RPCS=ON
 # set to either ON/OFF to enable/disable fuse single-threaded/multi-threaded
 export SINGLE_THREADED_FUSE=OFF
 
+# cxi/tcp/na+sm
+export NET_TYPE=cxi
+# only used if -nf not passed
+export ADDR_WRITE_SYNC_TIME=5
+
 export ROOT_DIR=$(readlink -f "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/..")
 export SCRIPTS_DIR="$ROOT_DIR"/scripts
 export TARGET_DIR=/

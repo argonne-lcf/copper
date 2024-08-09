@@ -1,18 +1,18 @@
 #include "node_tree.h"
 
+#include <cassert>
+
 #include "server_local_cache_provider.h"
 
-Node* Node::root = nullptr;
-
-void NodeTree::print_tree(Node* node) {
-    LOG(INFO) << "level: " << node->level << ", child id at this level: " << node->child_id << ", data: " << node->data
+void NodeTree::print_tree(const Node* node) {
+    LOG(INFO) << "level: " << node->level << ", child id at this level: " << node->child_id << ", addr: " << node->addr
               << std::endl;
-    for(Node* child : node->getChildren()) {
+    for(Node* child : node->get_children()) {
         print_tree(child);
     }
 }
 
-void NodeTree::pretty_print_tree(Node* root, int depth, int dep_counter) {
+void NodeTree::pretty_print_tree(const Node* root, int depth, int dep_counter) {
     if(root == nullptr) {
         return;
     }
@@ -21,14 +21,14 @@ void NodeTree::pretty_print_tree(Node* root, int depth, int dep_counter) {
         LOG(INFO) << "    ";
     }
 
-    LOG(INFO) << "(depth " << dep_counter << ") " << root->data << std::endl;
+    LOG(INFO) << "(depth " << dep_counter << ") " << root->addr << std::endl;
 
     for(Node* child : root->children) {
         pretty_print_tree(child, depth + 1, dep_counter + 1);
     }
 }
 
-int NodeTree::depth(Node* root) {
+int NodeTree::depth(const Node* root) {
     if(root == nullptr) {
         return 0;
     }
@@ -212,7 +212,7 @@ void NodeTree::get_hsn0_cxi_addr() {
     std::string my_hsn0_mac_id;
     std::ifstream inFile("/sys/class/net/hsn0/address");
     if(!inFile.is_open()) {
-        LOG(FATAL) << "error opening address file" << std::endl;
+        LOG(FATAL) << "error opening address file - " << errno << std::endl;
         throw std::runtime_error("error opening address file");
     }
     inFile >> my_hsn0_mac_id;
@@ -244,9 +244,47 @@ void NodeTree::get_hsn0_cxi_addr() {
     push_back_address(hostname, my_cxi_server_ip_hex_str);
 }
 
-void NodeTree::parse_nodelist_from_cxi_address_book() {
-    sleep(20); //  barrier issue: The first process needs to wait until all the remaining processes have written to the address book.
+void NodeTree::generate_nodelist_from_nodefile(const std::string& filename)
+{
+    std::ifstream in(filename, std::ios::in);
+    assert(in.is_open());
 
+    //
+    // This only works on Aurora
+    //   assumes 8 rows with 21 racks
+    //   rows 4000 through 4600
+    //   racks 0000 through 0020
+    //   assumes we're always using hsn0
+    //
+    std::string line;
+    while(getline(in, line))
+    {
+        std::string host = line.substr(0, line.find("."));
+	int row = std::stoi(host.substr(1, 2));
+	int rack = std::stoi(host.substr(3, 4));
+        int chassis = std::stoi(host.substr(6, 6));
+	int slot = std::stoi(host.substr(8, 8));
+
+	unsigned int to_slot[] = { 0xb3, 0xa3, 0xb1, 0xa1, 0x90, 0x80, 0x92, 0x82 };
+	unsigned int to_chassis[] = { 0x000, 0x100, 0x200, 0x300, 0x400, 0x500, 0x600, 0x700 };
+	unsigned int to_row[] = { 0x4800, 0xF000, 0x19800, 0x24000, 0x2e800, 0x39000, 0x43800, 0x4D000 };
+	unsigned int to_rack[] = { 0x000, 0x800, 0x1000, 0x1800, 0x2000, 0x2800, 0x3000, 0x3800, 0x4000, 0x4800, 0x5000, 0x5800, 0x6000, 0x6800, 0x7000, 0x7800, 0x8000, 0x8800, 0x9000, 0x9800, 0xA000 };
+
+	unsigned long cxiaddr = 0x20000000;
+        cxiaddr += ((to_row[row-40] + to_rack[rack] + to_chassis[chassis] + to_slot[slot]) << 9);
+        std::bitset<32> cxiaddr_bin32(cxiaddr);
+
+        std::stringstream my_cxi_server_ip_hex_ss;
+        my_cxi_server_ip_hex_ss << std::hex << cxiaddr_bin32.to_ulong();
+        std::string my_cxi_server_ip_hex_str = "ofi+cxi://0x" + my_cxi_server_ip_hex_ss.str();
+	LOG(INFO) << host << " : " << my_cxi_server_ip_hex_str << " - " << cxiaddr << " 0x" << row << rack << "c" << chassis << "s" << slot << std::endl;
+	ServerLocalCacheProvider::global_peer_pairs.emplace_back(host, my_cxi_server_ip_hex_str);
+	ServerLocalCacheProvider::node_address_data.emplace_back(my_cxi_server_ip_hex_str);
+    } 
+    return;
+}
+
+void NodeTree::parse_nodelist_from_address_book() {
     std::ifstream inFile(Constants::copper_address_book_path, std::ios::in);
 
     LOG(INFO) << "opening file" << std::endl;
@@ -258,7 +296,7 @@ void NodeTree::parse_nodelist_from_cxi_address_book() {
     std::string line;
     while(getline(inFile, line)) {
         LOG(INFO) << getpid() << ":" << line << std::endl;
-        size_t pos = line.find(" ");
+        size_t pos = line.find(' ');
         std::string first_part_hostname = line.substr(0, pos);
         std::string second_part_cxi = line.substr(pos + 1);
         LOG(INFO) << first_part_hostname << ":" << second_part_cxi << std::endl;
@@ -270,11 +308,11 @@ void NodeTree::parse_nodelist_from_cxi_address_book() {
 }
 
 
-void NodeTree::get_parent_from_tree(Node* CopyofTree, const std::string& my_curr_node_addr, std::string& parentofmynode) {
-    if(my_curr_node_addr == CopyofTree->data) {
-        parentofmynode = CopyofTree->my_parent->data;
+void NodeTree::get_parent_from_tree(const Node* copy_of_tree, const std::string& my_curr_node_addr, std::string& parent) {
+    if(my_curr_node_addr == copy_of_tree->addr) {
+        parent = copy_of_tree->parent->addr;
     }
-    for(Node* child : CopyofTree->getChildren()) {
-        get_parent_from_tree(child, my_curr_node_addr, parentofmynode);
+    for(Node* child : copy_of_tree->get_children()) {
+        get_parent_from_tree(child, my_curr_node_addr, parent);
     }
 }
