@@ -355,9 +355,11 @@ static void start_thallium_engine() {
         tl::logger::set_global_log_level(tl::logger::level::trace);
 
         tl::engine* server_engine;
+        std::string my_addr{};
         try {
             server_engine = new tl::engine{Constants::network_type, THALLIUM_SERVER_MODE, true, Constants::es};
-	    LOG(INFO) << "engine started" << std::endl;
+            my_addr = std::string(server_engine->self());
+	          LOG(INFO) << "engine started" << std::endl;
         } catch(std::exception& e) {
             LOG(FATAL) << e.what() << std::endl;
             return;
@@ -382,8 +384,7 @@ static void start_thallium_engine() {
             NodeTree::parse_nodelist_from_address_book();
         } else if(Constants::network_type == "na+sm" || Constants::network_type == "tcp") {
             LOG(INFO) << "using address from server engine to init addresses" << std::endl;
-            NodeTree::push_back_address(Constants::my_hostname, server_engine->self());
-
+            NodeTree::push_back_address(Constants::my_hostname, my_addr);
             LOG(INFO) << "address written to address_book... sleeping for synchronization time: " << Constants::address_write_sync_time << std::endl;
             sleep(Constants::address_write_sync_time);
 
@@ -393,13 +394,22 @@ static void start_thallium_engine() {
             return;
         }
 
+        if(ServerLocalCacheProvider::node_address_data.size() < Constants::trees) {
+            LOG(FATAL) << "number of tree segments cannot be greater than number of addresses" << std::endl;
+            LOG(FATAL) << "number of addresses: " << ServerLocalCacheProvider::node_address_data.size() << std::endl;
+            LOG(FATAL) << "number of tree segments: " << Constants::trees << std::endl;
+            return;
+        }
+        std::vector<std::string> my_tree_segment = NodeTree::get_my_tree_segment(ServerLocalCacheProvider::node_address_data, 
+                                                                                 my_addr, Constants::trees);
+
         LOG(INFO) << "building rpc overlay network tree" << std::endl;
-        Node::root = NodeTree::build_my_tree(Node::root, ServerLocalCacheProvider::node_address_data);
+        Node::root = NodeTree::build_my_tree(Node::root, my_tree_segment);
 
         LOG(INFO) << "setting parent node addr" << std::endl;
-        if(Node::root->addr != std::string(server_engine->self())) {
+        if(Node::root->addr != my_addr) {
             std::string parent{};
-            NodeTree::get_parent_from_tree(Node::root, server_engine->self(), parent);
+            NodeTree::get_parent_from_tree(Node::root, my_addr, parent);
             Node::parent_addr = parent;
             LOG(INFO) << "non-root node setting parent addr: " << Node::parent_addr.value() << std::endl;
         } else {
@@ -411,12 +421,12 @@ static void start_thallium_engine() {
         LOG(INFO) << "the depth of the tree is: " << tree_depth << std::endl;
         NodeTree::pretty_print_tree(Node::root, tree_depth);
 
-        LOG(INFO) << "server running at address: " << server_engine->self() << std::endl;
+        LOG(INFO) << "server running at address: " << my_addr << std::endl;
         server_engine->enable_remote_shutdown();
         ServerLocalCacheProvider::rpc_lstat = server_engine->define("rpc_lstat");
         ServerLocalCacheProvider::rpc_readfile = server_engine->define("rpc_readfile");
         ServerLocalCacheProvider::rpc_readdir = server_engine->define("rpc_readdir");
-        new ServerLocalCacheProvider{*server_engine, ServerLocalCacheProvider::node_address_data};
+        new ServerLocalCacheProvider{*server_engine, my_tree_segment};
 
         LOG(INFO) << "setting my_engine" << std::endl;
         ServerLocalCacheProvider::my_engine = server_engine;

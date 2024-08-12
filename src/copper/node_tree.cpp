@@ -316,3 +316,71 @@ void NodeTree::get_parent_from_tree(const Node* copy_of_tree, const std::string&
         get_parent_from_tree(child, my_curr_node_addr, parent);
     }
 }
+
+
+// NOTE: splits node address book into num_segments, it does this by dividing the
+//       size(addresses) / num_segments. Then adds the remaining addresses % num_segments
+//       to each of the segments.
+static std::vector<std::vector<std::string>> get_tree_segments(std::vector<std::string>& addresses, int num_segments) {
+    int init_tree_size = addresses.size() / num_segments;
+    int init_total_size = init_tree_size * num_segments;
+    int remainder = addresses.size() % num_segments;
+
+    LOG(INFO) << "number of addresses: " << addresses.size() << std::endl;
+    LOG(INFO) << "requested number of tree segments: " << num_segments << std::endl;
+
+    std::vector<std::vector<std::string>> segments;
+    int cur_pos = 0;
+    int cur_tree = 0;
+
+    // NOTE: create all tree segments
+    LOG(INFO) << "creating init tree segments" << std::endl;
+    for(int i = 0; i < num_segments; i++) {
+        segments.push_back(std::vector<std::string>{});
+    }
+
+    // NOTE: add all addresses other than remainder to init tree segments
+    LOG(INFO) << "adding init addresses to init tree segments" << std::endl;
+    for(;cur_pos < init_total_size; cur_pos++) {
+        // NOTE: go to the next tree
+        if(cur_pos != 0 && cur_pos % init_tree_size == 0) {
+            cur_tree++;
+        }
+
+        segments[cur_tree].push_back(addresses[cur_pos]);
+    }
+
+    // NOTE: add remaining addresses
+    LOG(INFO) << "adding remaining addresses to init tree segments" << std::endl;
+    for(int i = 0; i < remainder; i++) {
+        segments[i].push_back(addresses[cur_pos + i]);
+    }
+
+    // NOTE: sanity check
+    int total_size = 0;
+    for(auto& seg: segments) {
+        total_size += seg.size();
+    }
+
+    LOG(INFO) << "validating segment sizes" << std::endl;
+    assert(total_size == addresses.size());
+
+    return segments;
+}
+
+std::vector<std::string> NodeTree::get_my_tree_segment(std::vector<std::string>& addresses, std::string& my_addr, int num_segments) {
+    auto segments = get_tree_segments(addresses, num_segments);
+
+    // NOTE: loop through tree segments and find address
+    for(auto tree_seg: segments) {
+        for(auto addr: tree_seg) {
+            if(my_addr == addr) {
+                return tree_seg;
+            }
+        }
+    }
+
+    LOG(FATAL) << "unable to find addr in tree segments" << std::endl;
+    assert(0);
+}
+    

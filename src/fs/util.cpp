@@ -45,6 +45,15 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
             Constants::target_path = std::string(argv[i + 1]);
             LOG(DEBUG) << "-tpath was found: " << Constants::target_path << std::endl;
             i += 2;
+        } else if(original_string_args[i] == "-trees") {
+            if(i + 1 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -trees");
+            }
+
+            Constants::trees = atoi(argv[i + 1]);
+            LOG(DEBUG) << "-trees was found: " << Constants::trees << std::endl;
+            i += 2;
         } else if(original_string_args[i] == "-vpath") {
             if(i + 1 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;

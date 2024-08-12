@@ -64,4 +64,5 @@ $FUSE_FS -tpath $TARGET_DIR                          \
          -log_output_dir $LOG_OUTPUT_DIR             \
          -addr_write_sync_time $ADDR_WRITE_SYNC_TIME \
          -net_type $NET_TYPE                         \
+         -trees 1                                    \
          $ST -f $VIEW_DIR

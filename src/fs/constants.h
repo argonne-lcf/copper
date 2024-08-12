@@ -21,6 +21,7 @@ class Constants {
     static inline int address_write_sync_time{5};
     static inline std::optional<std::string> nodefile{std::nullopt};
     static inline std::string network_type{"cxi"};
+    static inline int trees{1};
 
     // clang-format off
     static inline std::string usage{"cu_fuse <FUSE_PARAMS> -tpath <ABS_TARGET_PATH> "

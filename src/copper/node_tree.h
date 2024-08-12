@@ -31,6 +31,7 @@ class Node {
 
 class NodeTree {
     public:
+    static std::vector<std::string> get_my_tree_segment(std::vector<std::string>& addresses, std::string& my_addr, int num_segments);
     static void print_tree(const Node* node);
     static void pretty_print_tree(const Node* root, int depth, int dep_counter = 0);
     static void get_parent_from_tree(const Node* copy_of_tree, const std::string& my_curr_node_addr, std::string& parent);
