@@ -12,9 +12,4 @@ fi
 
 source $ENV
 
-function unmount() {
-    echo "unmounting view dir"
-    fusermount -u "$VIEW_DIR" || true
-}
-
-unmount || { echo "mnt already unmounted"; exit 0; }
+fusermount3 -u "$VIEW_DIR" || true

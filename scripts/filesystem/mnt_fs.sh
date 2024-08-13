@@ -56,6 +56,14 @@ else
   echo "running fuse in multi-threaded mode"
 fi
 
+NODE_FILE_CMD=""
+if [[ -n $NODE_FILE ]]; then
+  echo "address book found using -nf $NODE_FILE"
+  NODE_FILE_CMD="-nf $NODE_FILE"
+else 
+  echo "address book not found"
+fi
+
 echo "mounting fuse distributed cache to view dir"
 $FUSE_FS -tpath $TARGET_DIR                          \
          -vpath $VIEW_DIR                            \
@@ -65,4 +73,5 @@ $FUSE_FS -tpath $TARGET_DIR                          \
          -addr_write_sync_time $ADDR_WRITE_SYNC_TIME \
          -net_type $NET_TYPE                         \
          -trees 1                                    \
-         $ST -f $VIEW_DIR
+         $NODE_FILE_CMD                              \
+         $ST $VIEW_DIR

@@ -3,8 +3,8 @@
 ### Introduction 
 
 Built with fuse and mochi thallium RPC library... 
-Image of the tree.
-
+Image of the tree. 
+More documentation can be found here: [readthedocs](https://alcf-copper-docs.readthedocs.io/en/latest/)
 
 ### Lists of the current filesystem operations that are supported.
 
@@ -71,7 +71,7 @@ sh copper/scripts/build_helper/build.sh
 ### How to start the copper service
 
 ```
-mpirun -np 7 -ppn 1 copper/scripts/filesystem/mnt_fs.sh [& or separate terminal ]
+mpirun -np 7 -ppn 1 copper/scripts/filesystem/mnt_fs.sh
 ```
 
 ### How to start the real app

@@ -2,8 +2,6 @@
 
 # set for mnt to work
 export VIEW_DIR=
-# set for tests to work
-export PY_PACKAGES_DIR=
 # set to location of fuse library directory required to build
 export FUSE3_LIB=
 # set to location of fuse header directory required to build
@@ -32,6 +30,8 @@ export SINGLE_THREADED_FUSE=OFF
 export NET_TYPE=cxi
 # only used if -nf not passed
 export ADDR_WRITE_SYNC_TIME=5
+# location of address book
+export NODE_FILE=
 
 export ROOT_DIR=$(readlink -f "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/..")
 export SCRIPTS_DIR="$ROOT_DIR"/scripts
