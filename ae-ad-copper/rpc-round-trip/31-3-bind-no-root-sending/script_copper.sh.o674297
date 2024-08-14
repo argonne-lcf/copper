@@ -1,0 +1,1086 @@
+Jobid: 674297.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+674297.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+Running on nodes x4211c3s7b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c4s0b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c4s1b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c4s2b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c4s3b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c4s4b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c4s5b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c4s6b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c4s7b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c5s0b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c5s1b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c5s2b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c5s3b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c5s5b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c5s6b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c5s7b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c6s0b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c6s2b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c6s3b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c6s5b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c6s6b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c6s7b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c7s0b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c7s1b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c7s2b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c7s3b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c7s4b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c7s5b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c7s6b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4211c7s7b0n0.hostmgmt2211.cm.aurora.alcf.anl.gov x4213c0s0b0n0.hostmgmt2213.cm.aurora.alcf.anl.gov
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1
+/opt/aurora/24.086.0/frameworks/aurora_nre_models_frameworks-2024.1/bin/python
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 1
+Sun 09 Jun 2024 05:51:03 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 05:52:53 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 4
+Sun 09 Jun 2024 05:52:58 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 05:54:49 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 8
+Sun 09 Jun 2024 05:54:54 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 05:56:44 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 16
+Sun 09 Jun 2024 05:56:49 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 05:58:40 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 32
+Sun 09 Jun 2024 05:58:45 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:00:35 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 64
+Sun 09 Jun 2024 06:00:40 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:02:31 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 128
+Sun 09 Jun 2024 06:02:36 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:04:26 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 256
+Sun 09 Jun 2024 06:04:31 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:06:21 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 512
+Sun 09 Jun 2024 06:06:26 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:08:17 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 1024
+Sun 09 Jun 2024 06:08:22 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:10:12 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 2048
+Sun 09 Jun 2024 06:10:17 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:12:08 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 4096
+Sun 09 Jun 2024 06:12:13 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:14:03 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 8192
+Sun 09 Jun 2024 06:14:08 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:15:59 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 16384
+Sun 09 Jun 2024 06:16:04 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:18:14 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 32768
+Sun 09 Jun 2024 06:18:19 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:20:29 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 65536
+Sun 09 Jun 2024 06:20:34 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:22:45 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 131072
+Sun 09 Jun 2024 06:22:50 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:25:00 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 262144
+Sun 09 Jun 2024 06:25:05 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:27:16 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 524288
+Sun 09 Jun 2024 06:27:21 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:29:31 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 1048576
+Sun 09 Jun 2024 06:29:36 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:31:47 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 2097152
+Sun 09 Jun 2024 06:31:52 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:34:32 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 4194304
+Sun 09 Jun 2024 06:34:37 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:37:17 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 8388608
+Sun 09 Jun 2024 06:37:22 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:40:03 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 16777216
+Sun 09 Jun 2024 06:40:08 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:42:48 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 33554432
+Sun 09 Jun 2024 06:42:53 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:45:34 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 67108864
+Sun 09 Jun 2024 06:45:39 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:48:19 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 134217728
+Sun 09 Jun 2024 06:48:24 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:51:05 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 268435456
+Sun 09 Jun 2024 06:51:10 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:53:50 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 536870912
+Sun 09 Jun 2024 06:53:55 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200
+Sun 09 Jun 2024 06:56:55 AM UTC
+NUM_OF_NODES=31  TOTAL_NUM_RANKS=31  RANKS_PER_NODE=1 BUF_SIZE= 1073741824
+Sun 09 Jun 2024 06:57:00 AM UTC
+shutdown Server running at address ofi+cxi://0x23e70601
+Calling shutdown_remote_engine on ofi+cxi://0x23e70400
+Calling shutdown_remote_engine on ofi+cxi://0x23e96600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4200
+Calling shutdown_remote_engine on ofi+cxi://0x23e90400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4600
+Calling shutdown_remote_engine on ofi+cxi://0x23e92000
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6600
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6200
+Calling shutdown_remote_engine on ofi+cxi://0x24016600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2000
+Calling shutdown_remote_engine on ofi+cxi://0x23eb6600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ef2400
+Calling shutdown_remote_engine on ofi+cxi://0x23ed6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef4600
+Calling shutdown_remote_engine on ofi+cxi://0x23ed4200
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6200
+Calling shutdown_remote_engine on ofi+cxi://0x23ed0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e92400
+Calling shutdown_remote_engine on ofi+cxi://0x23e90000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb2400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0400
+Calling shutdown_remote_engine on ofi+cxi://0x23eb0000
+Calling shutdown_remote_engine on ofi+cxi://0x23e94200
+Calling shutdown_remote_engine on ofi+cxi://0x23e94600
+Calling shutdown_remote_engine on ofi+cxi://0x23ef0000
+Calling shutdown_remote_engine on ofi+cxi://0x23ef6600
+Calling shutdown_remote_engine on ofi+cxi://0x23e96200
+Calling shutdown_remote_engine on ofi+cxi://0x23eb4200

@@ -1,0 +1,371 @@
+Cached Python:12 ES:1 fcores:1 total:2
+
+real	0m0.469s
+user	0m0.000s
+sys	0m0.007s
+fusermount3: entry for /tmp/copper not found in /etc/mtab
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 31: 50796 Terminated              numactl --physcpubind="${list}" $CUPATH/cu_fuse -tpath / -vpath /tmp/copper -log_level 6 -log_type file -log_output_dir /tmp/copper-logs -es ${es} -f /tmp/copper
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 150, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 150, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 150, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 150, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 150, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 150, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 150, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 150, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 150, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 150, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 150, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 150, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/fft/__init__.py", line 216, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/fft/__init__.py", line 216, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/fft/__init__.py", line 216, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/fft/__init__.py", line 216, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/fft/__init__.py", line 216, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/fft/__init__.py", line 216, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/fft/__init__.py", line 216, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/fft/__init__.py", line 216, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/fft/__init__.py", line 216, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/fft/__init__.py", line 216, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/fft/__init__.py", line 216, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/fft/__init__.py", line 216, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/__init__.py", line 31, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/__init__.py", line 31, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/__init__.py", line 31, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/__init__.py", line 31, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/__init__.py", line 31, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/__init__.py", line 31, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/__init__.py", line 31, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/__init__.py", line 31, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/__init__.py", line 31, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/__init__.py", line 31, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/__init__.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/__init__.py", line 31, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/__init__.py", line 31, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/__init__.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/__init__.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/__init__.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/__init__.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/__init__.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/__init__.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/scipy_fft.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/__init__.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/scipy_fft.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/scipy_fft.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/__init__.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/__init__.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/scipy_fft.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/scipy_fft.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/scipy_fft.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/scipy_fft.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/scipy_fft.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/__init__.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/scipy_fft.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/scipy_fft.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/__init__.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/scipy_fft.py", line 27, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/interfaces/scipy_fft.py", line 27, in <module>
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/_scipy_fft_backend.py'
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/_scipy_fft_backend.py'
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/_scipy_fft_backend.py'
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/_scipy_fft_backend.py'
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/_scipy_fft_backend.py'
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/_scipy_fft_backend.py'
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/_scipy_fft_backend.py'
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/_scipy_fft_backend.py'
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/_scipy_fft_backend.py'
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/_scipy_fft_backend.py'
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/_scipy_fft_backend.py'
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/mkl_fft/_scipy_fft_backend.py'
+x4703c5s5b0n0.hostmgmt2703.cm.aurora.alcf.anl.gov: rank 1 exited with code 1
+Cached Python:12 ES:1 fcores:2 total:3
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 31: 50858 Segmentation fault      numactl --physcpubind="${list}" $CUPATH/cu_fuse -tpath / -vpath /tmp/copper -log_level 6 -log_type file -log_output_dir /tmp/copper-logs -es ${es} -f /tmp/copper
+
+real	0m0.460s
+user	0m35.126s
+sys	0m31.980s
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 61: kill: (50858) - No such process
+Cached Python:12 ES:1 fcores:4 total:5
+
+real	0m2.444s
+user	0m0.000s
+sys	0m0.008s
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 31: 51850 Terminated              numactl --physcpubind="${list}" $CUPATH/cu_fuse -tpath / -vpath /tmp/copper -log_level 6 -log_type file -log_output_dir /tmp/copper-logs -es ${es} -f /tmp/copper
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 153, in <module>
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/ctypeslib.py'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 153, in <module>
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/ctypeslib.py'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 153, in <module>
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/ctypeslib.py'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 153, in <module>
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/ctypeslib.py'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 153, in <module>
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/ctypeslib.py'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 153, in <module>
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/ctypeslib.py'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 153, in <module>
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/ctypeslib.py'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 153, in <module>
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/ctypeslib.py'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 153, in <module>
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/ctypeslib.py'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 153, in <module>
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/ctypeslib.py'
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 153, in <module>
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/ctypeslib.py'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py", line 153, in <module>
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 846, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 982, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1039, in get_data
+OSError: [Errno 107] Transport endpoint is not connected: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/ctypeslib.py'
+x4703c5s5b0n0.hostmgmt2703.cm.aurora.alcf.anl.gov: rank 1 died from signal 7
+Cached Python:12 ES:1 fcores:8 total:9
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 31: 52472 Segmentation fault      numactl --physcpubind="${list}" $CUPATH/cu_fuse -tpath / -vpath /tmp/copper -log_level 6 -log_type file -log_output_dir /tmp/copper-logs -es ${es} -f /tmp/copper
+
+real	0m0.469s
+user	0m40.775s
+sys	0m49.967s
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 61: kill: (52472) - No such process
+x4703c5s5b0n0.hostmgmt2703.cm.aurora.alcf.anl.gov: rank 9 died from signal 7
+x4703c5s5b0n0.hostmgmt2703.cm.aurora.alcf.anl.gov: rank 0 died from signal 15
+Cached Python:12 ES:2 fcores:1 total:3
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 31: 53032 Segmentation fault      numactl --physcpubind="${list}" $CUPATH/cu_fuse -tpath / -vpath /tmp/copper -log_level 6 -log_type file -log_output_dir /tmp/copper-logs -es ${es} -f /tmp/copper
+
+real	0m0.463s
+user	0m33.147s
+sys	0m33.927s
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 61: kill: (53032) - No such process
+Cached Python:12 ES:2 fcores:2 total:4
+
+real	0m2.266s
+user	0m0.006s
+sys	0m0.002s
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 31: 53214 Terminated              numactl --physcpubind="${list}" $CUPATH/cu_fuse -tpath / -vpath /tmp/copper -log_level 6 -log_type file -log_output_dir /tmp/copper-logs -es ${es} -f /tmp/copper
+Cached Python:12 ES:2 fcores:4 total:6
+
+real	0m2.918s
+user	0m0.003s
+sys	0m0.005s
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 31: 53757 Terminated              numactl --physcpubind="${list}" $CUPATH/cu_fuse -tpath / -vpath /tmp/copper -log_level 6 -log_type file -log_output_dir /tmp/copper-logs -es ${es} -f /tmp/copper
+Cached Python:12 ES:2 fcores:8 total:10
+
+real	0m5.212s
+user	0m0.002s
+sys	0m0.006s
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 31: 55006 Terminated              numactl --physcpubind="${list}" $CUPATH/cu_fuse -tpath / -vpath /tmp/copper -log_level 6 -log_type file -log_output_dir /tmp/copper-logs -es ${es} -f /tmp/copper
+Cached Python:12 ES:4 fcores:1 total:5
+
+real	0m2.862s
+user	0m0.000s
+sys	0m0.008s
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 31: 56222 Terminated              numactl --physcpubind="${list}" $CUPATH/cu_fuse -tpath / -vpath /tmp/copper -log_level 6 -log_type file -log_output_dir /tmp/copper-logs -es ${es} -f /tmp/copper
+Cached Python:12 ES:4 fcores:2 total:6
+
+real	0m3.032s
+user	0m0.000s
+sys	0m0.008s
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 31: 56899 Terminated              numactl --physcpubind="${list}" $CUPATH/cu_fuse -tpath / -vpath /tmp/copper -log_level 6 -log_type file -log_output_dir /tmp/copper-logs -es ${es} -f /tmp/copper
+Cached Python:12 ES:4 fcores:4 total:8
+
+real	0m5.290s
+user	0m0.000s
+sys	0m0.009s
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 31: 57759 Terminated              numactl --physcpubind="${list}" $CUPATH/cu_fuse -tpath / -vpath /tmp/copper -log_level 6 -log_type file -log_output_dir /tmp/copper-logs -es ${es} -f /tmp/copper
+x4703c5s5b0n0.hostmgmt2703.cm.aurora.alcf.anl.gov: rank 11 died from signal 7
+x4703c5s5b0n0.hostmgmt2703.cm.aurora.alcf.anl.gov: rank 0 died from signal 15
+Cached Python:12 ES:4 fcores:8 total:12
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 31: 59215 Segmentation fault      numactl --physcpubind="${list}" $CUPATH/cu_fuse -tpath / -vpath /tmp/copper -log_level 6 -log_type file -log_output_dir /tmp/copper-logs -es ${es} -f /tmp/copper
+
+real	0m0.485s
+user	0m42.647s
+sys	1m5.099s
+/var/spool/pbs/mom_priv/jobs/708255.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 61: kill: (59215) - No such process

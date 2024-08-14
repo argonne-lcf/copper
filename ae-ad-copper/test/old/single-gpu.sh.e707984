@@ -1,0 +1,10 @@
+
+real	0m8.360s
+user	0m0.004s
+sys	0m0.005s
+/var/spool/pbs/mom_priv/jobs/707984.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 33: 135575 Terminated              numactl --physcpubind="${list}" $CUPATH/cu_fuse -tpath / -vpath /tmp/copper -log_level 6 -log_type file -log_output_dir /tmp/copper-logs -es ${es} -f /tmp/copper
+
+real	0m2.998s
+user	0m0.006s
+sys	0m0.002s
+/var/spool/pbs/mom_priv/jobs/707984.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov.SC: line 33: 135777 Terminated              numactl --physcpubind="${list}" $CUPATH/cu_fuse -tpath / -vpath /tmp/copper -log_level 6 -log_type file -log_output_dir /tmp/copper-logs -es ${es} -f /tmp/copper

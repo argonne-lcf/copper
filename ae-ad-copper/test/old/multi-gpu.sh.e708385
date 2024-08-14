@@ -1,0 +1,39 @@
+x4305c4s7b0n0.hostmgmt2305.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4305c4s7b0n0.hostmgmt2305.cm.aurora.alcf.anl.gov,10.115.34.49' (ECDSA) to the list of known hosts.
+x4119c2s0b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4119c2s0b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov,10.115.20.29' (ECDSA) to the list of known hosts.
+x4119c1s5b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4119c1s5b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov,10.115.20.28' (ECDSA) to the list of known hosts.
+x4119c3s0b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4119c3s0b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov,10.115.20.48' (ECDSA) to the list of known hosts.
+x4119c2s2b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4119c2s2b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov,10.115.20.46' (ECDSA) to the list of known hosts.
+x4119c2s1b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4119c2s1b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov,10.115.20.24' (ECDSA) to the list of known hosts.
+x4311c1s6b0n0.hostmgmt2311.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4311c1s6b0n0.hostmgmt2311.cm.aurora.alcf.anl.gov,10.115.37.18' (ECDSA) to the list of known hosts.
+pdsh@x4305c4s7b0n0: x4311c1s6b0n0.hostmgmt2311.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4305c4s7b0n0.hostmgmt2305.cm.aurora.alcf.anl.gov: Function returned HG_PROTOCOL_ERROR
+x4305c4s7b0n0.hostmgmt2305.cm.aurora.alcf.anl.gov: terminate called after throwing an instance of 'thallium::margo_exception'
+x4305c4s7b0n0.hostmgmt2305.cm.aurora.alcf.anl.gov:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+x4119c2s1b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: Function returned HG_PROTOCOL_ERROR
+x4119c2s1b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: terminate called after throwing an instance of 'thallium::margo_exception'
+x4119c2s1b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+x4119c3s0b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: Function returned HG_PROTOCOL_ERROR
+x4119c3s0b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: terminate called after throwing an instance of 'thallium::margo_exception'
+x4119c3s0b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+x4119c1s5b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: Function returned HG_PROTOCOL_ERROR
+x4119c1s5b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: terminate called after throwing an instance of 'thallium::margo_exception'
+x4119c1s5b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+x4119c2s2b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: Function returned HG_PROTOCOL_ERROR
+x4119c2s2b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: terminate called after throwing an instance of 'thallium::margo_exception'
+x4119c2s2b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+x4119c2s0b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: Function returned HG_PROTOCOL_ERROR
+x4119c2s0b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: terminate called after throwing an instance of 'thallium::margo_exception'
+x4119c2s0b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+pdsh@x4305c4s7b0n0: x4305c4s7b0n0.hostmgmt2305.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+pdsh@x4305c4s7b0n0: x4119c2s2b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+pdsh@x4305c4s7b0n0: x4119c1s5b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+pdsh@x4305c4s7b0n0: x4119c2s1b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+pdsh@x4305c4s7b0n0: x4119c3s0b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+pdsh@x4305c4s7b0n0: x4119c2s0b0n0.hostmgmt2119.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+Cached Python:12 ES:1 fcores:1 total:2
+
+real	0m0.840s
+user	0m0.002s
+sys	0m0.007s
+x4311c1s6b0n0.hostmgmt2311.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4305c4s7b0n0: x4311c1s6b0n0.hostmgmt2311.cm.aurora.alcf.anl.gov: ssh exited with exit code 1

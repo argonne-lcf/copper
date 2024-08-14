@@ -1,0 +1,8 @@
+pdsh@x4107c7s3b0n0: x4107c7s3b0n0.hostmgmt2107.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+Cached Python:12 ES:1 fcores:1 total:2
+
+real	0m12.623s
+user	0m0.005s
+sys	0m0.012s
+x4107c7s3b0n0.hostmgmt2107.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4107c7s3b0n0: x4107c7s3b0n0.hostmgmt2107.cm.aurora.alcf.anl.gov: ssh exited with exit code 1

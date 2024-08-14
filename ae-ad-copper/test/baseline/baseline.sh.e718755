@@ -1,0 +1,49 @@
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_vx=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for this output (/usr/share/lmod/lmod/init/bash)
+Shell debugging restarted
++ unset __lmod_vx
++ module load frameworks
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_sh_dbg=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+
+The following have been reloaded with a version change:
+  1) intel_compute_runtime/release/821.36 => intel_compute_runtime/release/803.29
+  2) oneapi/eng-compiler/2024.04.15.002 => oneapi/release/2024.1
+
+Shell debugging restarted
++ unset __lmod_sh_dbg
++ return 0
+++ cat /var/spool/pbs/aux/718755.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+++ wc -l
++ nodes=1024
++ echo 'Launch Baseline Nodes:1024'
+Launch Baseline Nodes:1024
++ mpiexec -n 12288 -ppn 12 sleep 1
+
+real	0m1.703s
+user	0m0.008s
+sys	0m0.005s
++ echo 'Baseline First Nodes:1024 Python:12 ES:1 fcores:1 total:2'
+Baseline First Nodes:1024 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 12288 -ppn 12 --genvall --genv=PYTHONPATH=/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env --cpu-bind=list:4-51 python3 -c 'import torch; print(torch.__file__)'
+ping failed on x4415c4s6b0n0: Application c85fe094-9980-4328-9c63-f8d87e52928b not found
+
+real	2m0.010s
+user	0m0.036s
+sys	0m0.048s
++ echo 'Baseline Cached Nodes:1024 Python:12 ES:1 fcores:1 total:2'
+Baseline Cached Nodes:1024 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 12288 -ppn 12 --genvall --genv=PYTHONPATH=/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env --cpu-bind=list:4-51 python3 -c 'import torch; print(torch.__file__)'
+ping failed on x4401c6s5b0n0: Application 64ba8a4c-e50e-4029-902f-ca35e3dd05f2 not found
+
+real	2m0.012s
+user	0m0.154s
+sys	0m0.219s

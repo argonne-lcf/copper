@@ -1,0 +1,114 @@
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_vx=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for this output (/usr/share/lmod/lmod/init/bash)
+Shell debugging restarted
++ unset __lmod_vx
++ CUPATH=/home/harms/working/copper/copper/build
++ LOGDIR=/home/harms/copper-logs/716409
++ mkdir -p /home/harms/copper-logs/716409
++ WCOLL=/var/spool/pbs/aux/716409.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 fusermount3 -u /tmp/copper
+x4706c6s4b0n0: Warning: Permanently added 'x4706c6s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov,10.115.76.181' (ECDSA) to the list of known hosts.
+x4706c3s1b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c3s1b0n0: ssh exited with exit code 1
+x4706c3s2b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c3s2b0n0: ssh exited with exit code 1
+x4706c2s6b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c2s6b0n0: ssh exited with exit code 1
+x4706c2s7b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c2s7b0n0: ssh exited with exit code 1
+x4706c3s4b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c3s4b0n0: ssh exited with exit code 1
+x4706c3s6b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c3s6b0n0: ssh exited with exit code 1
+x4706c6s0b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c6s0b0n0: ssh exited with exit code 1
+x4706c4s3b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c4s3b0n0: ssh exited with exit code 1
+x4706c6s1b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c6s1b0n0: ssh exited with exit code 1
+x4706c4s7b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c4s7b0n0: ssh exited with exit code 1
+x4706c7s2b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c7s2b0n0: ssh exited with exit code 1
+x4706c7s0b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c7s0b0n0: ssh exited with exit code 1
+x4706c3s3b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c3s3b0n0: ssh exited with exit code 1
+x4706c5s5b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c5s5b0n0: ssh exited with exit code 1
+x4706c4s2b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c4s2b0n0: ssh exited with exit code 1
+x4706c5s7b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c5s7b0n0: ssh exited with exit code 1
+x4706c4s5b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c4s5b0n0: ssh exited with exit code 1
+x4706c5s1b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c5s1b0n0: ssh exited with exit code 1
+x4706c3s5b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4706c6s2b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4706c5s2b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c3s5b0n0: ssh exited with exit code 1
+pdsh@x4706c2s6b0n0: x4706c6s2b0n0: ssh exited with exit code 1
+pdsh@x4706c2s6b0n0: x4706c5s2b0n0: ssh exited with exit code 1
+x4706c5s4b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c5s4b0n0: ssh exited with exit code 1
+x4706c6s5b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c6s5b0n0: ssh exited with exit code 1
+x4706c4s1b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c4s1b0n0: ssh exited with exit code 1
+x4706c5s6b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c5s6b0n0: ssh exited with exit code 1
+x4706c6s6b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c6s6b0n0: ssh exited with exit code 1
+x4706c4s4b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c4s4b0n0: ssh exited with exit code 1
+x4706c6s3b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4706c6s4b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c6s3b0n0: ssh exited with exit code 1
+pdsh@x4706c2s6b0n0: x4706c6s4b0n0: ssh exited with exit code 1
+x4706c3s7b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c3s7b0n0: ssh exited with exit code 1
+x4706c7s1b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c7s1b0n0: ssh exited with exit code 1
+x4706c4s0b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4706c2s6b0n0: x4706c4s0b0n0: ssh exited with exit code 1
++ WCOLL=/var/spool/pbs/aux/716409.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh mkdir -p /tmp/copper
++ read -r -d '' CMD
++ WCOLL=/var/spool/pbs/aux/716409.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 /home/harms/working/copper/copper/build/cu_fuse -tpath / -vpath /tmp/copper -log_level 5 -log_type file -log_output_dir /home/harms/copper-logs/716409 -es 1 -nf /var/spool/pbs/aux/716409.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov -s /tmp/copper
+++ cat /var/spool/pbs/aux/716409.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+++ wc -l
++ nodes=32
++ sleep 60
++ echo 'Launch Baseline Nodes:32'
+Launch Baseline Nodes:32
++ mpiexec -n 384 -ppn 12 sleep 1
+
+real	0m1.205s
+user	0m0.000s
+sys	0m0.009s
++ echo 'First Nodes:32 Python:12 ES:1 fcores:1 total:2'
+First Nodes:32 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 384 -ppn 12 --genvall --genv=PYTHONPATH=/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages --cpu-bind=list:52-103 /soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3 -c 'import numpy; print(numpy.__file__)'
+ping failed on x4706c3s6b0n0: Application b265c44a-68b4-4f30-8e9a-7cbd03513b7a not found
+
+real	1m0.008s
+user	0m0.011s
+sys	0m0.015s
++ echo 'Cached Nodes:32 Python:12 ES:1 fcores:1 total:2'
+Cached Nodes:32 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 384 -ppn 12 --genvall --genv=PYTHONPATH=/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages --cpu-bind=list:52-103 /soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3 -c 'import numpy; print(numpy.__file__)'
+ping failed on x4706c2s7b0n0: Application a1e301f9-1f8d-4546-a9a4-187e7ae1ce42 not found
+
+real	1m0.009s
+user	0m0.012s
+sys	0m0.018s
++ WCOLL=/var/spool/pbs/aux/716409.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 fusermount3 -u /tmp/copper
+x4706c6s5b0n0: fusermount3: failed to unmount /tmp/copper: Device or resource busy
+pdsh@x4706c2s6b0n0: x4706c6s5b0n0: ssh exited with exit code 1

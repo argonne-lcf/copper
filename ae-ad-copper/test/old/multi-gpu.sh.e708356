@@ -1,0 +1,31 @@
+x4704c7s2b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: Function returned HG_PROTOCOL_ERROR
+x4704c7s2b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: terminate called after throwing an instance of 'thallium::margo_exception'
+x4704c7s2b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+x4704c7s4b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: Function returned HG_PROTOCOL_ERROR
+x4704c7s4b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: terminate called after throwing an instance of 'thallium::margo_exception'
+x4704c7s4b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+x4705c0s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: Function returned HG_PROTOCOL_ERROR
+x4705c0s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: terminate called after throwing an instance of 'thallium::margo_exception'
+x4705c0s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+x4704c7s7b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: Function returned HG_PROTOCOL_ERROR
+x4704c7s7b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: terminate called after throwing an instance of 'thallium::margo_exception'
+x4704c7s7b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+x4704c7s6b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: Function returned HG_PROTOCOL_ERROR
+x4704c7s6b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: terminate called after throwing an instance of 'thallium::margo_exception'
+x4704c7s6b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+pdsh@x4704c7s2b0n0: x4704c7s2b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+pdsh@x4704c7s2b0n0: x4704c7s4b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+pdsh@x4704c7s2b0n0: x4705c0s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+pdsh@x4704c7s2b0n0: x4704c7s6b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+pdsh@x4704c7s2b0n0: x4704c7s7b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4704c7s5b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: libfabric:13779:1721601971::cxi:core:cxip_ux_onload_cb():2659<warn> x4704c7s5b0n0: RXC (0x4f780:0) PtlTE 12:[Fatal] LE resources not recovered during flow control. FI_CXI_RX_MATCH_MODE=[hybrid|software] is required
+pdsh@x4704c7s2b0n0: x4704c7s5b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+ping failed on x4704c7s6b0n0: Application 89e20ff7-85f5-43d5-8a08-fd094dedae47 not found
+Cached Python:12 ES:1 fcores:1 total:2
+ping failed on x4704c7s2b0n0: Couldn't forward RPC ping(ac1be0c3-8095-41c2-ad28-48aced51bd34) to child x4704c7s3b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: Resource temporarily unavailable
+
+real	2m8.015s
+user	0m0.008s
+sys	0m0.010s
+x4704c7s3b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh: connect to host x4704c7s3b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4704c7s2b0n0: x4704c7s3b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 255

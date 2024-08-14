@@ -1,0 +1,104 @@
+ Level 0 Child ID at this Level 1 Data ofi+cxi://0x23e70400
+ Level 1 Child ID at this Level 1 Data ofi+cxi://0x23e96600
+ Level 2 Child ID at this Level 1 Data ofi+cxi://0x23e90400
+ Level 3 Child ID at this Level 1 Data ofi+cxi://0x23eb6200
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x23ef4600
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x23ed4200
+ Level 3 Child ID at this Level 2 Data ofi+cxi://0x24016600
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x23ef6200
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x23ed0000
+ Level 2 Child ID at this Level 2 Data ofi+cxi://0x23eb4600
+ Level 3 Child ID at this Level 1 Data ofi+cxi://0x23ed0400
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x23e92400
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x23e90000
+ Level 3 Child ID at this Level 2 Data ofi+cxi://0x23ef2000
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x23ef0400
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x23eb2400
+ Level 1 Child ID at this Level 2 Data ofi+cxi://0x23ef4200
+ Level 2 Child ID at this Level 1 Data ofi+cxi://0x23e92000
+ Level 3 Child ID at this Level 1 Data ofi+cxi://0x23eb6600
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x23eb0400
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x23eb0000
+ Level 3 Child ID at this Level 2 Data ofi+cxi://0x23ed2400
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x23e94200
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x23e94600
+ Level 2 Child ID at this Level 2 Data ofi+cxi://0x23ed6600
+ Level 3 Child ID at this Level 1 Data ofi+cxi://0x23ef2400
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x23ef0000
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x23ef6600
+ Level 3 Child ID at this Level 2 Data ofi+cxi://0x23ed6200
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x23e96200
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x23eb4200
+The depth of the tree is :5
+                    (depth 0) ofi+cxi://0x23e70400
+                        (depth 1) ofi+cxi://0x23e96600
+                            (depth 2) ofi+cxi://0x23e90400
+                                (depth 3) ofi+cxi://0x23eb6200
+                                    (depth 4) ofi+cxi://0x23ef4600
+                                    (depth 4) ofi+cxi://0x23ed4200
+                                (depth 3) ofi+cxi://0x24016600
+                                    (depth 4) ofi+cxi://0x23ef6200
+                                    (depth 4) ofi+cxi://0x23ed0000
+                            (depth 2) ofi+cxi://0x23eb4600
+                                (depth 3) ofi+cxi://0x23ed0400
+                                    (depth 4) ofi+cxi://0x23e92400
+                                    (depth 4) ofi+cxi://0x23e90000
+                                (depth 3) ofi+cxi://0x23ef2000
+                                    (depth 4) ofi+cxi://0x23ef0400
+                                    (depth 4) ofi+cxi://0x23eb2400
+                        (depth 1) ofi+cxi://0x23ef4200
+                            (depth 2) ofi+cxi://0x23e92000
+                                (depth 3) ofi+cxi://0x23eb6600
+                                    (depth 4) ofi+cxi://0x23eb0400
+                                    (depth 4) ofi+cxi://0x23eb0000
+                                (depth 3) ofi+cxi://0x23ed2400
+                                    (depth 4) ofi+cxi://0x23e94200
+                                    (depth 4) ofi+cxi://0x23e94600
+                            (depth 2) ofi+cxi://0x23ed6600
+                                (depth 3) ofi+cxi://0x23ef2400
+                                    (depth 4) ofi+cxi://0x23ef0000
+                                    (depth 4) ofi+cxi://0x23ef6600
+                                (depth 3) ofi+cxi://0x23ed6200
+                                    (depth 4) ofi+cxi://0x23e96200
+                                    (depth 4) ofi+cxi://0x23eb4200
+Server running at address ofi+cxi://0x23ef4600
+req_coming_from_addr ofi+cxi://0x23ef4600 requested data for file : /path/to/file requested bytes : 33554432
+Going to parent ofi+cxi://0x23eb6200
+Hop trip my_curr_node_addr ofi+cxi://0x23ef4600
+I'm the main requester  elapsed time 1.19039 s  Bytes 33554432 iter 0
+req_coming_from_addr ofi+cxi://0x23ef4600 requested data for file : /path/to/file requested bytes : 33554432
+Going to parent ofi+cxi://0x23eb6200
+Hop trip my_curr_node_addr ofi+cxi://0x23ef4600
+I'm the main requester  elapsed time 1.13776 s  Bytes 33554432 iter 1
+req_coming_from_addr ofi+cxi://0x23ef4600 requested data for file : /path/to/file requested bytes : 33554432
+Going to parent ofi+cxi://0x23eb6200
+Hop trip my_curr_node_addr ofi+cxi://0x23ef4600
+I'm the main requester  elapsed time 1.14082 s  Bytes 33554432 iter 2
+req_coming_from_addr ofi+cxi://0x23ef4600 requested data for file : /path/to/file requested bytes : 33554432
+Going to parent ofi+cxi://0x23eb6200
+Hop trip my_curr_node_addr ofi+cxi://0x23ef4600
+I'm the main requester  elapsed time 1.09968 s  Bytes 33554432 iter 3
+req_coming_from_addr ofi+cxi://0x23ef4600 requested data for file : /path/to/file requested bytes : 33554432
+Going to parent ofi+cxi://0x23eb6200
+Hop trip my_curr_node_addr ofi+cxi://0x23ef4600
+I'm the main requester  elapsed time 1.0512 s  Bytes 33554432 iter 4
+req_coming_from_addr ofi+cxi://0x23ef4600 requested data for file : /path/to/file requested bytes : 33554432
+Going to parent ofi+cxi://0x23eb6200
+Hop trip my_curr_node_addr ofi+cxi://0x23ef4600
+I'm the main requester  elapsed time 1.06718 s  Bytes 33554432 iter 5
+req_coming_from_addr ofi+cxi://0x23ef4600 requested data for file : /path/to/file requested bytes : 33554432
+Going to parent ofi+cxi://0x23eb6200
+Hop trip my_curr_node_addr ofi+cxi://0x23ef4600
+I'm the main requester  elapsed time 1.07227 s  Bytes 33554432 iter 6
+req_coming_from_addr ofi+cxi://0x23ef4600 requested data for file : /path/to/file requested bytes : 33554432
+Going to parent ofi+cxi://0x23eb6200
+Hop trip my_curr_node_addr ofi+cxi://0x23ef4600
+I'm the main requester  elapsed time 1.07256 s  Bytes 33554432 iter 7
+req_coming_from_addr ofi+cxi://0x23ef4600 requested data for file : /path/to/file requested bytes : 33554432
+Going to parent ofi+cxi://0x23eb6200
+Hop trip my_curr_node_addr ofi+cxi://0x23ef4600
+I'm the main requester  elapsed time 1.06569 s  Bytes 33554432 iter 8
+req_coming_from_addr ofi+cxi://0x23ef4600 requested data for file : /path/to/file requested bytes : 33554432
+Going to parent ofi+cxi://0x23eb6200
+Hop trip my_curr_node_addr ofi+cxi://0x23ef4600
+I'm the main requester  elapsed time 0.797923 s  Bytes 33554432 iter 9

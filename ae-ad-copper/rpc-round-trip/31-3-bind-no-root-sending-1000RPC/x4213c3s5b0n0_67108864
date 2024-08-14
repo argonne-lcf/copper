@@ -1,0 +1,2426 @@
+ Level 0 Child ID at this Level 1 Data ofi+cxi://0x24014600
+ Level 1 Child ID at this Level 1 Data ofi+cxi://0x24050000
+ Level 2 Child ID at this Level 1 Data ofi+cxi://0x24074600
+ Level 3 Child ID at this Level 1 Data ofi+cxi://0x24054200
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x24074200
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x24036200
+ Level 3 Child ID at this Level 2 Data ofi+cxi://0x24030000
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x24032400
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x24056600
+ Level 2 Child ID at this Level 2 Data ofi+cxi://0x24010400
+ Level 3 Child ID at this Level 1 Data ofi+cxi://0x24034600
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x24070400
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x24014200
+ Level 3 Child ID at this Level 2 Data ofi+cxi://0x24056200
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x24030400
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x24054600
+ Level 1 Child ID at this Level 2 Data ofi+cxi://0x24012400
+ Level 2 Child ID at this Level 1 Data ofi+cxi://0x24032000
+ Level 3 Child ID at this Level 1 Data ofi+cxi://0x24034200
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x24036600
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x24072400
+ Level 3 Child ID at this Level 2 Data ofi+cxi://0x24076200
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x24076600
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x24010000
+ Level 2 Child ID at this Level 2 Data ofi+cxi://0x24012000
+ Level 3 Child ID at this Level 1 Data ofi+cxi://0x24016200
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x24052000
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x24072000
+ Level 3 Child ID at this Level 2 Data ofi+cxi://0x24050400
+ Level 4 Child ID at this Level 1 Data ofi+cxi://0x24096600
+ Level 4 Child ID at this Level 2 Data ofi+cxi://0x24070000
+The depth of the tree is :5
+                    (depth 0) ofi+cxi://0x24014600
+                        (depth 1) ofi+cxi://0x24050000
+                            (depth 2) ofi+cxi://0x24074600
+                                (depth 3) ofi+cxi://0x24054200
+                                    (depth 4) ofi+cxi://0x24074200
+                                    (depth 4) ofi+cxi://0x24036200
+                                (depth 3) ofi+cxi://0x24030000
+                                    (depth 4) ofi+cxi://0x24032400
+                                    (depth 4) ofi+cxi://0x24056600
+                            (depth 2) ofi+cxi://0x24010400
+                                (depth 3) ofi+cxi://0x24034600
+                                    (depth 4) ofi+cxi://0x24070400
+                                    (depth 4) ofi+cxi://0x24014200
+                                (depth 3) ofi+cxi://0x24056200
+                                    (depth 4) ofi+cxi://0x24030400
+                                    (depth 4) ofi+cxi://0x24054600
+                        (depth 1) ofi+cxi://0x24012400
+                            (depth 2) ofi+cxi://0x24032000
+                                (depth 3) ofi+cxi://0x24034200
+                                    (depth 4) ofi+cxi://0x24036600
+                                    (depth 4) ofi+cxi://0x24072400
+                                (depth 3) ofi+cxi://0x24076200
+                                    (depth 4) ofi+cxi://0x24076600
+                                    (depth 4) ofi+cxi://0x24010000
+                            (depth 2) ofi+cxi://0x24012000
+                                (depth 3) ofi+cxi://0x24016200
+                                    (depth 4) ofi+cxi://0x24052000
+                                    (depth 4) ofi+cxi://0x24072000
+                                (depth 3) ofi+cxi://0x24050400
+                                    (depth 4) ofi+cxi://0x24096600
+                                    (depth 4) ofi+cxi://0x24070000
+Server running at address ofi+cxi://0x24070000
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 0.942703 s  Bytes 67108864 iter 0
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.18469 s  Bytes 67108864 iter 1
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.17054 s  Bytes 67108864 iter 2
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.09386 s  Bytes 67108864 iter 3
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.10337 s  Bytes 67108864 iter 4
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.10646 s  Bytes 67108864 iter 5
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.10747 s  Bytes 67108864 iter 6
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.0885 s  Bytes 67108864 iter 7
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.19024 s  Bytes 67108864 iter 8
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.15686 s  Bytes 67108864 iter 9
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.10148 s  Bytes 67108864 iter 10
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.1768 s  Bytes 67108864 iter 11
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.10623 s  Bytes 67108864 iter 12
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.01527 s  Bytes 67108864 iter 13
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06093 s  Bytes 67108864 iter 14
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05276 s  Bytes 67108864 iter 15
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.08573 s  Bytes 67108864 iter 16
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05733 s  Bytes 67108864 iter 17
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06083 s  Bytes 67108864 iter 18
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05981 s  Bytes 67108864 iter 19
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06176 s  Bytes 67108864 iter 20
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.16697 s  Bytes 67108864 iter 21
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.03827 s  Bytes 67108864 iter 22
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05559 s  Bytes 67108864 iter 23
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06836 s  Bytes 67108864 iter 24
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.19538 s  Bytes 67108864 iter 25
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.14818 s  Bytes 67108864 iter 26
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.11533 s  Bytes 67108864 iter 27
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05719 s  Bytes 67108864 iter 28
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12513 s  Bytes 67108864 iter 29
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.21393 s  Bytes 67108864 iter 30
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.13187 s  Bytes 67108864 iter 31
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12995 s  Bytes 67108864 iter 32
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.0656 s  Bytes 67108864 iter 33
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.01315 s  Bytes 67108864 iter 34
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.17589 s  Bytes 67108864 iter 35
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12633 s  Bytes 67108864 iter 36
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05458 s  Bytes 67108864 iter 37
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06954 s  Bytes 67108864 iter 38
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05144 s  Bytes 67108864 iter 39
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.15684 s  Bytes 67108864 iter 40
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.03638 s  Bytes 67108864 iter 41
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06383 s  Bytes 67108864 iter 42
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06403 s  Bytes 67108864 iter 43
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12471 s  Bytes 67108864 iter 44
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.145 s  Bytes 67108864 iter 45
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.1538 s  Bytes 67108864 iter 46
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.18134 s  Bytes 67108864 iter 47
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.14001 s  Bytes 67108864 iter 48
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.15147 s  Bytes 67108864 iter 49
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05642 s  Bytes 67108864 iter 50
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05523 s  Bytes 67108864 iter 51
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12263 s  Bytes 67108864 iter 52
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.17738 s  Bytes 67108864 iter 53
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.16245 s  Bytes 67108864 iter 54
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.07069 s  Bytes 67108864 iter 55
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.03927 s  Bytes 67108864 iter 56
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05837 s  Bytes 67108864 iter 57
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.14908 s  Bytes 67108864 iter 58
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.0517 s  Bytes 67108864 iter 59
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06142 s  Bytes 67108864 iter 60
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.202 s  Bytes 67108864 iter 61
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.18615 s  Bytes 67108864 iter 62
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.0589 s  Bytes 67108864 iter 63
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05967 s  Bytes 67108864 iter 64
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.07141 s  Bytes 67108864 iter 65
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05923 s  Bytes 67108864 iter 66
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.13748 s  Bytes 67108864 iter 67
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.15056 s  Bytes 67108864 iter 68
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05393 s  Bytes 67108864 iter 69
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.03936 s  Bytes 67108864 iter 70
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.14334 s  Bytes 67108864 iter 71
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.0324 s  Bytes 67108864 iter 72
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.08428 s  Bytes 67108864 iter 73
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06854 s  Bytes 67108864 iter 74
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05184 s  Bytes 67108864 iter 75
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12158 s  Bytes 67108864 iter 76
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05354 s  Bytes 67108864 iter 77
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.08081 s  Bytes 67108864 iter 78
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06435 s  Bytes 67108864 iter 79
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.11584 s  Bytes 67108864 iter 80
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.1445 s  Bytes 67108864 iter 81
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.11922 s  Bytes 67108864 iter 82
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.15632 s  Bytes 67108864 iter 83
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.02747 s  Bytes 67108864 iter 84
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.11801 s  Bytes 67108864 iter 85
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12131 s  Bytes 67108864 iter 86
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.15552 s  Bytes 67108864 iter 87
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05392 s  Bytes 67108864 iter 88
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12608 s  Bytes 67108864 iter 89
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.21176 s  Bytes 67108864 iter 90
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.19054 s  Bytes 67108864 iter 91
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.10022 s  Bytes 67108864 iter 92
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12488 s  Bytes 67108864 iter 93
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05738 s  Bytes 67108864 iter 94
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05614 s  Bytes 67108864 iter 95
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.07957 s  Bytes 67108864 iter 96
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.26388 s  Bytes 67108864 iter 97
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.14797 s  Bytes 67108864 iter 98
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.20855 s  Bytes 67108864 iter 99
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12666 s  Bytes 67108864 iter 100
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05508 s  Bytes 67108864 iter 101
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05949 s  Bytes 67108864 iter 102
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05688 s  Bytes 67108864 iter 103
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.0506 s  Bytes 67108864 iter 104
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.07689 s  Bytes 67108864 iter 105
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12332 s  Bytes 67108864 iter 106
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06101 s  Bytes 67108864 iter 107
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05032 s  Bytes 67108864 iter 108
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06151 s  Bytes 67108864 iter 109
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.14149 s  Bytes 67108864 iter 110
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05042 s  Bytes 67108864 iter 111
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05909 s  Bytes 67108864 iter 112
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.13139 s  Bytes 67108864 iter 113
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.19454 s  Bytes 67108864 iter 114
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05706 s  Bytes 67108864 iter 115
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.1257 s  Bytes 67108864 iter 116
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06874 s  Bytes 67108864 iter 117
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.14753 s  Bytes 67108864 iter 118
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.18294 s  Bytes 67108864 iter 119
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05676 s  Bytes 67108864 iter 120
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06855 s  Bytes 67108864 iter 121
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.03763 s  Bytes 67108864 iter 122
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06579 s  Bytes 67108864 iter 123
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12922 s  Bytes 67108864 iter 124
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.0716 s  Bytes 67108864 iter 125
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12604 s  Bytes 67108864 iter 126
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12192 s  Bytes 67108864 iter 127
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.13148 s  Bytes 67108864 iter 128
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.13101 s  Bytes 67108864 iter 129
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06283 s  Bytes 67108864 iter 130
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12748 s  Bytes 67108864 iter 131
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06182 s  Bytes 67108864 iter 132
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05508 s  Bytes 67108864 iter 133
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.03072 s  Bytes 67108864 iter 134
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.0889 s  Bytes 67108864 iter 135
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06482 s  Bytes 67108864 iter 136
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06764 s  Bytes 67108864 iter 137
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.1468 s  Bytes 67108864 iter 138
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.16637 s  Bytes 67108864 iter 139
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.19744 s  Bytes 67108864 iter 140
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12539 s  Bytes 67108864 iter 141
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12308 s  Bytes 67108864 iter 142
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12872 s  Bytes 67108864 iter 143
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12778 s  Bytes 67108864 iter 144
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.07857 s  Bytes 67108864 iter 145
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05937 s  Bytes 67108864 iter 146
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.04878 s  Bytes 67108864 iter 147
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06105 s  Bytes 67108864 iter 148
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06041 s  Bytes 67108864 iter 149
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.04573 s  Bytes 67108864 iter 150
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.16079 s  Bytes 67108864 iter 151
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05319 s  Bytes 67108864 iter 152
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.09986 s  Bytes 67108864 iter 153
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.08014 s  Bytes 67108864 iter 154
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05189 s  Bytes 67108864 iter 155
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.07771 s  Bytes 67108864 iter 156
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.1946 s  Bytes 67108864 iter 157
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.14385 s  Bytes 67108864 iter 158
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.09776 s  Bytes 67108864 iter 159
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.1848 s  Bytes 67108864 iter 160
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.10644 s  Bytes 67108864 iter 161
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.11229 s  Bytes 67108864 iter 162
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12862 s  Bytes 67108864 iter 163
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05761 s  Bytes 67108864 iter 164
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05749 s  Bytes 67108864 iter 165
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06852 s  Bytes 67108864 iter 166
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12831 s  Bytes 67108864 iter 167
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05971 s  Bytes 67108864 iter 168
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05958 s  Bytes 67108864 iter 169
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06063 s  Bytes 67108864 iter 170
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06639 s  Bytes 67108864 iter 171
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.04732 s  Bytes 67108864 iter 172
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.13576 s  Bytes 67108864 iter 173
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.26286 s  Bytes 67108864 iter 174
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.14524 s  Bytes 67108864 iter 175
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.03397 s  Bytes 67108864 iter 176
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12549 s  Bytes 67108864 iter 177
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06841 s  Bytes 67108864 iter 178
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06073 s  Bytes 67108864 iter 179
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.04766 s  Bytes 67108864 iter 180
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.07313 s  Bytes 67108864 iter 181
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.23545 s  Bytes 67108864 iter 182
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.09723 s  Bytes 67108864 iter 183
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12702 s  Bytes 67108864 iter 184
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.17856 s  Bytes 67108864 iter 185
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.13107 s  Bytes 67108864 iter 186
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.13813 s  Bytes 67108864 iter 187
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05667 s  Bytes 67108864 iter 188
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.04905 s  Bytes 67108864 iter 189
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05645 s  Bytes 67108864 iter 190
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.0411 s  Bytes 67108864 iter 191
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.16842 s  Bytes 67108864 iter 192
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.20131 s  Bytes 67108864 iter 193
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.15173 s  Bytes 67108864 iter 194
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.02688 s  Bytes 67108864 iter 195
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06922 s  Bytes 67108864 iter 196
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06445 s  Bytes 67108864 iter 197
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06647 s  Bytes 67108864 iter 198
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12321 s  Bytes 67108864 iter 199
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05899 s  Bytes 67108864 iter 200
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12745 s  Bytes 67108864 iter 201
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.22579 s  Bytes 67108864 iter 202
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06456 s  Bytes 67108864 iter 203
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.03513 s  Bytes 67108864 iter 204
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.14264 s  Bytes 67108864 iter 205
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.04559 s  Bytes 67108864 iter 206
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12992 s  Bytes 67108864 iter 207
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06223 s  Bytes 67108864 iter 208
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.13663 s  Bytes 67108864 iter 209
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.15962 s  Bytes 67108864 iter 210
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.16459 s  Bytes 67108864 iter 211
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12263 s  Bytes 67108864 iter 212
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05975 s  Bytes 67108864 iter 213
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05615 s  Bytes 67108864 iter 214
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.0645 s  Bytes 67108864 iter 215
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05125 s  Bytes 67108864 iter 216
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06811 s  Bytes 67108864 iter 217
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12797 s  Bytes 67108864 iter 218
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05418 s  Bytes 67108864 iter 219
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12974 s  Bytes 67108864 iter 220
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.13061 s  Bytes 67108864 iter 221
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.22094 s  Bytes 67108864 iter 222
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.11521 s  Bytes 67108864 iter 223
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05922 s  Bytes 67108864 iter 224
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.04281 s  Bytes 67108864 iter 225
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12839 s  Bytes 67108864 iter 226
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.07274 s  Bytes 67108864 iter 227
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.14667 s  Bytes 67108864 iter 228
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.00327 s  Bytes 67108864 iter 229
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.07889 s  Bytes 67108864 iter 230
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12654 s  Bytes 67108864 iter 231
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.1363 s  Bytes 67108864 iter 232
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12538 s  Bytes 67108864 iter 233
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.23392 s  Bytes 67108864 iter 234
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.10437 s  Bytes 67108864 iter 235
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12567 s  Bytes 67108864 iter 236
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.22321 s  Bytes 67108864 iter 237
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.0976 s  Bytes 67108864 iter 238
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.12872 s  Bytes 67108864 iter 239
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05637 s  Bytes 67108864 iter 240
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05825 s  Bytes 67108864 iter 241
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06862 s  Bytes 67108864 iter 242
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.21967 s  Bytes 67108864 iter 243
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.06693 s  Bytes 67108864 iter 244
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.03601 s  Bytes 67108864 iter 245
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05759 s  Bytes 67108864 iter 246
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.05836 s  Bytes 67108864 iter 247
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.10472 s  Bytes 67108864 iter 248
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.13689 s  Bytes 67108864 iter 249
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.15004 s  Bytes 67108864 iter 250
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.08883 s  Bytes 67108864 iter 251
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.76159 s  Bytes 67108864 iter 252
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 3.04411 s  Bytes 67108864 iter 253
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 3.12584 s  Bytes 67108864 iter 254
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.97848 s  Bytes 67108864 iter 255
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.86815 s  Bytes 67108864 iter 256
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.96793 s  Bytes 67108864 iter 257
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.82658 s  Bytes 67108864 iter 258
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.76468 s  Bytes 67108864 iter 259
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.90506 s  Bytes 67108864 iter 260
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.89309 s  Bytes 67108864 iter 261
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.68451 s  Bytes 67108864 iter 262
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.68012 s  Bytes 67108864 iter 263
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.6754 s  Bytes 67108864 iter 264
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.65955 s  Bytes 67108864 iter 265
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.79677 s  Bytes 67108864 iter 266
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.66774 s  Bytes 67108864 iter 267
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.75725 s  Bytes 67108864 iter 268
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.63626 s  Bytes 67108864 iter 269
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.63665 s  Bytes 67108864 iter 270
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.62861 s  Bytes 67108864 iter 271
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.6457 s  Bytes 67108864 iter 272
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.64027 s  Bytes 67108864 iter 273
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.61048 s  Bytes 67108864 iter 274
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.64809 s  Bytes 67108864 iter 275
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.63148 s  Bytes 67108864 iter 276
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.62747 s  Bytes 67108864 iter 277
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.7309 s  Bytes 67108864 iter 278
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.62435 s  Bytes 67108864 iter 279
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.63812 s  Bytes 67108864 iter 280
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.62047 s  Bytes 67108864 iter 281
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.69789 s  Bytes 67108864 iter 282
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.71123 s  Bytes 67108864 iter 283
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.72524 s  Bytes 67108864 iter 284
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.64068 s  Bytes 67108864 iter 285
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.63344 s  Bytes 67108864 iter 286
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.62926 s  Bytes 67108864 iter 287
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 2.94534 s  Bytes 67108864 iter 288
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 3.69955 s  Bytes 67108864 iter 289
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 3.95738 s  Bytes 67108864 iter 290
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.49783 s  Bytes 67108864 iter 291
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.77523 s  Bytes 67108864 iter 292
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.85155 s  Bytes 67108864 iter 293
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.02504 s  Bytes 67108864 iter 294
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.08855 s  Bytes 67108864 iter 295
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.21935 s  Bytes 67108864 iter 296
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.21925 s  Bytes 67108864 iter 297
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.36293 s  Bytes 67108864 iter 298
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.31069 s  Bytes 67108864 iter 299
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.39826 s  Bytes 67108864 iter 300
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.47627 s  Bytes 67108864 iter 301
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.46378 s  Bytes 67108864 iter 302
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50424 s  Bytes 67108864 iter 303
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.49249 s  Bytes 67108864 iter 304
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53115 s  Bytes 67108864 iter 305
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51478 s  Bytes 67108864 iter 306
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.48713 s  Bytes 67108864 iter 307
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51457 s  Bytes 67108864 iter 308
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53711 s  Bytes 67108864 iter 309
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52465 s  Bytes 67108864 iter 310
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52717 s  Bytes 67108864 iter 311
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52075 s  Bytes 67108864 iter 312
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52785 s  Bytes 67108864 iter 313
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52248 s  Bytes 67108864 iter 314
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.64398 s  Bytes 67108864 iter 315
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50952 s  Bytes 67108864 iter 316
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50343 s  Bytes 67108864 iter 317
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.54126 s  Bytes 67108864 iter 318
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53025 s  Bytes 67108864 iter 319
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51564 s  Bytes 67108864 iter 320
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5199 s  Bytes 67108864 iter 321
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52532 s  Bytes 67108864 iter 322
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51747 s  Bytes 67108864 iter 323
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50949 s  Bytes 67108864 iter 324
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50934 s  Bytes 67108864 iter 325
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52569 s  Bytes 67108864 iter 326
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51939 s  Bytes 67108864 iter 327
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52865 s  Bytes 67108864 iter 328
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52601 s  Bytes 67108864 iter 329
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51893 s  Bytes 67108864 iter 330
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53377 s  Bytes 67108864 iter 331
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.62068 s  Bytes 67108864 iter 332
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52131 s  Bytes 67108864 iter 333
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5205 s  Bytes 67108864 iter 334
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52658 s  Bytes 67108864 iter 335
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5282 s  Bytes 67108864 iter 336
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51749 s  Bytes 67108864 iter 337
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52429 s  Bytes 67108864 iter 338
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5249 s  Bytes 67108864 iter 339
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5183 s  Bytes 67108864 iter 340
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51062 s  Bytes 67108864 iter 341
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50554 s  Bytes 67108864 iter 342
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52595 s  Bytes 67108864 iter 343
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51314 s  Bytes 67108864 iter 344
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53566 s  Bytes 67108864 iter 345
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50814 s  Bytes 67108864 iter 346
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53945 s  Bytes 67108864 iter 347
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51091 s  Bytes 67108864 iter 348
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.64528 s  Bytes 67108864 iter 349
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51482 s  Bytes 67108864 iter 350
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52417 s  Bytes 67108864 iter 351
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52675 s  Bytes 67108864 iter 352
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50616 s  Bytes 67108864 iter 353
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53393 s  Bytes 67108864 iter 354
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50383 s  Bytes 67108864 iter 355
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.54987 s  Bytes 67108864 iter 356
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50994 s  Bytes 67108864 iter 357
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51131 s  Bytes 67108864 iter 358
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50994 s  Bytes 67108864 iter 359
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51863 s  Bytes 67108864 iter 360
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52033 s  Bytes 67108864 iter 361
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52693 s  Bytes 67108864 iter 362
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52276 s  Bytes 67108864 iter 363
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5318 s  Bytes 67108864 iter 364
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5168 s  Bytes 67108864 iter 365
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.64433 s  Bytes 67108864 iter 366
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50601 s  Bytes 67108864 iter 367
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52079 s  Bytes 67108864 iter 368
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53203 s  Bytes 67108864 iter 369
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51877 s  Bytes 67108864 iter 370
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52634 s  Bytes 67108864 iter 371
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51897 s  Bytes 67108864 iter 372
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5249 s  Bytes 67108864 iter 373
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51821 s  Bytes 67108864 iter 374
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51974 s  Bytes 67108864 iter 375
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50411 s  Bytes 67108864 iter 376
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52021 s  Bytes 67108864 iter 377
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52266 s  Bytes 67108864 iter 378
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.524 s  Bytes 67108864 iter 379
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52478 s  Bytes 67108864 iter 380
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52337 s  Bytes 67108864 iter 381
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53013 s  Bytes 67108864 iter 382
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.63664 s  Bytes 67108864 iter 383
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50847 s  Bytes 67108864 iter 384
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52823 s  Bytes 67108864 iter 385
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52984 s  Bytes 67108864 iter 386
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51257 s  Bytes 67108864 iter 387
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52367 s  Bytes 67108864 iter 388
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52648 s  Bytes 67108864 iter 389
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52109 s  Bytes 67108864 iter 390
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51274 s  Bytes 67108864 iter 391
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50226 s  Bytes 67108864 iter 392
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50135 s  Bytes 67108864 iter 393
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53835 s  Bytes 67108864 iter 394
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5288 s  Bytes 67108864 iter 395
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51635 s  Bytes 67108864 iter 396
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5208 s  Bytes 67108864 iter 397
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52663 s  Bytes 67108864 iter 398
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52583 s  Bytes 67108864 iter 399
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.63848 s  Bytes 67108864 iter 400
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5082 s  Bytes 67108864 iter 401
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.0169 s  Bytes 67108864 iter 402
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.03752 s  Bytes 67108864 iter 403
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5057 s  Bytes 67108864 iter 404
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.18725 s  Bytes 67108864 iter 405
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.54996 s  Bytes 67108864 iter 406
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.32894 s  Bytes 67108864 iter 407
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53666 s  Bytes 67108864 iter 408
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.40235 s  Bytes 67108864 iter 409
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50777 s  Bytes 67108864 iter 410
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.43525 s  Bytes 67108864 iter 411
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5234 s  Bytes 67108864 iter 412
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.49578 s  Bytes 67108864 iter 413
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.64625 s  Bytes 67108864 iter 414
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.40125 s  Bytes 67108864 iter 415
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53757 s  Bytes 67108864 iter 416
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.55342 s  Bytes 67108864 iter 417
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.46055 s  Bytes 67108864 iter 418
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53428 s  Bytes 67108864 iter 419
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.4957 s  Bytes 67108864 iter 420
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5236 s  Bytes 67108864 iter 421
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53001 s  Bytes 67108864 iter 422
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52032 s  Bytes 67108864 iter 423
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52643 s  Bytes 67108864 iter 424
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51575 s  Bytes 67108864 iter 425
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50782 s  Bytes 67108864 iter 426
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5133 s  Bytes 67108864 iter 427
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52276 s  Bytes 67108864 iter 428
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52519 s  Bytes 67108864 iter 429
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52489 s  Bytes 67108864 iter 430
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52042 s  Bytes 67108864 iter 431
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52941 s  Bytes 67108864 iter 432
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52359 s  Bytes 67108864 iter 433
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.6443 s  Bytes 67108864 iter 434
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50841 s  Bytes 67108864 iter 435
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52511 s  Bytes 67108864 iter 436
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52466 s  Bytes 67108864 iter 437
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51939 s  Bytes 67108864 iter 438
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52744 s  Bytes 67108864 iter 439
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51993 s  Bytes 67108864 iter 440
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52588 s  Bytes 67108864 iter 441
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51734 s  Bytes 67108864 iter 442
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50681 s  Bytes 67108864 iter 443
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.4917 s  Bytes 67108864 iter 444
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.54313 s  Bytes 67108864 iter 445
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52096 s  Bytes 67108864 iter 446
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52232 s  Bytes 67108864 iter 447
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5253 s  Bytes 67108864 iter 448
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52835 s  Bytes 67108864 iter 449
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51926 s  Bytes 67108864 iter 450
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.64625 s  Bytes 67108864 iter 451
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50603 s  Bytes 67108864 iter 452
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51325 s  Bytes 67108864 iter 453
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52931 s  Bytes 67108864 iter 454
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52539 s  Bytes 67108864 iter 455
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52495 s  Bytes 67108864 iter 456
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51764 s  Bytes 67108864 iter 457
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52814 s  Bytes 67108864 iter 458
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51728 s  Bytes 67108864 iter 459
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51249 s  Bytes 67108864 iter 460
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50878 s  Bytes 67108864 iter 461
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52017 s  Bytes 67108864 iter 462
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51852 s  Bytes 67108864 iter 463
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52527 s  Bytes 67108864 iter 464
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5247 s  Bytes 67108864 iter 465
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52591 s  Bytes 67108864 iter 466
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52302 s  Bytes 67108864 iter 467
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.64674 s  Bytes 67108864 iter 468
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50628 s  Bytes 67108864 iter 469
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52378 s  Bytes 67108864 iter 470
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52386 s  Bytes 67108864 iter 471
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51745 s  Bytes 67108864 iter 472
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52793 s  Bytes 67108864 iter 473
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.517 s  Bytes 67108864 iter 474
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52863 s  Bytes 67108864 iter 475
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50389 s  Bytes 67108864 iter 476
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51584 s  Bytes 67108864 iter 477
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51213 s  Bytes 67108864 iter 478
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52286 s  Bytes 67108864 iter 479
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5208 s  Bytes 67108864 iter 480
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52305 s  Bytes 67108864 iter 481
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50176 s  Bytes 67108864 iter 482
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.54663 s  Bytes 67108864 iter 483
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51859 s  Bytes 67108864 iter 484
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.64392 s  Bytes 67108864 iter 485
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51066 s  Bytes 67108864 iter 486
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52113 s  Bytes 67108864 iter 487
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51743 s  Bytes 67108864 iter 488
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52323 s  Bytes 67108864 iter 489
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52335 s  Bytes 67108864 iter 490
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50742 s  Bytes 67108864 iter 491
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53633 s  Bytes 67108864 iter 492
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51124 s  Bytes 67108864 iter 493
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51241 s  Bytes 67108864 iter 494
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50858 s  Bytes 67108864 iter 495
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52487 s  Bytes 67108864 iter 496
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51797 s  Bytes 67108864 iter 497
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52862 s  Bytes 67108864 iter 498
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52227 s  Bytes 67108864 iter 499
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53154 s  Bytes 67108864 iter 500
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51966 s  Bytes 67108864 iter 501
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.64487 s  Bytes 67108864 iter 502
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50745 s  Bytes 67108864 iter 503
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52082 s  Bytes 67108864 iter 504
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52865 s  Bytes 67108864 iter 505
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5196 s  Bytes 67108864 iter 506
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52098 s  Bytes 67108864 iter 507
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52392 s  Bytes 67108864 iter 508
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52479 s  Bytes 67108864 iter 509
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51681 s  Bytes 67108864 iter 510
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5088 s  Bytes 67108864 iter 511
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51373 s  Bytes 67108864 iter 512
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51945 s  Bytes 67108864 iter 513
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52857 s  Bytes 67108864 iter 514
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51859 s  Bytes 67108864 iter 515
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52814 s  Bytes 67108864 iter 516
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52391 s  Bytes 67108864 iter 517
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51742 s  Bytes 67108864 iter 518
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.64356 s  Bytes 67108864 iter 519
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.49489 s  Bytes 67108864 iter 520
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53769 s  Bytes 67108864 iter 521
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52639 s  Bytes 67108864 iter 522
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51664 s  Bytes 67108864 iter 523
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52528 s  Bytes 67108864 iter 524
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51816 s  Bytes 67108864 iter 525
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51862 s  Bytes 67108864 iter 526
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52221 s  Bytes 67108864 iter 527
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51724 s  Bytes 67108864 iter 528
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.49565 s  Bytes 67108864 iter 529
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53272 s  Bytes 67108864 iter 530
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5216 s  Bytes 67108864 iter 531
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53373 s  Bytes 67108864 iter 532
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5163 s  Bytes 67108864 iter 533
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.53039 s  Bytes 67108864 iter 534
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52325 s  Bytes 67108864 iter 535
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.65067 s  Bytes 67108864 iter 536
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5068 s  Bytes 67108864 iter 537
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52378 s  Bytes 67108864 iter 538
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52671 s  Bytes 67108864 iter 539
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52043 s  Bytes 67108864 iter 540
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52711 s  Bytes 67108864 iter 541
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5187 s  Bytes 67108864 iter 542
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.5192 s  Bytes 67108864 iter 543
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52478 s  Bytes 67108864 iter 544
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52222 s  Bytes 67108864 iter 545
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.50889 s  Bytes 67108864 iter 546
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.51302 s  Bytes 67108864 iter 547
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.52368 s  Bytes 67108864 iter 548
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.64436 s  Bytes 67108864 iter 549
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.48275 s  Bytes 67108864 iter 550
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.56585 s  Bytes 67108864 iter 551
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.55721 s  Bytes 67108864 iter 552
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.73156 s  Bytes 67108864 iter 553
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.34443 s  Bytes 67108864 iter 554
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.27703 s  Bytes 67108864 iter 555
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.1371 s  Bytes 67108864 iter 556
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.08542 s  Bytes 67108864 iter 557
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.92498 s  Bytes 67108864 iter 558
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.86231 s  Bytes 67108864 iter 559
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.8447 s  Bytes 67108864 iter 560
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.80497 s  Bytes 67108864 iter 561
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.78139 s  Bytes 67108864 iter 562
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.77593 s  Bytes 67108864 iter 563
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.74721 s  Bytes 67108864 iter 564
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.72568 s  Bytes 67108864 iter 565
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.74374 s  Bytes 67108864 iter 566
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.7154 s  Bytes 67108864 iter 567
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.83021 s  Bytes 67108864 iter 568
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.98166 s  Bytes 67108864 iter 569
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.70108 s  Bytes 67108864 iter 570
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.69809 s  Bytes 67108864 iter 571
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.70308 s  Bytes 67108864 iter 572
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.6941 s  Bytes 67108864 iter 573
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.70413 s  Bytes 67108864 iter 574
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.70341 s  Bytes 67108864 iter 575
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.69214 s  Bytes 67108864 iter 576
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.69181 s  Bytes 67108864 iter 577
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.68366 s  Bytes 67108864 iter 578
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.69388 s  Bytes 67108864 iter 579
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.812 s  Bytes 67108864 iter 580
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.67685 s  Bytes 67108864 iter 581
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.00573 s  Bytes 67108864 iter 582
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.69502 s  Bytes 67108864 iter 583
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.78637 s  Bytes 67108864 iter 584
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.69957 s  Bytes 67108864 iter 585
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.70203 s  Bytes 67108864 iter 586
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 4.68658 s  Bytes 67108864 iter 587
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 5.09586 s  Bytes 67108864 iter 588
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400
+Hop trip my_curr_node_addr ofi+cxi://0x24070000
+I'm the main requester  elapsed time 6.83332 s  Bytes 67108864 iter 589
+req_coming_from_addr ofi+cxi://0x24070000 requested data for file : /path/to/file requested bytes : 67108864
+Going to parent ofi+cxi://0x24050400

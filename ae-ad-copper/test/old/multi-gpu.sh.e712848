@@ -1,0 +1,91 @@
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_vx=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for this output (/usr/share/lmod/lmod/init/bash)
+Shell debugging restarted
++ unset __lmod_vx
++ CUPATH=/home/harms/working/copper/copper/build
++ LOGDIR=/home/harms/copper-logs/712848
++ mkdir -p /home/harms/copper-logs/712848
++ rm -f /home/harms/copper-logs/712848/copper_address_book.txt
++ touch /home/harms/copper-logs/712848/copper_address_book.txt
++ WCOLL=/var/spool/pbs/aux/712848.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh mkdir -p /tmp/copper
+x4713c5s5b0n0.hostmgmt2713.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4713c5s5b0n0.hostmgmt2713.cm.aurora.alcf.anl.gov,10.115.80.62' (ECDSA) to the list of known hosts.
+x4219c7s7b0n0.hostmgmt2219.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4219c7s7b0n0.hostmgmt2219.cm.aurora.alcf.anl.gov,10.115.30.136' (ECDSA) to the list of known hosts.
+x4406c0s0b0n0.hostmgmt2406.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4406c0s0b0n0.hostmgmt2406.cm.aurora.alcf.anl.gov,10.115.45.3' (ECDSA) to the list of known hosts.
+x4218c6s2b0n0.hostmgmt2218.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4218c6s2b0n0.hostmgmt2218.cm.aurora.alcf.anl.gov,10.115.30.57' (ECDSA) to the list of known hosts.
+x4304c7s3b0n0.hostmgmt2304.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4304c7s3b0n0.hostmgmt2304.cm.aurora.alcf.anl.gov,10.115.33.145' (ECDSA) to the list of known hosts.
+x4003c4s1b0n0.hostmgmt2003.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4003c4s1b0n0.hostmgmt2003.cm.aurora.alcf.anl.gov,10.115.1.161' (ECDSA) to the list of known hosts.
++ read -r -d '' CMD
++ WCOLL=/var/spool/pbs/aux/712848.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 80 numactl '--physcpubind="0,1"' /home/harms/working/copper/copper/build/cu_fuse -tpath / -vpath /tmp/copper -log_level 1 -log_type file -log_output_dir /home/harms/copper-logs/712848 -es 1 -nf /var/spool/pbs/aux/712848.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov -s /tmp/copper
+++ cat /var/spool/pbs/aux/712848.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+++ wc -l
++ nodes=64
++ sleep 100
++ echo 'Launch Baseline Nodes:64'
+Launch Baseline Nodes:64
++ mpiexec -n 768 -ppn 12 sleep 1
+
+real	0m1.336s
+user	0m0.005s
+sys	0m0.003s
++ echo 'First Nodes:64 Python:12 ES:1 fcores:1 total:2'
+First Nodes:64 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 768 -ppn 12 --genvall --genv=PYTHONPATH=/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages --cpu-bind=list:52-103 /soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3 -c 'import numpy; print(numpy.__file__)'
+ping failed on x4009c3s6b0n0: Application 7ac8fe87-37eb-427e-a706-bb05f9fee37e not found
+
+real	1m0.008s
+user	0m0.016s
+sys	0m0.012s
++ echo 'Cached Nodes:64 Python:12 ES:1 fcores:1 total:2'
+Cached Nodes:64 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 768 -ppn 12 --genvall --genv=PYTHONPATH=/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages --cpu-bind=list:52-103 /soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3 -c 'import numpy; print(numpy.__file__)'
+ping failed on x4713c5s5b0n0: No reply from x4012c6s4b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov,x4012c6s5b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov,x4012c7s1b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov,x4012c7s6b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov,x4014c0s0b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov after 108s
+
+real	2m48.007s
+user	0m0.016s
+sys	0m0.017s
++ WCOLL=/var/spool/pbs/aux/712848.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 fusermount3 -u /tmp/copper
+x4014c3s0b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c3s0b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: No route to host
+pdsh@x4713c5s5b0n0: x4014c3s0b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4014c3s2b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c3s2b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: No route to host
+pdsh@x4713c5s5b0n0: x4014c3s2b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4012c6s5b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov: ssh: connect to host x4012c6s5b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4713c5s5b0n0: x4012c6s5b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4012c6s4b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov: ssh: connect to host x4012c6s4b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov port 22: Connection timed out
+x4012c7s1b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov: ssh: connect to host x4012c7s1b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4713c5s5b0n0: x4012c7s1b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+pdsh@x4713c5s5b0n0: x4012c6s4b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4012c7s6b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov: ssh: connect to host x4012c7s6b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4713c5s5b0n0: x4012c7s6b0n0.hostmgmt2012.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4014c0s0b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c0s0b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4713c5s5b0n0: x4014c0s0b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4014c2s2b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c2s2b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4713c5s5b0n0: x4014c2s2b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4014c0s6b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c0s6b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4713c5s5b0n0: x4014c0s6b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4014c0s1b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c0s1b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4713c5s5b0n0: x4014c0s1b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4014c1s2b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c1s2b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4713c5s5b0n0: x4014c1s2b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4014c0s7b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c0s7b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4713c5s5b0n0: x4014c0s7b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4014c2s0b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c2s0b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: Connection timed out
+x4014c1s4b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c1s4b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: Connection timed out
+x4014c1s1b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c1s1b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4713c5s5b0n0: x4014c2s0b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+pdsh@x4713c5s5b0n0: x4014c1s4b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+pdsh@x4713c5s5b0n0: x4014c1s1b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4014c2s7b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c2s7b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4713c5s5b0n0: x4014c2s7b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4014c3s3b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c3s3b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4713c5s5b0n0: x4014c3s3b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4014c2s5b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c2s5b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4713c5s5b0n0: x4014c2s5b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255
+x4014c4s1b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh: connect to host x4014c4s1b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov port 22: Connection timed out
+pdsh@x4713c5s5b0n0: x4014c4s1b0n0.hostmgmt2014.cm.aurora.alcf.anl.gov: ssh exited with exit code 255

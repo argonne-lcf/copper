@@ -1,0 +1,128 @@
+x4112c0s2b0n0: 2024-08-06 01-22-30.154 [Debug] (cu_hello_main)  
+x4112c0s2b0n0: 2024-08-06 01-22-30.154 [Info] (cu_hello_main) hostname found to be: x4112c0s2b0n0
+x4112c0s2b0n0: 2024-08-06 01-22-30.154 [Debug] (process_args) -tpath was found: /
+x4112c0s2b0n0: 2024-08-06 01-22-30.154 [Debug] (process_args) -vpath was found: /tmp/copper
+x4112c0s2b0n0: 2024-08-06 01-22-30.154 [Debug] (process_args) -log_level was found: 4
+x4112c0s2b0n0: 2024-08-06 01-22-30.154 [Debug] (process_args) -log_type was found: file
+x4112c0s2b0n0: 2024-08-06 01-22-30.154 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/719556
+x4112c0s2b0n0: 2024-08-06 01-22-30.154 [Debug] (process_args) -es was found: 1
+x4112c0s2b0n0: 2024-08-06 01-22-30.154 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/719556.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4112c0s2b0n0: 2024-08-06 01-22-30.154 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4112c0s2b0n0: 2024-08-06 01-22-30.154 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/719556/copper_address_book.txt
+x4112c0s2b0n0: 2024-08-06 01-22-30.154 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/719556/x4112c0s2b0n0-76152-output.log
+x4112c0s7b0n0: 2024-08-06 01-22-30.174 [Debug] (cu_hello_main)  
+x4112c0s7b0n0: 2024-08-06 01-22-30.174 [Info] (cu_hello_main) hostname found to be: x4112c0s7b0n0
+x4112c0s7b0n0: 2024-08-06 01-22-30.174 [Debug] (process_args) -tpath was found: /
+x4112c0s7b0n0: 2024-08-06 01-22-30.174 [Debug] (process_args) -vpath was found: /tmp/copper
+x4112c0s7b0n0: 2024-08-06 01-22-30.174 [Debug] (process_args) -log_level was found: 4
+x4112c0s7b0n0: 2024-08-06 01-22-30.174 [Debug] (process_args) -log_type was found: file
+x4112c0s7b0n0: 2024-08-06 01-22-30.174 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/719556
+x4112c0s7b0n0: 2024-08-06 01-22-30.174 [Debug] (process_args) -es was found: 1
+x4112c0s7b0n0: 2024-08-06 01-22-30.174 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/719556.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4112c0s7b0n0: 2024-08-06 01-22-30.174 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4112c0s7b0n0: 2024-08-06 01-22-30.174 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/719556/copper_address_book.txt
+x4112c0s7b0n0: 2024-08-06 01-22-30.174 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/719556/x4112c0s7b0n0-180478-output.log
+x4112c0s1b0n0: 2024-08-06 01-22-30.175 [Debug] (cu_hello_main)  
+x4112c0s1b0n0: 2024-08-06 01-22-30.175 [Info] (cu_hello_main) hostname found to be: x4112c0s1b0n0
+x4112c0s1b0n0: 2024-08-06 01-22-30.175 [Debug] (process_args) -tpath was found: /
+x4112c0s1b0n0: 2024-08-06 01-22-30.175 [Debug] (process_args) -vpath was found: /tmp/copper
+x4112c0s1b0n0: 2024-08-06 01-22-30.175 [Debug] (process_args) -log_level was found: 4
+x4112c0s1b0n0: 2024-08-06 01-22-30.175 [Debug] (process_args) -log_type was found: file
+x4112c0s1b0n0: 2024-08-06 01-22-30.175 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/719556
+x4112c0s1b0n0: 2024-08-06 01-22-30.175 [Debug] (process_args) -es was found: 1
+x4112c0s1b0n0: 2024-08-06 01-22-30.175 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/719556.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4112c0s1b0n0: 2024-08-06 01-22-30.175 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4112c0s1b0n0: 2024-08-06 01-22-30.175 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/719556/copper_address_book.txt
+x4112c0s1b0n0: 2024-08-06 01-22-30.175 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/719556/x4112c0s1b0n0-191185-output.log
+x4112c0s4b0n0: 2024-08-06 01-22-30.176 [Debug] (cu_hello_main)  
+x4112c0s4b0n0: 2024-08-06 01-22-30.176 [Info] (cu_hello_main) hostname found to be: x4112c0s4b0n0
+x4112c0s4b0n0: 2024-08-06 01-22-30.176 [Debug] (process_args) -tpath was found: /
+x4112c0s4b0n0: 2024-08-06 01-22-30.176 [Debug] (process_args) -vpath was found: /tmp/copper
+x4112c0s4b0n0: 2024-08-06 01-22-30.176 [Debug] (process_args) -log_level was found: 4
+x4112c0s4b0n0: 2024-08-06 01-22-30.176 [Debug] (process_args) -log_type was found: file
+x4112c0s4b0n0: 2024-08-06 01-22-30.176 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/719556
+x4112c0s4b0n0: 2024-08-06 01-22-30.176 [Debug] (process_args) -es was found: 1
+x4112c0s4b0n0: 2024-08-06 01-22-30.176 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/719556.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4112c0s4b0n0: 2024-08-06 01-22-30.176 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4112c0s4b0n0: 2024-08-06 01-22-30.176 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/719556/copper_address_book.txt
+x4112c0s4b0n0: 2024-08-06 01-22-30.176 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/719556/x4112c0s4b0n0-191231-output.log
+x4112c0s3b0n0: 2024-08-06 01-22-30.182 [Debug] (cu_hello_main)  
+x4112c0s3b0n0: 2024-08-06 01-22-30.182 [Info] (cu_hello_main) hostname found to be: x4112c0s3b0n0
+x4112c0s3b0n0: 2024-08-06 01-22-30.182 [Debug] (process_args) -tpath was found: /
+x4112c0s3b0n0: 2024-08-06 01-22-30.182 [Debug] (process_args) -vpath was found: /tmp/copper
+x4112c0s3b0n0: 2024-08-06 01-22-30.182 [Debug] (process_args) -log_level was found: 4
+x4112c0s3b0n0: 2024-08-06 01-22-30.182 [Debug] (process_args) -log_type was found: file
+x4112c0s3b0n0: 2024-08-06 01-22-30.182 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/719556
+x4112c0s3b0n0: 2024-08-06 01-22-30.182 [Debug] (process_args) -es was found: 1
+x4112c0s3b0n0: 2024-08-06 01-22-30.182 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/719556.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4112c0s3b0n0: 2024-08-06 01-22-30.182 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4112c0s3b0n0: 2024-08-06 01-22-30.182 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/719556/copper_address_book.txt
+x4112c0s3b0n0: 2024-08-06 01-22-30.182 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/719556/x4112c0s3b0n0-180728-output.log
+x4112c1s3b0n0: 2024-08-06 01-22-30.183 [Debug] (cu_hello_main)  
+x4112c1s3b0n0: 2024-08-06 01-22-30.183 [Info] (cu_hello_main) hostname found to be: x4112c1s3b0n0
+x4112c1s3b0n0: 2024-08-06 01-22-30.183 [Debug] (process_args) -tpath was found: /
+x4112c1s3b0n0: 2024-08-06 01-22-30.183 [Debug] (process_args) -vpath was found: /tmp/copper
+x4112c1s3b0n0: 2024-08-06 01-22-30.183 [Debug] (process_args) -log_level was found: 4
+x4112c1s3b0n0: 2024-08-06 01-22-30.183 [Debug] (process_args) -log_type was found: file
+x4112c1s3b0n0: 2024-08-06 01-22-30.183 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/719556
+x4112c1s3b0n0: 2024-08-06 01-22-30.183 [Debug] (process_args) -es was found: 1
+x4112c1s3b0n0: 2024-08-06 01-22-30.183 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/719556.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4112c1s3b0n0: 2024-08-06 01-22-30.183 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4112c1s3b0n0: 2024-08-06 01-22-30.183 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/719556/copper_address_book.txt
+x4112c1s3b0n0: 2024-08-06 01-22-30.183 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/719556/x4112c1s3b0n0-74426-output.log
+x4112c1s0b0n0: 2024-08-06 01-22-30.185 [Debug] (cu_hello_main)  
+x4112c1s0b0n0: 2024-08-06 01-22-30.185 [Info] (cu_hello_main) hostname found to be: x4112c1s0b0n0
+x4112c1s0b0n0: 2024-08-06 01-22-30.185 [Debug] (process_args) -tpath was found: /
+x4112c1s0b0n0: 2024-08-06 01-22-30.185 [Debug] (process_args) -vpath was found: /tmp/copper
+x4112c1s0b0n0: 2024-08-06 01-22-30.185 [Debug] (process_args) -log_level was found: 4
+x4112c1s0b0n0: 2024-08-06 01-22-30.185 [Debug] (process_args) -log_type was found: file
+x4112c1s0b0n0: 2024-08-06 01-22-30.185 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/719556
+x4112c1s0b0n0: 2024-08-06 01-22-30.185 [Debug] (process_args) -es was found: 1
+x4112c1s0b0n0: 2024-08-06 01-22-30.185 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/719556.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4112c1s0b0n0: 2024-08-06 01-22-30.185 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4112c1s0b0n0: 2024-08-06 01-22-30.185 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/719556/copper_address_book.txt
+x4112c1s0b0n0: 2024-08-06 01-22-30.185 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/719556/x4112c1s0b0n0-191007-output.log
+x4112c0s6b0n0: 2024-08-06 01-22-30.188 [Debug] (cu_hello_main)  
+x4112c0s6b0n0: 2024-08-06 01-22-30.188 [Info] (cu_hello_main) hostname found to be: x4112c0s6b0n0
+x4112c0s6b0n0: 2024-08-06 01-22-30.188 [Debug] (process_args) -tpath was found: /
+x4112c0s6b0n0: 2024-08-06 01-22-30.188 [Debug] (process_args) -vpath was found: /tmp/copper
+x4112c0s6b0n0: 2024-08-06 01-22-30.188 [Debug] (process_args) -log_level was found: 4
+x4112c0s6b0n0: 2024-08-06 01-22-30.188 [Debug] (process_args) -log_type was found: file
+x4112c0s6b0n0: 2024-08-06 01-22-30.188 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/719556
+x4112c0s6b0n0: 2024-08-06 01-22-30.188 [Debug] (process_args) -es was found: 1
+x4112c0s6b0n0: 2024-08-06 01-22-30.188 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/719556.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4112c0s6b0n0: 2024-08-06 01-22-30.188 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4112c0s6b0n0: 2024-08-06 01-22-30.188 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/719556/copper_address_book.txt
+x4112c0s6b0n0: 2024-08-06 01-22-30.188 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/719556/x4112c0s6b0n0-191078-output.log
+Jobid: 719556.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+Running on nodes x4112c0s1b0n0.hostmgmt2112.cm.aurora.alcf.anl.gov x4112c0s2b0n0.hostmgmt2112.cm.aurora.alcf.anl.gov x4112c0s3b0n0.hostmgmt2112.cm.aurora.alcf.anl.gov x4112c0s4b0n0.hostmgmt2112.cm.aurora.alcf.anl.gov x4112c0s6b0n0.hostmgmt2112.cm.aurora.alcf.anl.gov x4112c0s7b0n0.hostmgmt2112.cm.aurora.alcf.anl.gov x4112c1s0b0n0.hostmgmt2112.cm.aurora.alcf.anl.gov x4112c1s3b0n0.hostmgmt2112.cm.aurora.alcf.anl.gov
+NUM_OF_NODES=8  TOTAL_NUM_RANKS=96  RANKS_PER_NODE=12
+/home/jmitche1/anaconda3/envs/anl_2024_q3-official_release/bin/python
+Tue 06 Aug 2024 01:22:40 AM UTC
+1
+Tue 06 Aug 2024 01:23:49 AM UTC
+1
+Tue 06 Aug 2024 01:23:49 AM UTC
+2
+Tue 06 Aug 2024 01:24:02 AM UTC
+2
+Tue 06 Aug 2024 01:24:02 AM UTC
+4
+Tue 06 Aug 2024 01:24:18 AM UTC
+4
+Tue 06 Aug 2024 01:24:18 AM UTC
+8
+Tue 06 Aug 2024 01:24:36 AM UTC
+8
+Tue 06 Aug 2024 01:24:36 AM UTC
+16
+Tue 06 Aug 2024 01:24:53 AM UTC
+16
+Tue 06 Aug 2024 01:24:53 AM UTC
+32
+Tue 06 Aug 2024 01:25:10 AM UTC
+32
+Tue 06 Aug 2024 01:25:10 AM UTC
+64
+Tue 06 Aug 2024 01:25:28 AM UTC
+64

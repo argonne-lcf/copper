@@ -1,0 +1,49 @@
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_vx=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for this output (/usr/share/lmod/lmod/init/bash)
+Shell debugging restarted
++ unset __lmod_vx
++ module load frameworks
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_sh_dbg=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+
+The following have been reloaded with a version change:
+  1) intel_compute_runtime/release/821.36 => intel_compute_runtime/release/803.29
+  2) oneapi/eng-compiler/2024.04.15.002 => oneapi/release/2024.1
+
+Shell debugging restarted
++ unset __lmod_sh_dbg
++ return 0
+++ wc -l
+++ cat /var/spool/pbs/aux/722158.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ nodes=32
++ echo 'Launch Baseline Nodes:32'
+Launch Baseline Nodes:32
++ mpiexec -n 384 -ppn 12 sleep 1
+
+real	0m1.239s
+user	0m0.004s
+sys	0m0.004s
++ echo 'Baseline First Nodes:32 Python:12 ES:1 fcores:1 total:2'
+Baseline First Nodes:32 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 384 -ppn 12 --genvall --genv=PYTHONPATH=/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env --cpu-bind=list:4-51 python3 -c 'import torch; print(torch.__file__)'
+ping failed on x4019c4s0b0n0: No reply from x4108c1s1b0n0.hostmgmt2108.cm.aurora.alcf.anl.gov,x4711c5s5b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,x4716c3s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov after 108s
+
+real	3m48.006s
+user	0m0.007s
+sys	0m0.010s
++ echo 'Baseline Cached Nodes:32 Python:12 ES:1 fcores:1 total:2'
+Baseline Cached Nodes:32 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 384 -ppn 12 --genvall --genv=PYTHONPATH=/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env --cpu-bind=list:4-51 python3 -c 'import torch; print(torch.__file__)'
+launch failed on x4019c4s0b0n0: Couldn't forward RPC launch(08b2f16b-7f32-497d-97ce-bc37217aeaaa) to child x4108c1s1b0n0.hostmgmt2108.cm.aurora.alcf.anl.gov: Resource temporarily unavailable
+
+real	0m8.017s
+user	0m0.003s
+sys	0m0.004s

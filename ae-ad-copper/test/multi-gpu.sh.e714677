@@ -1,0 +1,90 @@
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_vx=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for this output (/usr/share/lmod/lmod/init/bash)
+Shell debugging restarted
++ unset __lmod_vx
++ CUPATH=/home/harms/working/copper/copper/build
++ LOGDIR=/home/harms/copper-logs/714677
++ mkdir -p /home/harms/copper-logs/714677
++ WCOLL=/var/spool/pbs/aux/714677.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh mkdir -p /tmp/copper
+x4709c5s0b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c5s0b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.41' (ECDSA) to the list of known hosts.
+x4709c4s7b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c4s7b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.40' (ECDSA) to the list of known hosts.
+x4709c5s2b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c5s2b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.39' (ECDSA) to the list of known hosts.
+x4709c5s1b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c5s1b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.42' (ECDSA) to the list of known hosts.
+x4709c5s4b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c5s4b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.44' (ECDSA) to the list of known hosts.
+x4709c5s7b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c5s7b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.48' (ECDSA) to the list of known hosts.
+x4709c5s3b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c5s3b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.46' (ECDSA) to the list of known hosts.
+x4709c5s6b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c5s6b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.37' (ECDSA) to the list of known hosts.
+x4709c6s0b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c6s0b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.47' (ECDSA) to the list of known hosts.
+x4709c6s2b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c6s2b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.49' (ECDSA) to the list of known hosts.
+x4709c6s6b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c6s6b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.57' (ECDSA) to the list of known hosts.
+x4709c6s3b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c6s3b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.52' (ECDSA) to the list of known hosts.
+x4709c6s5b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c6s5b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.55' (ECDSA) to the list of known hosts.
+x4709c6s7b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c6s7b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.53' (ECDSA) to the list of known hosts.
+x4709c6s4b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4709c6s4b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov,10.115.78.60' (ECDSA) to the list of known hosts.
+x4711c0s3b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c0s3b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.5' (ECDSA) to the list of known hosts.
+x4711c0s5b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c0s5b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.7' (ECDSA) to the list of known hosts.
+x4711c0s6b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c0s6b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.6' (ECDSA) to the list of known hosts.
+x4711c1s0b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c1s0b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.10' (ECDSA) to the list of known hosts.
+x4711c0s0b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c0s0b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.2' (ECDSA) to the list of known hosts.
+x4711c0s2b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c0s2b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.3' (ECDSA) to the list of known hosts.
+x4711c1s1b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c1s1b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.9' (ECDSA) to the list of known hosts.
+x4711c1s2b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c1s2b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.12' (ECDSA) to the list of known hosts.
+x4711c1s3b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c1s3b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.11' (ECDSA) to the list of known hosts.
+x4711c1s5b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c1s5b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.15' (ECDSA) to the list of known hosts.
+x4711c1s6b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c1s6b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.14' (ECDSA) to the list of known hosts.
+x4711c2s0b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c2s0b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.16' (ECDSA) to the list of known hosts.
+x4711c2s1b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c2s1b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.18' (ECDSA) to the list of known hosts.
+x4711c2s3b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c2s3b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.20' (ECDSA) to the list of known hosts.
+x4711c2s2b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c2s2b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.19' (ECDSA) to the list of known hosts.
+x4711c2s7b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c2s7b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.24' (ECDSA) to the list of known hosts.
+x4711c2s6b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c2s6b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.23' (ECDSA) to the list of known hosts.
+x4711c2s4b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4711c2s4b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov,10.115.79.21' (ECDSA) to the list of known hosts.
+x4717c1s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c1s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.18' (ECDSA) to the list of known hosts.
+x4714c1s4b0n0.hostmgmt2714.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4714c1s4b0n0.hostmgmt2714.cm.aurora.alcf.anl.gov,10.115.80.133' (ECDSA) to the list of known hosts.
+x4714c4s3b0n0.hostmgmt2714.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4714c4s3b0n0.hostmgmt2714.cm.aurora.alcf.anl.gov,10.115.80.150' (ECDSA) to the list of known hosts.
+x4708c5s3b0n0.hostmgmt2708.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4708c5s3b0n0.hostmgmt2708.cm.aurora.alcf.anl.gov,10.115.77.155' (ECDSA) to the list of known hosts.
+x4715c0s2b0n0.hostmgmt2715.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4715c0s2b0n0.hostmgmt2715.cm.aurora.alcf.anl.gov,10.115.81.42' (ECDSA) to the list of known hosts.
+x4404c6s4b0n0.hostmgmt2404.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4404c6s4b0n0.hostmgmt2404.cm.aurora.alcf.anl.gov,10.115.44.47' (ECDSA) to the list of known hosts.
+x4102c0s0b0n0.hostmgmt2102.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4102c0s0b0n0.hostmgmt2102.cm.aurora.alcf.anl.gov' (ECDSA) to the list of known hosts.
+x4006c1s6b0n0.hostmgmt2006.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4006c1s6b0n0.hostmgmt2006.cm.aurora.alcf.anl.gov' (ECDSA) to the list of known hosts.
+x4215c5s0b0n0.hostmgmt2215.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4215c5s0b0n0.hostmgmt2215.cm.aurora.alcf.anl.gov,10.115.28.169' (ECDSA) to the list of known hosts.
+x4311c7s1b0n0.hostmgmt2311.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4311c7s1b0n0.hostmgmt2311.cm.aurora.alcf.anl.gov,10.115.37.59' (ECDSA) to the list of known hosts.
+x4708c6s4b0n0.hostmgmt2708.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4708c6s4b0n0.hostmgmt2708.cm.aurora.alcf.anl.gov,10.115.77.132' (ECDSA) to the list of known hosts.
+x4320c2s7b0n0.hostmgmt2320.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4320c2s7b0n0.hostmgmt2320.cm.aurora.alcf.anl.gov,10.115.41.152' (ECDSA) to the list of known hosts.
+x4106c1s1b0n0.hostmgmt2106.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4106c1s1b0n0.hostmgmt2106.cm.aurora.alcf.anl.gov,10.115.13.132' (ECDSA) to the list of known hosts.
+x4111c5s5b0n0.hostmgmt2111.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4111c5s5b0n0.hostmgmt2111.cm.aurora.alcf.anl.gov,10.115.16.57' (ECDSA) to the list of known hosts.
++ read -r -d '' CMD
++ WCOLL=/var/spool/pbs/aux/714677.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 /home/harms/working/copper/copper/build/cu_fuse -tpath / -vpath /tmp/copper -log_level 5 -log_type file -log_output_dir /home/harms/copper-logs/714677 -es 1 -nf /var/spool/pbs/aux/714677.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov -s /tmp/copper
+++ cat /var/spool/pbs/aux/714677.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+++ wc -l
++ nodes=128
++ sleep 60
++ echo 'Launch Baseline Nodes:128'
+Launch Baseline Nodes:128
++ mpiexec -n 1536 -ppn 12 sleep 1
+
+real	0m1.406s
+user	0m0.004s
+sys	0m0.005s
++ echo 'First Nodes:128 Python:12 ES:1 fcores:1 total:2'
+First Nodes:128 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 1536 -ppn 12 --genvall --genv=PYTHONPATH=/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages --cpu-bind=list:52-103 /soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3 -c 'import numpy; print(numpy.__file__)'
+
+real	0m20.730s
+user	0m0.030s
+sys	0m0.047s
++ echo 'Cached Nodes:128 Python:12 ES:1 fcores:1 total:2'
+Cached Nodes:128 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 1536 -ppn 12 --genvall --genv=PYTHONPATH=/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages --cpu-bind=list:52-103 /soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3 -c 'import numpy; print(numpy.__file__)'
+
+real	0m14.777s
+user	0m0.029s
+sys	0m0.035s
++ WCOLL=/var/spool/pbs/aux/714677.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 fusermount3 -u /tmp/copper

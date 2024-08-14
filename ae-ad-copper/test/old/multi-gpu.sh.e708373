@@ -1,0 +1,40 @@
+x4102c3s4b0n0: Warning: Permanently added 'x4102c3s4b0n0.hostmgmt2102.cm.aurora.alcf.anl.gov,10.115.11.175' (ECDSA) to the list of known hosts.
+x4102c2s7b0n0: Warning: Permanently added 'x4102c2s7b0n0.hostmgmt2102.cm.aurora.alcf.anl.gov,10.115.11.164' (ECDSA) to the list of known hosts.
+x4102c3s2b0n0: Warning: Permanently added 'x4102c3s2b0n0.hostmgmt2102.cm.aurora.alcf.anl.gov,10.115.11.173' (ECDSA) to the list of known hosts.
+x4102c3s1b0n0: Warning: Permanently added 'x4102c3s1b0n0.hostmgmt2102.cm.aurora.alcf.anl.gov,10.115.11.162' (ECDSA) to the list of known hosts.
+x4102c2s6b0n0: Warning: Permanently added 'x4102c2s6b0n0.hostmgmt2102.cm.aurora.alcf.anl.gov,10.115.11.159' (ECDSA) to the list of known hosts.
+x4102c3s5b0n0: Warning: Permanently added 'x4102c3s5b0n0.hostmgmt2102.cm.aurora.alcf.anl.gov,10.115.11.166' (ECDSA) to the list of known hosts.
+x4102c3s0b0n0: Warning: Permanently added 'x4102c3s0b0n0.hostmgmt2102.cm.aurora.alcf.anl.gov,10.115.11.154' (ECDSA) to the list of known hosts.
+x4102c2s6b0n0: Function returned HG_PROTOCOL_ERROR
+x4102c2s6b0n0: terminate called after throwing an instance of 'thallium::margo_exception'
+x4102c2s6b0n0:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+x4102c3s5b0n0: Function returned HG_PROTOCOL_ERROR
+x4102c3s5b0n0: terminate called after throwing an instance of 'thallium::margo_exception'
+x4102c3s5b0n0:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+x4102c3s0b0n0: Function returned HG_PROTOCOL_ERROR
+x4102c3s0b0n0: terminate called after throwing an instance of 'thallium::margo_exception'
+x4102c3s0b0n0:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+x4102c3s4b0n0: Function returned HG_PROTOCOL_ERROR
+x4102c3s4b0n0: terminate called after throwing an instance of 'thallium::margo_exception'
+x4102c3s4b0n0:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+x4102c2s7b0n0: Function returned HG_PROTOCOL_ERROR
+x4102c2s7b0n0: terminate called after throwing an instance of 'thallium::margo_exception'
+x4102c2s7b0n0:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+pdsh@x4102c2s6b0n0: x4102c2s6b0n0: ssh exited with exit code 255
+pdsh@x4102c2s6b0n0: x4102c2s7b0n0: ssh exited with exit code 255
+pdsh@x4102c2s6b0n0: x4102c3s4b0n0: ssh exited with exit code 255
+pdsh@x4102c2s6b0n0: x4102c3s5b0n0: ssh exited with exit code 255
+pdsh@x4102c2s6b0n0: x4102c3s0b0n0: ssh exited with exit code 255
+x4102c3s2b0n0: Function returned HG_PROTOCOL_ERROR
+x4102c3s2b0n0: terminate called after throwing an instance of 'thallium::margo_exception'
+x4102c3s2b0n0:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+pdsh@x4102c2s6b0n0: x4102c3s2b0n0: ssh exited with exit code 255
+x4102c3s1b0n0: Function returned HG_PROTOCOL_ERROR
+x4102c3s1b0n0: terminate called after throwing an instance of 'thallium::margo_exception'
+x4102c3s1b0n0:   what():  [/home/harms/working/copper/spack/opt/spack/linux-sles15-x86_64/gcc-12.2.0/mochi-thallium-0.12.0-uosonvxqg2wqk2wu2zh4ytur7lpya2ft/include/thallium/callable_remote_procedure.hpp:117][margo_provider_forward] Function returned HG_PROTOCOL_ERROR
+pdsh@x4102c2s6b0n0: x4102c3s1b0n0: ssh exited with exit code 255
+Cached Python:12 ES:1 fcores:1 total:2
+
+real	0m0.806s
+user	0m0.006s
+sys	0m0.005s

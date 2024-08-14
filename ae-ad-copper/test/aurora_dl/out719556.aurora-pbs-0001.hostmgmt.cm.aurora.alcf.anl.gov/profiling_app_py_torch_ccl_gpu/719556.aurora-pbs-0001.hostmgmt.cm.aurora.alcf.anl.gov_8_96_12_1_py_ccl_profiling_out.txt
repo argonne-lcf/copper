@@ -1,0 +1,155 @@
+2024:08:06-01:23:42:(180821) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180822) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180823) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180824) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180825) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180826) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180827) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180828) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180829) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180830) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180831) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180832) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191289) |CCL_WARN| value of CCL_OP_SYNC changed to be 1 (default:0)
+2024:08:06-01:23:42:(191289) |CCL_WARN| value of CCL_ENABLE_SYCL_KERNELS changed to be 1 (default:0)
+2024:08:06-01:23:42:(191289) |CCL_WARN| value of CCL_SYCL_ESIMD changed to be 1 (default:0)
+2024:08:06-01:23:42:(191289) |CCL_WARN| value of CCL_PROCESS_LAUNCHER changed to be pmix (default:hydra)
+2024:08:06-01:23:42:(191289) |CCL_WARN| value of CCL_ZE_CACHE_OPEN_IPC_HANDLES_THRESHOLD changed to be 32768 (default:1000)
+2024:08:06-01:23:42:(191289) |CCL_WARN| CCL_ALLGATHERV_MEDIUM_SIZE_THRESHOLD=0 is unknown to and unused by oneCCL code but is present in the environment, check if it is not mistyped.
+2024:08:06-01:23:42:(191289) |CCL_WARN| CCL_SKIP_SCHEDULER=1 is unknown to and unused by oneCCL code but is present in the environment, check if it is not mistyped.
+2024:08:06-01:23:42:(191171) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191172) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191173) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191174) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191176) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191177) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191178) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191179) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191180) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191181) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191182) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191175) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191100) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191101) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191102) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191103) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191104) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191105) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191106) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191107) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191108) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191109) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191110) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191111) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191289) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191290) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191291) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191292) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191293) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191294) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191295) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191296) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191297) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191298) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191299) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191300) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180571) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180572) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180573) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180574) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180575) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180576) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180577) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180578) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180579) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180580) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180581) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(180582) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(76245) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(76246) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(76247) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(76248) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(76249) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(76250) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(76251) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(76252) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(76253) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(76254) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(76255) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(76256) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(74519) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(74520) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(74521) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(74522) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(74523) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(74524) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(74525) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(74526) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(74527) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(74528) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(74529) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(74530) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191324) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191325) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191326) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191327) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191328) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191329) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191330) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191331) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191332) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191333) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191334) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+2024:08:06-01:23:42:(191335) |CCL_WARN| MPI was initialized externally, CCL-MPI specific environment is ignored
+45458111389
+5062091823
+2309392467
+85080
+36069
+28927
+30493
+26085
+29491
+27671
+31177
+27344
+27444
+27500
+27706
+26272
+27119
+29824
+28070
+28193
+29506
+28190
+25409
+28500
+26980
+30542
+31117
+26914
+27084
+26594
+27255
+23926
+25170
+27370
+25476
+30557
+25709
+23814
+25366
+27769
+24532
+26221
+32018
+25738
+28893
+27249
+25827
+33889
+27841
+29051
+23357
+24450

@@ -1,0 +1,73 @@
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_vx=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for this output (/usr/share/lmod/lmod/init/bash)
+Shell debugging restarted
++ unset __lmod_vx
++ CUPATH=/home/harms/working/copper/copper/build
++ LOGDIR=/home/harms/copper-logs/712738
++ mkdir -p /home/harms/copper-logs/712738
++ rm -f /home/harms/copper-logs/712738/copper_address_book.txt
++ touch /home/harms/copper-logs/712738/copper_address_book.txt
++ WCOLL=/var/spool/pbs/aux/712738.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh mkdir -p /tmp/copper
++ read -r -d '' CMD
++ WCOLL=/var/spool/pbs/aux/712738.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 80 numactl '--physcpubind="0,1"' /home/harms/working/copper/copper/build/cu_fuse -tpath / -vpath /tmp/copper -log_level 1 -log_type file -log_output_dir /home/harms/copper-logs/712738 -es 1 -nf /var/spool/pbs/aux/712738.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov -s /tmp/copper
+++ cat /var/spool/pbs/aux/712738.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+++ wc -l
++ nodes=32
++ sleep 100
++ echo 'Launch Baseline Nodes:32'
+Launch Baseline Nodes:32
++ mpiexec -n 384 -ppn 12 sleep 1
+
+real	0m1.420s
+user	0m0.007s
+sys	0m0.001s
++ echo 'First Nodes:32 Python:12 ES:1 fcores:1 total:2'
+First Nodes:32 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 384 -ppn 12 --genvall --genv=PYTHONPATH=/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages --cpu-bind=list:52-103 /soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3 -c 'import numpy; print(numpy.__file__)'
+ping failed on x4302c0s6b0n0: Application 49630c3a-a4f9-43fc-86fb-d1aa77fc6e90 not found
+
+real	1m0.007s
+user	0m0.006s
+sys	0m0.011s
++ echo 'Cached Nodes:32 Python:12 ES:1 fcores:1 total:2'
+Cached Nodes:32 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 384 -ppn 12 --genvall --genv=PYTHONPATH=/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages --cpu-bind=list:52-103 /soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3 -c 'import numpy; print(numpy.__file__)'
+ping failed on x4302c0s0b0n0: Couldn't forward RPC ping(84ba227e-a5ce-4ae5-9301-7c9e37e4672f) to child x4302c3s5b0n0.hostmgmt2302.cm.aurora.alcf.anl.gov: Resource temporarily unavailable
+
+real	2m8.013s
+user	0m0.006s
+sys	0m0.016s
++ WCOLL=/var/spool/pbs/aux/712738.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 fusermount3 -u /tmp/copper
+x4302c3s5b0n0: ssh: connect to host x4302c3s5b0n0.hostmgmt2302.cm.aurora.alcf.anl.gov port 22: No route to host
+pdsh@x4302c0s0b0n0: x4302c3s5b0n0: ssh exited with exit code 255
+x4302c3s4b0n0: ssh: connect to host x4302c3s4b0n0.hostmgmt2302.cm.aurora.alcf.anl.gov port 22: No route to host
+pdsh@x4302c0s0b0n0: x4302c3s4b0n0: ssh exited with exit code 255
+x4302c4s1b0n0: ssh: connect to host x4302c4s1b0n0.hostmgmt2302.cm.aurora.alcf.anl.gov port 22: No route to host
+x4302c2s0b0n0: ssh: connect to host x4302c2s0b0n0.hostmgmt2302.cm.aurora.alcf.anl.gov port 22: No route to host
+x4302c1s7b0n0: ssh: connect to host x4302c1s7b0n0.hostmgmt2302.cm.aurora.alcf.anl.gov port 22: No route to host
+x4302c1s6b0n0: ssh: connect to host x4302c1s6b0n0.hostmgmt2302.cm.aurora.alcf.anl.gov port 22: No route to host
+pdsh@x4302c0s0b0n0: x4302c4s1b0n0: ssh exited with exit code 255
+pdsh@x4302c0s0b0n0: x4302c2s0b0n0: ssh exited with exit code 255
+pdsh@x4302c0s0b0n0: x4302c1s6b0n0: ssh exited with exit code 255
+pdsh@x4302c0s0b0n0: x4302c1s7b0n0: ssh exited with exit code 255
+x4302c4s2b0n0: ssh: connect to host x4302c4s2b0n0.hostmgmt2302.cm.aurora.alcf.anl.gov port 22: No route to host
+pdsh@x4302c0s0b0n0: x4302c4s2b0n0: ssh exited with exit code 255
+x4302c3s6b0n0: ssh: connect to host x4302c3s6b0n0.hostmgmt2302.cm.aurora.alcf.anl.gov port 22: No route to host
+x4302c2s1b0n0: ssh: connect to host x4302c2s1b0n0.hostmgmt2302.cm.aurora.alcf.anl.gov port 22: No route to host
+x4302c2s5b0n0: ssh: connect to host x4302c2s5b0n0.hostmgmt2302.cm.aurora.alcf.anl.gov port 22: No route to host
+pdsh@x4302c0s0b0n0: x4302c2s5b0n0: ssh exited with exit code 255
+pdsh@x4302c0s0b0n0: x4302c3s6b0n0: ssh exited with exit code 255
+pdsh@x4302c0s0b0n0: x4302c2s1b0n0: ssh exited with exit code 255
+x4302c4s5b0n0: ssh: connect to host x4302c4s5b0n0.hostmgmt2302.cm.aurora.alcf.anl.gov port 22: No route to host
+pdsh@x4302c0s0b0n0: x4302c4s5b0n0: ssh exited with exit code 255
+x4302c4s3b0n0: ssh: connect to host x4302c4s3b0n0.hostmgmt2302.cm.aurora.alcf.anl.gov port 22: No route to host
+x4302c4s0b0n0: ssh: connect to host x4302c4s0b0n0.hostmgmt2302.cm.aurora.alcf.anl.gov port 22: No route to host
+pdsh@x4302c0s0b0n0: x4302c4s3b0n0: ssh exited with exit code 255
+pdsh@x4302c0s0b0n0: x4302c4s0b0n0: ssh exited with exit code 255

@@ -1,0 +1,47 @@
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_vx=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for this output (/usr/share/lmod/lmod/init/bash)
+Shell debugging restarted
++ unset __lmod_vx
++ module load frameworks
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_sh_dbg=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+
+The following have been reloaded with a version change:
+  1) intel_compute_runtime/release/821.36 => intel_compute_runtime/release/803.29
+  2) oneapi/eng-compiler/2024.04.15.002 => oneapi/release/2024.1
+
+Shell debugging restarted
++ unset __lmod_sh_dbg
++ return 0
+++ cat /var/spool/pbs/aux/720466.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+++ wc -l
++ nodes=256
++ echo 'Launch Baseline Nodes:256'
+Launch Baseline Nodes:256
++ mpiexec -n 3072 -ppn 12 sleep 1
+
+real	0m1.296s
+user	0m0.007s
+sys	0m0.001s
++ echo 'Baseline First Nodes:256 Python:12 ES:1 fcores:1 total:2'
+Baseline First Nodes:256 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 3072 -ppn 12 --genvall --genv=PYTHONPATH=/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env --cpu-bind=list:4-51 python3 -c 'import torch; print(torch.__file__)'
+
+real	1m12.238s
+user	0m0.053s
+sys	0m0.079s
++ echo 'Baseline Cached Nodes:256 Python:12 ES:1 fcores:1 total:2'
+Baseline Cached Nodes:256 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 3072 -ppn 12 --genvall --genv=PYTHONPATH=/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env --cpu-bind=list:4-51 python3 -c 'import torch; print(torch.__file__)'
+
+real	0m27.301s
+user	0m0.049s
+sys	0m0.077s

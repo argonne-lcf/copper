@@ -1,0 +1,133 @@
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_vx=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for this output (/usr/share/lmod/lmod/init/bash)
+Shell debugging restarted
++ unset __lmod_vx
++ CUPATH=/home/harms/working/copper/copper/build
++ LOGDIR=/home/harms/copper-logs/714692
++ mkdir -p /home/harms/copper-logs/714692
++ WCOLL=/var/spool/pbs/aux/714692.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh mkdir -p /tmp/copper
++ read -r -d '' CMD
++ WCOLL=/var/spool/pbs/aux/714692.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 /home/harms/working/copper/copper/build/cu_fuse -tpath / -vpath /tmp/copper -log_level 5 -log_type file -log_output_dir /home/harms/copper-logs/714692 -es 1 -nf /var/spool/pbs/aux/714692.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov -s /tmp/copper
+++ cat /var/spool/pbs/aux/714692.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+++ wc -l
++ nodes=64
++ sleep 60
++ echo 'Launch Baseline Nodes:64'
+Launch Baseline Nodes:64
++ mpiexec -n 768 -ppn 12 /soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3 -c ''
+
+real	0m1.013s
+user	0m0.004s
+sys	0m0.005s
++ echo 'First Nodes:64 Python:12 ES:1 fcores:1 total:2'
+First Nodes:64 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 768 -ppn 12 --genvall --genv=PYTHONPATH=/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages --cpu-bind=list:52-103 /soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3 -c 'import numpy; print(numpy.__file__)'
+Python path configuration:
+  PYTHONHOME = (not set)
+  PYTHONPATH = '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages'
+  program name = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3'
+  sys.base_prefix = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9'
+  sys.base_exec_prefix = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9'
+  sys.platlibdir = 'lib'
+  sys.executable = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3'
+  sys.prefix = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9'
+  sys.exec_prefix = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9'
+  sys.path = [
+    '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages',
+    '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python39.zip',
+    '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9',
+    '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+Python path configuration:
+  PYTHONHOME = (not set)
+  PYTHONPATH = '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages'
+  program name = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3'
+  sys.base_prefix = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9'
+  sys.base_exec_prefix = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9'
+  sys.platlibdir = 'lib'
+  sys.executable = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3'
+  sys.prefix = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9'
+  sys.exec_prefix = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9'
+  sys.path = [
+    '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages',
+    '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python39.zip',
+    '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9',
+    '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+Python path configuration:
+  PYTHONHOME = (not set)
+  PYTHONPATH = '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages'
+  program name = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3'
+  isolated = 0
+  environment = 1
+  user site = 1
+  import site = 1
+  sys._base_executable = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3'
+  sys.base_prefix = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9'
+  sys.base_exec_prefix = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9'
+  sys.platlibdir = 'lib'
+  sys.executable = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3'
+  sys.prefix = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9'
+  sys.exec_prefix = '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9'
+  sys.path = [
+    '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages',
+    '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python39.zip',
+    '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9',
+    '/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/lib-dynload',
+  ]
+Fatal Python error: init_fs_encoding: failed to get the Python codec of the filesystem encoding
+Python runtime state: core initialized
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 982, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 982, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 925, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1423, in find_spec
+  File "<frozen importlib._bootstrap>", line 925, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1423, in find_spec
+  File "<frozen importlib._bootstrap>", line 982, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 925, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1423, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1395, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1526, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1569, in _fill_cache
+OSError: [Errno 5] Input/output error: '/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages'
+x4707c0s5b0n0.hostmgmt2707.cm.aurora.alcf.anl.gov: rank 15 exited with code 1
+x4707c0s5b0n0.hostmgmt2707.cm.aurora.alcf.anl.gov: rank 13 died from signal 15
+
+real	0m0.339s
+user	0m0.007s
+sys	0m0.009s
++ echo 'Cached Nodes:64 Python:12 ES:1 fcores:1 total:2'
+Cached Nodes:64 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 768 -ppn 12 --genvall --genv=PYTHONPATH=/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages --cpu-bind=list:52-103 /soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3 -c 'import numpy; print(numpy.__file__)'
+
+real	0m10.297s
+user	0m0.011s
+sys	0m0.024s
++ WCOLL=/var/spool/pbs/aux/714692.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 fusermount3 -u /tmp/copper

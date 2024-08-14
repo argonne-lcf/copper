@@ -1,0 +1,651 @@
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_vx=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for this output (/usr/share/lmod/lmod/init/bash)
+Shell debugging restarted
++ unset __lmod_vx
++ CUPATH=/home/harms/working/copper/copper/build
++ LOGDIR=/home/harms/copper-logs/718482
++ mkdir -p /home/harms/copper-logs/718482
++ WCOLL=/var/spool/pbs/aux/718482.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 fusermount3 -u /tmp/copper
+x4704c3s2b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c3s2b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c5s1b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c5s1b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c5s3b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c5s3b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c4s6b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c4s6b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c4s4b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4704c6s6b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c4s4b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4704c6s6b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c6s3b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c6s3b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c7s1b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c7s1b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c5s4b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c5s4b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c3s3b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4704c6s4b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c3s3b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c7s6b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c6s4b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4704c7s6b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c4s1b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c4s1b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c3s7b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4704c6s1b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c3s7b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4704c6s1b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c3s6b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c3s6b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c7s4b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c7s4b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c7s5b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c7s5b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c6s0b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c6s0b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c4s3b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c4s3b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c6s5b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4704c3s5b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c6s5b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4704c3s5b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c3s4b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c3s4b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c7s3b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c7s3b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c7s0b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c7s0b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c4s2b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c4s2b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c5s7b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c5s7b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c7s7b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4704c7s2b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c7s7b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4704c7s2b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c6s2b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c6s2b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c5s0b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c5s0b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4704c4s5b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4704c4s5b0n0.hostmgmt2704.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c0s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c0s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c0s6b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c0s6b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c1s0b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c1s0b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c1s3b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4705c1s7b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c1s3b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4705c1s7b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c2s2b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c2s2b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c0s3b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c0s3b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c0s7b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c0s7b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c1s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c1s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c2s4b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c2s4b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c5s3b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c5s3b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c2s3b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c2s3b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c1s6b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c1s6b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c2s7b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4705c1s4b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c2s7b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4705c1s4b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c0s4b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c0s4b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c2s5b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4705c0s2b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c2s5b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4705c0s2b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c2s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c2s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c1s5b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c1s5b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c4s4b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4705c2s6b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c4s4b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4705c2s6b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c4s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c4s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c4s5b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c4s5b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c5s5b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c5s5b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c4s2b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c4s2b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c4s0b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c4s0b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c4s3b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c4s3b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c5s4b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c5s4b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c4s7b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c4s7b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c5s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c5s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c5s6b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c5s6b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c6s2b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4705c6s2b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov,10.115.76.24' (ECDSA) to the list of known hosts.
+x4705c6s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c6s1b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c1s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c1s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c5s7b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c5s7b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c0s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c0s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c0s0b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c0s0b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c6s2b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c6s2b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c6s3b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c6s3b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c0s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c0s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c6s5b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c6s5b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c1s0b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4706c0s7b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c1s0b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4706c0s7b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c2s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c2s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c2s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4706c0s1b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c2s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4706c0s1b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4705c6s7b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4705c6s7b0n0.hostmgmt2705.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c1s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c1s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c0s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c0s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c2s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c2s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c2s5b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c2s5b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c2s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c2s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c2s7b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c2s7b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c3s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c3s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c3s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c3s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c0s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c0s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c1s1b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4706c0s5b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c1s1b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4706c0s5b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c2s0b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4706c1s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c2s0b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4706c1s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c1s7b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c1s7b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c1s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c1s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c3s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c3s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c3s1b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c3s1b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c3s5b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c3s5b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c3s7b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c3s7b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c3s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c3s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c4s1b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c4s1b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c4s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c4s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c4s0b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c4s0b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c5s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c5s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c4s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c4s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c4s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c4s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c5s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c5s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c4s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4706c4s7b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c4s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4706c4s7b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c5s1b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c5s1b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c4s5b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c4s5b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c5s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c5s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c5s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c5s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c5s5b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c5s5b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c6s0b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c6s0b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c5s7b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c5s7b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c6s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c6s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c6s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c6s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c6s1b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c6s1b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c6s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c6s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c7s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c7s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c7s0b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c7s0b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c7s1b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c7s1b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c7s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c7s2b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c7s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c7s6b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c7s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c7s3b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4707c0s1b0n0.hostmgmt2707.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4707c0s1b0n0.hostmgmt2707.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4706c6s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4706c6s4b0n0.hostmgmt2706.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c0s7b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c0s7b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c1s3b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c1s3b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c1s2b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c1s2b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c2s2b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c2s2b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c1s4b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c1s4b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c1s0b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c1s0b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c2s5b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c2s5b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c1s5b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c1s5b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c1s7b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c1s7b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c2s6b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c2s6b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c1s6b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c1s6b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c2s0b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c2s0b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c2s1b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c2s1b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4711c5s6b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4709c2s4b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4711c5s6b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c2s3b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c2s4b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4709c2s3b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4711c6s1b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4711c6s1b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4711c6s7b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4711c6s7b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4709c2s7b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4709c2s7b0n0.hostmgmt2709.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4711c5s5b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4711c5s5b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4711c6s3b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4711c6s3b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4711c7s4b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4711c7s4b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4711c7s2b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4711c7s2b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4711c6s4b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4711c6s0b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4711c6s4b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4711c6s0b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4711c5s7b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4711c6s6b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4711c5s7b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4711c6s6b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4711c6s2b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4711c6s2b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4711c7s6b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4716c0s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4711c7s6b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4716c0s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c0s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c0s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4711c7s7b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4711c7s7b0n0.hostmgmt2711.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c2s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c2s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.160' (ECDSA) to the list of known hosts.
+x4716c4s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c4s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.168' (ECDSA) to the list of known hosts.
+x4716c2s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c2s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.129' (ECDSA) to the list of known hosts.
+x4716c3s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c3s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.133' (ECDSA) to the list of known hosts.
+x4716c2s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c2s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.162' (ECDSA) to the list of known hosts.
+x4716c2s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c2s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.171' (ECDSA) to the list of known hosts.
+x4716c2s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c2s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.149' (ECDSA) to the list of known hosts.
+x4716c3s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c3s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.167' (ECDSA) to the list of known hosts.
+x4716c3s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c3s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.164' (ECDSA) to the list of known hosts.
+x4716c3s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c3s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.132' (ECDSA) to the list of known hosts.
+x4716c3s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c3s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.134' (ECDSA) to the list of known hosts.
+x4716c4s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c4s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.165' (ECDSA) to the list of known hosts.
+x4716c3s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c3s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.166' (ECDSA) to the list of known hosts.
+x4716c4s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c4s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.135' (ECDSA) to the list of known hosts.
+x4716c4s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c4s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.143' (ECDSA) to the list of known hosts.
+x4716c4s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c4s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.137' (ECDSA) to the list of known hosts.
+x4716c4s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c4s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.180' (ECDSA) to the list of known hosts.
+x4716c0s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c0s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c0s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c0s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c0s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c0s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c0s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c0s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c0s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c0s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c0s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c0s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c1s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c1s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c1s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c1s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c1s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c1s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c1s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c1s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c1s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c1s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c1s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c1s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c1s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c1s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c2s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c2s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c2s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c2s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c4s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c4s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c2s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c2s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c2s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c2s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c3s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c3s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c4s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c4s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.136' (ECDSA) to the list of known hosts.
+x4716c4s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c4s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c2s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c2s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c4s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c4s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c3s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c3s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c4s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c4s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.153' (ECDSA) to the list of known hosts.
+x4716c5s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c5s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.175' (ECDSA) to the list of known hosts.
+x4716c5s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c5s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.154' (ECDSA) to the list of known hosts.
+x4716c4s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c4s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c5s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c5s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.174' (ECDSA) to the list of known hosts.
+x4716c5s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c5s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.178' (ECDSA) to the list of known hosts.
+x4716c3s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c3s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c6s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c6s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.173' (ECDSA) to the list of known hosts.
+x4716c2s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c2s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c3s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c3s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c2s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c2s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c3s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c3s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c6s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c6s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.191' (ECDSA) to the list of known hosts.
+x4716c6s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c6s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.187' (ECDSA) to the list of known hosts.
+x4716c4s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c4s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c3s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c3s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c4s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c4s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c6s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c6s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.190' (ECDSA) to the list of known hosts.
+x4716c6s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c6s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.139' (ECDSA) to the list of known hosts.
+x4716c6s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c6s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.192' (ECDSA) to the list of known hosts.
+x4716c6s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c6s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.186' (ECDSA) to the list of known hosts.
+x4716c7s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c7s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.189' (ECDSA) to the list of known hosts.
+x4716c7s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c7s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.140' (ECDSA) to the list of known hosts.
+x4716c7s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c7s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.184' (ECDSA) to the list of known hosts.
+x4716c7s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c7s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.188' (ECDSA) to the list of known hosts.
+x4716c7s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c7s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.183' (ECDSA) to the list of known hosts.
+x4716c7s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c7s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.185' (ECDSA) to the list of known hosts.
+x4716c7s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c7s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.181' (ECDSA) to the list of known hosts.
+x4716c7s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4716c7s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov,10.115.81.182' (ECDSA) to the list of known hosts.
+x4717c0s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c0s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.1' (ECDSA) to the list of known hosts.
+x4717c0s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c0s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.17' (ECDSA) to the list of known hosts.
+x4717c0s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c0s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.14' (ECDSA) to the list of known hosts.
+x4717c0s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c0s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.13' (ECDSA) to the list of known hosts.
+x4717c1s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c1s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.21' (ECDSA) to the list of known hosts.
+x4717c0s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c0s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.26' (ECDSA) to the list of known hosts.
+x4717c1s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c1s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.20' (ECDSA) to the list of known hosts.
+x4717c1s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c1s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.16' (ECDSA) to the list of known hosts.
+x4717c1s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c1s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.5' (ECDSA) to the list of known hosts.
+x4717c1s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c1s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.3' (ECDSA) to the list of known hosts.
+x4716c4s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c4s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c5s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c5s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c4s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c4s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c5s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c5s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c5s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c5s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c5s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c5s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c6s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c6s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c6s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c6s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c6s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c6s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c6s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c6s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c6s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c6s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c6s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c6s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c7s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c7s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c7s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c7s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c6s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c6s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c7s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c7s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c7s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c7s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c7s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c7s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c7s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c7s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c7s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c7s6b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4716c7s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4716c7s7b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c2s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c2s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.35' (ECDSA) to the list of known hosts.
+x4717c0s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c0s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c2s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c2s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.29' (ECDSA) to the list of known hosts.
+x4717c0s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c0s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c2s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c2s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.37' (ECDSA) to the list of known hosts.
+x4717c2s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c2s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.30' (ECDSA) to the list of known hosts.
+x4717c2s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c2s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.33' (ECDSA) to the list of known hosts.
+x4717c0s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c0s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c1s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c1s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c3s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c3s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.4' (ECDSA) to the list of known hosts.
+x4717c1s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c1s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c0s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c0s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c3s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c3s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.6' (ECDSA) to the list of known hosts.
+x4717c0s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c0s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c1s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c1s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c1s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c1s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c3s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c3s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.31' (ECDSA) to the list of known hosts.
+x4717c1s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c1s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c1s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c1s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c3s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c3s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.36' (ECDSA) to the list of known hosts.
+x4717c3s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c3s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.8' (ECDSA) to the list of known hosts.
+x4717c3s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c3s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.28' (ECDSA) to the list of known hosts.
+x4717c3s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c3s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.7' (ECDSA) to the list of known hosts.
+x4717c4s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c4s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.49' (ECDSA) to the list of known hosts.
+x4717c3s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c3s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.40' (ECDSA) to the list of known hosts.
+x4717c4s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c4s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.44' (ECDSA) to the list of known hosts.
+x4717c4s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c4s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.46' (ECDSA) to the list of known hosts.
+x4717c4s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c4s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.32' (ECDSA) to the list of known hosts.
+x4717c5s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c5s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.39' (ECDSA) to the list of known hosts.
+x4717c4s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c4s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.42' (ECDSA) to the list of known hosts.
+x4717c4s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c4s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.43' (ECDSA) to the list of known hosts.
+x4717c5s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c5s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.9' (ECDSA) to the list of known hosts.
+x4717c5s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c5s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.56' (ECDSA) to the list of known hosts.
+x4717c5s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c5s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.58' (ECDSA) to the list of known hosts.
+x4717c6s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c6s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.23' (ECDSA) to the list of known hosts.
+x4717c5s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c5s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.55' (ECDSA) to the list of known hosts.
+x4717c6s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c6s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.22' (ECDSA) to the list of known hosts.
+x4717c6s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c6s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.41' (ECDSA) to the list of known hosts.
+x4717c6s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c6s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.54' (ECDSA) to the list of known hosts.
+x4717c7s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c7s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.62' (ECDSA) to the list of known hosts.
+x4717c6s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c6s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.52' (ECDSA) to the list of known hosts.
+x4717c6s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c6s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.57' (ECDSA) to the list of known hosts.
+x4717c6s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4717c6s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov,10.115.82.53' (ECDSA) to the list of known hosts.
+x4717c2s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c2s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c2s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c2s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c2s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c2s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c2s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c2s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c3s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4717c2s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c2s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4717c3s0b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c3s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c3s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c3s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c3s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c3s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c3s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c4s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c4s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c3s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c3s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c3s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c3s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c3s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c3s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c4s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c4s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c3s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c3s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c4s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4717c4s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c4s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4717c4s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c4s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4717c4s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c4s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+pdsh@x4704c3s2b0n0: x4717c4s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c5s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c5s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c5s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c5s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c5s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c5s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c5s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c5s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c5s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c5s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c6s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c6s3b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c6s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c6s2b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c6s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c6s7b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c6s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c6s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c6s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c6s6b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c6s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c6s5b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c6s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c6s4b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
+x4717c7s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4704c3s2b0n0: x4717c7s1b0n0.hostmgmt2717.cm.aurora.alcf.anl.gov: ssh exited with exit code 1
++ WCOLL=/var/spool/pbs/aux/718482.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh mkdir -p /tmp/copper
++ module load frameworks
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_sh_dbg=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+
+The following have been reloaded with a version change:
+  1) intel_compute_runtime/release/821.36 => intel_compute_runtime/release/803.29
+  2) oneapi/eng-compiler/2024.04.15.002 => oneapi/release/2024.1
+
+Shell debugging restarted
++ unset __lmod_sh_dbg
++ return 0
++ read -r -d '' CMD
++ WCOLL=/var/spool/pbs/aux/718482.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 numactl '--physcpubind="0-3"' /home/harms/working/copper/copper/build/cu_fuse -tpath / -vpath /tmp/copper -log_level 4 -log_type file -log_output_dir /home/harms/copper-logs/718482 -es 1 -nf /var/spool/pbs/aux/718482.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov -max_cacheable_byte_size 10485760 -s /tmp/copper
+++ cat /var/spool/pbs/aux/718482.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+++ wc -l
++ nodes=256
++ sleep 60
++ echo 'Launch Baseline Nodes:256'
+Launch Baseline Nodes:256
++ mpiexec -n 3072 -ppn 12 sleep 1
+
+real	0m1.523s
+user	0m0.007s
+sys	0m0.009s
++ echo 'First Nodes:256 Python:12 ES:1 fcores:1 total:2'
+First Nodes:256 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 3072 -ppn 12 --genvall --genv=PYTHONPATH=/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env --cpu-bind=list:4-51 python3 -c 'import torch; print(torch.__file__)'
+
+real	0m53.809s
+user	0m0.044s
+sys	0m0.033s
++ echo 'Cached Nodes:256 Python:12 ES:1 fcores:1 total:2'
+Cached Nodes:256 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 3072 -ppn 12 --genvall --genv=PYTHONPATH=/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env --cpu-bind=list:4-51 python3 -c 'import torch; print(torch.__file__)'
+
+real	0m2.220s
+user	0m0.042s
+sys	0m0.042s
++ WCOLL=/var/spool/pbs/aux/718482.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 fusermount3 -u /tmp/copper

@@ -1,0 +1,1152 @@
+x4615c4s5b0n0: 2024-08-04 19-34-51.289 [Debug] (cu_hello_main)  
+x4615c4s5b0n0: 2024-08-04 19-34-51.289 [Info] (cu_hello_main) hostname found to be: x4615c4s5b0n0
+x4615c4s5b0n0: 2024-08-04 19-34-51.289 [Debug] (process_args) -tpath was found: /
+x4615c4s5b0n0: 2024-08-04 19-34-51.289 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c4s5b0n0: 2024-08-04 19-34-51.289 [Debug] (process_args) -log_level was found: 4
+x4615c4s5b0n0: 2024-08-04 19-34-51.289 [Debug] (process_args) -log_type was found: file
+x4615c4s5b0n0: 2024-08-04 19-34-51.289 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c4s5b0n0: 2024-08-04 19-34-51.289 [Debug] (process_args) -es was found: 1
+x4615c4s5b0n0: 2024-08-04 19-34-51.289 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c4s5b0n0: 2024-08-04 19-34-51.289 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c4s5b0n0: 2024-08-04 19-34-51.289 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c4s5b0n0: 2024-08-04 19-34-51.289 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c4s5b0n0-77398-output.log
+x4615c3s4b0n0: 2024-08-04 19-34-51.304 [Debug] (cu_hello_main)  
+x4615c3s4b0n0: 2024-08-04 19-34-51.304 [Info] (cu_hello_main) hostname found to be: x4615c3s4b0n0
+x4615c3s4b0n0: 2024-08-04 19-34-51.304 [Debug] (process_args) -tpath was found: /
+x4615c3s4b0n0: 2024-08-04 19-34-51.304 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c3s4b0n0: 2024-08-04 19-34-51.304 [Debug] (process_args) -log_level was found: 4
+x4615c3s4b0n0: 2024-08-04 19-34-51.304 [Debug] (process_args) -log_type was found: file
+x4615c3s4b0n0: 2024-08-04 19-34-51.304 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c3s4b0n0: 2024-08-04 19-34-51.304 [Debug] (process_args) -es was found: 1
+x4615c3s4b0n0: 2024-08-04 19-34-51.304 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c3s4b0n0: 2024-08-04 19-34-51.304 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c3s4b0n0: 2024-08-04 19-34-51.304 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c3s4b0n0: 2024-08-04 19-34-51.304 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c3s4b0n0-115023-output.log
+x4615c1s0b0n0: 2024-08-04 19-34-51.308 [Debug] (cu_hello_main)  
+x4615c1s0b0n0: 2024-08-04 19-34-51.308 [Info] (cu_hello_main) hostname found to be: x4615c1s0b0n0
+x4615c1s0b0n0: 2024-08-04 19-34-51.308 [Debug] (process_args) -tpath was found: /
+x4615c1s0b0n0: 2024-08-04 19-34-51.308 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c1s0b0n0: 2024-08-04 19-34-51.308 [Debug] (process_args) -log_level was found: 4
+x4615c1s0b0n0: 2024-08-04 19-34-51.308 [Debug] (process_args) -log_type was found: file
+x4615c1s0b0n0: 2024-08-04 19-34-51.308 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c1s0b0n0: 2024-08-04 19-34-51.308 [Debug] (process_args) -es was found: 1
+x4615c1s0b0n0: 2024-08-04 19-34-51.308 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c1s0b0n0: 2024-08-04 19-34-51.308 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c1s0b0n0: 2024-08-04 19-34-51.308 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c1s0b0n0: 2024-08-04 19-34-51.308 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c1s0b0n0-75422-output.log
+x4615c1s1b0n0: 2024-08-04 19-34-51.310 [Debug] (cu_hello_main)  
+x4615c1s1b0n0: 2024-08-04 19-34-51.310 [Info] (cu_hello_main) hostname found to be: x4615c1s1b0n0
+x4615c1s1b0n0: 2024-08-04 19-34-51.310 [Debug] (process_args) -tpath was found: /
+x4615c1s1b0n0: 2024-08-04 19-34-51.310 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c1s1b0n0: 2024-08-04 19-34-51.310 [Debug] (process_args) -log_level was found: 4
+x4615c1s1b0n0: 2024-08-04 19-34-51.310 [Debug] (process_args) -log_type was found: file
+x4615c1s1b0n0: 2024-08-04 19-34-51.310 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c1s1b0n0: 2024-08-04 19-34-51.310 [Debug] (process_args) -es was found: 1
+x4615c1s1b0n0: 2024-08-04 19-34-51.310 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c1s1b0n0: 2024-08-04 19-34-51.310 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c1s1b0n0: 2024-08-04 19-34-51.310 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c1s1b0n0: 2024-08-04 19-34-51.310 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c1s1b0n0-158514-output.log
+x4615c3s5b0n0: 2024-08-04 19-34-51.313 [Debug] (cu_hello_main)  
+x4615c3s5b0n0: 2024-08-04 19-34-51.313 [Info] (cu_hello_main) hostname found to be: x4615c3s5b0n0
+x4615c3s5b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -tpath was found: /
+x4615c3s5b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c3s5b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -log_level was found: 4
+x4615c3s5b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -log_type was found: file
+x4615c3s5b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c3s5b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -es was found: 1
+x4615c3s5b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c3s5b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c3s5b0n0: 2024-08-04 19-34-51.313 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c3s5b0n0: 2024-08-04 19-34-51.313 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c3s5b0n0-123239-output.log
+x4615c3s0b0n0: 2024-08-04 19-34-51.313 [Debug] (cu_hello_main)  
+x4615c3s0b0n0: 2024-08-04 19-34-51.313 [Info] (cu_hello_main) hostname found to be: x4615c3s0b0n0
+x4615c3s0b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -tpath was found: /
+x4615c3s0b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c3s0b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -log_level was found: 4
+x4615c3s0b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -log_type was found: file
+x4615c3s0b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c3s0b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -es was found: 1
+x4615c3s0b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c3s0b0n0: 2024-08-04 19-34-51.313 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c3s0b0n0: 2024-08-04 19-34-51.313 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c3s0b0n0: 2024-08-04 19-34-51.313 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c3s0b0n0-128541-output.log
+x4615c2s5b0n0: 2024-08-04 19-34-51.315 [Debug] (cu_hello_main)  
+x4615c2s5b0n0: 2024-08-04 19-34-51.315 [Info] (cu_hello_main) hostname found to be: x4615c2s5b0n0
+x4615c2s5b0n0: 2024-08-04 19-34-51.315 [Debug] (process_args) -tpath was found: /
+x4615c2s5b0n0: 2024-08-04 19-34-51.315 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c2s5b0n0: 2024-08-04 19-34-51.315 [Debug] (process_args) -log_level was found: 4
+x4615c2s5b0n0: 2024-08-04 19-34-51.315 [Debug] (process_args) -log_type was found: file
+x4615c2s5b0n0: 2024-08-04 19-34-51.315 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c2s5b0n0: 2024-08-04 19-34-51.315 [Debug] (process_args) -es was found: 1
+x4615c2s5b0n0: 2024-08-04 19-34-51.315 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c2s5b0n0: 2024-08-04 19-34-51.315 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c2s5b0n0: 2024-08-04 19-34-51.315 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c2s5b0n0: 2024-08-04 19-34-51.315 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c2s5b0n0-43150-output.log
+x4615c4s3b0n0: 2024-08-04 19-34-51.316 [Debug] (cu_hello_main)  
+x4615c4s3b0n0: 2024-08-04 19-34-51.316 [Info] (cu_hello_main) hostname found to be: x4615c4s3b0n0
+x4615c4s3b0n0: 2024-08-04 19-34-51.316 [Debug] (process_args) -tpath was found: /
+x4615c4s3b0n0: 2024-08-04 19-34-51.316 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c4s3b0n0: 2024-08-04 19-34-51.316 [Debug] (process_args) -log_level was found: 4
+x4615c4s3b0n0: 2024-08-04 19-34-51.316 [Debug] (process_args) -log_type was found: file
+x4615c4s3b0n0: 2024-08-04 19-34-51.316 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c4s3b0n0: 2024-08-04 19-34-51.316 [Debug] (process_args) -es was found: 1
+x4615c4s3b0n0: 2024-08-04 19-34-51.316 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c4s3b0n0: 2024-08-04 19-34-51.316 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c4s3b0n0: 2024-08-04 19-34-51.316 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c4s3b0n0: 2024-08-04 19-34-51.316 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c4s3b0n0-112512-output.log
+x4615c4s1b0n0: 2024-08-04 19-34-51.317 [Debug] (cu_hello_main)  
+x4615c4s1b0n0: 2024-08-04 19-34-51.317 [Info] (cu_hello_main) hostname found to be: x4615c4s1b0n0
+x4615c4s1b0n0: 2024-08-04 19-34-51.317 [Debug] (process_args) -tpath was found: /
+x4615c4s1b0n0: 2024-08-04 19-34-51.317 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c4s1b0n0: 2024-08-04 19-34-51.317 [Debug] (process_args) -log_level was found: 4
+x4615c4s1b0n0: 2024-08-04 19-34-51.317 [Debug] (process_args) -log_type was found: file
+x4615c4s1b0n0: 2024-08-04 19-34-51.317 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c4s1b0n0: 2024-08-04 19-34-51.317 [Debug] (process_args) -es was found: 1
+x4615c4s1b0n0: 2024-08-04 19-34-51.317 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c4s1b0n0: 2024-08-04 19-34-51.317 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c4s1b0n0: 2024-08-04 19-34-51.317 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c4s1b0n0: 2024-08-04 19-34-51.317 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c4s1b0n0-116538-output.log
+x4615c1s5b0n0: 2024-08-04 19-34-51.318 [Debug] (cu_hello_main)  
+x4615c1s5b0n0: 2024-08-04 19-34-51.318 [Info] (cu_hello_main) hostname found to be: x4615c1s5b0n0
+x4615c1s5b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -tpath was found: /
+x4615c1s5b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c1s5b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -log_level was found: 4
+x4615c1s5b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -log_type was found: file
+x4615c1s5b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c1s5b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -es was found: 1
+x4615c1s5b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c1s5b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c1s5b0n0: 2024-08-04 19-34-51.318 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c1s5b0n0: 2024-08-04 19-34-51.318 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c1s5b0n0-114322-output.log
+x4615c3s1b0n0: 2024-08-04 19-34-51.318 [Debug] (cu_hello_main)  
+x4615c3s1b0n0: 2024-08-04 19-34-51.318 [Info] (cu_hello_main) hostname found to be: x4615c3s1b0n0
+x4615c3s1b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -tpath was found: /
+x4615c3s1b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c3s1b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -log_level was found: 4
+x4615c3s1b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -log_type was found: file
+x4615c3s1b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c3s1b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -es was found: 1
+x4615c3s1b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c3s1b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c3s1b0n0: 2024-08-04 19-34-51.318 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c3s1b0n0: 2024-08-04 19-34-51.318 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c3s1b0n0-127028-output.log
+x4615c4s4b0n0: 2024-08-04 19-34-51.318 [Debug] (cu_hello_main)  
+x4615c4s4b0n0: 2024-08-04 19-34-51.318 [Info] (cu_hello_main) hostname found to be: x4615c4s4b0n0
+x4615c4s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -tpath was found: /
+x4615c4s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c4s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -log_level was found: 4
+x4615c4s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -log_type was found: file
+x4615c4s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c4s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -es was found: 1
+x4615c4s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c4s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c4s4b0n0: 2024-08-04 19-34-51.318 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c4s4b0n0: 2024-08-04 19-34-51.318 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c4s4b0n0-86088-output.log
+x4615c1s4b0n0: 2024-08-04 19-34-51.318 [Debug] (cu_hello_main)  
+x4615c1s4b0n0: 2024-08-04 19-34-51.318 [Info] (cu_hello_main) hostname found to be: x4615c1s4b0n0
+x4615c1s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -tpath was found: /
+x4615c1s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c1s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -log_level was found: 4
+x4615c1s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -log_type was found: file
+x4615c1s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c1s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -es was found: 1
+x4615c1s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c1s4b0n0: 2024-08-04 19-34-51.318 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c1s4b0n0: 2024-08-04 19-34-51.318 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c1s4b0n0: 2024-08-04 19-34-51.318 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c1s4b0n0-80803-output.log
+x4615c2s3b0n0: 2024-08-04 19-34-51.319 [Debug] (cu_hello_main)  
+x4615c2s3b0n0: 2024-08-04 19-34-51.319 [Info] (cu_hello_main) hostname found to be: x4615c2s3b0n0
+x4615c2s3b0n0: 2024-08-04 19-34-51.319 [Debug] (process_args) -tpath was found: /
+x4615c2s3b0n0: 2024-08-04 19-34-51.319 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c2s3b0n0: 2024-08-04 19-34-51.319 [Debug] (process_args) -log_level was found: 4
+x4615c2s3b0n0: 2024-08-04 19-34-51.319 [Debug] (process_args) -log_type was found: file
+x4615c2s3b0n0: 2024-08-04 19-34-51.319 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c2s3b0n0: 2024-08-04 19-34-51.319 [Debug] (process_args) -es was found: 1
+x4615c2s3b0n0: 2024-08-04 19-34-51.319 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c2s3b0n0: 2024-08-04 19-34-51.319 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c2s3b0n0: 2024-08-04 19-34-51.319 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c2s3b0n0: 2024-08-04 19-34-51.319 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c2s3b0n0-42011-output.log
+x4615c2s1b0n0: 2024-08-04 19-34-51.321 [Debug] (cu_hello_main)  
+x4615c2s1b0n0: 2024-08-04 19-34-51.321 [Info] (cu_hello_main) hostname found to be: x4615c2s1b0n0
+x4615c2s1b0n0: 2024-08-04 19-34-51.321 [Debug] (process_args) -tpath was found: /
+x4615c2s1b0n0: 2024-08-04 19-34-51.321 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c2s1b0n0: 2024-08-04 19-34-51.321 [Debug] (process_args) -log_level was found: 4
+x4615c2s1b0n0: 2024-08-04 19-34-51.321 [Debug] (process_args) -log_type was found: file
+x4615c2s1b0n0: 2024-08-04 19-34-51.321 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c2s1b0n0: 2024-08-04 19-34-51.321 [Debug] (process_args) -es was found: 1
+x4615c2s1b0n0: 2024-08-04 19-34-51.321 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c2s1b0n0: 2024-08-04 19-34-51.321 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c2s1b0n0: 2024-08-04 19-34-51.321 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c2s1b0n0: 2024-08-04 19-34-51.321 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c2s1b0n0-48660-output.log
+x4615c4s2b0n0: 2024-08-04 19-34-51.328 [Debug] (cu_hello_main)  
+x4615c4s2b0n0: 2024-08-04 19-34-51.328 [Info] (cu_hello_main) hostname found to be: x4615c4s2b0n0
+x4615c4s2b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -tpath was found: /
+x4615c4s2b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c4s2b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -log_level was found: 4
+x4615c4s2b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -log_type was found: file
+x4615c4s2b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c4s2b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -es was found: 1
+x4615c4s2b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c4s2b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c4s2b0n0: 2024-08-04 19-34-51.328 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c4s2b0n0: 2024-08-04 19-34-51.328 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c4s2b0n0-116329-output.log
+x4615c3s6b0n0: 2024-08-04 19-34-51.328 [Debug] (cu_hello_main)  
+x4615c3s6b0n0: 2024-08-04 19-34-51.328 [Info] (cu_hello_main) hostname found to be: x4615c3s6b0n0
+x4615c3s6b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -tpath was found: /
+x4615c3s6b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c3s6b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -log_level was found: 4
+x4615c3s6b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -log_type was found: file
+x4615c3s6b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c3s6b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -es was found: 1
+x4615c3s6b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c3s6b0n0: 2024-08-04 19-34-51.328 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c3s6b0n0: 2024-08-04 19-34-51.328 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c3s6b0n0: 2024-08-04 19-34-51.328 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c3s6b0n0-38898-output.log
+x4615c4s6b0n0: 2024-08-04 19-34-51.332 [Debug] (cu_hello_main)  
+x4615c4s6b0n0: 2024-08-04 19-34-51.332 [Info] (cu_hello_main) hostname found to be: x4615c4s6b0n0
+x4615c4s6b0n0: 2024-08-04 19-34-51.332 [Debug] (process_args) -tpath was found: /
+x4615c4s6b0n0: 2024-08-04 19-34-51.332 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c4s6b0n0: 2024-08-04 19-34-51.332 [Debug] (process_args) -log_level was found: 4
+x4615c4s6b0n0: 2024-08-04 19-34-51.332 [Debug] (process_args) -log_type was found: file
+x4615c4s6b0n0: 2024-08-04 19-34-51.332 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c4s6b0n0: 2024-08-04 19-34-51.332 [Debug] (process_args) -es was found: 1
+x4615c4s6b0n0: 2024-08-04 19-34-51.332 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c4s6b0n0: 2024-08-04 19-34-51.332 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c4s6b0n0: 2024-08-04 19-34-51.332 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c4s6b0n0: 2024-08-04 19-34-51.332 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c4s6b0n0-90873-output.log
+x4615c5s0b0n0: 2024-08-04 19-34-51.333 [Debug] (cu_hello_main)  
+x4615c5s0b0n0: 2024-08-04 19-34-51.333 [Info] (cu_hello_main) hostname found to be: x4615c5s0b0n0
+x4615c5s0b0n0: 2024-08-04 19-34-51.333 [Debug] (process_args) -tpath was found: /
+x4615c5s0b0n0: 2024-08-04 19-34-51.333 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c5s0b0n0: 2024-08-04 19-34-51.333 [Debug] (process_args) -log_level was found: 4
+x4615c5s0b0n0: 2024-08-04 19-34-51.333 [Debug] (process_args) -log_type was found: file
+x4615c5s0b0n0: 2024-08-04 19-34-51.333 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c5s0b0n0: 2024-08-04 19-34-51.333 [Debug] (process_args) -es was found: 1
+x4615c5s0b0n0: 2024-08-04 19-34-51.333 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c5s0b0n0: 2024-08-04 19-34-51.333 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c5s0b0n0: 2024-08-04 19-34-51.333 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c5s0b0n0: 2024-08-04 19-34-51.333 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c5s0b0n0-50436-output.log
+x4615c3s2b0n0: 2024-08-04 19-34-51.334 [Debug] (cu_hello_main)  
+x4615c3s2b0n0: 2024-08-04 19-34-51.334 [Info] (cu_hello_main) hostname found to be: x4615c3s2b0n0
+x4615c3s2b0n0: 2024-08-04 19-34-51.334 [Debug] (process_args) -tpath was found: /
+x4615c3s2b0n0: 2024-08-04 19-34-51.334 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c3s2b0n0: 2024-08-04 19-34-51.334 [Debug] (process_args) -log_level was found: 4
+x4615c3s2b0n0: 2024-08-04 19-34-51.334 [Debug] (process_args) -log_type was found: file
+x4615c3s2b0n0: 2024-08-04 19-34-51.334 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c3s2b0n0: 2024-08-04 19-34-51.334 [Debug] (process_args) -es was found: 1
+x4615c3s2b0n0: 2024-08-04 19-34-51.334 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c3s2b0n0: 2024-08-04 19-34-51.334 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c3s2b0n0: 2024-08-04 19-34-51.334 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c3s2b0n0: 2024-08-04 19-34-51.334 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c3s2b0n0-174682-output.log
+x4615c4s7b0n0: 2024-08-04 19-34-51.335 [Debug] (cu_hello_main)  
+x4615c1s3b0n0: 2024-08-04 19-34-51.335 [Debug] (cu_hello_main)  
+x4615c4s7b0n0: 2024-08-04 19-34-51.335 [Info] (cu_hello_main) hostname found to be: x4615c4s7b0n0
+x4615c1s3b0n0: 2024-08-04 19-34-51.335 [Info] (cu_hello_main) hostname found to be: x4615c1s3b0n0
+x4615c4s7b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -tpath was found: /
+x4615c4s7b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c4s7b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -log_level was found: 4
+x4615c4s7b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -log_type was found: file
+x4615c4s7b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c4s7b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -es was found: 1
+x4615c4s7b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c4s7b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c4s7b0n0: 2024-08-04 19-34-51.335 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c1s3b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -tpath was found: /
+x4615c1s3b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c1s3b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -log_level was found: 4
+x4615c1s3b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -log_type was found: file
+x4615c1s3b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c1s3b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -es was found: 1
+x4615c1s3b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c1s3b0n0: 2024-08-04 19-34-51.335 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c1s3b0n0: 2024-08-04 19-34-51.335 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c4s7b0n0: 2024-08-04 19-34-51.335 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c4s7b0n0-69404-output.log
+x4615c1s3b0n0: 2024-08-04 19-34-51.335 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c1s3b0n0-145298-output.log
+x4615c3s3b0n0: 2024-08-04 19-34-51.336 [Debug] (cu_hello_main)  
+x4615c3s3b0n0: 2024-08-04 19-34-51.336 [Info] (cu_hello_main) hostname found to be: x4615c3s3b0n0
+x4615c3s3b0n0: 2024-08-04 19-34-51.336 [Debug] (process_args) -tpath was found: /
+x4615c3s3b0n0: 2024-08-04 19-34-51.336 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c3s3b0n0: 2024-08-04 19-34-51.336 [Debug] (process_args) -log_level was found: 4
+x4615c3s3b0n0: 2024-08-04 19-34-51.336 [Debug] (process_args) -log_type was found: file
+x4615c3s3b0n0: 2024-08-04 19-34-51.336 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c3s3b0n0: 2024-08-04 19-34-51.336 [Debug] (process_args) -es was found: 1
+x4615c3s3b0n0: 2024-08-04 19-34-51.336 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c3s3b0n0: 2024-08-04 19-34-51.336 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c3s3b0n0: 2024-08-04 19-34-51.336 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c3s3b0n0: 2024-08-04 19-34-51.336 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c3s3b0n0-161619-output.log
+x4615c2s0b0n0: 2024-08-04 19-34-51.336 [Debug] (cu_hello_main)  
+x4615c2s0b0n0: 2024-08-04 19-34-51.337 [Info] (cu_hello_main) hostname found to be: x4615c2s0b0n0
+x4615c2s0b0n0: 2024-08-04 19-34-51.337 [Debug] (process_args) -tpath was found: /
+x4615c2s0b0n0: 2024-08-04 19-34-51.337 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c2s0b0n0: 2024-08-04 19-34-51.337 [Debug] (process_args) -log_level was found: 4
+x4615c2s0b0n0: 2024-08-04 19-34-51.337 [Debug] (process_args) -log_type was found: file
+x4615c2s0b0n0: 2024-08-04 19-34-51.337 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c2s0b0n0: 2024-08-04 19-34-51.337 [Debug] (process_args) -es was found: 1
+x4615c2s0b0n0: 2024-08-04 19-34-51.337 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c2s0b0n0: 2024-08-04 19-34-51.337 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c2s0b0n0: 2024-08-04 19-34-51.337 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c2s0b0n0: 2024-08-04 19-34-51.337 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c2s0b0n0-53189-output.log
+x4615c2s4b0n0: 2024-08-04 19-34-51.339 [Debug] (cu_hello_main)  
+x4615c2s4b0n0: 2024-08-04 19-34-51.339 [Info] (cu_hello_main) hostname found to be: x4615c2s4b0n0
+x4615c2s4b0n0: 2024-08-04 19-34-51.339 [Debug] (process_args) -tpath was found: /
+x4615c2s4b0n0: 2024-08-04 19-34-51.339 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c2s4b0n0: 2024-08-04 19-34-51.339 [Debug] (process_args) -log_level was found: 4
+x4615c2s4b0n0: 2024-08-04 19-34-51.339 [Debug] (process_args) -log_type was found: file
+x4615c2s4b0n0: 2024-08-04 19-34-51.339 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c2s4b0n0: 2024-08-04 19-34-51.339 [Debug] (process_args) -es was found: 1
+x4615c2s4b0n0: 2024-08-04 19-34-51.339 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c2s4b0n0: 2024-08-04 19-34-51.339 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c2s4b0n0: 2024-08-04 19-34-51.339 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c2s4b0n0: 2024-08-04 19-34-51.339 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c2s4b0n0-76878-output.log
+x4615c2s2b0n0: 2024-08-04 19-34-51.346 [Debug] (cu_hello_main)  
+x4615c2s2b0n0: 2024-08-04 19-34-51.346 [Info] (cu_hello_main) hostname found to be: x4615c2s2b0n0
+x4615c2s2b0n0: 2024-08-04 19-34-51.346 [Debug] (process_args) -tpath was found: /
+x4615c2s2b0n0: 2024-08-04 19-34-51.346 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c2s2b0n0: 2024-08-04 19-34-51.346 [Debug] (process_args) -log_level was found: 4
+x4615c2s2b0n0: 2024-08-04 19-34-51.346 [Debug] (process_args) -log_type was found: file
+x4615c2s2b0n0: 2024-08-04 19-34-51.346 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c2s2b0n0: 2024-08-04 19-34-51.346 [Debug] (process_args) -es was found: 1
+x4615c2s2b0n0: 2024-08-04 19-34-51.346 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c2s2b0n0: 2024-08-04 19-34-51.346 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c2s2b0n0: 2024-08-04 19-34-51.346 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c2s2b0n0: 2024-08-04 19-34-51.346 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c2s2b0n0-50717-output.log
+x4615c2s6b0n0: 2024-08-04 19-34-51.362 [Debug] (cu_hello_main)  
+x4615c2s6b0n0: 2024-08-04 19-34-51.362 [Info] (cu_hello_main) hostname found to be: x4615c2s6b0n0
+x4615c2s6b0n0: 2024-08-04 19-34-51.362 [Debug] (process_args) -tpath was found: /
+x4615c2s6b0n0: 2024-08-04 19-34-51.362 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c2s6b0n0: 2024-08-04 19-34-51.362 [Debug] (process_args) -log_level was found: 4
+x4615c2s6b0n0: 2024-08-04 19-34-51.362 [Debug] (process_args) -log_type was found: file
+x4615c2s6b0n0: 2024-08-04 19-34-51.362 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c2s6b0n0: 2024-08-04 19-34-51.362 [Debug] (process_args) -es was found: 1
+x4615c2s6b0n0: 2024-08-04 19-34-51.362 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c2s6b0n0: 2024-08-04 19-34-51.362 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c2s6b0n0: 2024-08-04 19-34-51.362 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c2s6b0n0: 2024-08-04 19-34-51.362 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c2s6b0n0-52963-output.log
+x4615c2s7b0n0: 2024-08-04 19-34-51.364 [Debug] (cu_hello_main)  
+x4615c2s7b0n0: 2024-08-04 19-34-51.364 [Info] (cu_hello_main) hostname found to be: x4615c2s7b0n0
+x4615c2s7b0n0: 2024-08-04 19-34-51.364 [Debug] (process_args) -tpath was found: /
+x4615c2s7b0n0: 2024-08-04 19-34-51.364 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c2s7b0n0: 2024-08-04 19-34-51.364 [Debug] (process_args) -log_level was found: 4
+x4615c2s7b0n0: 2024-08-04 19-34-51.364 [Debug] (process_args) -log_type was found: file
+x4615c2s7b0n0: 2024-08-04 19-34-51.364 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c2s7b0n0: 2024-08-04 19-34-51.364 [Debug] (process_args) -es was found: 1
+x4615c2s7b0n0: 2024-08-04 19-34-51.364 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c2s7b0n0: 2024-08-04 19-34-51.364 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c2s7b0n0: 2024-08-04 19-34-51.364 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c2s7b0n0: 2024-08-04 19-34-51.364 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c2s7b0n0-41245-output.log
+x4615c1s6b0n0: 2024-08-04 19-34-51.368 [Debug] (cu_hello_main)  
+x4615c1s6b0n0: 2024-08-04 19-34-51.368 [Info] (cu_hello_main) hostname found to be: x4615c1s6b0n0
+x4615c1s6b0n0: 2024-08-04 19-34-51.368 [Debug] (process_args) -tpath was found: /
+x4615c1s6b0n0: 2024-08-04 19-34-51.368 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c1s6b0n0: 2024-08-04 19-34-51.368 [Debug] (process_args) -log_level was found: 4
+x4615c1s6b0n0: 2024-08-04 19-34-51.368 [Debug] (process_args) -log_type was found: file
+x4615c1s6b0n0: 2024-08-04 19-34-51.368 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c1s6b0n0: 2024-08-04 19-34-51.368 [Debug] (process_args) -es was found: 1
+x4615c1s6b0n0: 2024-08-04 19-34-51.368 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c1s6b0n0: 2024-08-04 19-34-51.368 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c1s6b0n0: 2024-08-04 19-34-51.368 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c1s6b0n0: 2024-08-04 19-34-51.368 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c1s6b0n0-44911-output.log
+x4615c1s2b0n0: 2024-08-04 19-34-51.371 [Debug] (cu_hello_main)  
+x4615c1s7b0n0: 2024-08-04 19-34-51.371 [Debug] (cu_hello_main)  
+x4615c1s2b0n0: 2024-08-04 19-34-51.371 [Info] (cu_hello_main) hostname found to be: x4615c1s2b0n0
+x4615c1s7b0n0: 2024-08-04 19-34-51.371 [Info] (cu_hello_main) hostname found to be: x4615c1s7b0n0
+x4615c1s2b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -tpath was found: /
+x4615c1s2b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c1s2b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -log_level was found: 4
+x4615c1s2b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -log_type was found: file
+x4615c1s2b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c1s2b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -es was found: 1
+x4615c1s2b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c1s2b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c1s2b0n0: 2024-08-04 19-34-51.371 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c1s7b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -tpath was found: /
+x4615c1s7b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c1s7b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -log_level was found: 4
+x4615c1s7b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -log_type was found: file
+x4615c1s2b0n0: 2024-08-04 19-34-51.371 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c1s2b0n0-137848-output.log
+x4615c1s7b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c1s7b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -es was found: 1
+x4615c1s7b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c1s7b0n0: 2024-08-04 19-34-51.371 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c1s7b0n0: 2024-08-04 19-34-51.371 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c1s7b0n0: 2024-08-04 19-34-51.371 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c1s7b0n0-50609-output.log
+x4615c4s0b0n0: 2024-08-04 19-34-51.373 [Debug] (cu_hello_main)  
+x4615c4s0b0n0: 2024-08-04 19-34-51.373 [Info] (cu_hello_main) hostname found to be: x4615c4s0b0n0
+x4615c4s0b0n0: 2024-08-04 19-34-51.373 [Debug] (process_args) -tpath was found: /
+x4615c4s0b0n0: 2024-08-04 19-34-51.373 [Debug] (process_args) -vpath was found: /tmp/copper
+x4615c4s0b0n0: 2024-08-04 19-34-51.373 [Debug] (process_args) -log_level was found: 4
+x4615c4s0b0n0: 2024-08-04 19-34-51.373 [Debug] (process_args) -log_type was found: file
+x4615c4s0b0n0: 2024-08-04 19-34-51.373 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/718463
+x4615c4s0b0n0: 2024-08-04 19-34-51.373 [Debug] (process_args) -es was found: 1
+x4615c4s0b0n0: 2024-08-04 19-34-51.373 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/718463.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4615c4s0b0n0: 2024-08-04 19-34-51.373 [Debug] (process_args) -max_cacheable_byte_size was found: 10485760
+x4615c4s0b0n0: 2024-08-04 19-34-51.373 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/718463/copper_address_book.txt
+x4615c4s0b0n0: 2024-08-04 19-34-51.373 [Info] (cu_hello_main) output filename path: /home/harms/copper-logs/718463/x4615c4s0b0n0-170510-output.log
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py
+/tmp/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env/torch/__init__.py

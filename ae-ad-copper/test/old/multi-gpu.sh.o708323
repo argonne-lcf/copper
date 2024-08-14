@@ -1,0 +1,236 @@
+x4415c3s7b0n0.hostmgmt2415.cm.aurora.alcf.anl.gov
+x4420c5s2b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov
+x4420c5s3b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov
+x4420c5s5b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov
+x4420c5s6b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov
+x4420c5s7b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov
+x4420c6s0b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov
+x4420c6s0b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.717 [Trace] (main)  
+x4420c6s0b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.717 [Debug] (process_args) -tpath was found: /
+x4420c6s0b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.717 [Debug] (process_args) -vpath was found: /tmp/copper
+x4420c6s0b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.717 [Debug] (process_args) -log_level was found: 6
+x4420c6s0b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.717 [Debug] (process_args) -log_type was found: file
+x4420c6s0b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.717 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs
+x4420c6s0b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.717 [Debug] (process_args) -es was found: 1
+x4420c5s3b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.729 [Trace] (main)  
+x4420c5s3b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.729 [Debug] (process_args) -tpath was found: /
+x4420c5s3b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.729 [Debug] (process_args) -vpath was found: /tmp/copper
+x4420c5s3b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.729 [Debug] (process_args) -log_level was found: 6
+x4420c5s3b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.729 [Debug] (process_args) -log_type was found: file
+x4420c5s3b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.729 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs
+x4420c5s3b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.729 [Debug] (process_args) -es was found: 1
+x4420c5s7b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.740 [Trace] (main)  
+x4420c5s7b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.740 [Debug] (process_args) -tpath was found: /
+x4420c5s7b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.740 [Debug] (process_args) -vpath was found: /tmp/copper
+x4420c5s7b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.740 [Debug] (process_args) -log_level was found: 6
+x4420c5s7b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.740 [Debug] (process_args) -log_type was found: file
+x4420c5s7b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.740 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs
+x4420c5s7b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.740 [Debug] (process_args) -es was found: 1
+x4420c5s2b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.741 [Trace] (main)  
+x4420c5s2b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.741 [Debug] (process_args) -tpath was found: /
+x4420c5s2b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.741 [Debug] (process_args) -vpath was found: /tmp/copper
+x4420c5s2b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.741 [Debug] (process_args) -log_level was found: 6
+x4420c5s2b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.741 [Debug] (process_args) -log_type was found: file
+x4420c5s2b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.741 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs
+x4420c5s2b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.741 [Debug] (process_args) -es was found: 1
+x4420c5s6b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.743 [Trace] (main)  
+x4420c5s6b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.743 [Debug] (process_args) -tpath was found: /
+x4420c5s6b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.743 [Debug] (process_args) -vpath was found: /tmp/copper
+x4420c5s6b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.743 [Debug] (process_args) -log_level was found: 6
+x4420c5s6b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.743 [Debug] (process_args) -log_type was found: file
+x4420c5s6b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.743 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs
+x4420c5s6b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.743 [Debug] (process_args) -es was found: 1
+x4415c3s7b0n0.hostmgmt2415.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.767 [Trace] (main)  
+x4415c3s7b0n0.hostmgmt2415.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.767 [Debug] (process_args) -tpath was found: /
+x4415c3s7b0n0.hostmgmt2415.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.767 [Debug] (process_args) -vpath was found: /tmp/copper
+x4415c3s7b0n0.hostmgmt2415.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.767 [Debug] (process_args) -log_level was found: 6
+x4415c3s7b0n0.hostmgmt2415.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.767 [Debug] (process_args) -log_type was found: file
+x4415c3s7b0n0.hostmgmt2415.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.767 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs
+x4415c3s7b0n0.hostmgmt2415.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.767 [Debug] (process_args) -es was found: 1
+x4420c5s5b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.836 [Trace] (main)  
+x4420c5s5b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.836 [Debug] (process_args) -tpath was found: /
+x4420c5s5b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.836 [Debug] (process_args) -vpath was found: /tmp/copper
+x4420c5s5b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.836 [Debug] (process_args) -log_level was found: 6
+x4420c5s5b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.836 [Debug] (process_args) -log_type was found: file
+x4420c5s5b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.836 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs
+x4420c5s5b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.836 [Debug] (process_args) -es was found: 1
+x4420c5s7b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.858 [Info] (main) creating copper address book at path: /home/harms/copper-logs/copper_address_book.txt
+x4420c5s7b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.858 [Info] (main) output_file path: /home/harms/copper-logs/x4420c5s7b0n0-10039-output.log
+x4420c5s3b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.863 [Info] (main) creating copper address book at path: /home/harms/copper-logs/copper_address_book.txt
+x4420c5s3b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.863 [Info] (main) output_file path: /home/harms/copper-logs/x4420c5s3b0n0-50274-output.log
+x4420c5s2b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.872 [Info] (main) creating copper address book at path: /home/harms/copper-logs/copper_address_book.txt
+x4420c5s2b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.872 [Info] (main) output_file path: /home/harms/copper-logs/x4420c5s2b0n0-46062-output.log
+x4420c5s6b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.880 [Info] (main) creating copper address book at path: /home/harms/copper-logs/copper_address_book.txt
+x4420c5s6b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.880 [Info] (main) output_file path: /home/harms/copper-logs/x4420c5s6b0n0-31728-output.log
+x4420c5s5b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.957 [Info] (main) creating copper address book at path: /home/harms/copper-logs/copper_address_book.txt
+x4420c5s5b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-11.957 [Info] (main) output_file path: /home/harms/copper-logs/x4420c5s5b0n0-27035-output.log
+x4415c3s7b0n0.hostmgmt2415.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-12.212 [Info] (main) creating copper address book at path: /home/harms/copper-logs/copper_address_book.txt
+x4415c3s7b0n0.hostmgmt2415.cm.aurora.alcf.anl.gov: 2024-07-21 21-22-12.212 [Info] (main) output_file path: /home/harms/copper-logs/x4415c3s7b0n0-45622-output.log
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py
+/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages/numpy/__init__.py

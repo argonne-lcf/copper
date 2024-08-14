@@ -1,0 +1,23 @@
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_vx=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for this output (/usr/share/lmod/lmod/init/bash)
+Shell debugging restarted
++ unset __lmod_vx
++ CUPATH=/home/harms/working/copper/copper/build
++ LOGDIR=/home/harms/copper-logs/712971
++ mkdir -p /home/harms/copper-logs/712971
++ rm -f /home/harms/copper-logs/712971/copper_address_book.txt
++ touch /home/harms/copper-logs/712971/copper_address_book.txt
++ WCOLL=/var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh mkdir -p /tmp/copper
+x4216c2s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4216c2s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov,10.115.29.19' (ECDSA) to the list of known hosts.
++ read -r -d '' CMD
++ WCOLL=/var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 80 numactl '--physcpubind="0,1"' /home/harms/working/copper/copper/build/cu_fuse -tpath / -vpath /tmp/copper -log_level 1 -log_type file -log_output_dir /home/harms/copper-logs/712971 -es 1 -nf /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov -s /tmp/copper
+++ cat /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+++ wc -l
++ nodes=64
++ sleep 1000

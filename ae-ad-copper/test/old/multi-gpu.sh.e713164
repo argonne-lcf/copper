@@ -1,0 +1,44 @@
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_vx=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for this output (/usr/share/lmod/lmod/init/bash)
+Shell debugging restarted
++ unset __lmod_vx
++ CUPATH=/home/harms/working/copper/copper/build
++ LOGDIR=/home/harms/copper-logs/713164
++ mkdir -p /home/harms/copper-logs/713164
++ WCOLL=/var/spool/pbs/aux/713164.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh mkdir -p /tmp/copper
+x4003c4s3b0n0.hostmgmt2003.cm.aurora.alcf.anl.gov: Warning: Permanently added 'x4003c4s3b0n0.hostmgmt2003.cm.aurora.alcf.anl.gov,10.115.1.165' (ECDSA) to the list of known hosts.
++ read -r -d '' CMD
++ WCOLL=/var/spool/pbs/aux/713164.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 /home/harms/working/copper/copper/build/cu_fuse -tpath / -vpath /tmp/copper -log_level 1 -log_type file -log_output_dir /home/harms/copper-logs/713164 -es 1 -nf /var/spool/pbs/aux/713164.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov -s /tmp/copper
+++ cat /var/spool/pbs/aux/713164.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+++ wc -l
++ nodes=256
++ sleep 60
++ echo 'Launch Baseline Nodes:256'
+Launch Baseline Nodes:256
++ mpiexec -n 3072 -ppn 12 sleep 1
+
+real	0m1.318s
+user	0m0.005s
+sys	0m0.003s
++ echo 'First Nodes:256 Python:12 ES:1 fcores:1 total:2'
+First Nodes:256 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 3072 -ppn 12 --genvall --genv=PYTHONPATH=/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages --cpu-bind=list:52-103 /soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3 -c 'import numpy; print(numpy.__file__)'
+
+real	0m36.008s
+user	0m0.051s
+sys	0m0.060s
++ echo 'Cached Nodes:256 Python:12 ES:1 fcores:1 total:2'
+Cached Nodes:256 Python:12 ES:1 fcores:1 total:2
++ mpiexec -n 3072 -ppn 12 --genvall --genv=PYTHONPATH=/tmp/copper/soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/lib/python3.9/site-packages --cpu-bind=list:52-103 /soft/compilers/oneapi/2023.12.15.001/oneapi/intelpython/python3.9/bin/python3 -c 'import numpy; print(numpy.__file__)'
+
+real	0m33.093s
+user	0m0.050s
+sys	0m0.059s
++ WCOLL=/var/spool/pbs/aux/713164.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 fusermount3 -u /tmp/copper

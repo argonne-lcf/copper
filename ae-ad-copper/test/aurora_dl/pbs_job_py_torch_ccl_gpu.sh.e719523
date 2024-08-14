@@ -1,0 +1,165 @@
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_vx=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for this output (/usr/share/lmod/lmod/init/bash)
+Shell debugging restarted
++ unset __lmod_vx
++ module use /home/jmitche1/anl_release/aurora/2024/q3
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_sh_dbg=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+Shell debugging restarted
++ unset __lmod_sh_dbg
++ return 0
++ module load frameworks_2024_8.lua
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_sh_dbg=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+     [1;96mUMD: hotfix_agama-ci-devel-803.63 successfully loaded:[0m
+     [1;96mUMD: graphics-compute-runtime/hotfix_agama-ci-devel-803.63 [0m
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) mpich-config/collective-tuning/1024     2) mpich/icc-all-pmix-gpu/20231026
+
+Shell debugging restarted
++ unset __lmod_sh_dbg
++ return 0
++ module list
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_sh_dbg=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for Lmod's output
+
+Currently Loaded Modules:
+  1) libfabric/1.15.2.0
+  2) cray-pals/1.3.3
+  3) cray-libpals/1.3.3
+  4) spack-pe-gcc/0.7.0-24.086.0
+  5) gmp/6.2.1-pcxzkau
+  6) mpfr/4.2.0-w7v7yjv
+  7) mpc/1.3.1-dfagrna
+  8) gcc/12.2.0
+  9) graphics-compute-runtime/hotfix_agama-ci-devel-803.63
+ 10) mpich/icc-all-pmix-gpu/20231026
+ 11) mpich-config/collective-tuning/1024
+ 12) oneapi/release/2024.2.1
+ 13) frameworks_2024_8
+
+ 
+
+Shell debugging restarted
++ unset __lmod_sh_dbg
++ return 0
++ cd /home/harms/working/copper/test/aurora_dl
++ CUPATH=/home/harms/working/copper/copper/build
++ LOGDIR=/home/harms/copper-logs/719523
++ mkdir -p /home/harms/copper-logs/719523
++ WCOLL=/var/spool/pbs/aux/719523.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 fusermount3 -u /tmp/copper
+x4716c3s3b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4716c3s3b0n0: x4716c3s3b0n0: ssh exited with exit code 1
+x4716c4s3b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+x4716c4s5b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4716c3s3b0n0: x4716c4s3b0n0: ssh exited with exit code 1
+pdsh@x4716c3s3b0n0: x4716c4s5b0n0: ssh exited with exit code 1
+x4716c3s5b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4716c3s3b0n0: x4716c3s5b0n0: ssh exited with exit code 1
+x4716c4s0b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4716c3s3b0n0: x4716c4s0b0n0: ssh exited with exit code 1
+x4716c4s1b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4716c3s3b0n0: x4716c4s1b0n0: ssh exited with exit code 1
+x4716c4s2b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4716c3s3b0n0: x4716c4s2b0n0: ssh exited with exit code 1
+x4716c4s4b0n0: fusermount3: entry for /tmp/copper not found in /etc/mtab
+pdsh@x4716c3s3b0n0: x4716c4s4b0n0: ssh exited with exit code 1
++ WCOLL=/var/spool/pbs/aux/719523.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh mkdir -p /tmp/copper
++ read -r -d '' CMD
++ WCOLL=/var/spool/pbs/aux/719523.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 numactl '--physcpubind="0-3"' /home/harms/working/copper/copper/build/cu_fuse -tpath / -vpath /tmp/copper -log_level 4 -log_type file -log_output_dir /home/harms/copper-logs/719523 -es 1 -nf /var/spool/pbs/aux/719523.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov -max_cacheable_byte_size 10485760 -s /tmp/copper
++ echo Jobid: 719523.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+++ cat /var/spool/pbs/aux/719523.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ echo Running on nodes x4716c3s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov x4716c3s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov x4716c4s0b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov x4716c4s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov x4716c4s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov x4716c4s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov x4716c4s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov x4716c4s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov
+++ wc -l
++ NNODES=8
++ RANKS_PER_NODE=12
++ NRANKS=96
++ echo 'NUM_OF_NODES=8  TOTAL_NUM_RANKS=96  RANKS_PER_NODE=12'
++ CPU_BINDING1=list:4:9:14:19:20:25:56:61:66:71:74:79
++ EXT_ENV='--env FI_CXI_DEFAULT_CQ_SIZE=1048576'
++ which python
++ mkdir -p ./out719523.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov/profiling_app_py_torch_ccl_gpu
++ IFS=:
++ read -ra PATHS
++ CPPRPATH='/tmp/copper/home/jmitche1/anaconda3/envs/anl_2024_q3-official_release/lib/python3.9/site-packages /tmp/copper/soft/preview/pe/24.180.0-RC4/oneapi/advisor/latest/pythonapi'
++ for BUF_SIZE in 1 2 4 8 16 32 64
++ date
++ echo 1
++ mpiexec --env FI_CXI_DEFAULT_CQ_SIZE=1048576 --np 96 -ppn 12 --cpu-bind list:4:9:14:19:20:25:56:61:66:71:74:79 --genv=PYTHONPATH=/tmp/copper/home/jmitche1/anaconda3/envs/anl_2024_q3-official_release/lib/python3.9/site-packages:/tmp/copper/soft/preview/pe/24.180.0-RC4/oneapi/advisor/latest/pythonapi python3 ./profiling_app_py_torch_ccl_gpu.py 1
+ping failed on x4716c3s3b0n0: Couldn't forward RPC ping(06abd3d0-a811-4c19-a343-11f089125658) to child x4716c4s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Resource temporarily unavailable
++ date
++ echo 1
++ for BUF_SIZE in 1 2 4 8 16 32 64
++ date
++ echo 2
++ mpiexec --env FI_CXI_DEFAULT_CQ_SIZE=1048576 --np 96 -ppn 12 --cpu-bind list:4:9:14:19:20:25:56:61:66:71:74:79 --genv=PYTHONPATH=/tmp/copper/home/jmitche1/anaconda3/envs/anl_2024_q3-official_release/lib/python3.9/site-packages:/tmp/copper/soft/preview/pe/24.180.0-RC4/oneapi/advisor/latest/pythonapi python3 ./profiling_app_py_torch_ccl_gpu.py 2
+launch failed on x4716c3s3b0n0: Couldn't forward RPC launch(5a19e267-3bae-4e57-9355-734b5409cba6) to child x4716c4s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Resource temporarily unavailable
++ date
++ echo 2
++ for BUF_SIZE in 1 2 4 8 16 32 64
++ date
++ echo 4
++ mpiexec --env FI_CXI_DEFAULT_CQ_SIZE=1048576 --np 96 -ppn 12 --cpu-bind list:4:9:14:19:20:25:56:61:66:71:74:79 --genv=PYTHONPATH=/tmp/copper/home/jmitche1/anaconda3/envs/anl_2024_q3-official_release/lib/python3.9/site-packages:/tmp/copper/soft/preview/pe/24.180.0-RC4/oneapi/advisor/latest/pythonapi python3 ./profiling_app_py_torch_ccl_gpu.py 4
+launch failed on x4716c3s3b0n0: Couldn't forward RPC launch(39da761c-5dab-4ed6-987e-3be0345c7136) to child x4716c4s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Resource temporarily unavailable
++ date
++ echo 4
++ for BUF_SIZE in 1 2 4 8 16 32 64
++ date
++ echo 8
++ mpiexec --env FI_CXI_DEFAULT_CQ_SIZE=1048576 --np 96 -ppn 12 --cpu-bind list:4:9:14:19:20:25:56:61:66:71:74:79 --genv=PYTHONPATH=/tmp/copper/home/jmitche1/anaconda3/envs/anl_2024_q3-official_release/lib/python3.9/site-packages:/tmp/copper/soft/preview/pe/24.180.0-RC4/oneapi/advisor/latest/pythonapi python3 ./profiling_app_py_torch_ccl_gpu.py 8
+launch failed on x4716c3s3b0n0: Couldn't forward RPC launch(97c97c09-0c57-4b08-b30c-8ce205b2fe2e) to child x4716c4s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Resource temporarily unavailable
++ date
++ echo 8
++ for BUF_SIZE in 1 2 4 8 16 32 64
++ date
++ echo 16
++ mpiexec --env FI_CXI_DEFAULT_CQ_SIZE=1048576 --np 96 -ppn 12 --cpu-bind list:4:9:14:19:20:25:56:61:66:71:74:79 --genv=PYTHONPATH=/tmp/copper/home/jmitche1/anaconda3/envs/anl_2024_q3-official_release/lib/python3.9/site-packages:/tmp/copper/soft/preview/pe/24.180.0-RC4/oneapi/advisor/latest/pythonapi python3 ./profiling_app_py_torch_ccl_gpu.py 16
+launch failed on x4716c3s3b0n0: Couldn't forward RPC launch(71c2d016-d017-461e-ac83-e56b5626637b) to child x4716c4s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Resource temporarily unavailable
++ date
++ echo 16
++ for BUF_SIZE in 1 2 4 8 16 32 64
++ date
++ echo 32
++ mpiexec --env FI_CXI_DEFAULT_CQ_SIZE=1048576 --np 96 -ppn 12 --cpu-bind list:4:9:14:19:20:25:56:61:66:71:74:79 --genv=PYTHONPATH=/tmp/copper/home/jmitche1/anaconda3/envs/anl_2024_q3-official_release/lib/python3.9/site-packages:/tmp/copper/soft/preview/pe/24.180.0-RC4/oneapi/advisor/latest/pythonapi python3 ./profiling_app_py_torch_ccl_gpu.py 32
+launch failed on x4716c3s3b0n0: Couldn't forward RPC launch(f6e5d2f4-f7ef-4265-ab30-f6ea79643106) to child x4716c4s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Resource temporarily unavailable
++ date
++ echo 32
++ for BUF_SIZE in 1 2 4 8 16 32 64
++ date
++ echo 64
++ mpiexec --env FI_CXI_DEFAULT_CQ_SIZE=1048576 --np 96 -ppn 12 --cpu-bind list:4:9:14:19:20:25:56:61:66:71:74:79 --genv=PYTHONPATH=/tmp/copper/home/jmitche1/anaconda3/envs/anl_2024_q3-official_release/lib/python3.9/site-packages:/tmp/copper/soft/preview/pe/24.180.0-RC4/oneapi/advisor/latest/pythonapi python3 ./profiling_app_py_torch_ccl_gpu.py 64
+launch failed on x4716c3s3b0n0: Couldn't forward RPC launch(a30e25bc-4c21-4dd3-b25b-161d9699ed7a) to child x4716c4s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov: Resource temporarily unavailable
++ date
++ echo 64
++ WCOLL=/var/spool/pbs/aux/719523.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 fusermount3 -u /tmp/copper
+x4716c4s1b0n0: ssh: connect to host x4716c4s1b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov port 22: No route to host
+pdsh@x4716c3s3b0n0: x4716c4s1b0n0: ssh exited with exit code 255
+x4716c4s5b0n0: ssh: connect to host x4716c4s5b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov port 22: No route to host
+pdsh@x4716c3s3b0n0: x4716c4s5b0n0: ssh exited with exit code 255
+x4716c4s4b0n0: ssh: connect to host x4716c4s4b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov port 22: No route to host
+pdsh@x4716c3s3b0n0: x4716c4s4b0n0: ssh exited with exit code 255
+x4716c4s2b0n0: ssh: connect to host x4716c4s2b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov port 22: No route to host
+pdsh@x4716c3s3b0n0: x4716c4s2b0n0: ssh exited with exit code 255
+x4716c4s3b0n0: ssh: connect to host x4716c4s3b0n0.hostmgmt2716.cm.aurora.alcf.anl.gov port 22: No route to host
+pdsh@x4716c3s3b0n0: x4716c4s3b0n0: ssh exited with exit code 255

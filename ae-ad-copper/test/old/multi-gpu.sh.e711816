@@ -1,0 +1,42 @@
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_vx=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for this output (/usr/share/lmod/lmod/init/bash)
+Shell debugging restarted
++ unset __lmod_vx
++ CUPATH=/home/harms/working/copper/copper/build
++ LOGDIR=/home/harms/copper-logs/711816
++ mkdir -p /home/harms/copper-logs/711816
++ rm -f /home/harms/copper-logs/711816/copper_address_book.txt
++ WCOLL=/var/spool/pbs/aux/711816.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh mkdir -p /tmp/copper
+x4420c3s3b0n0: Warning: Permanently added 'x4420c3s3b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.28' (ECDSA) to the list of known hosts.
+x4420c5s4b0n0: Warning: Permanently added 'x4420c5s4b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.45' (ECDSA) to the list of known hosts.
+x4420c4s2b0n0: Warning: Permanently added 'x4420c4s2b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.34' (ECDSA) to the list of known hosts.
+x4420c3s0b0n0: Warning: Permanently added 'x4420c3s0b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.24' (ECDSA) to the list of known hosts.
+x4420c3s4b0n0: Warning: Permanently added 'x4420c3s4b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.30' (ECDSA) to the list of known hosts.
+x4420c5s0b0n0: Warning: Permanently added 'x4420c5s0b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.42' (ECDSA) to the list of known hosts.
+x4420c4s5b0n0: Warning: Permanently added 'x4420c4s5b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.38' (ECDSA) to the list of known hosts.
+x4420c3s2b0n0: Warning: Permanently added 'x4420c3s2b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.26' (ECDSA) to the list of known hosts.
+x4420c3s5b0n0: Warning: Permanently added 'x4420c3s5b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.29' (ECDSA) to the list of known hosts.
+x4420c6s2b0n0: Warning: Permanently added 'x4420c6s2b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.52' (ECDSA) to the list of known hosts.
+x4420c3s6b0n0: Warning: Permanently added 'x4420c3s6b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.32' (ECDSA) to the list of known hosts.
+x4420c4s0b0n0: Warning: Permanently added 'x4420c4s0b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.33' (ECDSA) to the list of known hosts.
+x4420c6s7b0n0: Warning: Permanently added 'x4420c6s7b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.57' (ECDSA) to the list of known hosts.
+x4420c4s1b0n0: Warning: Permanently added 'x4420c4s1b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.35' (ECDSA) to the list of known hosts.
+x4420c3s1b0n0: Warning: Permanently added 'x4420c3s1b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.27' (ECDSA) to the list of known hosts.
+x4420c4s6b0n0: Warning: Permanently added 'x4420c4s6b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.40' (ECDSA) to the list of known hosts.
+x4420c4s7b0n0: Warning: Permanently added 'x4420c4s7b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.39' (ECDSA) to the list of known hosts.
+x4420c6s5b0n0: Warning: Permanently added 'x4420c6s5b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.53' (ECDSA) to the list of known hosts.
+x4420c7s1b0n0: Warning: Permanently added 'x4420c7s1b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.59' (ECDSA) to the list of known hosts.
+x4420c6s4b0n0: Warning: Permanently added 'x4420c6s4b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.54' (ECDSA) to the list of known hosts.
+x4420c7s2b0n0: Warning: Permanently added 'x4420c7s2b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.58' (ECDSA) to the list of known hosts.
+x4420c7s3b0n0: Warning: Permanently added 'x4420c7s3b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.60' (ECDSA) to the list of known hosts.
+x4420c6s6b0n0: Warning: Permanently added 'x4420c6s6b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.55' (ECDSA) to the list of known hosts.
+x4420c5s1b0n0: Warning: Permanently added 'x4420c5s1b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.41' (ECDSA) to the list of known hosts.
+x4420c4s4b0n0: Warning: Permanently added 'x4420c4s4b0n0.hostmgmt2420.cm.aurora.alcf.anl.gov,10.115.52.36' (ECDSA) to the list of known hosts.
++ read -r -d '' CMD
++ WCOLL=/var/spool/pbs/aux/711816.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
++ pdsh -t 60 numactl '--physcpubind="0,1"' /home/harms/working/copper/copper/build/cu_fuse -tpath / -vpath /tmp/copper -log_level 2 -log_type file -log_output_dir /home/harms/copper-logs/711816 -es 1 -s -f /tmp/copper '&'

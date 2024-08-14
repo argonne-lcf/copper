@@ -1,0 +1,704 @@
+x4216c0s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.921 [Debug] (cu_hello_main)  
+x4216c0s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.921 [Info] (cu_hello_main) hostname found to be: x4216c0s7b0n0
+x4216c0s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.921 [Debug] (process_args) -tpath was found: /
+x4216c0s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.921 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c0s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.921 [Debug] (process_args) -log_level was found: 1
+x4216c0s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.921 [Debug] (process_args) -log_type was found: file
+x4216c0s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.921 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c0s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.921 [Debug] (process_args) -es was found: 1
+x4216c0s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.921 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c0s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.921 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c0s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.921 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c0s7b0n0-51932-output.log
+x4216c0s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.932 [Debug] (cu_hello_main)  
+x4216c0s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.932 [Info] (cu_hello_main) hostname found to be: x4216c0s5b0n0
+x4216c0s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.932 [Debug] (process_args) -tpath was found: /
+x4216c0s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.932 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c0s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.932 [Debug] (process_args) -log_level was found: 1
+x4216c0s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.932 [Debug] (process_args) -log_type was found: file
+x4216c0s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.932 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c0s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.932 [Debug] (process_args) -es was found: 1
+x4216c0s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.932 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c0s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.932 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c0s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.932 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c0s5b0n0-56008-output.log
+x4216c1s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.942 [Debug] (cu_hello_main)  
+x4216c1s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.942 [Info] (cu_hello_main) hostname found to be: x4216c1s6b0n0
+x4216c1s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.942 [Debug] (process_args) -tpath was found: /
+x4216c1s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.942 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c1s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.942 [Debug] (process_args) -log_level was found: 1
+x4216c1s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.942 [Debug] (process_args) -log_type was found: file
+x4216c1s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.942 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c1s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.942 [Debug] (process_args) -es was found: 1
+x4216c1s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.942 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c1s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.942 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c1s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.942 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c1s6b0n0-52108-output.log
+x4216c0s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.944 [Debug] (cu_hello_main)  
+x4216c0s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.944 [Info] (cu_hello_main) hostname found to be: x4216c0s3b0n0
+x4216c0s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.944 [Debug] (process_args) -tpath was found: /
+x4216c0s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.944 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c0s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.944 [Debug] (process_args) -log_level was found: 1
+x4216c0s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.944 [Debug] (process_args) -log_type was found: file
+x4216c0s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.944 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c0s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.944 [Debug] (process_args) -es was found: 1
+x4216c0s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.944 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c0s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.944 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c0s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.944 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c0s3b0n0-57252-output.log
+x4216c1s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (cu_hello_main)  
+x4216c1s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Info] (cu_hello_main) hostname found to be: x4216c1s5b0n0
+x4216c1s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (process_args) -tpath was found: /
+x4216c1s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c1s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (process_args) -log_level was found: 1
+x4216c1s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (process_args) -log_type was found: file
+x4216c1s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c1s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (process_args) -es was found: 1
+x4216c1s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c1s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c1s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c1s5b0n0-57032-output.log
+x4216c2s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (cu_hello_main)  
+x4216c2s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Info] (cu_hello_main) hostname found to be: x4216c2s7b0n0
+x4216c2s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (process_args) -tpath was found: /
+x4216c2s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c2s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (process_args) -log_level was found: 1
+x4216c2s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (process_args) -log_type was found: file
+x4216c2s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c2s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (process_args) -es was found: 1
+x4216c2s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c2s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c2s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.945 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c2s7b0n0-56769-output.log
+x4216c2s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (cu_hello_main)  
+x4216c2s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Info] (cu_hello_main) hostname found to be: x4216c2s2b0n0
+x4216c2s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (process_args) -tpath was found: /
+x4216c2s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c2s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (process_args) -log_level was found: 1
+x4216c2s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (process_args) -log_type was found: file
+x4216c2s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c2s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (process_args) -es was found: 1
+x4216c2s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c2s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c2s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c2s2b0n0-52505-output.log
+x4216c0s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (cu_hello_main)  
+x4216c0s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Info] (cu_hello_main) hostname found to be: x4216c0s6b0n0
+x4216c0s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (process_args) -tpath was found: /
+x4216c0s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c0s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (process_args) -log_level was found: 1
+x4216c0s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (process_args) -log_type was found: file
+x4216c0s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c0s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (process_args) -es was found: 1
+x4216c0s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c0s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c0s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.946 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c0s6b0n0-56244-output.log
+x4216c1s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.947 [Debug] (cu_hello_main)  
+x4216c1s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.947 [Info] (cu_hello_main) hostname found to be: x4216c1s4b0n0
+x4216c1s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.947 [Debug] (process_args) -tpath was found: /
+x4216c1s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.947 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c1s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.947 [Debug] (process_args) -log_level was found: 1
+x4216c1s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.947 [Debug] (process_args) -log_type was found: file
+x4216c1s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.947 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c1s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.947 [Debug] (process_args) -es was found: 1
+x4216c1s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.947 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c1s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.947 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c1s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.947 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c1s4b0n0-56821-output.log
+x4216c4s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (cu_hello_main)  
+x4216c4s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Info] (cu_hello_main) hostname found to be: x4216c4s3b0n0
+x4216c4s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -tpath was found: /
+x4216c4s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c4s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -log_level was found: 1
+x4216c4s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -log_type was found: file
+x4216c4s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c4s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -es was found: 1
+x4216c4s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c4s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c4s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c4s3b0n0-50431-output.log
+x4216c4s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (cu_hello_main)  
+x4216c4s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Info] (cu_hello_main) hostname found to be: x4216c4s1b0n0
+x4216c4s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -tpath was found: /
+x4216c4s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c4s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -log_level was found: 1
+x4216c4s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -log_type was found: file
+x4216c4s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c4s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -es was found: 1
+x4216c4s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c4s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c4s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c4s1b0n0-47232-output.log
+x4216c1s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (cu_hello_main)  
+x4216c1s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Info] (cu_hello_main) hostname found to be: x4216c1s1b0n0
+x4216c1s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -tpath was found: /
+x4216c1s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c1s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -log_level was found: 1
+x4216c1s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -log_type was found: file
+x4216c1s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c1s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -es was found: 1
+x4216c1s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c1s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c1s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c1s1b0n0-52629-output.log
+x4216c0s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.948 [Debug] (cu_hello_main)  
+x4216c0s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Info] (cu_hello_main) hostname found to be: x4216c0s4b0n0
+x4216c0s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (process_args) -tpath was found: /
+x4216c0s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c0s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (process_args) -log_level was found: 1
+x4216c0s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (process_args) -log_type was found: file
+x4216c0s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c0s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (process_args) -es was found: 1
+x4216c0s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c0s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c0s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c0s4b0n0-53510-output.log
+x4216c1s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (cu_hello_main)  
+x4216c1s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Info] (cu_hello_main) hostname found to be: x4216c1s7b0n0
+x4216c1s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (process_args) -tpath was found: /
+x4216c1s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c1s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (process_args) -log_level was found: 1
+x4216c1s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (process_args) -log_type was found: file
+x4216c1s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c1s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (process_args) -es was found: 1
+x4216c1s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c1s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c1s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.949 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c1s7b0n0-56271-output.log
+x4216c2s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.950 [Debug] (cu_hello_main)  
+x4216c2s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.950 [Info] (cu_hello_main) hostname found to be: x4216c2s6b0n0
+x4216c2s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.950 [Debug] (process_args) -tpath was found: /
+x4216c2s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.950 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c2s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.950 [Debug] (process_args) -log_level was found: 1
+x4216c2s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.950 [Debug] (process_args) -log_type was found: file
+x4216c2s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.950 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c2s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.950 [Debug] (process_args) -es was found: 1
+x4216c2s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.950 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c2s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.950 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c2s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.950 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c2s6b0n0-56158-output.log
+x4216c1s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.951 [Debug] (cu_hello_main)  
+x4216c1s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.951 [Info] (cu_hello_main) hostname found to be: x4216c1s3b0n0
+x4216c1s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.951 [Debug] (process_args) -tpath was found: /
+x4216c1s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.951 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c1s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.951 [Debug] (process_args) -log_level was found: 1
+x4216c1s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.951 [Debug] (process_args) -log_type was found: file
+x4216c1s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.951 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c1s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.951 [Debug] (process_args) -es was found: 1
+x4216c1s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.951 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c1s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.951 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c1s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.951 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c1s3b0n0-58067-output.log
+x4216c3s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.952 [Debug] (cu_hello_main)  
+x4216c3s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Info] (cu_hello_main) hostname found to be: x4216c3s2b0n0
+x4216c3s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (process_args) -tpath was found: /
+x4216c3s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c3s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (process_args) -log_level was found: 1
+x4216c3s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (process_args) -log_type was found: file
+x4216c3s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c3s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (process_args) -es was found: 1
+x4216c3s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c3s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c3s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c3s2b0n0-57430-output.log
+x4216c2s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (cu_hello_main)  
+x4216c2s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Info] (cu_hello_main) hostname found to be: x4216c2s5b0n0
+x4216c2s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (process_args) -tpath was found: /
+x4216c2s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c2s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (process_args) -log_level was found: 1
+x4216c2s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (process_args) -log_type was found: file
+x4216c2s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c2s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (process_args) -es was found: 1
+x4216c2s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c2s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c2s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.953 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c2s5b0n0-53213-output.log
+x4216c3s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.954 [Debug] (cu_hello_main)  
+x4216c3s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.954 [Info] (cu_hello_main) hostname found to be: x4216c3s0b0n0
+x4216c3s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.954 [Debug] (process_args) -tpath was found: /
+x4216c3s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.954 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c3s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.954 [Debug] (process_args) -log_level was found: 1
+x4216c3s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.954 [Debug] (process_args) -log_type was found: file
+x4216c3s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.954 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c3s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.954 [Debug] (process_args) -es was found: 1
+x4216c3s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.954 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c3s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.954 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c3s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.954 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c3s0b0n0-52467-output.log
+x4216c1s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.955 [Debug] (cu_hello_main)  
+x4216c1s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.955 [Info] (cu_hello_main) hostname found to be: x4216c1s0b0n0
+x4216c1s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.955 [Debug] (process_args) -tpath was found: /
+x4216c1s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.955 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c1s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.955 [Debug] (process_args) -log_level was found: 1
+x4216c1s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.955 [Debug] (process_args) -log_type was found: file
+x4216c1s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.955 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c1s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.955 [Debug] (process_args) -es was found: 1
+x4216c1s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.955 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c1s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.955 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c1s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.955 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c1s0b0n0-50948-output.log
+x4216c2s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (cu_hello_main)  
+x4216c1s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (cu_hello_main)  
+x4216c2s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Info] (cu_hello_main) hostname found to be: x4216c2s1b0n0
+x4216c2s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (process_args) -tpath was found: /
+x4216c2s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c2s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (process_args) -log_level was found: 1
+x4216c2s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (process_args) -log_type was found: file
+x4216c2s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c2s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (process_args) -es was found: 1
+x4216c2s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c2s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c2s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c2s1b0n0-59500-output.log
+x4216c1s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Info] (cu_hello_main) hostname found to be: x4216c1s2b0n0
+x4216c1s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (process_args) -tpath was found: /
+x4216c1s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c1s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (process_args) -log_level was found: 1
+x4216c4s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.957 [Debug] (cu_hello_main)  
+x4216c1s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (process_args) -log_type was found: file
+x4216c1s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c4s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.957 [Info] (cu_hello_main) hostname found to be: x4216c4s0b0n0
+x4216c1s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (process_args) -es was found: 1
+x4216c4s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.957 [Debug] (process_args) -tpath was found: /
+x4216c4s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.957 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c1s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c3s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.959 [Debug] (cu_hello_main)  
+x4216c3s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.959 [Info] (cu_hello_main) hostname found to be: x4216c3s5b0n0
+x4216c4s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.957 [Debug] (process_args) -log_level was found: 1
+x4216c4s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.957 [Debug] (process_args) -log_type was found: file
+x4216c4s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.957 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c4s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.957 [Debug] (process_args) -es was found: 1
+x4216c4s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.957 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c1s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c4s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.957 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c1s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.956 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c1s2b0n0-57625-output.log
+x4216c3s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.959 [Debug] (process_args) -tpath was found: /
+x4216c3s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.959 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c4s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.957 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c4s0b0n0-44553-output.log
+x4216c3s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.959 [Debug] (process_args) -log_level was found: 1
+x4216c3s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.959 [Debug] (process_args) -log_type was found: file
+x4216c3s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.959 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c3s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.959 [Debug] (process_args) -es was found: 1
+x4216c3s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.959 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c3s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.959 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c3s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.959 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c3s5b0n0-57533-output.log
+x4216c3s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (cu_hello_main)  
+x4216c3s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Info] (cu_hello_main) hostname found to be: x4216c3s7b0n0
+x4216c3s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (cu_hello_main)  
+x4216c3s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (process_args) -tpath was found: /
+x4216c3s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Info] (cu_hello_main) hostname found to be: x4216c3s1b0n0
+x4216c3s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c3s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (process_args) -log_level was found: 1
+x4216c3s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (process_args) -tpath was found: /
+x4216c3s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c3s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (process_args) -log_level was found: 1
+x4216c3s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (process_args) -log_type was found: file
+x4216c3s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c3s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (process_args) -es was found: 1
+x4216c3s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (process_args) -log_type was found: file
+x4216c3s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c3s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (process_args) -es was found: 1
+x4216c3s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c3s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c3s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c3s7b0n0-50620-output.log
+x4216c3s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c3s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c4s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.963 [Debug] (cu_hello_main)  
+x4216c3s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.962 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c3s1b0n0-52333-output.log
+x4216c4s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.963 [Info] (cu_hello_main) hostname found to be: x4216c4s2b0n0
+x4216c4s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.963 [Debug] (process_args) -tpath was found: /
+x4216c4s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.963 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c4s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.963 [Debug] (process_args) -log_level was found: 1
+x4216c4s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.963 [Debug] (process_args) -log_type was found: file
+x4216c4s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.963 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c4s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.963 [Debug] (process_args) -es was found: 1
+x4216c4s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.963 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c4s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.963 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c4s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.963 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c4s2b0n0-50875-output.log
+x4216c3s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (cu_hello_main)  
+x4216c4s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (cu_hello_main)  
+x4216c3s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Info] (cu_hello_main) hostname found to be: x4216c3s6b0n0
+x4216c4s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Info] (cu_hello_main) hostname found to be: x4216c4s6b0n0
+x4216c3s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (process_args) -tpath was found: /
+x4216c3s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c3s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (process_args) -log_level was found: 1
+x4216c3s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (process_args) -log_type was found: file
+x4216c3s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c3s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (process_args) -es was found: 1
+x4216c3s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c3s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c3s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c3s6b0n0-44303-output.log
+x4216c4s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (process_args) -tpath was found: /
+x4216c4s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c4s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (process_args) -log_level was found: 1
+x4216c4s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (process_args) -log_type was found: file
+x4216c4s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c4s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (process_args) -es was found: 1
+x4216c4s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c4s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c4s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.964 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c4s6b0n0-49662-output.log
+x4216c3s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.969 [Debug] (cu_hello_main)  
+x4216c3s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.969 [Info] (cu_hello_main) hostname found to be: x4216c3s4b0n0
+x4216c3s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.969 [Debug] (process_args) -tpath was found: /
+x4216c3s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.969 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c3s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.969 [Debug] (process_args) -log_level was found: 1
+x4216c3s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.969 [Debug] (process_args) -log_type was found: file
+x4216c3s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.969 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c3s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.969 [Debug] (process_args) -es was found: 1
+x4216c3s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.969 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c3s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.969 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c3s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.969 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c3s4b0n0-41410-output.log
+x4216c3s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.970 [Debug] (cu_hello_main)  
+x4216c3s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.970 [Info] (cu_hello_main) hostname found to be: x4216c3s3b0n0
+x4216c3s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.970 [Debug] (process_args) -tpath was found: /
+x4216c3s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.970 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c3s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.970 [Debug] (process_args) -log_level was found: 1
+x4216c3s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.970 [Debug] (process_args) -log_type was found: file
+x4216c3s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.970 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c3s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.970 [Debug] (process_args) -es was found: 1
+x4216c3s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.970 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c3s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.970 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c3s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-37.970 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c3s3b0n0-57909-output.log
+x4216c2s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.074 [Debug] (cu_hello_main)  
+x4216c2s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.074 [Info] (cu_hello_main) hostname found to be: x4216c2s3b0n0
+x4216c2s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.074 [Debug] (process_args) -tpath was found: /
+x4216c2s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.074 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c2s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.074 [Debug] (process_args) -log_level was found: 1
+x4216c2s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.074 [Debug] (process_args) -log_type was found: file
+x4216c2s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.074 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c2s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.074 [Debug] (process_args) -es was found: 1
+x4216c2s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.074 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c2s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.074 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c2s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.074 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c2s3b0n0-78171-output.log
+x4216c4s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (cu_hello_main)  
+x4216c4s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Info] (cu_hello_main) hostname found to be: x4216c4s7b0n0
+x4216c4s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (process_args) -tpath was found: /
+x4216c4s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c4s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (process_args) -log_level was found: 1
+x4216c4s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (process_args) -log_type was found: file
+x4216c4s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c4s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (process_args) -es was found: 1
+x4216c4s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c4s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c4s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c4s7b0n0-49554-output.log
+x4216c7s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (cu_hello_main)  
+x4216c7s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Info] (cu_hello_main) hostname found to be: x4216c7s3b0n0
+x4216c7s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (process_args) -tpath was found: /
+x4216c7s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c7s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (process_args) -log_level was found: 1
+x4216c7s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (process_args) -log_type was found: file
+x4216c7s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c7s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (process_args) -es was found: 1
+x4216c7s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c7s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c7s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.552 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c7s3b0n0-49349-output.log
+x4216c5s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.556 [Debug] (cu_hello_main)  
+x4216c5s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.556 [Info] (cu_hello_main) hostname found to be: x4216c5s4b0n0
+x4216c5s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.556 [Debug] (process_args) -tpath was found: /
+x4216c5s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.556 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c5s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.556 [Debug] (process_args) -log_level was found: 1
+x4216c5s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.556 [Debug] (process_args) -log_type was found: file
+x4216c5s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.556 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c5s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.556 [Debug] (process_args) -es was found: 1
+x4216c5s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.556 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c5s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.556 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c5s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.556 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c5s4b0n0-49704-output.log
+x4216c5s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.561 [Debug] (cu_hello_main)  
+x4216c5s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.561 [Info] (cu_hello_main) hostname found to be: x4216c5s1b0n0
+x4216c5s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.561 [Debug] (process_args) -tpath was found: /
+x4216c5s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.561 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c5s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.561 [Debug] (process_args) -log_level was found: 1
+x4216c5s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.561 [Debug] (process_args) -log_type was found: file
+x4216c5s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.561 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c5s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.561 [Debug] (process_args) -es was found: 1
+x4216c5s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.561 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c5s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.561 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c5s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.561 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c5s1b0n0-44077-output.log
+x4216c5s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.563 [Debug] (cu_hello_main)  
+x4216c5s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.563 [Info] (cu_hello_main) hostname found to be: x4216c5s7b0n0
+x4216c5s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.563 [Debug] (process_args) -tpath was found: /
+x4216c5s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.563 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c5s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.563 [Debug] (process_args) -log_level was found: 1
+x4216c5s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.563 [Debug] (process_args) -log_type was found: file
+x4216c5s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.563 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c5s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.563 [Debug] (process_args) -es was found: 1
+x4216c5s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.563 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c5s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.563 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c5s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.563 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c5s7b0n0-50308-output.log
+x4216c5s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.564 [Debug] (cu_hello_main)  
+x4216c5s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.564 [Info] (cu_hello_main) hostname found to be: x4216c5s0b0n0
+x4216c5s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.564 [Debug] (process_args) -tpath was found: /
+x4216c5s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.564 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c5s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.564 [Debug] (process_args) -log_level was found: 1
+x4216c5s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.564 [Debug] (process_args) -log_type was found: file
+x4216c5s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.564 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c5s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.564 [Debug] (process_args) -es was found: 1
+x4216c5s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.564 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c5s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.564 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c5s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.564 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c5s0b0n0-49206-output.log
+x4216c6s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.567 [Debug] (cu_hello_main)  
+x4216c6s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.567 [Info] (cu_hello_main) hostname found to be: x4216c6s0b0n0
+x4216c6s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.567 [Debug] (process_args) -tpath was found: /
+x4216c6s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.567 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c6s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.567 [Debug] (process_args) -log_level was found: 1
+x4216c6s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.567 [Debug] (process_args) -log_type was found: file
+x4216c6s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.567 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c6s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.567 [Debug] (process_args) -es was found: 1
+x4216c6s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.567 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c6s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.567 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c6s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.567 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c6s0b0n0-50869-output.log
+x4216c5s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.572 [Debug] (cu_hello_main)  
+x4216c5s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.572 [Info] (cu_hello_main) hostname found to be: x4216c5s5b0n0
+x4216c5s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.572 [Debug] (process_args) -tpath was found: /
+x4216c5s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.572 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c5s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.572 [Debug] (process_args) -log_level was found: 1
+x4216c5s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.572 [Debug] (process_args) -log_type was found: file
+x4216c5s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.572 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c5s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.572 [Debug] (process_args) -es was found: 1
+x4216c5s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.572 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c5s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.572 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c5s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.572 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c5s5b0n0-49238-output.log
+x4216c6s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.576 [Debug] (cu_hello_main)  
+x4216c6s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.576 [Info] (cu_hello_main) hostname found to be: x4216c6s6b0n0
+x4216c6s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.576 [Debug] (process_args) -tpath was found: /
+x4216c6s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.576 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c6s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.576 [Debug] (process_args) -log_level was found: 1
+x4216c6s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.576 [Debug] (process_args) -log_type was found: file
+x4216c6s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.576 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c6s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.576 [Debug] (process_args) -es was found: 1
+x4216c6s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.576 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c6s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.576 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c6s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.576 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c6s6b0n0-48914-output.log
+x4216c6s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.577 [Debug] (cu_hello_main)  
+x4216c6s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.577 [Info] (cu_hello_main) hostname found to be: x4216c6s3b0n0
+x4216c6s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.577 [Debug] (process_args) -tpath was found: /
+x4216c6s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.577 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c6s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.577 [Debug] (process_args) -log_level was found: 1
+x4216c6s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.577 [Debug] (process_args) -log_type was found: file
+x4216c6s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.577 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c6s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.577 [Debug] (process_args) -es was found: 1
+x4216c6s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.577 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c6s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.577 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c6s3b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.577 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c6s3b0n0-49545-output.log
+x4216c5s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.580 [Debug] (cu_hello_main)  
+x4216c5s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.580 [Info] (cu_hello_main) hostname found to be: x4216c5s6b0n0
+x4216c5s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.580 [Debug] (process_args) -tpath was found: /
+x4216c5s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.580 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c5s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.580 [Debug] (process_args) -log_level was found: 1
+x4216c5s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.580 [Debug] (process_args) -log_type was found: file
+x4216c5s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.580 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c5s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.580 [Debug] (process_args) -es was found: 1
+x4216c5s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.580 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c5s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.580 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c5s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.580 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c5s6b0n0-49580-output.log
+x4216c6s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.581 [Debug] (cu_hello_main)  
+x4216c6s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.581 [Info] (cu_hello_main) hostname found to be: x4216c6s4b0n0
+x4216c6s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.581 [Debug] (process_args) -tpath was found: /
+x4216c6s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.581 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c6s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.581 [Debug] (process_args) -log_level was found: 1
+x4216c6s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.581 [Debug] (process_args) -log_type was found: file
+x4216c6s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.581 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c6s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.581 [Debug] (process_args) -es was found: 1
+x4216c6s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.581 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c6s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.581 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c6s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.581 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c6s4b0n0-44180-output.log
+x4216c7s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.584 [Debug] (cu_hello_main)  
+x4216c7s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.584 [Info] (cu_hello_main) hostname found to be: x4216c7s1b0n0
+x4216c7s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.584 [Debug] (process_args) -tpath was found: /
+x4216c7s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.584 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c7s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.584 [Debug] (process_args) -log_level was found: 1
+x4216c7s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.584 [Debug] (process_args) -log_type was found: file
+x4216c7s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.584 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c7s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.584 [Debug] (process_args) -es was found: 1
+x4216c7s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.584 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c7s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.584 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c7s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.584 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c7s1b0n0-49298-output.log
+x4216c7s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.598 [Debug] (cu_hello_main)  
+x4216c7s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.598 [Info] (cu_hello_main) hostname found to be: x4216c7s5b0n0
+x4216c7s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.598 [Debug] (process_args) -tpath was found: /
+x4216c7s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.598 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c7s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.598 [Debug] (process_args) -log_level was found: 1
+x4216c7s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.598 [Debug] (process_args) -log_type was found: file
+x4216c7s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.598 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c7s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.598 [Debug] (process_args) -es was found: 1
+x4216c7s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.598 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c7s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.598 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c7s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.598 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c7s5b0n0-45089-output.log
+x4216c7s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.599 [Debug] (cu_hello_main)  
+x4216c7s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.599 [Info] (cu_hello_main) hostname found to be: x4216c7s6b0n0
+x4216c7s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.599 [Debug] (process_args) -tpath was found: /
+x4216c7s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.599 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c7s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.599 [Debug] (process_args) -log_level was found: 1
+x4216c7s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.599 [Debug] (process_args) -log_type was found: file
+x4216c7s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.599 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c7s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.599 [Debug] (process_args) -es was found: 1
+x4216c7s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.599 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c7s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.599 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c7s6b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.599 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c7s6b0n0-49539-output.log
+x4217c0s4b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.602 [Debug] (cu_hello_main)  
+x4217c0s4b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.602 [Info] (cu_hello_main) hostname found to be: x4217c0s4b0n0
+x4217c0s4b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.603 [Debug] (process_args) -tpath was found: /
+x4217c0s4b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.603 [Debug] (process_args) -vpath was found: /tmp/copper
+x4217c0s4b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.603 [Debug] (process_args) -log_level was found: 1
+x4217c0s4b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.603 [Debug] (process_args) -log_type was found: file
+x4217c0s4b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.603 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4217c0s4b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.603 [Debug] (process_args) -es was found: 1
+x4217c0s4b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.603 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4217c0s4b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.603 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4217c0s4b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.603 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4217c0s4b0n0-99614-output.log
+x4216c7s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.604 [Debug] (cu_hello_main)  
+x4216c7s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.604 [Info] (cu_hello_main) hostname found to be: x4216c7s0b0n0
+x4216c7s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.604 [Debug] (process_args) -tpath was found: /
+x4216c7s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.604 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c7s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.604 [Debug] (process_args) -log_level was found: 1
+x4216c7s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.604 [Debug] (process_args) -log_type was found: file
+x4216c7s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.604 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c7s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.604 [Debug] (process_args) -es was found: 1
+x4216c7s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.604 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c7s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.604 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c7s0b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.604 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c7s0b0n0-48166-output.log
+x4216c7s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (cu_hello_main)  
+x4216c7s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Info] (cu_hello_main) hostname found to be: x4216c7s2b0n0
+x4216c7s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -tpath was found: /
+x4216c7s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c7s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -log_level was found: 1
+x4216c7s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -log_type was found: file
+x4216c7s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c7s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -es was found: 1
+x4216c7s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c7s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c7s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c7s2b0n0-49331-output.log
+x4217c0s7b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (cu_hello_main)  
+x4217c0s7b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Info] (cu_hello_main) hostname found to be: x4217c0s7b0n0
+x4217c0s7b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -tpath was found: /
+x4217c0s7b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -vpath was found: /tmp/copper
+x4217c0s7b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -log_level was found: 1
+x4217c0s7b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -log_type was found: file
+x4217c0s7b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4217c0s7b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -es was found: 1
+x4217c0s7b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4217c0s7b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4217c0s7b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4217c0s7b0n0-91911-output.log
+x4216c6s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (cu_hello_main)  
+x4216c6s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Info] (cu_hello_main) hostname found to be: x4216c6s5b0n0
+x4216c6s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -tpath was found: /
+x4216c6s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c6s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -log_level was found: 1
+x4216c6s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -log_type was found: file
+x4216c6s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c6s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -es was found: 1
+x4216c6s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c6s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c6s5b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.605 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c6s5b0n0-51161-output.log
+x4217c0s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.606 [Debug] (cu_hello_main)  
+x4217c0s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.606 [Info] (cu_hello_main) hostname found to be: x4217c0s0b0n0
+x4217c0s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.606 [Debug] (process_args) -tpath was found: /
+x4217c0s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.606 [Debug] (process_args) -vpath was found: /tmp/copper
+x4217c0s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.606 [Debug] (process_args) -log_level was found: 1
+x4217c0s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.606 [Debug] (process_args) -log_type was found: file
+x4217c0s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.606 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4217c0s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.606 [Debug] (process_args) -es was found: 1
+x4217c0s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.606 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4217c0s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.606 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4217c0s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.606 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4217c0s0b0n0-91591-output.log
+x4216c7s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.610 [Debug] (cu_hello_main)  
+x4216c7s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.610 [Info] (cu_hello_main) hostname found to be: x4216c7s7b0n0
+x4216c7s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.610 [Debug] (process_args) -tpath was found: /
+x4216c7s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.610 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c7s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.610 [Debug] (process_args) -log_level was found: 1
+x4216c7s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.610 [Debug] (process_args) -log_type was found: file
+x4216c7s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.610 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c7s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.610 [Debug] (process_args) -es was found: 1
+x4216c7s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.610 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c7s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.610 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c7s7b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.610 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c7s7b0n0-49589-output.log
+x4216c6s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (cu_hello_main)  
+x4216c6s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Info] (cu_hello_main) hostname found to be: x4216c6s1b0n0
+x4216c6s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (process_args) -tpath was found: /
+x4216c6s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c6s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (process_args) -log_level was found: 1
+x4216c6s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (process_args) -log_type was found: file
+x4216c6s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c6s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (process_args) -es was found: 1
+x4216c6s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c6s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c6s1b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c6s1b0n0-49264-output.log
+x4216c7s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (cu_hello_main)  
+x4216c7s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Info] (cu_hello_main) hostname found to be: x4216c7s4b0n0
+x4216c7s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (process_args) -tpath was found: /
+x4216c7s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c7s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (process_args) -log_level was found: 1
+x4216c7s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (process_args) -log_type was found: file
+x4216c7s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c7s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (process_args) -es was found: 1
+x4216c7s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c7s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c7s4b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.612 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c7s4b0n0-49085-output.log
+x4216c6s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (cu_hello_main)  
+x4216c6s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Info] (cu_hello_main) hostname found to be: x4216c6s2b0n0
+x4216c6s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (process_args) -tpath was found: /
+x4216c6s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c6s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (process_args) -log_level was found: 1
+x4216c6s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (process_args) -log_type was found: file
+x4216c6s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c6s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (process_args) -es was found: 1
+x4216c6s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c6s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c6s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c6s2b0n0-49701-output.log
+x4217c0s5b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (cu_hello_main)  
+x4217c0s5b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Info] (cu_hello_main) hostname found to be: x4217c0s5b0n0
+x4217c0s5b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (process_args) -tpath was found: /
+x4217c0s5b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (process_args) -vpath was found: /tmp/copper
+x4217c0s5b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (process_args) -log_level was found: 1
+x4217c0s5b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (process_args) -log_type was found: file
+x4217c0s5b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4217c0s5b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (process_args) -es was found: 1
+x4217c0s5b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4217c0s5b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4217c0s5b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.613 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4217c0s5b0n0-91216-output.log
+x4216c5s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.614 [Debug] (cu_hello_main)  
+x4216c5s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.615 [Info] (cu_hello_main) hostname found to be: x4216c5s2b0n0
+x4216c5s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.615 [Debug] (process_args) -tpath was found: /
+x4216c5s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.615 [Debug] (process_args) -vpath was found: /tmp/copper
+x4216c5s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.615 [Debug] (process_args) -log_level was found: 1
+x4216c5s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.615 [Debug] (process_args) -log_type was found: file
+x4216c5s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.615 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4216c5s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.615 [Debug] (process_args) -es was found: 1
+x4216c5s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.615 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4216c5s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.615 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4216c5s2b0n0.hostmgmt2216.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.615 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4216c5s2b0n0-50206-output.log
+x4217c0s6b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.616 [Debug] (cu_hello_main)  
+x4217c0s6b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.616 [Info] (cu_hello_main) hostname found to be: x4217c0s6b0n0
+x4217c0s6b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.616 [Debug] (process_args) -tpath was found: /
+x4217c0s6b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.616 [Debug] (process_args) -vpath was found: /tmp/copper
+x4217c0s6b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.616 [Debug] (process_args) -log_level was found: 1
+x4217c0s6b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.616 [Debug] (process_args) -log_type was found: file
+x4217c0s6b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.616 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4217c0s6b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.616 [Debug] (process_args) -es was found: 1
+x4217c0s6b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.616 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4217c0s6b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.616 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4217c0s6b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.616 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4217c0s6b0n0-96708-output.log
+x4217c0s3b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.617 [Debug] (cu_hello_main)  
+x4217c0s3b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.617 [Info] (cu_hello_main) hostname found to be: x4217c0s3b0n0
+x4217c0s3b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.617 [Debug] (process_args) -tpath was found: /
+x4217c0s3b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.617 [Debug] (process_args) -vpath was found: /tmp/copper
+x4217c0s3b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.617 [Debug] (process_args) -log_level was found: 1
+x4217c0s3b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.617 [Debug] (process_args) -log_type was found: file
+x4217c0s3b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.617 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4217c0s3b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.617 [Debug] (process_args) -es was found: 1
+x4217c0s3b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.617 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4217c0s3b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.617 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4217c0s3b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.617 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4217c0s3b0n0-96604-output.log
+x4217c0s2b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.617 [Debug] (cu_hello_main)  
+x4217c0s2b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.617 [Info] (cu_hello_main) hostname found to be: x4217c0s2b0n0
+x4217c0s2b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.618 [Debug] (process_args) -tpath was found: /
+x4217c0s2b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.618 [Debug] (process_args) -vpath was found: /tmp/copper
+x4217c0s2b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.618 [Debug] (process_args) -log_level was found: 1
+x4217c0s2b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.618 [Debug] (process_args) -log_type was found: file
+x4217c0s2b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.618 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4217c0s2b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.618 [Debug] (process_args) -es was found: 1
+x4217c0s2b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.618 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4217c0s2b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.618 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4217c0s2b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.618 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4217c0s2b0n0-97828-output.log
+x4217c0s1b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.620 [Debug] (cu_hello_main)  
+x4217c0s1b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.620 [Info] (cu_hello_main) hostname found to be: x4217c0s1b0n0
+x4217c0s1b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.620 [Debug] (process_args) -tpath was found: /
+x4217c0s1b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.620 [Debug] (process_args) -vpath was found: /tmp/copper
+x4217c0s1b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.620 [Debug] (process_args) -log_level was found: 1
+x4217c0s1b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.620 [Debug] (process_args) -log_type was found: file
+x4217c0s1b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.620 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4217c0s1b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.620 [Debug] (process_args) -es was found: 1
+x4217c0s1b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.620 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4217c0s1b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.620 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4217c0s1b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.620 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4217c0s1b0n0-96860-output.log
+x4217c1s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.715 [Debug] (cu_hello_main)  
+x4217c1s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.715 [Info] (cu_hello_main) hostname found to be: x4217c1s0b0n0
+x4217c1s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.715 [Debug] (process_args) -tpath was found: /
+x4217c1s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.715 [Debug] (process_args) -vpath was found: /tmp/copper
+x4217c1s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.715 [Debug] (process_args) -log_level was found: 1
+x4217c1s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.715 [Debug] (process_args) -log_type was found: file
+x4217c1s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.715 [Debug] (process_args) -log_output_dir was found: /home/harms/copper-logs/712971
+x4217c1s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.715 [Debug] (process_args) -es was found: 1
+x4217c1s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.715 [Debug] (process_args) -nf was found: /var/spool/pbs/aux/712971.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov
+x4217c1s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.715 [Info] (cu_hello_main) copper address located at path: /home/harms/copper-logs/712971/copper_address_book.txt
+x4217c1s0b0n0.hostmgmt2217.cm.aurora.alcf.anl.gov: 2024-07-29 19-24-38.715 [Info] (cu_hello_main) output_file path: /home/harms/copper-logs/712971/x4217c1s0b0n0-98031-output.log
