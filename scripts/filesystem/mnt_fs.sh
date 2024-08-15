@@ -12,16 +12,7 @@ fi
 
 source $ENV
 
-function unmount() {
-    echo "unmounting"
-    fusermount -u $VIEW_DIR || true
-}
-
-echo "unmounting possible prev mnt"
-fusermount -u "$VIEW_DIR" || true
-
-echo "VIEW_DIR: $VIEW_DIR"
-echo "TARGET_DIR: $TARGET_DIR"
+mkdir -vp $VIEW_DIR
 
 if [ -f $FUSE_FS ]
 then
