@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.6)
 
 set(PROJECT_NAME cu_fuse)
-set(SHUTDOWN_PROJECT_NAME cu_fuse_shutdown)
 project(${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 20)
@@ -15,15 +14,23 @@ else()
     message(STATUS "BLOCK_REDUNDANT_RPCS is not enabled")
 endif()
 
-if(NOT DEFINED FUSE3_INCLUDE)
-    message(FATAL_ERROR "Required variable FUSE3_INCLUDE is not defined. Please set -DFUSE3_INCLUDE=<path> when invoking CMake.")
+set(FUSE3_INCLUDE_FILE "/usr/include/fuse3/fuse.h")
+if(EXISTS "${FUSE3_INCLUDE_FILE}")
+    message(STATUS "File ${FUSE3_INCLUDE_FILE} exists.")
+    set(FUSE3_INCLUDE_DIR "/usr/include/fuse3")
+else()
+    message(WARNING "Required File ${FUSE3_INCLUDE_FILE} does not exist. Please set -DFUSE3_INCLUDE=<path> when invoking CMake.")
 endif()
 
-if(NOT DEFINED FUSE3_LIB)
-    message(FATAL_ERROR "Required variable FUSE3_LIB is not defined. Please set -DFUSE3_LIB=<path> when invoking CMake.")
+set(FUSE3_LIB_FILE "/usr/lib64/libfuse3.so")
+if(EXISTS "${FUSE3_LIB_FILE}")
+    message(STATUS "File ${FUSE3_LIB_FILE} exists.")
+    set(FUSE3_LIB_DIR "/usr/lib64")
+else()
+    message(WARNING "Required File ${FUSE3_LIB_FILE} does not exist. Please set -DFUSE3_LIB=<path> when invoking CMake.")
 endif()
 
-link_directories(${FUSE3_LIB})
+link_directories(${FUSE3_LIB_DIR})
 
 find_package(PkgConfig REQUIRED)
 
@@ -56,11 +63,8 @@ set(SOURCES
     src/cache/path_status_cache.cpp
 )
 
-set(SHUTDOWN_SOURCES src_shutdown/rpc_shutdown.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_include_directories(${PROJECT_NAME} PRIVATE "${FUSE3_INCLUDE}")
+target_include_directories(${PROJECT_NAME} PRIVATE "${FUSE3_INCLUDE_DIR}")
 target_link_libraries(${PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM fuse3)
 
-add_executable(${SHUTDOWN_PROJECT_NAME} ${SHUTDOWN_SOURCES})
-target_link_libraries(${SHUTDOWN_PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM)
