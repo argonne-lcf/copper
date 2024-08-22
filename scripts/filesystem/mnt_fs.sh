@@ -56,7 +56,7 @@ else
 fi
 
 echo "mounting fuse distributed cache to view dir"
-$FUSE_FS -tpath $TARGET_DIR                          \
+$FUSE_FS -f -tpath $TARGET_DIR                          \
          -vpath $VIEW_DIR                            \
          -log_level $LOG_LEVEL                       \
          -log_type $LOG_TYPE                         \

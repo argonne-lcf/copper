@@ -18,7 +18,14 @@ More documentation can be found here: [readthedocs](https://alcf-copper-docs.rea
 - [x] readlink
 
 
-### Setting up mochi spack environment on Aurora
+### How to load Copper on Aurora
+
+```
+module load spack-pe-oneapi copper
+```
+
+
+### How to Set up a personal mochi spack environment on Aurora
 
 In order to build we recommend installing mochi dependencies using spack and their environment feature. You can find the instructions to install spack [here](https://spack-tutorial.readthedocs.io/en/latest/tutorial_basics.html). The required mochi services are margo, mercury, thallium, and cereal. The instructions to install the listed mochi services can be found [here](https://mochi.readthedocs.io/en/latest/installing.html).
 

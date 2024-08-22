@@ -5,7 +5,6 @@ project(${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_COMPILER mpicxx)
 
 if (BLOCK_REDUNDANT_RPCS)
     message(STATUS "BLOCK_REDUNDANT_RPCS is enabled")
@@ -33,10 +32,12 @@ endif()
 link_directories(${FUSE3_LIB_DIR})
 
 find_package(PkgConfig REQUIRED)
-
+find_package(MPI REQUIRED)
+set(CMAKE_CXX_COMPILER mpicxx)
 pkg_check_modules (MARGO REQUIRED IMPORTED_TARGET margo)
 pkg_check_modules (THALLIUM REQUIRED IMPORTED_TARGET thallium)
 
+include_directories(${MPI_INCLUDE_PATH})
 include_directories(${MARGO_INCLUDE_DIRS})
 include_directories(${THALLIUM_INCLUDE_DIRS})
 
@@ -65,6 +66,6 @@ set(SOURCES
 
 
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_include_directories(${PROJECT_NAME} PRIVATE "${FUSE3_INCLUDE_DIR}")
-target_link_libraries(${PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM fuse3)
+target_include_directories(${PROJECT_NAME} PRIVATE "${FUSE3_INCLUDE_DIR}" "${MPI_INCLUDE_PATH}" "${MARGO_INCLUDE_DIRS}" "${THALLIUM_INCLUDE_DIRS}")
+target_link_libraries(${PROJECT_NAME} PRIVATE ${MPI_CXX_LIBRARIES} PkgConfig::MARGO PkgConfig::THALLIUM fuse3 MPI::MPI_CXX)
 
