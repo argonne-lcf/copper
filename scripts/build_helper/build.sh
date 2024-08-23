@@ -23,7 +23,7 @@ else
 fi
 
 cmake -DCMAKE_BUILD_TYPE=Release                     \
-			-DBLOCK_REDUNDANT_RPCS="$BLOCK_REDUNDANT_RPCS" \
+	  -DBLOCK_REDUNDANT_RPCS="$BLOCK_REDUNDANT_RPCS" \
       -DCMAKE_VERBOSE_MAKEFILE=ON                    \
       -DCMAKE_EXPORT_COMPILE_COMMANDS=ON             \
       -DFUSE3_LIB=$FUSE3_LIB                         \
@@ -34,5 +34,6 @@ cp build/compile_commands.json . || { echo "Failed to copy compile commands"; ex
 
 
 cd build || { echo "Failed to move to build dir"; exit 1; }
-make || { echo "Failed to build mongo_fuse_fs"; exit 1; }
+make || { echo "Failed to build cu_fuse"; exit 1; }
+# make install 
 
