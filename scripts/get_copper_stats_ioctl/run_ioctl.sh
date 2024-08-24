@@ -19,4 +19,13 @@ fi
 
 source ../env.sh
 
+if [ -f "$SPEC_DEV_TARGET" ]
+then
+  echo "found spec_dev: $SPEC_DEV_TARGET"
+else
+  echo "creating spec_dev: $SPEC_DEV_TARGET"
+  mkdir -p "$(dirname "$SPEC_DEV_TARGET")"
+  touch "$SPEC_DEV_TARGET"
+fi
+
 python3 ioctl.py "$1"

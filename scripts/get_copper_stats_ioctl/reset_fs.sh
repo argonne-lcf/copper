@@ -12,8 +12,8 @@ fi
 
 source $ENV
 
-SCRIPTS_IOCTL_DIR=$(readlink -f "$SCRIPTS_DIR/filesystem_ioctl")
-RUN_IOCTL="$(readlink -f "$SCRIPTS_DIR"/filesystem_ioctl/run_ioctl.sh)"
+SCRIPTS_IOCTL_DIR=$(readlink -f "$SCRIPTS_DIR/get_copper_stats_ioctl")
+RUN_IOCTL="$(readlink -f "$SCRIPTS_DIR"/get_copper_stats_ioctl/run_ioctl.sh)"
 
 if [ ! -d "$SCRIPTS_IOCTL_DIR" ]; then
   echo "failed to find SCRIPTS_IOCTL_DIR: $SCRIPTS_IOCTL_DIR"

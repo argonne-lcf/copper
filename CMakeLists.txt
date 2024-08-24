@@ -69,4 +69,10 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${FUSE3_INCLUDE_DIR}" "${MPI_INCLUDE_PATH}" "${MARGO_INCLUDE_DIRS}" "${THALLIUM_INCLUDE_DIRS}")
 target_link_libraries(${PROJECT_NAME} PRIVATE ${MPI_CXX_LIBRARIES} PkgConfig::MARGO PkgConfig::THALLIUM fuse3 MPI::MPI_CXX)
 
+
+set(SHUTDOWN_PROJECT_NAME cu_fuse_shutdown)
+set(SHUTDOWN_SOURCES src/copper/rpc_shutdown.cpp)
+add_executable(${SHUTDOWN_PROJECT_NAME} ${SHUTDOWN_SOURCES})
+target_link_libraries(${SHUTDOWN_PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM)
+
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
