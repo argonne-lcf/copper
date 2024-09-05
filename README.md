@@ -4,7 +4,13 @@
 
 Copper is a read-only cooperative caching layer aimed to enable scalable data loading on massive amounts of compute nodes. This aims to avoid the I/O bottleneck in the storage network and effectively use the compute network for data movement. 
 
+The current intended use of copper is to improve the performance of python imports - dynamic shared library loading on Aurora. However, copper can used to improve the performance of any type of redundant data loading on a supercomputer. 
+
 More documentation can be found here: [readthedocs](https://alcf-copper-docs.readthedocs.io/en/latest/)
+
+![gifmaker_me](https://github.com/user-attachments/assets/9a6a12a0-2003-42a0-80e2-330305c38524)
+
+
 
 ### Lists of the current filesystem operations that are supported.
 
@@ -16,6 +22,7 @@ More documentation can be found here: [readthedocs](https://alcf-copper-docs.rea
 - [x] getattr
 - [x] ioctl
 - [x] destroy
+
 
 
 ### How to load the copper package on Aurora
