@@ -17,7 +17,7 @@ class Constants {
     static inline std::optional<std::string> log_output_dir{std::nullopt};
     static inline std::string my_hostname;
     static inline int es{1};
-    static inline int max_cacheable_byte_size{1048576};
+    static inline unsigned long int max_cacheable_byte_size{1048576};
     static inline int address_write_sync_time{5};
     static inline std::optional<std::string> nodefile{std::nullopt};
     static inline std::string network_type{"cxi"};
