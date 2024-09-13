@@ -97,7 +97,7 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
                 throw std::runtime_error("no argument after -max_cacheable_byte_size");
             }
 
-            Constants::max_cacheable_byte_size = std::stoi(std::string(argv[i + 1]));
+            Constants::max_cacheable_byte_size = std::stoul(std::string(argv[i + 1]));
             LOG(DEBUG) << "-max_cacheable_byte_size was found: " << Constants::max_cacheable_byte_size << std::endl;
             i += 2;
         } else if(original_string_args[i] == "-net_type") {
