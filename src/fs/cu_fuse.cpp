@@ -75,7 +75,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
             LOG(INFO) << "file larger than max cacheable size... going to lustre" << std::endl;
 
             int fd = open(path_string.c_str(), O_RDONLY);
-            int res = pread(fd, buf, size, offset);
+            ssize_t res = pread(fd, buf, size, offset);
             if(res == -1) {
                 res = -errno;
             }
@@ -114,14 +114,14 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
         bytes = entry_opt.value();
     }
 
-    int read_size = 0;
+    size_t read_size = 0;
     if(offset < static_cast<off_t>(bytes->size())) {
         // Calculate the amount to copy, ensuring not to exceed the bounds of the vector
-        size_t copy_size = std::min(static_cast<size_t>(size), bytes->size() - static_cast<size_t>(offset));
+        ssize_t copy_size = std::min(static_cast<size_t>(size), bytes->size() - static_cast<size_t>(offset));
 
         // Copy data from bytes to buf
         std::memcpy(buf, bytes->data() + offset, copy_size);
-        read_size = static_cast<int>(copy_size);
+        read_size = static_cast<size_t>(copy_size);
     }
 
     if(cache) {
