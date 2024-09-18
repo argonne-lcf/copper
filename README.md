@@ -27,15 +27,14 @@ More documentation can be found here: [readthedocs](https://alcf-copper-docs.rea
 
 ### How to load the copper package on Aurora
 
-```
+```bash
 module load spack-pe-oneapi copper
 ```
 
 
 ### How to start the copper service
 
-```
-
+```bash
 CUPATH=/lus/flare/projects/Aurora_deployment/kaushik/copper-spack-recipe/gitrepos/copper/build
 LOGDIR=~/copper-logs/${PBS_JOBID}
 CU_FUSE_MNT_VIEWDIR=/tmp/${USER}/copper
@@ -64,13 +63,11 @@ clush --hostfile ${PBS_NODEFILE} $CMD           # To start copper on all the com
 # instead of clush you can also use the following to start copper as a background process on all compute nodes 
 # WCOLL=$PBS_NODEFILE pdsh $CMD
 # mpirun --np ${NRANKS} --ppn ${RANKS_PER_NODE} --cpu-bind=list:0-3 sh ./scripts/filesystem/mnt_fs.sh & 
-
 ```
 
 ### How to run your app with copper
 
-```
-
+```bash
 RANKS_PER_NODE=12
 NRANKS=$(( NNODES * RANKS_PER_NODE ))
 echo "App running on NUM_OF_NODES=${NNODES}  TOTAL_NUM_RANKS=${NRANKS}  RANKS_PER_NODE=${RANKS_PER_NODE}"
@@ -81,18 +78,15 @@ conda activate ${CU_FUSE_MNT_VIEWDIR}/lus/flare/projects/Aurora_deployment/coppe
 which python
 CPU_BINDING=list:4:9:14:19:20:25:56:61:66:71:74:79 
 time mpirun --np ${NRANKS} --ppn ${RANKS_PER_NODE} --cpu-bind=${CPU_BINDING} --genvall --genv=PYTHONPATH=${CU_FUSE_MNT_VIEWDIR}/lus/flare/projects/Aurora_deployment/copper-software-module/example_app/app-dependencies/sst_2024  python3 real_app.py
-
 ```
 
 ### How to stop the copper service
 
-```
-
+```bash
 clush --hostfile ${PBS_NODEFILE} "fusermount3 -u ${CU_FUSE_MNT_VIEWDIR}"
 clush --hostfile ${PBS_NODEFILE} "rm -rf ${CU_FUSE_MNT_VIEWDIR}"
 export UID=$(id -u $USER)
 clush --hostfile ${PBS_NODEFILE} "pkill -U $UID"
-
 ```
 
 
@@ -102,7 +96,7 @@ In order to build we recommend installing mochi dependencies using spack and the
 
 Assuming you have a mochi environment setup correctly you should now be able to build by running the following commands.
 
-```
+```bash
 git clone https://github.com/spack/spack.git
 .  copper/gitrepos/git-spack-repo/spack/share/spack/setup-env.sh 
 
@@ -130,7 +124,7 @@ spack env activate kaushik_env_1
 
 ### How to build copper
  
-```
+```bash
 git clone https://github.com/argonne-lcf/copper  
 cd copper/scripts/build_helper/
 cp default_env.sh env.sh
