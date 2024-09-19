@@ -270,13 +270,13 @@ void NodeTree::generate_nodelist_from_nodefile(const std::string& filename)
 	unsigned int to_row[] = { 0x4800, 0xF000, 0x19800, 0x24000, 0x2e800, 0x39000, 0x43800, 0x4D000 };
 	unsigned int to_rack[] = { 0x000, 0x800, 0x1000, 0x1800, 0x2000, 0x2800, 0x3000, 0x3800, 0x4000, 0x4800, 0x5000, 0x5800, 0x6000, 0x6800, 0x7000, 0x7800, 0x8000, 0x8800, 0x9000, 0x9800, 0xA000 };
 
-	unsigned long cxiaddr = 0x20000000;
+	unsigned long cxiaddr = 0x00000000;
         cxiaddr += ((to_row[row-40] + to_rack[rack] + to_chassis[chassis] + to_slot[slot]) << 9);
         std::bitset<32> cxiaddr_bin32(cxiaddr);
 
         std::stringstream my_cxi_server_ip_hex_ss;
         my_cxi_server_ip_hex_ss << std::hex << cxiaddr_bin32.to_ulong();
-        std::string my_cxi_server_ip_hex_str = "ofi+cxi://0x" + my_cxi_server_ip_hex_ss.str();
+        std::string my_cxi_server_ip_hex_str = "ofi+cxi://0x0" + my_cxi_server_ip_hex_ss.str();
 	LOG(INFO) << host << " : " << my_cxi_server_ip_hex_str << " - " << cxiaddr << " 0x" << row << rack << "c" << chassis << "s" << slot << std::endl;
 	ServerLocalCacheProvider::global_peer_pairs.emplace_back(host, my_cxi_server_ip_hex_str);
 	ServerLocalCacheProvider::node_address_data.emplace_back(my_cxi_server_ip_hex_str);
