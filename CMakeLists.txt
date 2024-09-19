@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.6)
 set(PROJECT_NAME cu_fuse)
 project(${PROJECT_NAME})
 
-set(CMAKE_CXX_COMPILER mpicxx)
+set(${PROJECT_NAME} LANGUAGE CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -15,7 +15,9 @@ else()
 endif()
 
 find_package(PkgConfig REQUIRED)
-find_package(MPI REQUIRED)
+find_package(thallium CONFIG REQUIRED)
+find_package(mercury CONFIG REQUIRED)
+find_package(cereal CONFIG REQUIRED)
 
 pkg_check_modules(FUSE3 REQUIRED fuse3)
 pkg_check_modules(MARGO REQUIRED IMPORTED_TARGET margo)
@@ -26,11 +28,7 @@ include_directories(${MPI_INCLUDE_PATH})
 include_directories(${MARGO_INCLUDE_DIRS})
 include_directories(${THALLIUM_INCLUDE_DIRS})
 
-find_package(thallium CONFIG REQUIRED)
-find_package(mercury CONFIG REQUIRED)
-find_package(cereal CONFIG REQUIRED)
-
-get_target_property (CEREAL_INC cereal::cereal INTERFACE_INCLUDE_DIRECTORIES)
+get_target_property(CEREAL_INC cereal::cereal INTERFACE_INCLUDE_DIRECTORIES)
 
 set(SOURCES
     src/entry.cpp
@@ -51,7 +49,7 @@ set(SOURCES
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${FUSE3_INCLUDE_DIRS}" "${MPI_INCLUDE_PATH}" "${MARGO_INCLUDE_DIRS}" "${THALLIUM_INCLUDE_DIRS}")
-target_link_libraries(${PROJECT_NAME} PRIVATE ${MPI_CXX_LIBRARIES} PkgConfig::MARGO PkgConfig::THALLIUM MPI::MPI_CXX ${FUSE3_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM ${FUSE3_LIBRARIES})
 add_definitions(${FUSE3_CFLAGS_OTHER})
 
 set(SHUTDOWN_PROJECT_NAME cu_fuse_shutdown)
