@@ -21,11 +21,10 @@ NNODES=`wc -l < $PBS_NODEFILE`
 RANKS_PER_NODE=1
 NRANKS=$(( NNODES * RANKS_PER_NODE ))
 echo "Copper running on NUM_OF_NODES=${NNODES}  TOTAL_NUM_RANKS=${NRANKS}  RANKS_PER_NODE=${RANKS_PER_NODE}"
-CUPATH=/lus/flare/projects/Aurora_deployment/kaushik/copper-spack-recipe/gitrepos/copper/build
 LOGDIR=~/copper-logs/${PBS_JOBID}
-CU_FUSE_MNT_VIEWDIR=/tmp/${USER}/copper
 rm -rf ~/copper_logs*
 mkdir -p ${LOGDIR}
+CU_FUSE_MNT_VIEWDIR=/tmp/${USER}/copper
 clush --hostfile ${PBS_NODEFILE} "fusermount3 -u ${CU_FUSE_MNT_VIEWDIR}"
 clush --hostfile ${PBS_NODEFILE} "rm -rf ${CU_FUSE_MNT_VIEWDIR}"
 clush --hostfile ${PBS_NODEFILE} "mkdir -p ${CU_FUSE_MNT_VIEWDIR}"
@@ -41,12 +40,16 @@ unset MPIR_CVAR_COLL_SELECTION_TUNING_JSON_FILE
 export PALS_PING_PERIOD=240
 export PALS_RPC_TIMEOUT=240
 
+CUPATH=/lus/flare/projects/Aurora_deployment/kaushik/copper-spack-recipe/gitrepos/copper/build/cu_fuse
+# module load copper 
+# CUPATH=$COPPER_ROOT/bin/cu_fuse
+# set log_level 6 for less logging 
 read -r -d '' CMD << EOM
    numactl --physcpubind="0-3"
-   $CUPATH/cu_fuse 
+   $CUPATH
      -tpath /
      -vpath ${CU_FUSE_MNT_VIEWDIR}
-     -log_level 6
+     -log_level 2
      -log_type file
      -log_output_dir ${LOGDIR}
      -net_type cxi 
@@ -66,8 +69,11 @@ ls ${CU_FUSE_MNT_VIEWDIR}
 RANKS_PER_NODE=12
 NRANKS=$(( NNODES * RANKS_PER_NODE ))
 echo "App running on NUM_OF_NODES=${NNODES}  TOTAL_NUM_RANKS=${NRANKS}  RANKS_PER_NODE=${RANKS_PER_NODE}"
+date
 module use /lus/flare/projects/Aurora_deployment/copper-software-module/example_app/app-dependencies/sst_2024
+date
 module load frameworks/2024.1
+date
 conda deactivate
 conda activate ${CU_FUSE_MNT_VIEWDIR}/lus/flare/projects/Aurora_deployment/copper-software-module/example_app/app-dependencies/sst_2024
 which python

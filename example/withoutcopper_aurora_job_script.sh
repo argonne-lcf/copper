@@ -19,8 +19,11 @@ NNODES=`wc -l < $PBS_NODEFILE`
 RANKS_PER_NODE=12
 NRANKS=$(( NNODES * RANKS_PER_NODE ))
 echo "NUM_OF_NODES=${NNODES}  TOTAL_NUM_RANKS=${NRANKS}  RANKS_PER_NODE=${RANKS_PER_NODE}"
+date
 module use /lus/flare/projects/Aurora_deployment/copper-software-module/example_app/app-dependencies/sst_2024
+date
 module load frameworks/2024.1
+date
 conda deactivate
 conda activate /lus/flare/projects/Aurora_deployment/copper-software-module/example_app/app-dependencies/sst_2024
 which python
