@@ -151,17 +151,31 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
 }
 
 std::vector<std::byte> Util::read_ent_file(const std::string& path) {
-    if(std::ifstream source_file{path, std::ios::binary}) {
-        std::streamsize file_size{};
-        file_size = static_cast<std::streamsize>(std::filesystem::file_size(path));
-        std::vector<std::byte> bytes(file_size);
-        source_file.read(reinterpret_cast<char*>(bytes.data()), file_size);
-        source_file.close();
-
-        return bytes;
+    int fd = open(path.c_str(), O_RDONLY);
+    if (fd == -1) {
+	LOG(WARNING) << "read file failed with errno: " << std::strerror(errno) << std::endl; 
+        throw std::system_error(errno, std::generic_category(), "failed to open file: " + path);
     }
 
-    throw std::runtime_error("failed to open path: " + path);
+    struct stat file_stat;
+    if (fstat(fd, &file_stat) == -1) {
+        close(fd);
+	LOG(WARNING) << "read file failed with errno: " << std::strerror(errno) << std::endl; 
+        throw std::system_error(errno, std::generic_category(), "failed to get file size for: " + path);
+    }
+
+    std::vector<std::byte> bytes(file_stat.st_size);
+
+    ssize_t bytes_read = read(fd, bytes.data(), bytes.size());
+    if (bytes_read == -1) {
+        close(fd);
+	LOG(WARNING) << "read file failed with errno: " << std::strerror(errno) << std::endl; 
+        throw std::system_error(errno, std::generic_category(), "failed to read file: " + path);
+    }
+
+    close(fd);
+
+    return bytes;
 }
 
 std::optional<std::ofstream> Util::try_get_fstream_from_path(const char* path) {

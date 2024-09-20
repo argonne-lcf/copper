@@ -12,7 +12,7 @@ bool PathStatusCache::check_and_put_force(const Key& key) {
     return true;
 }
 
-void PathStatusCache::update_cache_status(const Key& key, const int status) {
+void PathStatusCache::update_cache_status(const Key& key, const ssize_t status) {
     std::lock_guard guard(mtx);
 
     auto entry = cache.find(key);
