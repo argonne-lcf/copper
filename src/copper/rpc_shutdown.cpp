@@ -1,6 +1,5 @@
 #include <thallium.hpp>
 #include <thallium/serialization/stl/string.hpp>
-#include <mpi.h>
 #include <array>
 #include <iostream>
 #include <fstream>
