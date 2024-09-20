@@ -86,8 +86,8 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> {
     using lstat_final_return_type = int;
     void rpcLstat(const tl::request& req, bool dest, const std::string& path_string) const;
 
-    using read_return_type = std::pair<int, std::vector<std::byte>>;
-    using read_final_return_type = int;
+    using read_return_type = std::pair<ssize_t, std::vector<std::byte>>;
+    using read_final_return_type = ssize_t;
     void rpcRead(const tl::request& req, bool dest, const std::string& path_string) const;
 
     using readdir_return_type = std::pair<int, std::vector<std::string>>;
