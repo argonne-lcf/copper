@@ -17,6 +17,10 @@ echo Running on nodes `cat $PBS_NODEFILE`
 
 
 # starting copper section 
+module load copper 
+CUPATH=$COPPER_ROOT/bin/cu_fuse
+# CUPATH=/lus/flare/projects/Aurora_deployment/kaushik/copper-spack-recipe/gitrepos/copper/build/cu_fuse
+
 NNODES=`wc -l < $PBS_NODEFILE`
 RANKS_PER_NODE=1
 NRANKS=$(( NNODES * RANKS_PER_NODE ))
@@ -40,16 +44,14 @@ unset MPIR_CVAR_COLL_SELECTION_TUNING_JSON_FILE
 export PALS_PING_PERIOD=240
 export PALS_RPC_TIMEOUT=240
 
-CUPATH=/lus/flare/projects/Aurora_deployment/kaushik/copper-spack-recipe/gitrepos/copper/build/cu_fuse
-# module load copper 
-# CUPATH=$COPPER_ROOT/bin/cu_fuse
-# set log_level 6 for less logging 
+
+
 read -r -d '' CMD << EOM
    numactl --physcpubind="0-3"
    $CUPATH
      -tpath /
      -vpath ${CU_FUSE_MNT_VIEWDIR}
-     -log_level 2
+     -log_level 6
      -log_type file
      -log_output_dir ${LOGDIR}
      -net_type cxi 
