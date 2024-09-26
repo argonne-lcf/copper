@@ -28,19 +28,17 @@ More documentation can be found here: [readthedocs](https://alcf-copper-docs.rea
 ### How to load the copper package on Aurora
 
 ```bash
-module load spack-pe-oneapi copper
+module load copper
 ```
 
 
 ### How to start the copper service
 
 ```bash
-CUPATH=/lus/flare/projects/Aurora_deployment/kaushik/copper-spack-recipe/gitrepos/copper/build
+CUPATH=$COPPER_ROOT/bin/cu_fuse # If you are building copper on your own, set this path to your cu_fuse binary
 LOGDIR=~/copper-logs/${PBS_JOBID}
 CU_FUSE_MNT_VIEWDIR=/tmp/${USER}/copper
-rm -rf ~/copper_logs*
 mkdir -p ${LOGDIR}
-clush --hostfile ${PBS_NODEFILE} "rm -rf ${CU_FUSE_MNT_VIEWDIR}"
 clush --hostfile ${PBS_NODEFILE} "mkdir -p ${CU_FUSE_MNT_VIEWDIR}"
 
 read -r -d '' CMD << EOM
@@ -49,7 +47,7 @@ read -r -d '' CMD << EOM
      -tpath /                                   # / will be mounted under CU_FUSE_MNT_VIEWDIR
      -vpath ${CU_FUSE_MNT_VIEWDIR}              # To provide the fuse mounted location
      -log_output_dir ${LOGDIR}                  # To provide where the copper logs will be stored
-     -log_level 6                               # To provide the level of copper logging 
+     -log_level 6                               # To provide the level of copper logging 6 more 0 less
      -log_type file                             # To direct logging to file / stdout / both
      -net_type cxi                              # To provide the network protocol
      -nf ${PBS_NODEFILE}                        # To provide the hostlist where cu_fuse will be mounted
@@ -68,16 +66,10 @@ clush --hostfile ${PBS_NODEFILE} $CMD           # To start copper on all the com
 ### How to run your app with copper
 
 ```bash
-RANKS_PER_NODE=12
-NRANKS=$(( NNODES * RANKS_PER_NODE ))
-echo "App running on NUM_OF_NODES=${NNODES}  TOTAL_NUM_RANKS=${NRANKS}  RANKS_PER_NODE=${RANKS_PER_NODE}"
-module use /lus/flare/projects/Aurora_deployment/copper-software-module/example_app/app-dependencies/sst_2024
-module load frameworks/2024.1
-conda deactivate
-conda activate ${CU_FUSE_MNT_VIEWDIR}/lus/flare/projects/Aurora_deployment/copper-software-module/example_app/app-dependencies/sst_2024 #Start conda with the full copper path instead of the standard path
-which python
-CPU_BINDING=list:4:9:14:19:20:25:56:61:66:71:74:79 
-time mpirun --np ${NRANKS} --ppn ${RANKS_PER_NODE} --cpu-bind=${CPU_BINDING} --genvall --genv=PYTHONPATH=${CU_FUSE_MNT_VIEWDIR}/lus/flare/projects/Aurora_deployment/copper-software-module/example_app/app-dependencies/sst_2024  python3 real_app.py
+
+time mpirun --np ${NRANKS} --ppn ${RANKS_PER_NODE} --cpu-bind=${CPU_BINDING} --genvall \
+            --genv=PYTHONPATH=${CU_FUSE_MNT_VIEWDIR}/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env \
+            python3 -c "import torch; print(torch.__file__)"
 ```
 
 ### How to stop the copper service

@@ -26,6 +26,3 @@ import tensorflow.keras.backend
 import tensorflow.config.experimental
 from pathlib import Path
 # print(MPI.__file__)
-# print(np.__file__)
-# print(K.__file__)
-# print(pd.__file__)
