@@ -13,6 +13,7 @@ cd $PBS_O_WORKDIR
 echo Jobid: $PBS_JOBID
 echo Running on nodes `cat $PBS_NODEFILE`
 
+module load copper 
 launch_copper.sh
 # Prepend /tmp/${USER}/copper/ to all your absolute paths if you want your I/O to go through copper (including PYTHON_PATH, CONDA_PREFIX, CONDA_ROOT and PATH)
 

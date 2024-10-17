@@ -64,11 +64,9 @@ set(SOURCES
     src/cache/path_status_cache.cpp
 )
 
-
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${FUSE3_INCLUDE_DIR}" "${MPI_INCLUDE_PATH}" "${MARGO_INCLUDE_DIRS}" "${THALLIUM_INCLUDE_DIRS}")
 target_link_libraries(${PROJECT_NAME} PRIVATE ${MPI_CXX_LIBRARIES} PkgConfig::MARGO PkgConfig::THALLIUM fuse3 MPI::MPI_CXX)
-
 
 set(SHUTDOWN_PROJECT_NAME cu_fuse_shutdown)
 set(SHUTDOWN_SOURCES src/copper/rpc_shutdown.cpp)
@@ -76,4 +74,4 @@ add_executable(${SHUTDOWN_PROJECT_NAME} ${SHUTDOWN_SOURCES})
 target_link_libraries(${SHUTDOWN_PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
-install(FILES scripts/launch_copper.sh ${PROJECT_NAME} DESTINATION bin PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ WORLD_EXECUTE WORLD_READ)
+install(PROGRAMS scripts/launch_copper.sh DESTINATION bin)

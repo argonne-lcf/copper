@@ -35,5 +35,5 @@ cp build/compile_commands.json . || { echo "Failed to copy compile commands"; ex
 
 cd build || { echo "Failed to move to build dir"; exit 1; }
 make || { echo "Failed to build cu_fuse"; exit 1; }
-# make install 
+make install 
 
