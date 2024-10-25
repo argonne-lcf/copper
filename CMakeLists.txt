@@ -75,3 +75,4 @@ target_link_libraries(${SHUTDOWN_PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfi
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 install(PROGRAMS scripts/launch_copper.sh DESTINATION bin)
+install(PROGRAMS scripts/stop_copper.sh DESTINATION bin)

@@ -14,6 +14,7 @@ echo Jobid: $PBS_JOBID
 echo Running on nodes `cat $PBS_NODEFILE`
 
 # starting copper section 
+
 module load copper 
 CUPATH=$COPPER_ROOT/bin/cu_fuse # If you are building copper on your own, set this path to your cu_fuse binary
 LOGDIR=~/copper-logs/${PBS_JOBID%%.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov}
@@ -38,6 +39,7 @@ EOM
 
 clush --hostfile ${PBS_NODEFILE} $CMD 
 sleep 20s # add 60s if you are running on more than 2k nodes
+
 # end copper section
 
 # App section
@@ -47,7 +49,7 @@ NRANKS=$(( NNODES * RANKS_PER_NODE ))
 echo "App running on NUM_OF_NODES=${NNODES}  TOTAL_NUM_RANKS=${NRANKS}  RANKS_PER_NODE=${RANKS_PER_NODE}"
 
 module use /lus/flare/projects/Aurora_deployment/copper-software-module/example_app/app-dependencies/sst_2024
-module load frameworks/2024.1 # This will start your conda environment at /lus/flare/projects/Aurora_deployment/copper-software-module/example_app/app-dependencies/sst_2024
+module load frameworks # This will start your conda environment at /lus/flare/projects/Aurora_deployment/copper-software-module/example_app/app-dependencies/sst_2024
 conda deactivate
 conda activate ${CU_FUSE_MNT_VIEWDIR}/lus/flare/projects/Aurora_deployment/copper-software-module/example_app/app-dependencies/sst_2024 #start conda through the copper path
 which python
@@ -55,3 +57,9 @@ which python
 time mpirun --np ${NRANKS} --ppn ${RANKS_PER_NODE} --cpu-bind=list:4:9:14:19:20:25:56:61:66:71:74:79 --genvall \
             --genv=PYTHONPATH=${CU_FUSE_MNT_VIEWDIR}/lus/flare/projects/Aurora_deployment/copper-software-module/example_app/app-dependencies/sst_2024 \
             python3 real_app.py
+
+
+#Stopping copper
+clush --hostfile ${PBS_NODEFILE} "pkill -9 cu_fuse"
+clush --hostfile ${PBS_NODEFILE} "fusermount3 -u /tmp/kaushikvelusamy/copper"
+clush --hostfile ${PBS_NODEFILE} "rm -rf ${CU_FUSE_MNT_VIEWDIR}"

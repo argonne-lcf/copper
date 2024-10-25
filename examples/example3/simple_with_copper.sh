@@ -21,12 +21,16 @@ NNODES=`wc -l < $PBS_NODEFILE`
 RANKS_PER_NODE=12
 NRANKS=$(( NNODES * RANKS_PER_NODE ))
 echo "App running on NUM_OF_NODES=${NNODES}  TOTAL_NUM_RANKS=${NRANKS}  RANKS_PER_NODE=${RANKS_PER_NODE}"
+module load python
 
-# The below 2 lines are only for the first time setup to install a package on a custom dir. Do not use in this job script
-# module load python
-# pip install --target=/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env numpy 
+# The below 3 lines are only for first time setup to install a package on a custom dir. Do not use in this job script.
+# module load frameworks
+# mkdir -p /lus/flare/projects/Aurora_deployment/kaushik/copper/oct24/copper/run/copper_conda_env
+# pip install --target=/lus/flare/projects/Aurora_deployment/kaushik/copper/oct24/copper/run/copper_conda_env numpy 
 
 
 time mpirun --np ${NRANKS} --ppn ${RANKS_PER_NODE} --cpu-bind=list:4:9:14:19:20:25:56:61:66:71:74:79 --genvall \
-            --genv=PYTHONPATH=/tmp/${USER}/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env \
-            python3 -c "import torch; print(torch.__file__)"
+            --genv=PYTHONPATH=/tmp/${USER}/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/oct24/copper/run/copper_conda_env \
+            python3 -c "import numpy; print(numpy.__file__)"
+
+stop_copper.sh

@@ -77,8 +77,7 @@ time mpirun --np ${NRANKS} --ppn ${RANKS_PER_NODE} --cpu-bind=${CPU_BINDING} --g
 ```bash
 clush --hostfile ${PBS_NODEFILE} "fusermount3 -u ${CU_FUSE_MNT_VIEWDIR}"
 clush --hostfile ${PBS_NODEFILE} "rm -rf ${CU_FUSE_MNT_VIEWDIR}"
-export UID=$(id -u $USER)
-clush --hostfile ${PBS_NODEFILE} "pkill -U $UID"
+clush --hostfile ${PBS_NODEFILE} "pkill  -9 cu_fuse"
 ```
 
 

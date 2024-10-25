@@ -1,5 +1,7 @@
 #!/bin/bash -x
 
+echo "Launching Copper Gracefully On All Nodes : Start" 
+
 log_level=6
 log_type="file"
 trees=1
@@ -56,5 +58,7 @@ read -r -d '' CMD << EOM
      -s ${CU_FUSE_MNT_VIEWDIR}
 EOM
 
-clush --hostfile "${PBS_NODEFILE}" "$CMD"
+clush --hostfile "${PBS_NODEFILE}" $CMD
 sleep "${sleeptime}"s # add 60s if you are running on more than 2k nodes
+
+echo "Launching Copper Gracefully On All Nodes : End" 
