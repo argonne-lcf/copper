@@ -1,4 +1,5 @@
 #include "node_tree.h"
+#include <unordered_map>
 
 #include <cassert>
 
@@ -260,51 +261,75 @@ void NodeTree::generate_nodelist_from_nodefile(const std::string& filename)
     while(getline(in, line))
     {
         std::string host = line.substr(0, line.find("."));
-	int row = std::stoi(host.substr(1, 2));
-	int rack = std::stoi(host.substr(3, 4));
+	    int row = std::stoi(host.substr(1, 2));
+	    int rack = std::stoi(host.substr(3, 4));
         int chassis = std::stoi(host.substr(6, 6));
-	int slot = std::stoi(host.substr(8, 8));
+	    int slot = std::stoi(host.substr(8, 8));
 
-	unsigned int to_slot[] = { 0xb3, 0xa3, 0xb1, 0xa1, 0x90, 0x80, 0x92, 0x82 };
-	unsigned int to_chassis[] = { 0x000, 0x100, 0x200, 0x300, 0x400, 0x500, 0x600, 0x700 };
-	unsigned int to_row[] = { 0x4800, 0xF000, 0x19800, 0x24000, 0x2e800, 0x39000, 0x43800, 0x4D000 };
-	unsigned int to_rack[] = { 0x000, 0x800, 0x1000, 0x1800, 0x2000, 0x2800, 0x3000, 0x3800, 0x4000, 0x4800, 0x5000, 0x5800, 0x6000, 0x6800, 0x7000, 0x7800, 0x8000, 0x8800, 0x9000, 0x9800, 0xA000 };
+        unsigned int to_slot[] = { 0xb3, 0xa3, 0xb1, 0xa1, 0x90, 0x80, 0x92, 0x82 };
+        unsigned int to_chassis[] = { 0x000, 0x100, 0x200, 0x300, 0x400, 0x500, 0x600, 0x700 };
+        unsigned int to_row[] = { 0x4800, 0xF000, 0x19800, 0x24000, 0x2e800, 0x39000, 0x43800, 0x4D000 };
+        unsigned int to_rack[] = { 0x000, 0x800, 0x1000, 0x1800, 0x2000, 0x2800, 0x3000, 0x3800, 0x4000, 0x4800, 0x5000, 0x5800, 0x6000, 0x6800, 0x7000, 0x7800, 0x8000, 0x8800, 0x9000, 0x9800, 0xA000 };
 
-	unsigned long cxiaddr = 0x00000000;
+        unsigned long cxiaddr = 0x00000000;
         cxiaddr += ((to_row[row-40] + to_rack[rack] + to_chassis[chassis] + to_slot[slot]) << 9);
         std::bitset<32> cxiaddr_bin32(cxiaddr);
 
         std::stringstream my_cxi_server_ip_hex_ss;
         my_cxi_server_ip_hex_ss << std::hex << cxiaddr_bin32.to_ulong();
         std::string my_cxi_server_ip_hex_str = "ofi+cxi://0x0" + my_cxi_server_ip_hex_ss.str();
-	LOG(INFO) << host << " : " << my_cxi_server_ip_hex_str << " - " << cxiaddr << " 0x" << row << rack << "c" << chassis << "s" << slot << std::endl;
-	ServerLocalCacheProvider::global_peer_pairs.emplace_back(host, my_cxi_server_ip_hex_str);
-	ServerLocalCacheProvider::node_address_data.emplace_back(my_cxi_server_ip_hex_str);
+	    LOG(INFO) << host << " : " << my_cxi_server_ip_hex_str << " - " << cxiaddr << " 0x" << row << rack << "c" << chassis << "s" << slot << std::endl;
+	    ServerLocalCacheProvider::global_peer_pairs.emplace_back(host, my_cxi_server_ip_hex_str);
+	    ServerLocalCacheProvider::node_address_data.emplace_back(my_cxi_server_ip_hex_str);
     } 
     return;
 }
 
-void NodeTree::parse_nodelist_from_address_book() {
-    std::ifstream inFile(Constants::copper_address_book_path, std::ios::in);
+void NodeTree::parse_nodelist_from_facility_address_book() {
 
-    LOG(INFO) << "opening file" << std::endl;
-    if(!inFile.is_open()) {
-        LOG(FATAL) << "error opening copper address file at path: " << Constants::copper_address_book_path << std::endl;
-        throw std::runtime_error("error opening copper address file");
+    LOG(INFO) << Constants::copper_address_book_path.c_str() << std::endl;
+    LOG(INFO) << Constants::facility_address_book_path << std::endl;
+    LOG(INFO) << Constants::job_nodefile.value() << std::endl;
+
+    std::ifstream inFile1(Constants::facility_address_book_path, std::ios::in);
+    std::ifstream inFile2(Constants::job_nodefile.value(), std::ios::in);
+    std::ofstream outFile(Constants::copper_address_book_path.c_str());
+
+
+    LOG(INFO) << "opening file " << std::endl;
+    if (!inFile1.is_open() || !inFile2.is_open() || !outFile) {
+        LOG(FATAL) << "error opening facility_address_book_path : " << std::endl;
+        LOG(FATAL) << "error opening current job node file : "      << std::endl;
+        throw std::runtime_error("error opening files");
     }
 
+ 
+    std::unordered_map<std::string, std::string > addr_book;
     std::string line;
-    while(getline(inFile, line)) {
-        LOG(INFO) << getpid() << ":" << line << std::endl;
-        size_t pos = line.find(' ');
-        std::string first_part_hostname = line.substr(0, pos);
-        std::string second_part_cxi = line.substr(pos + 1);
-        LOG(INFO) << first_part_hostname << ":" << second_part_cxi << std::endl;
-        ServerLocalCacheProvider::global_peer_pairs.emplace_back(first_part_hostname, second_part_cxi);
-        ServerLocalCacheProvider::node_address_data.emplace_back(second_part_cxi);
+
+    while (std::getline(inFile1, line)) 
+    {
+       size_t pos = line.find(' ');
+       std::string first_part_hostname = line.substr(0, pos);
+       std::string second_part_cxi = line.substr(pos + 1);
+       addr_book[first_part_hostname] = second_part_cxi;
     }
 
-    inFile.close();
+    while (std::getline(inFile2, line)) 
+    {
+        std::string key = line;
+        if (addr_book.find(key) != addr_book.end()) {
+            LOG(INFO) << key << ":" << addr_book[key] << std::endl;
+            ServerLocalCacheProvider::global_peer_pairs.emplace_back(key, addr_book[key]);
+            ServerLocalCacheProvider::node_address_data.emplace_back(addr_book[key]);
+            outFile <<key << ": " << addr_book[key] << std::endl;
+        } 
+    }
+
+    inFile1.close();
+    inFile2.close();
+    outFile.close();
+    LOG(INFO) << "Total address pushed into node_address_data " << ServerLocalCacheProvider::node_address_data.size() << std::endl;
 }
 
 
@@ -375,6 +400,7 @@ std::vector<std::string> NodeTree::get_my_tree_segment(std::vector<std::string>&
     for(auto tree_seg: segments) {
         for(auto addr: tree_seg) {
             if(my_addr == addr) {
+                LOG(INFO) << "match found " << my_addr << addr << std::endl;
                 return tree_seg;
             }
         }
@@ -382,5 +408,6 @@ std::vector<std::string> NodeTree::get_my_tree_segment(std::vector<std::string>&
 
     LOG(FATAL) << "unable to find addr in tree segments" << std::endl;
     assert(0);
+    return {};
 }
     

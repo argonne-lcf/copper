@@ -22,7 +22,8 @@ else
 	mkdir build
 fi
 
-cmake -DCMAKE_BUILD_TYPE=Release                     \
+cmake -DCMAKE_CXX_FLAGS="-I/lustre/orion/gen008/proj-shared/kaushik/gitrepos/personal-fuse-headers/libfuse/include/ " \
+	  -DCMAKE_BUILD_TYPE=Release                     \
 	  -DBLOCK_REDUNDANT_RPCS="$BLOCK_REDUNDANT_RPCS" \
       -DCMAKE_VERBOSE_MAKEFILE=ON                    \
       -DCMAKE_EXPORT_COMPILE_COMMANDS=ON             \

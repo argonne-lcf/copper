@@ -13,15 +13,15 @@ else()
     message(STATUS "BLOCK_REDUNDANT_RPCS is not enabled")
 endif()
 
-set(FUSE3_INCLUDE_FILE "/usr/include/fuse3/fuse.h")
+set(FUSE3_INCLUDE_FILE "/lustre/orion/gen008/proj-shared/kaushik/gitrepos/personal-fuse-headers/libfuse/include/fuse.h")
 if(EXISTS "${FUSE3_INCLUDE_FILE}")
     message(STATUS "File ${FUSE3_INCLUDE_FILE} exists.")
-    set(FUSE3_INCLUDE_DIR "/usr/include/fuse3")
+    set(FUSE3_INCLUDE_DIR "/lustre/orion/gen008/proj-shared/kaushik/gitrepos/personal-fuse-headers/libfuse/include/")
 else()
     message(WARNING "Required File ${FUSE3_INCLUDE_FILE} does not exist. Please set -DFUSE3_INCLUDE=<path> when invoking CMake.")
 endif()
 
-set(FUSE3_LIB_FILE "/usr/lib64/libfuse3.so")
+set(FUSE3_LIB_FILE "/usr/lib64/libfuse3.so.3")
 if(EXISTS "${FUSE3_LIB_FILE}")
     message(STATUS "File ${FUSE3_LIB_FILE} exists.")
     set(FUSE3_LIB_DIR "/usr/lib64")
@@ -29,7 +29,6 @@ else()
     message(WARNING "Required File ${FUSE3_LIB_FILE} does not exist. Please set -DFUSE3_LIB=<path> when invoking CMake.")
 endif()
 
-link_directories(${FUSE3_LIB_DIR})
 
 find_package(PkgConfig REQUIRED)
 find_package(MPI REQUIRED)
@@ -66,12 +65,12 @@ set(SOURCES
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${FUSE3_INCLUDE_DIR}" "${MPI_INCLUDE_PATH}" "${MARGO_INCLUDE_DIRS}" "${THALLIUM_INCLUDE_DIRS}")
-target_link_libraries(${PROJECT_NAME} PRIVATE ${MPI_CXX_LIBRARIES} PkgConfig::MARGO PkgConfig::THALLIUM fuse3 MPI::MPI_CXX)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${MPI_CXX_LIBRARIES} PkgConfig::MARGO PkgConfig::THALLIUM MPI::MPI_CXX ${FUSE3_LIB_FILE})
 
 set(SHUTDOWN_PROJECT_NAME cu_fuse_shutdown)
 set(SHUTDOWN_SOURCES src/copper/rpc_shutdown.cpp)
 add_executable(${SHUTDOWN_PROJECT_NAME} ${SHUTDOWN_SOURCES})
-target_link_libraries(${SHUTDOWN_PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM)
+target_link_libraries(${SHUTDOWN_PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM ${FUSE3_LIB_FILE})
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 install(PROGRAMS scripts/launch_copper.sh DESTINATION bin)
