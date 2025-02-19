@@ -5,7 +5,7 @@
 #PBS -q lustre_scaling
 #PBS -k doe
 
-# qsub -l select=512:ncpus=208 -l walltime=02:00:00 -A Aurora_deployment -l filesystems=flare -q lustre_scaling  ./withcopper_aurora_job_script.sh # or - I 
+# qsub -l select=512:ncpus=208 -l walltime=01:00:00 -A Aurora_deployment -l filesystems=home:flare -q prod  ./simple_with_copper.sh # or - I 
 
 # This example shows loading python modules from a lustre directory with using copper.
  
@@ -21,16 +21,16 @@ NNODES=`wc -l < $PBS_NODEFILE`
 RANKS_PER_NODE=12
 NRANKS=$(( NNODES * RANKS_PER_NODE ))
 echo "App running on NUM_OF_NODES=${NNODES}  TOTAL_NUM_RANKS=${NRANKS}  RANKS_PER_NODE=${RANKS_PER_NODE}"
+
+# The below 2 lines are only for the first time setup to install a package on a custom dir. Do not use in this job script
+# module load frameworks
+# python -m pip install  --target=/lus/flare/projects/datascience/kaushik/copper-test/lus_custom_pip_env/ torch==2.3.1+cxx11.abi torchvision==0.18.1+cxx11.abi torchaudio==2.3.1+cxx11.abi intel-extension-for-pytorch==2.3.110+xpu oneccl_bind_pt==2.3.100+xpu --extra-index-url https://pytorch-extension.intel.com/release-whl/stable/xpu/us/
+# module unload frameworks
+
 module load python
 
-# The below 3 lines are only for first time setup to install a package on a custom dir. Do not use in this job script.
-# module load frameworks
-# mkdir -p /lus/flare/projects/Aurora_deployment/kaushik/copper/oct24/copper/run/copper_conda_env
-# pip install --target=/lus/flare/projects/Aurora_deployment/kaushik/copper/oct24/copper/run/copper_conda_env numpy 
-
-
 time mpirun --np ${NRANKS} --ppn ${RANKS_PER_NODE} --cpu-bind=list:4:9:14:19:20:25:56:61:66:71:74:79 --genvall \
-            --genv=PYTHONPATH=/tmp/${USER}/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/oct24/copper/run/copper_conda_env \
-            python3 -c "import numpy; print(numpy.__file__)"
+            --genv=PYTHONPATH=/tmp/${USER}/copper/lus/flare/projects/datascience/kaushik/copper-test/lus_custom_pip_env/ \
+            python3 -c "import torch; print(torch.__file__)"
 
-stop_copper.sh
+stop_copper.sh # optional 

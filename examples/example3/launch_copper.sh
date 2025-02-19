@@ -12,9 +12,9 @@ rm -rf ~/copper_logs*
 CUPATH=$COPPER_ROOT/bin/cu_fuse
 CU_FUSE_MNT_VIEWDIR=/tmp/${USER}/copper
 physcpubind="48-51"
+facility_address_book=/opt/clmgr/etc/copper/alcf_copper_addressbook.txt
 
-
-while getopts "l:t:T:M:s:b:" opt; do
+while getopts "l:t:T:M:s:b:F:" opt; do
   case ${opt} in
     l ) log_level=$OPTARG ;;
     t ) log_type=$OPTARG ;;
@@ -22,7 +22,8 @@ while getopts "l:t:T:M:s:b:" opt; do
     M ) max_cacheable_byte_size=$OPTARG ;;
     s ) sleeptime=$OPTARG ;;
     b ) physcpubind=$OPTARG ;;
-    \? ) echo "Usage: cmd [-l] [-t] [-T] [-M] [-s] [-b]" ;;
+    F ) facility_address_book=$OPTARG ;;
+    \? ) echo "Usage: cmd [-l] [-t] [-T] [-M] [-s] [-b] [-F]" ;;
   esac
 done
 
@@ -35,7 +36,7 @@ echo "CU_FUSE_MNT_VIEWDIR        : ${CU_FUSE_MNT_VIEWDIR}"
 echo "LOGDIR                     : ${LOGDIR}"
 echo "PBS_NODEFILE               : ${PBS_NODEFILE}"
 echo "physcpubind                : ${physcpubind}"
-
+echo "facility_address_book      : ${facility_address_book}"
 
 
 mkdir -p "${LOGDIR}" #only on head node
@@ -54,6 +55,7 @@ read -r -d '' CMD << EOM
      -net_type cxi 
      -trees ${trees} 
      -nf ${PBS_NODEFILE}
+     -facility_address_book ${facility_address_book}
      -max_cacheable_byte_size ${max_cacheable_byte_size}
      -s ${CU_FUSE_MNT_VIEWDIR}
 EOM

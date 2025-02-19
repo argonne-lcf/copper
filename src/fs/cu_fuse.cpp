@@ -370,25 +370,26 @@ static void start_thallium_engine() {
 
         LOG(INFO) << "using network type: " << Constants::network_type << std::endl;
 
-        if(Constants::nodefile.has_value()) {
-            LOG(INFO) << "using nodefile to init addresses" << std::endl;
-            LOG(INFO) << "Generating CXI address from nodefile: " << Constants::nodefile.value() << std::endl;
-            NodeTree::generate_nodelist_from_nodefile(Constants::nodefile.value());
+        if(Constants::job_nodefile.has_value()) {
+            LOG(INFO) << "using job_nodefile to init addresses" << std::endl;
+            LOG(INFO) << "Generating CXI address from job_nodefile: " << Constants::job_nodefile.value() << std::endl;
+            NodeTree::generate_nodelist_from_nodefile(Constants::job_nodefile.value());
+            //NodeTree::parse_nodelist_from_facility_address_book();
         } else if(Constants::network_type == "cxi") {
             LOG(INFO) << "parsing cxi network file to init addresses" << std::endl;
-            NodeTree::get_hsn0_cxi_addr();
+            // NodeTree::get_hsn0_cxi_addr();
+            NodeTree::parse_nodelist_from_facility_address_book();
 
             LOG(INFO) << "address written to address_book... sleeping for synchronization time: " << Constants::address_write_sync_time << std::endl;
             sleep(Constants::address_write_sync_time);
 
-            NodeTree::parse_nodelist_from_address_book();
         } else if(Constants::network_type == "na+sm" || Constants::network_type == "tcp") {
             LOG(INFO) << "using address from server engine to init addresses" << std::endl;
             NodeTree::push_back_address(Constants::my_hostname, my_addr);
             LOG(INFO) << "address written to address_book... sleeping for synchronization time: " << Constants::address_write_sync_time << std::endl;
             sleep(Constants::address_write_sync_time);
 
-            NodeTree::parse_nodelist_from_address_book();
+            NodeTree::parse_nodelist_from_facility_address_book();
         } else {
             LOG(FATAL) << "invalid network type" << std::endl;
             return;
@@ -606,6 +607,8 @@ int CuFuse::cu_hello_main(int argc, char* argv[]) {
 
     Constants::copper_address_book_path = Constants::log_output_dir.value() + "/" + Constants::copper_address_book_filename;
     LOG(INFO) << "copper address located at path: " << Constants::copper_address_book_path << std::endl;
+    LOG(INFO) << "facility address book filename path: " << Constants::facility_address_book_path << std::endl;
+
 
     Constants::pid = std::to_string(getpid());
     Constants::output_filename_path = Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::output_filename_suffix);

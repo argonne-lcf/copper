@@ -39,7 +39,7 @@ class NodeTree {
     static Node* build_my_tree(Node* root, std::vector<std::string> node_address_data);
     static void push_back_address(const std::string& hostname, const std::string& my_cxi_server_ip_hex_str);
     static void get_hsn0_cxi_addr();
-    static void parse_nodelist_from_address_book();
+    static void parse_nodelist_from_facility_address_book();
     static void generate_nodelist_from_nodefile(const std::string& filename);
 };
 

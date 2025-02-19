@@ -19,7 +19,7 @@ class Constants {
     static inline int es{1};
     static inline unsigned long int max_cacheable_byte_size{1048576};
     static inline int address_write_sync_time{5};
-    static inline std::optional<std::string> nodefile{std::nullopt};
+    static inline std::optional<std::string> job_nodefile{std::nullopt};
     static inline std::string network_type{"cxi"};
     static inline int trees{1};
 
@@ -32,9 +32,11 @@ class Constants {
                                                             "-es <NUM_EXECUTION_STREAMS>"
                                                             "-max_cacheable_byte_size <MAX_CACHEABLE_BYTE_SIZE>"
 							                                "-nf <PBS_NODEFILE>"
+                                                            "-facility_address_book <facility_address_book>"
+                                                            "-trees <num_trees>"
                                                             "-net_type <cxi/na+sm/tcp>"
                                                             "-addr_write_sync_time <time sec>"
-                                                            " <ABS_VIEW_PATH>"};
+                                                            "-s <CU_FUSE_MNT_VIEWDIR>"};
     // clang-format on
 
     static constexpr unsigned int fs_operation_success{0};
@@ -77,7 +79,7 @@ class Constants {
 
     static inline std::string copper_address_book_filename = "copper_address_book.txt";
     static inline std::string copper_address_book_path;
-
+    static inline std::string facility_address_book_path;
     static inline std::string pid;
 
     static inline std::string output_filename_suffix = "output.log";

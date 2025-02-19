@@ -53,6 +53,7 @@ read -r -d '' CMD << EOM
      -nf ${PBS_NODEFILE}                        # To provide the hostlist where cu_fuse will be mounted
      -trees 1                                   # To provide the number of trees to form in the overlay network
      -max_cacheable_byte_size $((10*1024*1024)) # To provide the size of access that goes through copper
+     -facility_address_book ${facility_address_book} # To provide the path to the facility_address_book file
      -s ${CU_FUSE_MNT_VIEWDIR}                  # To start fuse in single threaded mode.
 EOM
 

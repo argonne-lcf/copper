@@ -88,10 +88,19 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
                 throw std::runtime_error("no argument after -nf");
             }
 
-	        Constants::nodefile = std::string(argv[i+1]);
-            LOG(DEBUG) << "-nf was found: " << Constants::nodefile.value() << std::endl;
+	        Constants::job_nodefile = std::string(argv[i+1]);
+            LOG(DEBUG) << "-nf was found: " << Constants::job_nodefile.value() << std::endl;
             i += 2;
-	    } else if(original_string_args[i] == "-max_cacheable_byte_size") {
+	    } else if(original_string_args[i] == "-facility_address_book") {
+            if(i + 1 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -facility_address_book");
+            }
+
+            Constants::facility_address_book_path = std::string(argv[i+1]);
+            LOG(DEBUG) << "-facility_address_book was found: " << Constants::facility_address_book_path << std::endl;
+            i += 2;
+        } else if(original_string_args[i] == "-max_cacheable_byte_size") {
             if(i + 1 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
                 throw std::runtime_error("no argument after -max_cacheable_byte_size");
