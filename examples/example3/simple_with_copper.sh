@@ -28,9 +28,10 @@ echo "App running on NUM_OF_NODES=${NNODES}  TOTAL_NUM_RANKS=${NRANKS}  RANKS_PE
 # module unload frameworks
 
 module load python
+export LD_LIBRARY_PATH=${CONDA_DIR}:/opt/aurora/24.180.3/oneapi/2024.2/lib/:/opt/aurora/24.180.3/oneapi/compiler/2024.2/lib/:/opt/aurora/24.180.3/oneapi/intel-conda-miniforge/envs/2024.2.0/lib/:/opt/aurora/24.180.3/oneapi/intel-conda-miniforge/pkgs/intel-sycl-rt-2024.2.1-intel_1079/lib/:/opt/aurora/24.180.3/updates/oneapi/compiler/eng-20240629/lib/:/opt/aurora/24.180.3/support/tools/pti-gpu/d3639de/lib64/:$LD_LIBRARY_PATH
 
 time mpirun --np ${NRANKS} --ppn ${RANKS_PER_NODE} --cpu-bind=list:4:9:14:19:20:25:56:61:66:71:74:79 --genvall \
-            --genv=PYTHONPATH=/tmp/${USER}/copper/lus/flare/projects/datascience/kaushik/copper-test/lus_custom_pip_env/ \
+            --genv=PYTHONPATH=/tmp/${USER}/copper/lus/flare/projects/Aurora_deployment/kaushik/copper/copper-test-apps/torch-with-copper/lus_pip_torch_2.3_env_1/ \
             python3 -c "import torch; print(torch.__file__)"
 
 stop_copper.sh # optional 

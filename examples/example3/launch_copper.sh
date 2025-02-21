@@ -1,4 +1,6 @@
 #!/bin/bash -x
+# set -e  # Exit on error
+# set -x  # Print each command before execution
 
 echo "Launching Copper Gracefully On All Nodes : Start" 
 
@@ -9,10 +11,12 @@ max_cacheable_byte_size=$((10*1024*1024))
 sleeptime=20
 LOGDIR=~/copper-logs/${PBS_JOBID%%.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov}
 rm -rf ~/copper_logs*
+# COPPER_ROOT=/lus/flare/projects/Aurora_deployment/kaushik/copper/copper-aurora/copper/build
+# CUPATH=$COPPER_ROOT/cu_fuse
 CUPATH=$COPPER_ROOT/bin/cu_fuse
 CU_FUSE_MNT_VIEWDIR=/tmp/${USER}/copper
 physcpubind="48-51"
-facility_address_book=/opt/clmgr/etc/copper/alcf_copper_addressbook.txt
+facility_address_book=/opt/clmgr/etc/copper/aurora_copper_addressbook.txt
 
 while getopts "l:t:T:M:s:b:F:" opt; do
   case ${opt} in
