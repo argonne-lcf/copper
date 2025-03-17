@@ -69,7 +69,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     LOG(DEBUG) << "requested size: " << size << std::endl;
 
     auto md_entry = CacheTables::md_cache_table.get(path_string);
-    /*if(md_entry.has_value()) {
+    if(md_entry.has_value()) {
         struct stat* md_st = (struct stat*)md_entry.value()->get_vec().data();
         if(md_st->st_size >= Constants::max_cacheable_byte_size) {
             LOG(INFO) << "file larger than max cacheable size... going to lustre" << std::endl;
@@ -84,7 +84,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
             return Metric::stop_cache_operation(
             OperationFunction::read, OperationResult::neg, CacheEvent::data_cache_event_table, path_string, start, res);
         }
-    }*/
+    }
 
     const auto entry_opt = CacheTables::data_cache_table.get(path_string);
     std::vector<std::byte>* bytes = nullptr;

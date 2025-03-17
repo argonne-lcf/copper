@@ -7,7 +7,7 @@ echo "Launching Copper Gracefully On All Nodes : Start"
 log_level=6
 log_type="file"
 trees=1
-max_cacheable_byte_size=$((10*1024*1024))
+max_cacheable_byte_size=$((500*1024*1024))
 sleeptime=20
 LOGDIR=~/copper-logs/${PBS_JOBID%%.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov}
 rm -rf ~/copper_logs*
