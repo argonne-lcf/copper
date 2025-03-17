@@ -1,10 +1,10 @@
 #!/bin/bash -x
 
-cd /lustre/orion/gen008/proj-shared/kaushik/gitrepos/copper/examples/example3
-. /lustre/orion/gen008/proj-shared/kaushik/gitrepos/spack/share/spack/setup-env.sh 
-spack env activate kaushik_env_1 
-spack load mochi-thallium
-rm -rf ~/copper-logs/
+# cd /lustre/orion/gen008/proj-shared/kaushik/gitrepos/copper/examples/example3
+# . /lustre/orion/gen008/proj-shared/kaushik/gitrepos/spack/share/spack/setup-env.sh 
+# spack env activate kaushik_env_1 
+# spack load mochi-thallium
+# rm -rf ~/copper-logs/
 
 RANKS_PER_NODE=1
 echo "App running on NUM_OF_NODES=${SLURM_JOB_NUM_NODES}  RANKS_PER_NODE=${RANKS_PER_NODE} "
@@ -14,7 +14,9 @@ COPPER_ROOT=/lustre/orion/gen008/proj-shared/kaushik/gitrepos/copper/build
 log_level=6
 log_type="file"
 trees=1
-max_cacheable_byte_size=$((10*1024*1024))
+# max_cacheable_byte_size=$((10*1024*1024))
+max_cacheable_byte_size=$((500*1024*1024))
+
 sleeptime=60
 LOGDIR=~/copper-logs/${SLURM_JOB_ID}
 rm -rf ~/copper_logs*
@@ -56,21 +58,21 @@ clush --hostfile "${SLURM_NODEFILE}" "fusermount3 -u ${CU_FUSE_MNT_VIEWDIR}"
 clush --hostfile "${SLURM_NODEFILE}" "rm -rf ${CU_FUSE_MNT_VIEWDIR}"
 clush --hostfile "${SLURM_NODEFILE}" "mkdir -p ${CU_FUSE_MNT_VIEWDIR}" # on all compute nodes
 
-read -r -d '' CMD << EOM
-   numactl --physcpubind=${physcpubind}
-   $CUPATH
-     -tpath /
-     -vpath ${CU_FUSE_MNT_VIEWDIR}
-     -log_level ${log_level}
-     -log_type ${log_type}
-     -log_output_dir ${LOGDIR}
-     -net_type cxi 
-     -trees ${trees} 
-     -nf ${SLURM_NODEFILE}
-     -facility_address_book ${facility_address_book}
-     -max_cacheable_byte_size ${max_cacheable_byte_size}
-     -s ${CU_FUSE_MNT_VIEWDIR}
-EOM
+# read -r -d '' CMD << EOM
+#    numactl --physcpubind=${physcpubind}
+#    $CUPATH
+#      -tpath /
+#      -vpath ${CU_FUSE_MNT_VIEWDIR}
+#      -log_level ${log_level}
+#      -log_type ${log_type}
+#      -log_output_dir ${LOGDIR}
+#      -net_type cxi 
+#      -trees ${trees} 
+#      -nf ${SLURM_NODEFILE}
+#      -facility_address_book ${facility_address_book}
+#      -max_cacheable_byte_size ${max_cacheable_byte_size}
+#      -s ${CU_FUSE_MNT_VIEWDIR}
+# EOM
 
 # clush --hostfile "${SLURM_NODEFILE}" $CMD 
 options=" -f -tpath / -vpath "${CU_FUSE_MNT_VIEWDIR}" -log_level $log_level -log_type $log_type -log_output_dir $LOGDIR -net_type cxi -trees $trees -nf $SLURM_NODEFILE -max_cacheable_byte_size $max_cacheable_byte_size  -facility_address_book ${facility_address_book} -s $CU_FUSE_MNT_VIEWDIR"
