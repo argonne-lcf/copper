@@ -57,28 +57,13 @@ mkdir -p "${LOGDIR}" #only on head node
 clush --hostfile "${SLURM_NODEFILE}" "fusermount3 -u ${CU_FUSE_MNT_VIEWDIR}"
 clush --hostfile "${SLURM_NODEFILE}" "rm -rf ${CU_FUSE_MNT_VIEWDIR}"
 clush --hostfile "${SLURM_NODEFILE}" "mkdir -p ${CU_FUSE_MNT_VIEWDIR}" # on all compute nodes
+# clush --hostfile "${SLURM_NODEFILE}" "ls -lah  ${CU_FUSE_MNT_VIEWDIR}/" 
+# sleep "${sleeptime}"s # add 60s if you are running on more than 2k nodes
 
-# read -r -d '' CMD << EOM
-#    numactl --physcpubind=${physcpubind}
-#    $CUPATH
-#      -tpath /
-#      -vpath ${CU_FUSE_MNT_VIEWDIR}
-#      -log_level ${log_level}
-#      -log_type ${log_type}
-#      -log_output_dir ${LOGDIR}
-#      -net_type cxi 
-#      -trees ${trees} 
-#      -nf ${SLURM_NODEFILE}
-#      -facility_address_book ${facility_address_book}
-#      -max_cacheable_byte_size ${max_cacheable_byte_size}
-#      -s ${CU_FUSE_MNT_VIEWDIR}
-# EOM
-
-# clush --hostfile "${SLURM_NODEFILE}" $CMD 
 options=" -f -tpath / -vpath "${CU_FUSE_MNT_VIEWDIR}" -log_level $log_level -log_type $log_type -log_output_dir $LOGDIR -net_type cxi -trees $trees -nf $SLURM_NODEFILE -max_cacheable_byte_size $max_cacheable_byte_size  -facility_address_book ${facility_address_book} -s $CU_FUSE_MNT_VIEWDIR"
 srun -N $SLURM_JOB_NUM_NODES --ntasks-per-node=$RANKS_PER_NODE --cpus-per-task=2 --cpu-bind=threads --network=single_node_vni,job_vni $CUPATH $options &
+sleep "${sleeptime}"s # add 60s if you are running on more than 2k nodes
 
-# sleep "${sleeptime}"s # add 60s if you are running on more than 2k nodes
 
 # --threads-per-core=2 
 # --cpu-bind=threads
