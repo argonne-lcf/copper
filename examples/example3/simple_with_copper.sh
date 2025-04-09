@@ -12,20 +12,25 @@
 # salloc -A GEN008 -J copper_spindle -t 00:30:00 -q debug -N 2 
 # salloc --network=single_node_vni,job_vni,def_tles=0 --threads-per-core=2   --exclusive   -A GEN008 -J copper_spindle -t 00:30:00 -q debug -N 2
 # This example shows loading python modules from a lustre directory with using copper.
- 
+
+cd $SLURM_SUBMIT_DIR
 echo Jobid: $SLURM_JOBID
 echo Running on nodes $SLURM_NODELIST
-RANKS_PER_NODE=1
+
+RANKS_PER_NODE=12
 echo "App running on NUM_OF_NODES=${SLURM_JOB_NUM_NODES}  RANKS_PER_NODE=${RANKS_PER_NODE} "
-module load cray-python
-cd /lustre/orion/gen008/proj-shared/kaushik/gitrepos/copper/examples/example3
+
+
+# The below 2 lines are only for the first time setup to install a package on a custom dir. Do not use in this job script
+# module load python
+# pip install --target=/lus/flare/projects/Aurora_deployment/kaushik/copper/july12/copper/run/copper_conda_env numpy 
+
 sh ./launch_copper.sh
-sleep 100s
+
+
+module load cray-python
 export PYTHONPATH=/tmp/kaushikv/copper/lustre/orion/gen008/proj-shared/kaushik/experiments/torch-without-copper/pip_dirs/lus_pip_torch_env_1:$PYTHONPATH
 
 time srun -N $SLURM_JOB_NUM_NODES --ntasks-per-node=$RANKS_PER_NODE --cpus-per-task=1  --threads-per-core=1 --network=single_node_vni,job_vni    python3 -c "import torch; print(torch.__file__)"
 
 time srun -N $SLURM_JOB_NUM_NODES --ntasks-per-node=$RANKS_PER_NODE --cpus-per-task=1  --threads-per-core=1 --network=single_node_vni,job_vni    python3 -c "import torch; print(torch.__file__)"
-
-
-# --cpu-bind=map_cpu:5,13,21,29,37,45,53,61
