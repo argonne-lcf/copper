@@ -115,8 +115,8 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
                 throw std::runtime_error("no argument after -net_type");
             }
 
-            Constants::network_type = std::string(argv[i + 1]);
-            LOG(DEBUG) << "-net_type was found: " << Constants::network_type << std::endl;
+            Constants::net_type = std::string(argv[i + 1]);
+            LOG(DEBUG) << "-net_type was found: " << Constants::net_type << std::endl;
             i += 2;
         } else if(original_string_args[i] == "-addr_write_sync_time") {
             if(i + 1 >= original_string_args.size()) {

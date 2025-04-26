@@ -14,13 +14,13 @@ class Constants {
     static inline int log_level{0};
     // FIXME: make struct with strings for types
     static inline std::string log_type{"file_and_stdout"};
+    static inline std::string net_type{"cxi"};
     static inline std::optional<std::string> log_output_dir{std::nullopt};
     static inline std::string my_hostname;
     static inline int es{1};
     static inline unsigned long int max_cacheable_byte_size{1048576};
     static inline int address_write_sync_time{5};
     static inline std::optional<std::string> job_nodefile{std::nullopt};
-    static inline std::string network_type{"cxi"};
     static inline int trees{1};
 
     // clang-format off

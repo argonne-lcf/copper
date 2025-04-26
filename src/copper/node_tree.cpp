@@ -318,6 +318,13 @@ void NodeTree::parse_nodelist_from_facility_address_book() {
     while (std::getline(inFile2, line)) 
     {
         std::string key = line;
+        size_t pos = key.find('.');
+        std::string first_part;
+        if (pos != std::string::npos) {
+            key = key.substr(0, pos);         // This hostname name extraction is specific to aurora and PBS
+        } else {
+            key = key;
+        }
         if (addr_book.find(key) != addr_book.end()) {
             LOG(INFO) << key << ":" << addr_book[key] << std::endl;
             ServerLocalCacheProvider::global_peer_pairs.emplace_back(key, addr_book[key]);

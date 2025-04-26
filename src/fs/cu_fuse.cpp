@@ -357,9 +357,9 @@ static void start_thallium_engine() {
         tl::engine* server_engine;
         std::string my_addr{};
         try {
-            server_engine = new tl::engine{Constants::network_type, THALLIUM_SERVER_MODE, true, Constants::es};
+            server_engine = new tl::engine{Constants::net_type, THALLIUM_SERVER_MODE, true, Constants::es};
             my_addr = std::string(server_engine->self());
-	          LOG(INFO) << "engine started" << std::endl;
+	          LOG(INFO) << "engine started at " << my_addr << std::endl;
         } catch(std::exception& e) {
             LOG(FATAL) << e.what() << std::endl;
             return;
@@ -368,14 +368,14 @@ static void start_thallium_engine() {
         server_engine->set_logger(logger);
         server_engine->set_log_level(tl::logger::level::debug);
 
-        LOG(INFO) << "using network type: " << Constants::network_type << std::endl;
+        LOG(INFO) << "using network type: " << Constants::net_type << std::endl;
 
         if(Constants::job_nodefile.has_value()) {
             LOG(INFO) << "using job_nodefile to init addresses" << std::endl;
             LOG(INFO) << "Generating CXI address from job_nodefile: " << Constants::job_nodefile.value() << std::endl;
-            NodeTree::generate_nodelist_from_nodefile(Constants::job_nodefile.value());
-            //NodeTree::parse_nodelist_from_facility_address_book();
-        } else if(Constants::network_type == "cxi") {
+            // NodeTree::generate_nodelist_from_nodefile(Constants::job_nodefile.value());
+            NodeTree::parse_nodelist_from_facility_address_book();
+        } else if(Constants::net_type.find("cxi") != std::string::npos) {
             LOG(INFO) << "parsing cxi network file to init addresses" << std::endl;
             // NodeTree::get_hsn0_cxi_addr();
             NodeTree::parse_nodelist_from_facility_address_book();
@@ -383,7 +383,7 @@ static void start_thallium_engine() {
             LOG(INFO) << "address written to address_book... sleeping for synchronization time: " << Constants::address_write_sync_time << std::endl;
             sleep(Constants::address_write_sync_time);
 
-        } else if(Constants::network_type == "na+sm" || Constants::network_type == "tcp") {
+        } else if(Constants::net_type.find("na+sm") != std::string::npos || Constants::net_type.find("tcp") != std::string::npos ) {
             LOG(INFO) << "using address from server engine to init addresses" << std::endl;
             NodeTree::push_back_address(Constants::my_hostname, my_addr);
             LOG(INFO) << "address written to address_book... sleeping for synchronization time: " << Constants::address_write_sync_time << std::endl;
