@@ -8,7 +8,7 @@ log_level=6
 log_type="file"
 trees=1
 max_cacheable_byte_size=$((10*1024*1024))
-sleeptime=20
+sleeptime=10
 LOGDIR=/home/${USER}/copper-logs/${PBS_JOBID%%.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov}
 # rm -rf /home/${USER}/copper-logs/*
 # COPPER_ROOT=/lus/flare/projects/Aurora_deployment/kaushik/copper/copper-aurora/copper/build
@@ -16,8 +16,8 @@ LOGDIR=/home/${USER}/copper-logs/${PBS_JOBID%%.aurora-pbs-0001.hostmgmt.cm.auror
 CUPATH=$COPPER_ROOT/bin/cu_fuse
 CU_FUSE_MNT_VIEWDIR=/tmp/${USER}/copper
 physcpubind="48-51"
-facility_address_book=../copper/scripts/aurora_copper_addressbook.txt
-net_type="cxi://cxi0:0"
+facility_address_book=$COPPER_ROOT/bin/copper_aurora_addressbook.txt
+net_type="cxi"
 
 while getopts "l:t:T:M:s:b:F:n:" opt; do
   case ${opt} in
