@@ -1,14 +1,23 @@
 #!/bin/bash -x
+# set -e  # Exit on error
+# set -x  # Print each command before execution
 
+NNODES=`wc -l < $PBS_NODEFILE`
+if [ "$NNODES" -lt 64 ]; then
+  sleeptime=5
+elif [ "$NNODES" -ge 65 ] && [ "$NNODES" -le 1024 ]; then
+  sleeptime=10
+else
+  sleeptime=30
+fi
 echo "Launching Copper On All Nodes : Start" 
 
 log_level=6
 log_type="file"
 trees=1
 max_cacheable_byte_size=$((10*1024*1024))
-sleeptime=20
 LOGDIR=/home/${USER}/copper-logs/${PBS_JOBID%%.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov}
-# rm -rf /home/${USER}/copper-logs/*
+rm -rf /home/${USER}/copper-logs/*
 CUPATH=$COPPER_ROOT/bin/cu_fuse
 CU_FUSE_MNT_VIEWDIR=/tmp/${USER}/copper
 physcpubind="48-51"
@@ -66,7 +75,6 @@ read -r -d '' CMD << EOM
      -s ${CU_FUSE_MNT_VIEWDIR}
 EOM
 
-sleep "${sleeptime}"s # add 60s if you are running on more than 2k nodes
 clush --hostfile "${PBS_NODEFILE}" $CMD
-# sleep "${sleeptime}"s 
+sleep "${sleeptime}"s 
 echo "Launching Copper On All Nodes : End" 
