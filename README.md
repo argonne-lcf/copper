@@ -87,7 +87,7 @@ module load cmake # on aurora
 spack env create kaushik_env_1 spack.yaml 
 spack env activate kaushik_env_1 
 
-spack add mochi-margo
+spack add mochi-thallium
 spack install
 
 # incase of any issue with the spack environment, completely delete spack and start again
