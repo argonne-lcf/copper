@@ -3,7 +3,7 @@
 # set -x  # Print each command before execution
 
 NNODES=`wc -l < $PBS_NODEFILE`
-if [ "$NNODES" -lt 64 ]; then
+if [ "$NNODES" -le 64 ]; then
   sleeptime=5
 elif [ "$NNODES" -ge 65 ] && [ "$NNODES" -le 1024 ]; then
   sleeptime=10
