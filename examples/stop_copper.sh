@@ -1,5 +1,4 @@
 #!/bin/bash -x
-SLURM_NODEFILE=/lustre/orion/gen008/proj-shared/kaushik/gitrepos/copper/examples/example3/frontier_nodes.txt
 rm $SLURM_NODEFILE
 scontrol show hostnames > $SLURM_NODEFILE
 echo "Stopping Copper Gracefully On All Nodes : Start" 

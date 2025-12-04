@@ -13,10 +13,10 @@ else()
     message(STATUS "BLOCK_REDUNDANT_RPCS is not enabled")
 endif()
 
-set(FUSE3_INCLUDE_FILE "/lustre/orion/gen008/proj-shared/kaushik/gitrepos/personal-fuse-headers/libfuse/include/fuse.h")
+set(FUSE3_INCLUDE_FILE "${CMAKE_CURRENT_SOURCE_DIR}/frontier-fuse-headers/include/fuse.h")
 if(EXISTS "${FUSE3_INCLUDE_FILE}")
     message(STATUS "File ${FUSE3_INCLUDE_FILE} exists.")
-    set(FUSE3_INCLUDE_DIR "/lustre/orion/gen008/proj-shared/kaushik/gitrepos/personal-fuse-headers/libfuse/include/")
+    set(FUSE3_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/frontier-fuse-headers/include")
 else()
     message(WARNING "Required File ${FUSE3_INCLUDE_FILE} does not exist. Please set -DFUSE3_INCLUDE=<path> when invoking CMake.")
 endif()
@@ -32,7 +32,6 @@ endif()
 
 find_package(PkgConfig REQUIRED)
 find_package(MPI REQUIRED)
-set(CMAKE_CXX_COMPILER mpicxx)
 pkg_check_modules (MARGO REQUIRED IMPORTED_TARGET margo)
 pkg_check_modules (THALLIUM REQUIRED IMPORTED_TARGET thallium)
 
@@ -72,6 +71,21 @@ set(SHUTDOWN_SOURCES src/copper/rpc_shutdown.cpp)
 add_executable(${SHUTDOWN_PROJECT_NAME} ${SHUTDOWN_SOURCES})
 target_link_libraries(${SHUTDOWN_PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM ${FUSE3_LIB_FILE})
 
+
+# After building cu_fuse, copy the scripts into the build directory
+# and make them executable for everyone.
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/launch_copper.sh"
+        "${CMAKE_CURRENT_BINARY_DIR}/launch_copper.sh"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/stop_copper.sh"
+        "${CMAKE_CURRENT_BINARY_DIR}/stop_copper.sh"
+    COMMAND chmod a+rx
+        "${CMAKE_CURRENT_BINARY_DIR}/launch_copper.sh"
+        "${CMAKE_CURRENT_BINARY_DIR}/stop_copper.sh"
+    COMMENT "Copying cu_fuse scripts to build directory and making them executable"
+    VERBATIM
+)
+
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
-install(PROGRAMS scripts/launch_copper.sh DESTINATION bin)
-install(PROGRAMS scripts/stop_copper.sh DESTINATION bin)

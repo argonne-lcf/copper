@@ -1,32 +1,20 @@
 #!/bin/bash -x
 
-# cd /lustre/orion/gen008/proj-shared/kaushik/gitrepos/copper/examples/example3
-# . /lustre/orion/gen008/proj-shared/kaushik/gitrepos/spack/share/spack/setup-env.sh 
-# spack env activate kaushik_env_1 
-# spack load mochi-thallium
-# rm -rf ~/copper-logs/
-
-RANKS_PER_NODE=1
-echo "App running on NUM_OF_NODES=${SLURM_JOB_NUM_NODES}  RANKS_PER_NODE=${RANKS_PER_NODE} "
-
 echo "Launching Copper Gracefully On All Nodes : Start" 
-COPPER_ROOT=/lustre/orion/gen008/proj-shared/kaushik/gitrepos/copper/build
+echo ${COPPER_ROOT}
+CUPATH=${COPPER_ROOT}/build/cu_fuse
+CU_FUSE_MNT_VIEWDIR=/tmp/${USER}/copper
+rm -rf ~/copper_logs*
+LOGDIR=~/copper-logs/${SLURM_JOB_ID}
+facility_address_book=${COPPER_ROOT}/olcf_copper_addressbook.txt
+scontrol show hostnames > $SLURM_NODEFILE
+
 log_level=6
 log_type="file"
 trees=1
-# max_cacheable_byte_size=$((10*1024*1024))
-max_cacheable_byte_size=$((500*1024*1024))
-
-sleeptime=60
-LOGDIR=~/copper-logs/${SLURM_JOB_ID}
-rm -rf ~/copper_logs*
-CUPATH=$COPPER_ROOT/cu_fuse
-CU_FUSE_MNT_VIEWDIR=/tmp/${USER}/copper
+max_cacheable_byte_size=$((10*1024*1024))
+sleeptime=20
 physcpubind="57-60"
-facility_address_book=/lustre/orion/gen008/proj-shared/kaushik/gitrepos/copper/olcf_copper_addressbook.txt
-SLURM_NODEFILE=/lustre/orion/gen008/proj-shared/kaushik/gitrepos/copper/examples/example3/frontier_nodes.txt
-rm $SLURM_NODEFILE
-scontrol show hostnames > $SLURM_NODEFILE
 
 while getopts "l:t:T:M:s:b:F:" opt; do
   case ${opt} in
@@ -64,9 +52,4 @@ options=" -f -tpath / -vpath "${CU_FUSE_MNT_VIEWDIR}" -log_level $log_level -log
 srun -N $SLURM_JOB_NUM_NODES --ntasks-per-node=$RANKS_PER_NODE --cpus-per-task=2 --cpu-bind=threads --network=single_node_vni,job_vni $CUPATH $options &
 sleep "${sleeptime}"s # add 60s if you are running on more than 2k nodes
 
-
-# --threads-per-core=2 
-# --cpu-bind=threads
-# -c, --cpus-per-task=<ncpus>
-# --cpu-bind=map_cpu:0,1,2,3
-#  -u --exclusive
+echo "Launching Copper Gracefully On All Nodes : End" 

@@ -1,8 +1,12 @@
 #!/bin/bash
 
+#spack env activate spack-copper-mod-env
+
 SCRIPT=$(realpath -s "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
 ENV=$SCRIPTPATH/../env.sh
+export CC=${CC:-$(which gcc)}
+export CXX=${CXX:-$(which g++)}
 
 if [ ! -f $ENV ]
 then
@@ -22,13 +26,12 @@ else
 	mkdir build
 fi
 
-cmake -DCMAKE_CXX_FLAGS="-I/lustre/orion/gen008/proj-shared/kaushik/gitrepos/personal-fuse-headers/libfuse/include/ " \
-	  -DCMAKE_BUILD_TYPE=Release                     \
+cmake -DCMAKE_BUILD_TYPE=Release                     \
 	  -DBLOCK_REDUNDANT_RPCS="$BLOCK_REDUNDANT_RPCS" \
       -DCMAKE_VERBOSE_MAKEFILE=ON                    \
       -DCMAKE_EXPORT_COMPILE_COMMANDS=ON             \
-      -DFUSE3_LIB=$FUSE3_LIB                         \
-      -DFUSE3_INCLUDE=$FUSE3_INCLUDE                 \
+      -DFUSE3_LIB=${FUSE3_LIB_FILE}                         \
+      -DFUSE3_INCLUDE=${FUSE3_INCLUDE_DIR}                 \
       -Bbuild || { echo "Failed to create compile commands"; exit 1; }
 
 cp build/compile_commands.json . || { echo "Failed to copy compile commands"; exit 1; }

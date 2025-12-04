@@ -4,7 +4,7 @@
 
 Copper is a read-only cooperative caching layer aimed to enable scalable data loading on massive amounts of compute nodes. This aims to avoid the I/O bottleneck in the storage network and effectively use the compute network for data movement. 
 
-The current intended use of copper is to improve the performance of python imports - dynamic shared library loading on Aurora. However, copper can used to improve the performance of any type of redundant data loading on a supercomputer. 
+The current intended use of copper is to improve the performance of python imports - dynamic shared library loading on Frontier. However, copper can used to improve the performance of any type of redundant data loading on a supercomputer. 
 
 More documentation can be found here: [readthedocs](https://alcf-copper-docs.readthedocs.io/en/latest/)
 
@@ -25,7 +25,7 @@ More documentation can be found here: [readthedocs](https://alcf-copper-docs.rea
 
 
 
-### How to load the copper package on Aurora
+### How to load the copper package on Frontier
 
 ```bash
 module load copper
@@ -82,51 +82,42 @@ clush --hostfile ${PBS_NODEFILE} "pkill  -9 cu_fuse"
 ```
 
 
-### How to set up a personal mochi spack copper environment on Aurora
+### How to set up a personal mochi spack copper environment on Frontier
 
 In order to build we recommend installing mochi dependencies using spack and their environment feature. You can find the instructions to install spack [here](https://spack-tutorial.readthedocs.io/en/latest/tutorial_basics.html). The required mochi services are margo, mercury, thallium, and cereal. The instructions to install the listed mochi services can be found [here](https://mochi.readthedocs.io/en/latest/installing.html).
 
 Assuming you have a mochi environment setup correctly you should now be able to build by running the following commands.
 
 ```bash
+
+module load cmake
+module load gcc
 git clone https://github.com/spack/spack.git
-.  copper/gitrepos/git-spack-repo/spack/share/spack/setup-env.sh 
-
 git clone https://github.com/mochi-hpc-experiments/platform-configurations.git
-cd  copper/gitrepos/git-mochi-repos/platform-configurations/ANL/Aurora 
-[compare with copper/scripts/build_helper/aurora_spack.yaml]
-
 git clone https://github.com/mochi-hpc/mochi-spack-packages.git
-spack repo add copper/gitrepos/git-mochi-repos/mochi-spack-packages
 
-module load cmake # on aurora
-spack env create kaushik_env_1 spack.yaml 
-spack env activate kaushik_env_1 
+source spack/share/spack/setup-env.sh
+which spack
 
+spack repo add /lustre/orion/gen008/proj-shared/kaushik/data_loading_tools/copper/mochi-spack-packages/ 
+cd /lustre/orion/gen008/proj-shared/kaushik/data_loading_tools/copper/platform-configurations/ORNL/Frontier
+spack env create spack-copper-mod-env spack.yaml 
+spack env activate spack-copper-mod-env
 spack add mochi-margo
 spack install
+spack add mochi-thallium
+spack install 
 
-# incase of any issue with the spack environment, completely delete spack and start again
-spack env remove kaushik_env_1 
 
-# from the next time onwards you only need 
-.  copper/gitrepos/git-spack-repo/spack/share/spack/setup-env.sh 
-spack env activate kaushik_env_1 
-```
+cd /lustre/orion/gen008/proj-shared/kaushik/data_loading_tools/copper/ 
+git clone https://github.com/argonne-lcf/copper.git
+cd /lustre/orion/gen008/proj-shared/kaushik/data_loading_tools/copper/copper
+git checkout frontier
 
-### How to build copper
- 
-```bash
-git clone https://github.com/argonne-lcf/copper  
-cd copper/scripts/build_helper/
+cd /lustre/orion/gen008/proj-shared/kaushik/data_loading_tools/copper/copper/scripts
 cp default_env.sh env.sh
+sh build_helper/build.sh
 
-Set the following variables in the copied `env.sh`
-export VIEW_DIR=<PATH_TO_MOUNT_DIRECTORY>
-export FUSE3_LIB=<PATH_TO_FUSE_LIBRARY>
-export FUSE3_INCLUDE=<PATH_TO_FUSE_HEADER>
-export PY_PACKAGES_DIR=<PATH_TO_PY_ENV>
+head copper/modulefiles/copper/0.1.lua 
 
-spack env activate <MOCHI_ENV>
-sh copper/scripts/build_helper/build.sh
 ```

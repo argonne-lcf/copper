@@ -1,11 +1,12 @@
 #!/bin/bash
 
 # set for mnt to work
-export VIEW_DIR=
+export VIEW_DIR=/tmp/${USER}/copper/
 # set to location of fuse library directory required to build
-export FUSE3_LIB=
+export FUSE3_LIB=${FUSE3_LIB_FILE}
 # set to location of fuse header directory required to build
-export FUSE3_INCLUDE=
+export FUSE3_INCLUDE=${FUSE3_INCLUDE_DIR}
+
 
 # log settings
 # 0-6 from most amount of information to least
