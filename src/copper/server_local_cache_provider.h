@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <array>
+#include <atomic>
 #include <bitset>
 #include <chrono>
 #include <climits>
@@ -24,6 +25,7 @@
 #include <thallium/serialization/stl/string.hpp>
 #include <thallium/serialization/stl/vector.hpp>
 #include <thread>
+#include <unordered_map>
 #include <unistd.h>
 #include <vector>
 
@@ -71,13 +73,29 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> {
     static inline tl::remote_procedure rpc_lstat;
     static inline tl::remote_procedure rpc_readfile;
     static inline tl::remote_procedure rpc_readdir;
+    static inline tl::remote_procedure rpc_is_ready;
     static inline std::atomic<tl::engine*> my_engine{nullptr};
+    // Parent/child startup races at scale can lead to HG_NOENTRY if a child
+    // forwards an RPC before the parent provider has completed registration.
+    // This local flag is exposed through a tiny readiness RPC so children can
+    // wait for an actual ready parent instead of relying only on global sleep.
+    static inline std::atomic<bool> provider_ready{false};
+    static inline std::atomic<long long> provider_ready_after_us{-1};
+    static inline std::chrono::steady_clock::time_point provider_start_time;
+    static inline std::atomic<bool> parent_provider_ready_cached{false};
+    static inline std::mutex parent_provider_ready_mtx;
+    static inline std::atomic<long long> first_successful_parent_rpc_after_us{-1};
+    // Short-lived exact-path ENOENT cache used to collapse repeated metadata
+    // probes without treating whole parent directories as missing.
+    static inline std::unordered_map<std::string, std::chrono::steady_clock::time_point> md_enoent_ttl_cache;
+    static inline std::mutex md_enoent_ttl_cache_mtx;
 
     ServerLocalCacheProvider(const tl::engine& serverEngine, const std::vector<std::string>& addresses)
     : tl::provider<ServerLocalCacheProvider>{serverEngine, provider_id} {
         define("rpc_lstat", &ServerLocalCacheProvider::rpcLstat);
         define("rpc_readfile", &ServerLocalCacheProvider::rpcRead);
         define("rpc_readdir", &ServerLocalCacheProvider::rpcReaddir);
+        define("rpc_is_ready", &ServerLocalCacheProvider::rpcIsReady);
 
         get_engine().push_finalize_callback([this]() { delete this; });
     }
@@ -93,6 +111,8 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> {
     using readdir_return_type = std::pair<int, std::vector<std::string>>;
     using readdir_final_return_type = int;
     void rpcReaddir(const tl::request& req, bool dest, const std::string& path_string) const;
+
+    void rpcIsReady(const tl::request& req) const;
 
     ServerLocalCacheProvider(const ServerLocalCacheProvider&) = delete;
     ServerLocalCacheProvider(ServerLocalCacheProvider&&) = delete;

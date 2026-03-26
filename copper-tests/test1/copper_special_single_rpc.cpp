@@ -1,3 +1,7 @@
+// Minimal single-RPC experiment:
+// - starts a Thallium provider
+// - waits briefly for peers to start
+// - issues one `get_file_data` request to the remote address
 
 // ./copper_special_single_rpc  cxi://cxi0:1 ofi+cxi://0x20110400
 //  srun -N 2 --ntasks-per-node=1 --cpus-per-task=2 --threads-per-core=2 --cpu-bind=threads --network=single_node_vni,job_vni build/copper-rpc-tests cxi  "ofi+cxi://0x051da400"
@@ -44,12 +48,7 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider>
             std::chrono::time_point<std::chrono::system_clock> start1, end1;
             start1 = std::chrono::system_clock::now();
             
-            char* buffer = new char[req_bytes];
-            for (int i = 0; i < req_bytes; i++) 
-            {
-                buffer[i] = 'c';
-            }
-            std::string file_content =buffer;
+            std::string file_content(req_bytes, 'c');
 
             end1 = std::chrono::system_clock::now();           
             std::chrono::duration<double> elapsed_seconds1 = end1 - start1;
@@ -78,6 +77,11 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider>
 
 int main(int argc, char** argv) 
 {
+        if (argc < 3) {
+            std::cerr << "Usage: " << argv[0] << " <my_addr> <remote_addr>" << std::endl;
+            return 1;
+        }
+
         std::string my_addr = argv[1];
         std::string remote_addr = argv[2];
     
@@ -86,7 +90,8 @@ int main(int argc, char** argv)
         // serverEngine.enable_remote_shutdown();
         auto get_file_data = serverEngine.define("get_file_data");
         new ServerLocalCacheProvider{serverEngine};
-        sleep(2); //  barrier issue: all process need to wait until the server is created.
+        // Keep the example simple: wait briefly so the peer provider is ready.
+        sleep(2);
         auto remote_server_endpoint = serverEngine.lookup(remote_addr);      
 
 

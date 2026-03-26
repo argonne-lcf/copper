@@ -1,10 +1,5 @@
-// module use /soft/preview-modulefiles/24.086.0
-// module load frameworks/2024.04.15.002
-// . /lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/git-spack/spack/share/spack/setup-env.sh 
-// spack env activate kaushik_env_1 
-// make file=copper 
-// mpirun --env MARGO_ENABLE_MONITORING=1 --env MARGO_MONITORING_FILENAME_PREFIX="${PBS_JOBID}_${NNODES}_${NRANKS}_${RANKS_PER_NODE}_${BUF_SIZE}_" -np ${NRANKS} -ppn ${RANKS_PER_NODE} ./copper ${BUF_SIZE} 
-// mpirun  -np 7 -ppn 1 ./copper 8 
+// Tree-forwarding experiment used to prototype parent-hop RPC behavior before
+// it was integrated into the main Copper runtime.
 
 #include <iostream>
 #include <thallium.hpp>
@@ -123,12 +118,7 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider>
                 std::chrono::time_point<std::chrono::system_clock> start1, end1;
                 start1 = std::chrono::system_clock::now();
                 
-                char* buffer = new char[req_bytes];
-                for (int i = 0; i < req_bytes; i++) 
-                {
-                    buffer[i] = 'c';
-                }
-                std::string file_content =buffer;
+                std::string file_content(req_bytes, 'c');
 
                 end1 = std::chrono::system_clock::now();           
                 std::chrono::duration<double> elapsed_seconds1 = end1 - start1;

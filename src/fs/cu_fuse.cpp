@@ -1,4 +1,9 @@
 #include "cu_fuse.h"
+#include "../metric/profiling.h"
+#include <atomic>
+#include <chrono>
+#include <filesystem>
+#include <thread>
 
 namespace tl = thallium;
 
@@ -27,6 +32,36 @@ namespace tl = thallium;
 #define CU_FUSE_RPC_DATA "cu_fuse_rpc_data"
 #define CU_FUSE_RPC_METADATA "cu_fuse_rpc_metadata"
 
+namespace {
+std::atomic<bool> g_profile_snapshot_thread_stop{false};
+std::thread g_profile_snapshot_thread;
+
+void stop_profile_snapshot_thread() {
+    g_profile_snapshot_thread_stop.store(true);
+    if(g_profile_snapshot_thread.joinable()) {
+        g_profile_snapshot_thread.join();
+    }
+}
+
+void start_profile_snapshot_thread() {
+    if(!Profiling::enabled() || Constants::profile_snapshot_interval_s <= 0) {
+        return;
+    }
+
+    g_profile_snapshot_thread_stop.store(false);
+    g_profile_snapshot_thread = std::thread([] {
+        while(!g_profile_snapshot_thread_stop.load()) {
+            std::this_thread::sleep_for(std::chrono::seconds(Constants::profile_snapshot_interval_s));
+            if(g_profile_snapshot_thread_stop.load()) {
+                break;
+            }
+
+            Util::log_profiling_metrics(Constants::output_filename_path, "runtime-snapshot");
+        }
+    });
+}
+} // namespace
+
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::getattr, path_);
@@ -35,8 +70,8 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
     auto cu_stat_opt{CacheTables::md_cache_table.get(path_string)};
     if(!cu_stat_opt.has_value()) {
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
-        LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " from client running at address " << engine->self() << std::endl;
-        LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " thread id: " << pthread_self() << std::endl;
+        LOG(DEBUG, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " from client running at address " << engine->self() << std::endl;
+        LOG(DEBUG, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " thread id: " << pthread_self() << std::endl;
         TIME_RPC_FUSE_THREAD(ServerLocalCacheProvider::lstat_final_return_type rpc_lstat_response =
                              ServerLocalCacheProvider::rpc_lstat.on(engine->self())(true, path_string));
 
@@ -72,7 +107,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
     if(md_entry.has_value()) {
         struct stat* md_st = (struct stat*)md_entry.value()->get_vec().data();
         if(md_st->st_size >= Constants::max_cacheable_byte_size) {
-            LOG(INFO) << "file larger than max cacheable size... going to lustre" << std::endl;
+            LOG(DEBUG) << "file larger than max cacheable size... going to lustre" << std::endl;
 
             int fd = open(path_string.c_str(), O_RDONLY);
             ssize_t res = pread(fd, buf, size, offset);
@@ -92,8 +127,8 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
 
     if(!entry_opt.has_value()) {
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
-        LOG(INFO, CU_FUSE_RPC_DATA) << __FUNCTION__ << " from client running at address: " << engine->self() << std::endl;
-        LOG(INFO, CU_FUSE_RPC_DATA) << __FUNCTION__ << " cu_fuse_read thread id: " << pthread_self() << std::endl;
+        LOG(DEBUG, CU_FUSE_RPC_DATA) << __FUNCTION__ << " from client running at address: " << engine->self() << std::endl;
+        LOG(DEBUG, CU_FUSE_RPC_DATA) << __FUNCTION__ << " cu_fuse_read thread id: " << pthread_self() << std::endl;
         TIME_RPC_FUSE_THREAD(ServerLocalCacheProvider::read_final_return_type rpc_readfile_response =
                              ServerLocalCacheProvider::rpc_readfile.on(engine->self())(true, path_string));
 
@@ -145,8 +180,8 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
 
     if(!tree_cache_table_entry_opt.has_value()) {
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
-        LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " from client running at address " << engine->self() << std::endl;
-        LOG(INFO, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " thread id: " << pthread_self() << std::endl;
+        LOG(DEBUG, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " from client running at address " << engine->self() << std::endl;
+        LOG(DEBUG, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " thread id: " << pthread_self() << std::endl;
         TIME_RPC_FUSE_THREAD(ServerLocalCacheProvider::readdir_final_return_type rpc_readdir_response =
                              ServerLocalCacheProvider::rpc_readdir.on(engine->self())(true, path_string));
 
@@ -301,9 +336,11 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     case(Constants::ioctl_log_all_metrics):
         LOG(INFO) << "loggin all metrics" << std::endl;
         Util::log_all_metrics(path_string);
+        Util::log_profiling_metrics(path_string, "ioctl-snapshot");
         break;
     case(Constants::ioctl_reset_fs):
         LOG(INFO) << "resetting filesystem" << std::endl;
+        Util::log_profiling_metrics(path_string, "pre-reset");
         Util::reset_fs();
         break;
     case(Constants::ioctl_log_ioctl_event):
@@ -344,6 +381,11 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
 static void start_thallium_engine() {
     try {
         LOG(INFO) << "starting thallium engine" << std::endl;
+        ServerLocalCacheProvider::provider_ready = false;
+        ServerLocalCacheProvider::provider_ready_after_us = -1;
+        ServerLocalCacheProvider::parent_provider_ready_cached = false;
+        ServerLocalCacheProvider::first_successful_parent_rpc_after_us = -1;
+        ServerLocalCacheProvider::provider_start_time = std::chrono::steady_clock::now();
 
         LOG(INFO) << "redirecting stderr to output_file" << std::endl;
         if(freopen(Constants::output_filename_path.c_str(), "a", stderr) == nullptr) {
@@ -357,9 +399,9 @@ static void start_thallium_engine() {
         tl::engine* server_engine;
         std::string my_addr{};
         try {
-            server_engine = new tl::engine{Constants::net_type, THALLIUM_SERVER_MODE, true, Constants::es};
+            server_engine = new tl::engine{Constants::network_type, THALLIUM_SERVER_MODE, true, Constants::es};
             my_addr = std::string(server_engine->self());
-	          LOG(INFO) << "engine started at " << my_addr << std::endl;
+	          LOG(INFO) << "engine started" << std::endl;
         } catch(std::exception& e) {
             LOG(FATAL) << e.what() << std::endl;
             return;
@@ -368,22 +410,21 @@ static void start_thallium_engine() {
         server_engine->set_logger(logger);
         server_engine->set_log_level(tl::logger::level::debug);
 
-        LOG(INFO) << "using network type: " << Constants::net_type << std::endl;
+        LOG(INFO) << "using network type: " << Constants::network_type << std::endl;
 
         if(Constants::job_nodefile.has_value()) {
             LOG(INFO) << "using job_nodefile to init addresses" << std::endl;
             LOG(INFO) << "Generating CXI address from job_nodefile: " << Constants::job_nodefile.value() << std::endl;
             // NodeTree::generate_nodelist_from_nodefile(Constants::job_nodefile.value());
             NodeTree::parse_nodelist_from_facility_address_book();
-        } else if(Constants::net_type.find("cxi") != std::string::npos) {
+        } else if(Constants::network_type == "cxi") {
             LOG(INFO) << "parsing cxi network file to init addresses" << std::endl;
-            // NodeTree::get_hsn0_cxi_addr();
-            NodeTree::parse_nodelist_from_facility_address_book();
+            NodeTree::get_hsn0_cxi_addr();
 
             LOG(INFO) << "address written to address_book... sleeping for synchronization time: " << Constants::address_write_sync_time << std::endl;
             sleep(Constants::address_write_sync_time);
 
-        } else if(Constants::net_type.find("na+sm") != std::string::npos || Constants::net_type.find("tcp") != std::string::npos ) {
+        } else if(Constants::network_type == "na+sm" || Constants::network_type == "tcp") {
             LOG(INFO) << "using address from server engine to init addresses" << std::endl;
             NodeTree::push_back_address(Constants::my_hostname, my_addr);
             LOG(INFO) << "address written to address_book... sleeping for synchronization time: " << Constants::address_write_sync_time << std::endl;
@@ -427,10 +468,19 @@ static void start_thallium_engine() {
         ServerLocalCacheProvider::rpc_lstat = server_engine->define("rpc_lstat");
         ServerLocalCacheProvider::rpc_readfile = server_engine->define("rpc_readfile");
         ServerLocalCacheProvider::rpc_readdir = server_engine->define("rpc_readdir");
+        ServerLocalCacheProvider::rpc_is_ready = server_engine->define("rpc_is_ready");
         new ServerLocalCacheProvider{*server_engine, my_tree_segment};
 
         LOG(INFO) << "setting my_engine" << std::endl;
         ServerLocalCacheProvider::my_engine = server_engine;
+        ServerLocalCacheProvider::provider_ready = true;
+        ServerLocalCacheProvider::provider_ready_after_us =
+            std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::steady_clock::now() - ServerLocalCacheProvider::provider_start_time)
+                .count();
+        LOG(INFO) << "provider registration completed after "
+                  << ServerLocalCacheProvider::provider_ready_after_us.load()
+                  << " us" << std::endl;
 
     } catch(const std::exception& e) {
         LOG(FATAL) << "Exception caught in thread: " << e.what() << std::endl;
@@ -453,6 +503,7 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     cfg->nullpath_ok = false;
 
     start_thallium_engine();
+    start_profile_snapshot_thread();
 
     Metric::stop_operation(OperationFunction::init, start, 0);
     return ServerLocalCacheProvider::my_engine;
@@ -461,10 +512,14 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
 static void cu_fuse_destroy(void* private_data) {
     LOG(DEBUG) << " " << std::endl;
     auto start = Metric::start_operation(OperationFunction::destroy);
+    stop_profile_snapshot_thread();
+
+    Util::log_profiling_metrics(Constants::output_filename_path, "pre-destroy");
 
     auto engine = static_cast<tl::engine*>(private_data);
     engine->finalize();
 
+    Util::log_profiling_metrics(Constants::output_filename_path);
     Util::reset_fs();
 
     Metric::stop_operation(OperationFunction::destroy, start, Constants::fs_operation_success);
@@ -594,34 +649,55 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 };
 
 int CuFuse::cu_hello_main(int argc, char* argv[]) {
-    AixLog::Log::init<AixLog::SinkCout>(AixLog::Severity::trace);
-    LOG(DEBUG) << " " << std::endl;
+    // Start with no sinks so argument parsing and startup do not leak logs
+    // before the user-facing log level has been processed.
+    AixLog::Log::init({});
 
     char char_hostname[1024];
     gethostname(char_hostname, sizeof(char_hostname));
     Constants::my_hostname = std::string(char_hostname);
+    Constants::pid = std::to_string(getpid());
+
+    auto new_args = Util::process_args(argc, argv);
+    std::filesystem::create_directories(Constants::logs_dir());
+    std::filesystem::create_directories(std::filesystem::path(Constants::tables_dir()) / Constants::profiling_final_subdir);
+    std::filesystem::create_directories(Constants::profiling_final_dir());
+    std::filesystem::create_directories(Constants::profiling_cluster_dir());
+    Constants::output_filename_path = Constants::logs_dir() + "/" + Constants::get_output_filename(Constants::output_filename_suffix);
+
+    if(Constants::logging_enabled(Constants::log_level)) {
+        const auto aixlog_severity = static_cast<AixLog::Severity>(
+            Constants::map_user_log_level_to_internal_severity(Constants::log_level));
+
+        if(Constants::log_type == "stdout") {
+            AixLog::Log::init({std::make_shared<AixLog::SinkCout>(aixlog_severity)});
+        } else if(Constants::log_type == "file") {
+            AixLog::Log::init({std::make_shared<AixLog::SinkFile>(aixlog_severity, Constants::output_filename_path)});
+        } else if(Constants::log_type == "file_and_stdout") {
+            AixLog::Log::init({std::make_shared<AixLog::SinkCout>(aixlog_severity),
+            std::make_shared<AixLog::SinkFile>(aixlog_severity, Constants::output_filename_path)});
+        } else {
+            AixLog::Log::init({});
+        }
+    } else {
+        AixLog::Log::init({});
+    }
 
     LOG(INFO) << "hostname found to be: " << char_hostname << std::endl;
 
-    auto new_args = Util::process_args(argc, argv);
-
-    Constants::copper_address_book_path = Constants::log_output_dir.value() + "/" + Constants::copper_address_book_filename;
+    Constants::copper_address_book_path = Constants::logs_dir() + "/" + Constants::copper_address_book_filename;
     LOG(INFO) << "copper address located at path: " << Constants::copper_address_book_path << std::endl;
     LOG(INFO) << "facility address book filename path: " << Constants::facility_address_book_path << std::endl;
-
-
-    Constants::pid = std::to_string(getpid());
-    Constants::output_filename_path = Constants::log_output_dir.value() + "/" + Constants::get_output_filename(Constants::output_filename_suffix);
+    LOG(INFO) << "prefiltered_address_book: " << (Constants::prefiltered_address_book ? "enabled" : "disabled")
+              << std::endl;
+    LOG(INFO) << "user-facing log_level: " << Constants::log_level << std::endl;
+    LOG(INFO) << "internal logger severity: "
+              << Constants::map_user_log_level_to_internal_severity(Constants::log_level) << std::endl;
+    LOG(INFO) << "metadata ENOENT TTL (ms): " << Constants::md_enoent_ttl_ms << std::endl;
+    LOG(INFO) << "profile_metrics: " << (Constants::profile_metrics ? "enabled" : "disabled") << std::endl;
+    LOG(INFO) << "profile_top_n: " << Constants::profile_top_n << std::endl;
+    LOG(INFO) << "profile_paths_full: " << (Constants::profile_paths_full ? "enabled" : "disabled") << std::endl;
     LOG(INFO) << "output filename path: " << Constants::output_filename_path << std::endl;
-
-    if(Constants::log_type == "stdout") {
-        AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level))});
-    } else if(Constants::log_type == "file") {
-        AixLog::Log::init({std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), Constants::output_filename_path)});
-    } else if(Constants::log_type == "file_and_stdout") {
-        AixLog::Log::init({std::make_shared<AixLog::SinkCout>(static_cast<AixLog::Severity>(Constants::log_level)),
-        std::make_shared<AixLog::SinkFile>(static_cast<AixLog::Severity>(Constants::log_level), Constants::output_filename_path)});
-    }
 
     std::vector<char*> ptrs;
     ptrs.reserve(new_args.size());

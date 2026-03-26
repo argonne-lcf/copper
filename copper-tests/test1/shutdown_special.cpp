@@ -1,9 +1,4 @@
-// module use /soft/preview-modulefiles/24.086.0
-// module load frameworks/2024.04.15.002
-// . /lus/gila/projects/CSC250STDM10_CNDA/kaushik/copper/git-spack/spack/share/spack/setup-env.sh 
-// spack env activate kaushik_env_1 
-// make file=shutdown_special
-// ./shutdown  cxi://cxi0:1 ofi+cxi://0x20110400
+// Send one explicit remote shutdown request to a single target endpoint.
 
 #include <thallium.hpp>
 #include <thallium/serialization/stl/string.hpp>
@@ -18,6 +13,11 @@ namespace tl = thallium;
 
 int main(int argc, char** argv) 
 {
+    if (argc < 3) {
+        std::cerr << "Usage: " << argv[0] << " <my_addr> <remote_addr>" << std::endl;
+        return 1;
+    }
+
     std::string my_addr = argv[1];
     std::string remote_addr = argv[2];
 

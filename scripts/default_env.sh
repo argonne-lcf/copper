@@ -1,22 +1,22 @@
 #!/bin/bash
 
 # set for mnt to work
-export VIEW_DIR=
+export VIEW_DIR=/tmp/${USER}/copper/
 # set to location of fuse library directory required to build
-export FUSE3_LIB=
+export FUSE3_LIB=${FUSE3_LIB_FILE}
 # set to location of fuse header directory required to build
-export FUSE3_INCLUDE=
+export FUSE3_INCLUDE=${FUSE3_INCLUDE_DIR}
+
 
 # log settings
-# 0-6 from most amount of information to least
-# LOG_LEVEL=0 is  TRACE data means prints from [0-6]
-# LOG_LEVEL=1 is  DEBUG means prints from [1-6]
-# LOG_LEVEL=2 is  INFO  means prints from [2-6]
-# LOG_LEVEL=3 is  NOTICE means prints from [3-6]
-# LOG_LEVEL=4 is  WARN  means prints from [4-6]
-# LOG_LEVEL=5 is  ERROR means prints from [5-6]
-# LOG_LEVEL=6 is  FATAL ERROR means prints from [6-6]
-export LOG_LEVEL=1
+# 0-5 from least amount of information to most
+# LOG_LEVEL=0 is  no logging
+# LOG_LEVEL=1 is  FATAL only
+# LOG_LEVEL=2 is  ERROR + FATAL
+# LOG_LEVEL=3 is  WARN  + ERROR + FATAL
+# LOG_LEVEL=4 is  INFO/NOTICE + WARN + ERROR + FATAL
+# LOG_LEVEL=5 is  DEBUG-heavy / most logging
+export LOG_LEVEL=0
 # file/stdout/file_and_stdout
 export LOG_TYPE=file_and_stdout
 # only used if LOG_TYPE=file/file_and_stdout

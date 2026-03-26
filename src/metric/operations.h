@@ -3,6 +3,7 @@
 
 #include <cstring>
 #include <iostream>
+#include <mutex>
 #include <ostream>
 
 #include "../fs/util.h"
@@ -14,21 +15,31 @@ class Operations {
     static void inc_operation_timer(OperationFunction func, long time);
     static void inc_operation_cache_hit(OperationFunction func, bool cache_hit);
     static void inc_operation_cache_neg(OperationFunction func);
+    static int get_operation_count(OperationFunction func);
+    static long get_operation_time(OperationFunction func);
+    static int get_operation_cache_hit(OperationFunction func);
+    static int get_operation_cache_miss(OperationFunction func);
+    static int get_operation_cache_neg(OperationFunction func);
 
     static void reset_operation_counter() {
-        memset(operation_counter, 0, sizeof(OperationFunction::size));
+        std::lock_guard<std::mutex> guard(operation_mtx);
+        memset(operation_counter, 0, sizeof(operation_counter));
     }
     static void reset_operation_timer() {
-        memset(operation_timer, 0, sizeof(OperationFunction::size));
+        std::lock_guard<std::mutex> guard(operation_mtx);
+        memset(operation_timer, 0, sizeof(operation_timer));
     }
     static void reset_operation_cache_hit() {
-        memset(operation_cache_hit, 0, sizeof(OperationFunction::size));
+        std::lock_guard<std::mutex> guard(operation_mtx);
+        memset(operation_cache_hit, 0, sizeof(operation_cache_hit));
     }
     static void reset_operation_cache_miss() {
-        memset(operation_cache_miss, 0, sizeof(OperationFunction::size));
+        std::lock_guard<std::mutex> guard(operation_mtx);
+        memset(operation_cache_miss, 0, sizeof(operation_cache_miss));
     }
     static void reset_operation_cache_neg() {
-        memset(operation_cache_neg, 0, sizeof(OperationFunction::size));
+        std::lock_guard<std::mutex> guard(operation_mtx);
+        memset(operation_cache_neg, 0, sizeof(operation_cache_neg));
     }
 
     static std::ostream& log_operation(std::ostream& os);
@@ -43,6 +54,7 @@ class Operations {
     static inline int operation_cache_hit[static_cast<int>(OperationFunction::size)]{};
     static inline int operation_cache_miss[static_cast<int>(OperationFunction::size)]{};
     static inline int operation_cache_neg[static_cast<int>(OperationFunction::size)]{};
+    static inline std::mutex operation_mtx;
 };
 
 

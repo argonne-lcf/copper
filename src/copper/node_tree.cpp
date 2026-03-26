@@ -289,6 +289,35 @@ void NodeTree::parse_nodelist_from_facility_address_book() {
 
     LOG(INFO) << Constants::copper_address_book_path.c_str() << std::endl;
     LOG(INFO) << Constants::facility_address_book_path << std::endl;
+    if(Constants::prefiltered_address_book) {
+        std::ifstream inFile(Constants::facility_address_book_path, std::ios::in);
+        if(!inFile.is_open()) {
+            LOG(FATAL) << "error opening prefiltered facility_address_book_path" << std::endl;
+            throw std::runtime_error("error opening prefiltered address book");
+        }
+
+        std::string line;
+        while(std::getline(inFile, line)) {
+            if(line.empty()) {
+                continue;
+            }
+
+            const size_t pos = line.find(' ');
+            if(pos == std::string::npos) {
+                continue;
+            }
+
+            const std::string hostname = line.substr(0, pos);
+            const std::string cxi_addr = line.substr(pos + 1);
+            ServerLocalCacheProvider::global_peer_pairs.emplace_back(hostname, cxi_addr);
+            ServerLocalCacheProvider::node_address_data.emplace_back(cxi_addr);
+        }
+
+        inFile.close();
+        LOG(INFO) << "loaded prefiltered address book entries: "
+                  << ServerLocalCacheProvider::node_address_data.size() << std::endl;
+        return;
+    }
     LOG(INFO) << Constants::job_nodefile.value() << std::endl;
 
     std::ifstream inFile1(Constants::facility_address_book_path, std::ios::in);
@@ -318,18 +347,10 @@ void NodeTree::parse_nodelist_from_facility_address_book() {
     while (std::getline(inFile2, line)) 
     {
         std::string key = line;
-        size_t pos = key.find('.');
-        std::string first_part;
-        if (pos != std::string::npos) {
-            key = key.substr(0, pos);         // This hostname name extraction is specific to aurora and PBS
-        } else {
-            key = key;
-        }
         if (addr_book.find(key) != addr_book.end()) {
-            LOG(INFO) << key << ":" << addr_book[key] << std::endl;
             ServerLocalCacheProvider::global_peer_pairs.emplace_back(key, addr_book[key]);
             ServerLocalCacheProvider::node_address_data.emplace_back(addr_book[key]);
-            outFile <<key << ": " << addr_book[key] << std::endl;
+            outFile << key << " " << addr_book[key] << std::endl;
         } 
     }
 
@@ -413,7 +434,7 @@ std::vector<std::string> NodeTree::get_my_tree_segment(std::vector<std::string>&
         }
     }
 
-    LOG(FATAL) << "unable to find addr in tree segments" << std::endl;
+    LOG(FATAL) << "unable to find addr in tree segments - Possible address book changed" << std::endl;
     assert(0);
     return {};
 }

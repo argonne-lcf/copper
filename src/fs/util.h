@@ -32,6 +32,7 @@ class Util {
     static std::optional<std::ofstream> try_get_fstream_from_path(const char* path);
 
     static void log_all_metrics(const std::string& path_string);
+    static void log_profiling_metrics(const std::string& path_string, const std::string& snapshot_tag = "");
 
     // NOTE: clears all caches and metics
     static void reset_fs();

@@ -1,0 +1,25 @@
+Version9-local OLCF notes
+=========================
+
+Load the site compiler/MPI/Mochi environment first, then use the local build
+helpers inside this tree instead of older personal paths.
+
+Recommended local commands:
+
+1. Build the main Copper tree:
+   - `cd /lustre/orion/proj-shared/ums046/copper-changes/version9-production/copper/scripts/build_helper`
+   - `sh ./build.sh`
+
+2. Build only the standalone test binaries:
+   - `cd /lustre/orion/proj-shared/ums046/copper-changes/version9-production/copper/copper-tests`
+   - `./build.sh`
+
+3. Build only the address-book discovery helper:
+   - `cd /lustre/orion/proj-shared/ums046/copper-changes/version9-production/copper/copper-tests/copper-get-addressbook`
+   - `./compile_thallium_addressbook.sh`
+
+4. Check the helper output on an allocation:
+   - Slurm example:
+     `srun -N "${SLURM_NNODES}" --ntasks-per-node=1 ../build/list_cxi_hsn_thallium`
+   - PBS example:
+     `qsub run_thallium_addressbook.pbs`

@@ -1,7 +1,10 @@
 #include "util.h"
 
+#include <filesystem>
+
 #include "../metric/ioctl_event.h"
 #include "../metric/metrics.h"
+#include "../metric/profiling.h"
 
 std::string Util::rel_to_abs_path(const char* path) {
     if(!path) {
@@ -69,8 +72,10 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
                 throw std::runtime_error("no argument after -log_level");
             }
 
-            // NOTE: aixlog starts at 0 so - 1
             Constants::log_level = std::stoi(std::string(argv[i + 1]));
+            if(!Constants::is_valid_user_log_level(Constants::log_level)) {
+                throw std::runtime_error("-log_level must be in range 0-5");
+            }
             LOG(DEBUG) << "-log_level was found: " << Constants::log_level << std::endl;
             i += 2;
         } else if(original_string_args[i] == "-es") {
@@ -91,7 +96,7 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
 	        Constants::job_nodefile = std::string(argv[i+1]);
             LOG(DEBUG) << "-nf was found: " << Constants::job_nodefile.value() << std::endl;
             i += 2;
-	    } else if(original_string_args[i] == "-facility_address_book") {
+        } else if(original_string_args[i] == "-facility_address_book") {
             if(i + 1 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
                 throw std::runtime_error("no argument after -facility_address_book");
@@ -99,6 +104,16 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
 
             Constants::facility_address_book_path = std::string(argv[i+1]);
             LOG(DEBUG) << "-facility_address_book was found: " << Constants::facility_address_book_path << std::endl;
+            i += 2;
+        } else if(original_string_args[i] == "-prefiltered_address_book") {
+            if(i + 1 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -prefiltered_address_book");
+            }
+
+            Constants::prefiltered_address_book = std::stoi(std::string(argv[i + 1])) != 0;
+            LOG(DEBUG) << "-prefiltered_address_book was found: "
+                       << Constants::prefiltered_address_book << std::endl;
             i += 2;
         } else if(original_string_args[i] == "-max_cacheable_byte_size") {
             if(i + 1 >= original_string_args.size()) {
@@ -109,14 +124,52 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
             Constants::max_cacheable_byte_size = std::stoul(std::string(argv[i + 1]));
             LOG(DEBUG) << "-max_cacheable_byte_size was found: " << Constants::max_cacheable_byte_size << std::endl;
             i += 2;
+        } else if(original_string_args[i] == "-md_enoent_ttl_ms") {
+            if(i + 1 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -md_enoent_ttl_ms");
+            }
+
+            Constants::md_enoent_ttl_ms = std::stoi(std::string(argv[i + 1]));
+            LOG(DEBUG) << "-md_enoent_ttl_ms was found: " << Constants::md_enoent_ttl_ms << std::endl;
+            i += 2;
+        } else if(original_string_args[i] == "-profile_metrics") {
+            Constants::profile_metrics = true;
+            LOG(DEBUG) << "-profile_metrics was found" << std::endl;
+            i += 1;
+        } else if(original_string_args[i] == "-profile_top_n") {
+            if(i + 1 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -profile_top_n");
+            }
+
+            Constants::profile_metrics = true;
+            Constants::profile_top_n = std::stoi(std::string(argv[i + 1]));
+            LOG(DEBUG) << "-profile_top_n was found: " << Constants::profile_top_n << std::endl;
+            i += 2;
+        } else if(original_string_args[i] == "-profile_paths_full") {
+            Constants::profile_metrics = true;
+            Constants::profile_paths_full = true;
+            LOG(DEBUG) << "-profile_paths_full was found" << std::endl;
+            i += 1;
+        } else if(original_string_args[i] == "-profile_snapshot_interval_s") {
+            if(i + 1 >= original_string_args.size()) {
+                LOG(FATAL) << Constants::usage << std::endl;
+                throw std::runtime_error("no argument after -profile_snapshot_interval_s");
+            }
+
+            Constants::profile_metrics = true;
+            Constants::profile_snapshot_interval_s = std::stoi(std::string(argv[i + 1]));
+            LOG(DEBUG) << "-profile_snapshot_interval_s was found: " << Constants::profile_snapshot_interval_s << std::endl;
+            i += 2;
         } else if(original_string_args[i] == "-net_type") {
             if(i + 1 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
                 throw std::runtime_error("no argument after -net_type");
             }
 
-            Constants::net_type = std::string(argv[i + 1]);
-            LOG(DEBUG) << "-net_type was found: " << Constants::net_type << std::endl;
+            Constants::network_type = std::string(argv[i + 1]);
+            LOG(DEBUG) << "-net_type was found: " << Constants::network_type << std::endl;
             i += 2;
         } else if(original_string_args[i] == "-addr_write_sync_time") {
             if(i + 1 >= original_string_args.size()) {
@@ -206,8 +259,8 @@ std::optional<std::ofstream> Util::try_get_fstream_from_path(const char* path) {
     return file;
 }
 
-#define GET_FS_STREAM(path_string, filename)                                     \
-    output = std::filesystem::path(path_string).parent_path() += "/" + filename; \
+#define GET_FS_STREAM(path_string, filename)                                         \
+    output = (std::filesystem::path(Constants::tables_dir()) / Constants::profiling_final_subdir / filename).string(); \
     fs_stream_opt = Util::try_get_fstream_from_path(output.c_str());             \
     if(!fs_stream_opt.has_value()) {                                             \
         LOG(ERROR) << "failed to open fstream" << std::endl;                     \
@@ -217,6 +270,7 @@ std::optional<std::ofstream> Util::try_get_fstream_from_path(const char* path) {
 void Util::log_all_metrics(const std::string& path_string) {
     std::string output;
     std::optional<std::ofstream> fs_stream_opt = std::nullopt;
+    std::filesystem::create_directories(std::filesystem::path(Constants::tables_dir()) / Constants::profiling_final_subdir);
 
     GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_cache_tables_output_filename));
     fs_stream_opt.value() << CacheTables::tree_cache_table << std::endl;
@@ -246,6 +300,15 @@ void Util::log_all_metrics(const std::string& path_string) {
     fs_stream_opt.value() << TreeCacheTable::get_data_size_metrics << std::endl;
     GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_md_cache_size_output_filename));
     fs_stream_opt.value() << MDCacheTable::get_data_size_metrics << std::endl;
+
+    if(Profiling::enabled()) {
+        GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_md_ttl_event_output_filename));
+        fs_stream_opt.value() << Profiling::log_md_ttl_event << std::endl;
+    }
+}
+
+void Util::log_profiling_metrics(const std::string& path_string, const std::string& snapshot_tag) {
+    Profiling::write_reports(path_string, snapshot_tag);
 }
 
 void Util::reset_fs() {
@@ -264,6 +327,7 @@ void Util::reset_fs() {
     Operations::reset_operation_timer();
 
     IoctlEvent::reset_ioctl_event();
+    Profiling::reset();
 }
 
 bool Util::is_recursive_path_string(const std::string& path_string) {

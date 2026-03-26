@@ -1,0 +1,31 @@
+#!/bin/bash -x
+#PBS -l select=32:ncpus=208
+#PBS -l walltime=00:10:00
+#PBS -A datascience
+#PBS -l filesystems=home:flare
+#PBS -q prod
+#PBS -k doe
+
+set -euo pipefail
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+TESTS_DIR=$(cd "${SCRIPT_DIR}/.." && pwd)
+BUILD_DIR="${BUILD_DIR:-${TESTS_DIR}/build}"
+OUTDIR="${OUTDIR:-${SCRIPT_DIR}}"
+cd "${SCRIPT_DIR}"
+
+echo "Jobid: ${PBS_JOBID}"
+echo "Running on nodes:"
+cat "${PBS_NODEFILE}"
+
+NNODES=$(wc -l < "${PBS_NODEFILE}")
+RANKS_PER_NODE=1
+NRANKS=$((NNODES * RANKS_PER_NODE))
+
+if [ ! -x "${BUILD_DIR}/list_cxi_hsn_thallium" ]; then
+    "${SCRIPT_DIR}/compile_thallium_addressbook.sh"
+fi
+
+OUTFILE="${OUTDIR}/thallium-addressbook-${PBS_JOBID}.out"
+mpirun --hostfile "${PBS_NODEFILE}" --np "${NRANKS}" --ppn "${RANKS_PER_NODE}" "${BUILD_DIR}/list_cxi_hsn_thallium" > "${OUTFILE}"
+cat "${OUTFILE}"
