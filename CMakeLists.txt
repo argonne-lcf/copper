@@ -13,20 +13,38 @@ else()
     message(STATUS "BLOCK_REDUNDANT_RPCS is not enabled")
 endif()
 
-set(FUSE3_INCLUDE_FILE "${CMAKE_CURRENT_SOURCE_DIR}/frontier-fuse-headers/include/fuse.h")
-if(EXISTS "${FUSE3_INCLUDE_FILE}")
-    message(STATUS "File ${FUSE3_INCLUDE_FILE} exists.")
-    set(FUSE3_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/frontier-fuse-headers/include")
+set(FUSE3_SYSTEM_INCLUDE_FILE "/usr/include/fuse3/fuse.h")
+set(FUSE3_REPO_INCLUDE_FILE "${CMAKE_CURRENT_SOURCE_DIR}/scripts/frontier-fuse-headers/include/fuse.h")
+set(FUSE3_INCLUDE "" CACHE PATH "Directory containing fuse.h")
+
+if(EXISTS "${FUSE3_SYSTEM_INCLUDE_FILE}")
+    message(STATUS "Using system FUSE3 headers: ${FUSE3_SYSTEM_INCLUDE_FILE}")
+    set(FUSE3_INCLUDE_DIR "/usr/include/fuse3")
+elseif(FUSE3_INCLUDE AND EXISTS "${FUSE3_INCLUDE}/fuse.h")
+    message(STATUS "Using user-provided FUSE3 headers: ${FUSE3_INCLUDE}/fuse.h")
+    set(FUSE3_INCLUDE_DIR "${FUSE3_INCLUDE}")
+elseif(EXISTS "${FUSE3_REPO_INCLUDE_FILE}")
+    message(STATUS "Using repo FUSE3 headers: ${FUSE3_REPO_INCLUDE_FILE}")
+    set(FUSE3_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/scripts/frontier-fuse-headers/include")
 else()
-    message(WARNING "Required File ${FUSE3_INCLUDE_FILE} does not exist. Please set -DFUSE3_INCLUDE=<path> when invoking CMake.")
+    message(FATAL_ERROR
+        "No FUSE3 headers found. Checked ${FUSE3_SYSTEM_INCLUDE_FILE}, "
+        "${FUSE3_REPO_INCLUDE_FILE}, and -DFUSE3_INCLUDE=<path>.")
 endif()
 
-set(FUSE3_LIB_FILE "/usr/lib64/libfuse3.so.3")
-if(EXISTS "${FUSE3_LIB_FILE}")
-    message(STATUS "File ${FUSE3_LIB_FILE} exists.")
-    set(FUSE3_LIB_DIR "/usr/lib64")
+set(FUSE3_SYSTEM_LIB_FILE "/usr/lib64/libfuse3.so.3")
+set(FUSE3_LIB "" CACHE FILEPATH "Path to libfuse3 shared library")
+
+if(EXISTS "${FUSE3_SYSTEM_LIB_FILE}")
+    message(STATUS "Using system FUSE3 library: ${FUSE3_SYSTEM_LIB_FILE}")
+    set(FUSE3_LIB_FILE "${FUSE3_SYSTEM_LIB_FILE}")
+elseif(FUSE3_LIB AND EXISTS "${FUSE3_LIB}")
+    message(STATUS "Using user-provided FUSE3 library: ${FUSE3_LIB}")
+    set(FUSE3_LIB_FILE "${FUSE3_LIB}")
 else()
-    message(WARNING "Required File ${FUSE3_LIB_FILE} does not exist. Please set -DFUSE3_LIB=<path> when invoking CMake.")
+    message(FATAL_ERROR
+        "No FUSE3 library found. Checked ${FUSE3_SYSTEM_LIB_FILE} and "
+        "-DFUSE3_LIB=<path>.")
 endif()
 
 
@@ -64,7 +82,12 @@ set(SOURCES
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_include_directories(${PROJECT_NAME} PRIVATE "${FUSE3_INCLUDE_DIR}" "${MPI_INCLUDE_PATH}" "${MARGO_INCLUDE_DIRS}" "${THALLIUM_INCLUDE_DIRS}")
+target_include_directories(${PROJECT_NAME} PRIVATE
+    "${FUSE3_INCLUDE_DIR}"
+    "${MPI_INCLUDE_PATH}"
+    "${MARGO_INCLUDE_DIRS}"
+    "${THALLIUM_INCLUDE_DIRS}"
+)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${MPI_CXX_LIBRARIES} PkgConfig::MARGO PkgConfig::THALLIUM MPI::MPI_CXX ${FUSE3_LIB_FILE})
 
 set(SHUTDOWN_PROJECT_NAME cu_fuse_shutdown)
@@ -99,11 +122,17 @@ endif()
 # and make them executable for everyone.
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/launch_copper.sh"
-        "${CMAKE_CURRENT_BINARY_DIR}/launch_copper.sh"
+        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/launch_copper_aurora.sh"
+        "${CMAKE_CURRENT_BINARY_DIR}/launch_copper_aurora.sh"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/stop_copper.sh"
-        "${CMAKE_CURRENT_BINARY_DIR}/stop_copper.sh"
+        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/launch_copper_frontier.sh"
+        "${CMAKE_CURRENT_BINARY_DIR}/launch_copper_frontier.sh"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/stop_copper_aurora.sh"
+        "${CMAKE_CURRENT_BINARY_DIR}/stop_copper_aurora.sh"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/stop_copper_frontier.sh"
+        "${CMAKE_CURRENT_BINARY_DIR}/stop_copper_frontier.sh"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${CMAKE_CURRENT_SOURCE_DIR}/scripts/aggregate_profiling.py"
         "${CMAKE_CURRENT_BINARY_DIR}/aggregate_profiling.py"
@@ -114,8 +143,10 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         "${CMAKE_CURRENT_SOURCE_DIR}/scripts/alcf_aurora_copper_addressbook.txt"
         "${CMAKE_CURRENT_BINARY_DIR}/alcf_aurora_copper_addressbook.txt"
     COMMAND chmod a+rx
-        "${CMAKE_CURRENT_BINARY_DIR}/launch_copper.sh"
-        "${CMAKE_CURRENT_BINARY_DIR}/stop_copper.sh"
+        "${CMAKE_CURRENT_BINARY_DIR}/launch_copper_aurora.sh"
+        "${CMAKE_CURRENT_BINARY_DIR}/launch_copper_frontier.sh"
+        "${CMAKE_CURRENT_BINARY_DIR}/stop_copper_aurora.sh"
+        "${CMAKE_CURRENT_BINARY_DIR}/stop_copper_frontier.sh"
         "${CMAKE_CURRENT_BINARY_DIR}/aggregate_profiling.py"
     COMMENT "Copying cu_fuse runtime scripts and address-book files to the build directory"
     VERBATIM

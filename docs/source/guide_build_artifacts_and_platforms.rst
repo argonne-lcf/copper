@@ -1,5 +1,5 @@
-Building and Platforms
-======================
+Build Artifacts and Platforms
+=============================
 
 Build Model
 -----------
@@ -18,8 +18,10 @@ After build, the primary expected artifacts are:
 - ``build/cu_fuse``
 - ``build/cu_fuse_shutdown``
 - ``build/list_cxi_hsn_thallium``
-- ``build/launch_copper.sh``
-- ``build/stop_copper.sh``
+- ``build/launch_copper_aurora.sh``
+- ``build/launch_copper_frontier.sh``
+- ``build/stop_copper_aurora.sh``
+- ``build/stop_copper_frontier.sh``
 - ``build/olcf_frontier_copper_addressbook.txt``
 - ``build/alcf_aurora_copper_addressbook.txt``
 
@@ -61,8 +63,8 @@ Local Reference Files
 ---------------------
 
 - ``README.md``
-- ``docs/source/aurora_and_frontier.rst``
-- ``docs/source/building_and_running.rst``
+- ``docs/source/guide_aurora_and_frontier.rst``
+- ``docs/source/guide_build_and_run.rst``
 - ``scripts/olcf_frontier_copper_addressbook.txt``
 - ``scripts/alcf_aurora_copper_addressbook.txt``
 - ``copper-tests/copper-get-addressbook/list_cxi_hsn_thallium.cpp``

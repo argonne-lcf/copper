@@ -107,6 +107,12 @@ def build_counts_rows(output_names, output_sets):
     return rows
 
 
+def format_percent(numerator, denominator):
+    if denominator == 0:
+        return "0.00%"
+    return f"{(100.0 * numerator / denominator):.2f}%"
+
+
 def render_summary_md(log_dir, tables_dir, roots, output_names, output_sets, output_dir):
     rows = build_counts_rows(output_names, output_sets)
     summary_path = os.path.join(output_dir, "paths_summary.md")
@@ -161,6 +167,8 @@ def render_summary_md(log_dir, tables_dir, roots, output_names, output_sets, out
         missing_probe = output_sets["missing_probe_paths.txt"]
         candidate_not_observed = output_sets["same_run_candidate_not_observed_existing_paths.txt"]
         observed_total = len(used_existing) + len(missing_probe)
+        all_existing_counts = classify_entries(all_existing)
+        used_existing_counts = classify_entries(used_existing)
 
         f.write("## Interpretation Notes\n\n")
         f.write(
@@ -178,6 +186,15 @@ def render_summary_md(log_dir, tables_dir, roots, output_names, output_sets, out
         f.write(
             f"- All existing paths under the selected roots: `{len(all_existing)}`\n\n"
         )
+        f.write("## Coverage Estimates\n\n")
+        f.write(
+            f"- Observed files: `{used_existing_counts['files']}` of `{all_existing_counts['files']}` "
+            f"(`{format_percent(used_existing_counts['files'], all_existing_counts['files'])}`)\n"
+        )
+        f.write(
+            f"- Observed directories: `{used_existing_counts['dirs']}` of `{all_existing_counts['dirs']}` "
+            f"(`{format_percent(used_existing_counts['dirs'], all_existing_counts['dirs'])}`)\n\n"
+        )
         f.write(
             "This is not a proof of safe deletion. It is only a same-app, same-node-count, same-config candidate list. A later run can still need a path that did not appear here.\n"
         )
@@ -191,6 +208,8 @@ def render_roots_note(log_dir, roots, output_sets, output_dir):
     missing_probe = output_sets["missing_probe_paths.txt"]
     candidate_not_observed = output_sets["same_run_candidate_not_observed_existing_paths.txt"]
     all_existing = output_sets["all_possible_existing_paths.txt"]
+    all_existing_counts = classify_entries(all_existing)
+    used_existing_counts = classify_entries(used_existing)
 
     with open(note_path, "w") as f:
         f.write(f"Path list generation for {os.path.basename(log_dir)}\n\n")
@@ -212,6 +231,15 @@ def render_roots_note(log_dir, roots, output_sets, output_dir):
         f.write(f"Observed missing probe paths under selected roots: {len(missing_probe)}\n")
         f.write(f"Observed paths under selected roots: {len(used_existing) + len(missing_probe)}\n")
         f.write(f"Candidate existing paths not observed in final outputs: {len(candidate_not_observed)}\n\n")
+        f.write("Coverage estimates:\n")
+        f.write(
+            f"- Observed files: {used_existing_counts['files']} of {all_existing_counts['files']} "
+            f"({format_percent(used_existing_counts['files'], all_existing_counts['files'])})\n"
+        )
+        f.write(
+            f"- Observed directories: {used_existing_counts['dirs']} of {all_existing_counts['dirs']} "
+            f"({format_percent(used_existing_counts['dirs'], all_existing_counts['dirs'])})\n\n"
+        )
         f.write("File meanings:\n")
         f.write("- all_possible_existing_paths.txt: all existing files/directories under the selected roots.\n")
         f.write("- used_paths_existing.txt: all observed existing files/directories under the selected roots.\n")

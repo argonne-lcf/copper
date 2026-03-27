@@ -69,6 +69,10 @@ The production-visible startup timing signals are:
 These lines are intentionally compact so that large-scale runs keep useful
 startup observability without restoring heavy phase-by-phase debug logging.
 
+To retain these two lines in current builds, use at least ``-l 4``. They are
+emitted through ``LOG(INFO)``, so ``-l 0`` through ``-l 3`` will not show
+them.
+
 Observed Scaling Behavior
 -------------------------
 
@@ -232,7 +236,15 @@ different child can still see ``HG_NOENTRY`` while probing that parent. Local
 provider readiness and remote reachability are related, but they are not the
 same event.
 
-Engineering Interpretation
+For practical startup measurement at scale:
+
+- ``provider registration completed after <us>`` is the local registration
+  completion time
+- ``first successful parent rpc_... completed after <us> since provider startup``
+  is the compact service-readiness time for the parent-connected distributed
+  path
+
+Operational Interpretation
 --------------------------
 
 The maintained conclusion from the registration-readiness work is:

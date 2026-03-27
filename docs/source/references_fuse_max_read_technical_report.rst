@@ -1,4 +1,4 @@
-FUSE Max-Read Technical Report
+FUSE Max Read Technical Report
 ==============================
 
 Problem Statement

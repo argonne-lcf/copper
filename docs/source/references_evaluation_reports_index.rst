@@ -22,8 +22,8 @@ is valuable when shutdown becomes noisy.
 
 The maintained summaries now live in:
 
-- :doc:`profiling_and_metrics`
-- :doc:`environment_path_analysis`
+- :doc:`operations_profiling_overview`
+- :doc:`operations_environment_path_analysis`
 
 Registration and Scaling Evaluations
 ------------------------------------
@@ -40,7 +40,7 @@ The maintained conclusions are:
 
 Those findings are now integrated into:
 
-- :doc:`registration_and_scaling`
+- :doc:`operations_registration_and_scaling`
 
 Metadata ``ENOENT`` TTL Evaluation
 ----------------------------------
@@ -59,7 +59,7 @@ than as the final production baseline.
 
 Those findings are now integrated into:
 
-- :doc:`metadata_enoent_ttl_evaluation`
+- :doc:`operations_metadata_enoent_ttl_evaluation`
 
 How to Use the Maintained Pages
 -------------------------------
@@ -68,3 +68,10 @@ Use the maintained pages under ``docs/source`` for current operational
 guidance. The archived experiment directories under ``exp_results`` remain
 useful as source material, but the production documentation should be the first
 reading path for most users.
+
+Sample Markdown Outputs
+-----------------------
+
+For full-file rendered examples of the generated Markdown artifacts, see:
+
+- :doc:`references_sample_outputs`

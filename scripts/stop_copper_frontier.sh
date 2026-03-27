@@ -6,12 +6,12 @@ while getopts "d:v:" opt; do
   case ${opt} in
     d ) log_dir=$OPTARG ;;
     v ) CU_FUSE_MNT_VIEWDIR=$OPTARG ;;
-    \? ) echo "Usage: cmd [-d log_dir] [-v CU_FUSE_MNT_VIEWDIR] ; log_dir - pass the path to the node_file.txt under the copper logs dir used in launch copper" ; exit 1 ;;
+    \? ) echo "Usage: cmd [-d log_dir] [-v CU_FUSE_MNT_VIEWDIR]" ; exit 1 ;;
   esac
 done
 
 log_dir=${log_dir%/}/${SLURM_JOB_ID}
-SLURM_NODEFILE=${log_dir}/logs/node_file.txt
+node_file_copy=${log_dir}/logs/node_file.txt
 cleanup_helper=${log_dir}/logs/stop_copper_remote.sh
 mkdir -p "$(dirname "${cleanup_helper}")"
 
@@ -21,28 +21,37 @@ set +e
 ulimit -c 0
 
 mnt="$1"
+cmd_timeout_s=10
+
+run_with_timeout() {
+  if command -v timeout >/dev/null 2>&1; then
+    timeout "${cmd_timeout_s}s" "$@"
+  else
+    "$@"
+  fi
+}
 
 mount_is_active() {
   if command -v findmnt >/dev/null 2>&1; then
-    findmnt -T "${mnt}" >/dev/null 2>&1
+    run_with_timeout findmnt -T "${mnt}" >/dev/null 2>&1
   elif command -v mountpoint >/dev/null 2>&1; then
-    mountpoint -q "${mnt}" >/dev/null 2>&1
+    run_with_timeout mountpoint -q "${mnt}" >/dev/null 2>&1
   else
-    grep -qs " ${mnt} " /proc/mounts
+    run_with_timeout grep -qs " ${mnt} " /proc/mounts
   fi
 }
 
 graceful_unmount() {
   local tries=0
   while mount_is_active && [ "${tries}" -lt 5 ]; do
-    fusermount3 -u "${mnt}" >/dev/null 2>&1 || true
+    run_with_timeout fusermount3 -u "${mnt}" >/dev/null 2>&1 || true
     mount_is_active || break
     sleep 2
     tries=$((tries + 1))
   done
 
   if mount_is_active; then
-    fusermount3 -uz "${mnt}" >/dev/null 2>&1 || true
+    run_with_timeout fusermount3 -uz "${mnt}" >/dev/null 2>&1 || true
   fi
 }
 
@@ -63,14 +72,14 @@ fi
 graceful_unmount
 
 if [ -d "${mnt}" ] && ! mount_is_active; then
-  rmdir "${mnt}" >/dev/null 2>&1 || true
+  run_with_timeout rmdir "${mnt}" >/dev/null 2>&1 || true
 fi
 
 exit 0
 EOF
 
 chmod 700 "${cleanup_helper}"
-node_count=$(wc -l < "${SLURM_NODEFILE}")
+node_count=$(wc -l < "${node_file_copy}")
 
 echo "Stopping Copper Gracefully On All Nodes : Start"
 srun --overlap --kill-on-bad-exit=0 -N "${node_count}" -n "${node_count}" --ntasks-per-node=1 --cpu-bind=none \

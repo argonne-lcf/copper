@@ -4,6 +4,7 @@
 #PBS -A datascience
 #PBS -q prod
 #PBS -k doe
+#PBS -l filesystems=flare
 
 # Example Aurora PBS workflow with Copper enabled.
 
@@ -23,7 +24,7 @@ APP_BASE=${APP_BASE:-/lus/flare/projects/datascience/${USER}/exp1}
 MY_COPPER_MOUNT=${MY_COPPER_MOUNT:-/tmp/${USER}/copper_mount}
 LOGDIR=${LOGDIR:-${APP_BASE}/copper-logs-dir}
 
-"${SCRIPT_DIR}/launch_copper.sh" -d "${LOGDIR}" -v "${MY_COPPER_MOUNT}" -n "cxi://cxi0" -b "48,49,50,51"
+"${SCRIPT_DIR}/launch_copper_aurora.sh" -d "${LOGDIR}" -v "${MY_COPPER_MOUNT}"
 
 # For Python package directories, prepending only the relevant PYTHONPATH entry
 # is usually sufficient.
@@ -32,4 +33,4 @@ time mpirun --np "${NRANKS}" --ppn "${RANKS_PER_NODE}" \
   --genv=PYTHONPATH="${MY_COPPER_MOUNT}${APP_BASE}/lus_custom_pip_env:${PYTHONPATH}" \
   python3 -c "import torch; print(torch.__file__)"
 
-"${SCRIPT_DIR}/stop_copper.sh" -d "${LOGDIR}" -v "${MY_COPPER_MOUNT}"
+"${SCRIPT_DIR}/stop_copper_aurora.sh" -d "${LOGDIR}" -v "${MY_COPPER_MOUNT}"

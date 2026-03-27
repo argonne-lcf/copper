@@ -15,10 +15,11 @@ Additional documentation is available in the local
 - [Aurora copper-spack documentation](https://github.com/argonne-lcf/copper-spack/)
 - [ALCF user guide](https://docs.alcf.anl.gov/aurora/data-management/copper/copper/)
 - [OLCF user guide](https://docs.olcf.ornl.gov/software/UMS/index.html)
-- [Aurora and Frontier Guide](./docs/source/aurora_and_frontier.rst)
-- [Overview and Best Practices](./docs/source/overview_and_best_practices.rst)
-- [Environment Path Analysis](./docs/source/environment_path_analysis.rst)
-- [Metadata ENOENT TTL Evaluation](./docs/source/metadata_enoent_ttl_evaluation.rst)
+- [Aurora and Frontier Guide](./docs/source/guide_aurora_and_frontier.rst)
+- [Overview and Best Practices](./docs/source/guide_overview_and_best_practices.rst)
+- [Launch and Analysis Runbook](./docs/source/operations_launch_and_analysis_runbook.rst)
+- [Environment Path Analysis](./docs/source/operations_environment_path_analysis.rst)
+- [Metadata ENOENT TTL Evaluation](./docs/source/operations_metadata_enoent_ttl_evaluation.rst)
 - [Examples Catalog](./examples/README.md)
 - [Copper 1.0 Release Notes](./COPPER_1_0_RELEASE_NOTES.md)
 
@@ -40,13 +41,15 @@ module load ums ums046 copper # Frontier: commonly used with cxi1 and service co
 ## How to Start the Copper Service
 
 ```bash
-launch_copper.sh [-d log_dir_base] [-v CU_FUSE_MNT_VIEWDIR]
+launch_copper_aurora.sh  [-d log_dir_base] [-v CU_FUSE_MNT_VIEWDIR]
+launch_copper_frontier.sh [-d log_dir_base] [-v CU_FUSE_MNT_VIEWDIR]
 ```
 
 ## How to Stop the Copper Service
 
 ```bash
-stop_copper.sh [-d log_dir_base] [-v CU_FUSE_MNT_VIEWDIR]
+stop_copper_aurora.sh  [-d log_dir_base] [-v CU_FUSE_MNT_VIEWDIR]
+stop_copper_frontier.sh [-d log_dir_base] [-v CU_FUSE_MNT_VIEWDIR]
 ```
 
 ## How to Run an Application with Copper
@@ -58,14 +61,14 @@ module load copper
 APP_BASE=/lus/flare/projects/datascience/${USER}/exp1
 MY_COPPER_MOUNT=/tmp/${USER}/copper_mount
 
-./examples/aurora_examples/launch_copper.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
+./build/launch_copper_aurora.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
 
 time mpirun --np ${NRANKS} --ppn ${RANKS_PER_NODE} \
   --cpu-bind=list:4:56:9:61:14:66:19:71:20:74:25:79 --genvall \
   --genv=PYTHONPATH=${MY_COPPER_MOUNT}${APP_BASE}/lus_custom_pip_env:$PYTHONPATH \
   python3 -c "import torch; print(torch.__file__)"
 
-./examples/aurora_examples/stop_copper.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
+./build/stop_copper_aurora.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
 ```
 
 ### Frontier Example
@@ -75,7 +78,7 @@ module load ums ums046 copper
 APP_BASE=/lustre/orion/proj-shared/ums046/${USER}/exp1
 MY_COPPER_MOUNT=/mnt/bb/$USER/copper_mount  # /tmp is also valid
 
-./examples/frontier_examples/launch_copper.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
+./build/launch_copper_frontier.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
 conda activate ${MY_COPPER_MOUNT}${APP_BASE}/conda_env
 CPU_BINDING_MAP=verbose,map_cpu:9,17,25,33,41,49,57,73
 
@@ -83,7 +86,7 @@ CPU_BINDING_MAP=verbose,map_cpu:9,17,25,33,41,49,57,73
   --ntasks-per-node=8 --cpu-bind=${CPU_BINDING_MAP} \
   python3 -c "import torch; print('torch imported from:', torch.__file__)"
 
-./examples/frontier_examples/stop_copper.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
+./build/stop_copper_frontier.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
 ```
 
 Platform-specific example scripts are provided under:
@@ -148,7 +151,8 @@ runtime layout.
 ## Launch Wrapper Options
 
 ```bash
-launch_copper.sh
+launch_copper_aurora.sh
+launch_copper_frontier.sh
 
 [-l log_level]                  # Copper log verbosity level: 0 no logging, 5 most logging
 [-t log_type]                   # Copper log destination: file / stdout / both
@@ -199,7 +203,9 @@ Expected build artifacts include:
 - `build/cu_fuse`
 - `build/cu_fuse_shutdown`
 - `build/list_cxi_hsn_thallium`
-- `build/launch_copper.sh`
-- `build/stop_copper.sh`
+- `build/launch_copper_aurora.sh`
+- `build/launch_copper_frontier.sh`
+- `build/stop_copper_aurora.sh`
+- `build/stop_copper_frontier.sh`
 - `build/olcf_frontier_copper_addressbook.txt`
 - `build/alcf_aurora_copper_addressbook.txt`

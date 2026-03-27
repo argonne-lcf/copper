@@ -1,5 +1,5 @@
-Frontier Slurm Pinning Report
-=============================
+Frontier Slurm Pinning
+======================
 
 This note summarizes the current Slurm CPU-pinning guidance used by the
 Frontier Copper examples and launch wrappers.
@@ -71,6 +71,6 @@ Operational Guidance
 Related Pages
 -------------
 
-- :doc:`aurora_and_frontier`
-- :doc:`overview_and_best_practices`
-- :doc:`production_notes`
+- :doc:`guide_aurora_and_frontier`
+- :doc:`guide_overview_and_best_practices`
+- :doc:`operations_production_notes`

@@ -18,7 +18,7 @@ APP_BASE=${APP_BASE:-/lustre/orion/proj-shared/ums046/${USER}/exp1}
 MY_COPPER_MOUNT=${MY_COPPER_MOUNT:-/mnt/bb/${USER}/copper_mount}
 LOGDIR=${LOGDIR:-${APP_BASE}/copper-logs-dir}
 
-"${SCRIPT_DIR}/launch_copper.sh" -d "${LOGDIR}" -v "${MY_COPPER_MOUNT}" -n "cxi://cxi1" -b "1,2"
+"${SCRIPT_DIR}/launch_copper_frontier.sh" -d "${LOGDIR}" -v "${MY_COPPER_MOUNT}"
 
 # For a personal Conda environment, prepending only the activate path with the
 # Copper mount is usually sufficient.
@@ -29,4 +29,4 @@ CPU_BINDING_MAP=verbose,map_cpu:9,17,25,33,41,49,57,73
   --ntasks-per-node=8 --cpu-bind="${CPU_BINDING_MAP}" \
   python3 -c "import torch; print('torch imported from:', torch.__file__)"
 
-"${SCRIPT_DIR}/stop_copper.sh" -d "${LOGDIR}" -v "${MY_COPPER_MOUNT}"
+"${SCRIPT_DIR}/stop_copper_frontier.sh" -d "${LOGDIR}" -v "${MY_COPPER_MOUNT}"

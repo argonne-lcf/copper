@@ -33,8 +33,8 @@ module list
 BASE=/lustre/orion/proj-shared/ums046/final-exp-test/test1_basic_import_torch
 COPPER_DEV_ROOT=/lustre/orion/proj-shared/ums046/copper-changes/version9-production/copper
 export COPPER_ROOT="${COPPER_DEV_ROOT}"
-COPPER_LAUNCH="${COPPER_DEV_ROOT}/scripts/launch_copper.sh"
-COPPER_STOP="${COPPER_DEV_ROOT}/scripts/stop_copper.sh"
+COPPER_LAUNCH="${COPPER_DEV_ROOT}/scripts/launch_copper_aurora.sh"
+COPPER_STOP="${COPPER_DEV_ROOT}/scripts/stop_copper_aurora.sh"
 COPPER_MOUNT_PATH=/mnt/bb/$USER/copper_mount
 
 cd "${BASE}"

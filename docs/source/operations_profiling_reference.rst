@@ -1,5 +1,5 @@
-Profiling Metrics Reference
-===========================
+Profiling Reference
+===================
 
 Profiling Modes
 ---------------
@@ -79,6 +79,68 @@ Key Terms
 
 ``Metadata ENOENT TTL expire``
    An ENOENT TTL entry aged out and was removed after its configured lifetime.
+
+``FUSE operation``
+   A filesystem request issued through the Copper mount, such as ``getattr``,
+   ``read``, ``readdir``, or ``open``.
+
+``Metadata``
+   File information rather than file content, including existence, type, size,
+   and permissions.
+
+``Data``
+   File content bytes read from a file, such as the bytes of a shared library
+   or Python module.
+
+``Negative result``
+   A request that ends in a missing-path or similar unsuccessful result rather
+   than a successful metadata or data response.
+
+``ENOENT``
+   The standard Unix "No such file or directory" result. In profiling output,
+   repeated ``ENOENT`` paths are often informative rather than erroneous.
+
+``Top-path profiling``
+   A bounded hotspot view that retains the busiest paths instead of dumping the
+   full path population.
+
+``Full-path profiling``
+   A deeper forensic mode that preserves more complete per-path evidence and
+   can become large at scale.
+
+``Pre-destroy snapshot``
+   A profiling snapshot written before the final Copper teardown sequence.
+
+Reading the Metrics
+-------------------
+
+The maintained profiling evaluations support the following interpretations:
+
+- high ``getattr`` counts usually indicate metadata-heavy startup or import
+  behavior
+- high cumulative ``read`` latency usually indicates that content reads, not
+  metadata probes, dominate elapsed service time
+- high ``Metadata ENOENT TTL serve`` counts are generally a positive sign that
+  repeated negative metadata probes are being collapsed successfully
+- repeated missing shared-library probes, ``python*.zip`` checks, and
+  ``pyvenv.cfg`` lookups are often expected runtime behavior rather than
+  correctness bugs
+
+Validated Output Families
+-------------------------
+
+The version4 profiling validation confirmed that a profiling-enabled run can
+produce:
+
+- per-rank Markdown summaries
+- per-rank operation CSVs
+- aggregate CSVs
+- bounded top-path CSVs
+- raw cache-event outputs
+- matching ``pre-destroy`` variants of those artifacts
+
+That output structure is what makes profiling useful both for quick workload
+inspection and for deeper environment-path debugging.
 
 Operational Guidance
 --------------------

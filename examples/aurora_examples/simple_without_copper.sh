@@ -4,6 +4,7 @@
 #PBS -A datascience
 #PBS -q prod
 #PBS -k doe
+#PBS -l filesystems=flare
 
 # Example Aurora PBS workflow without Copper.
 

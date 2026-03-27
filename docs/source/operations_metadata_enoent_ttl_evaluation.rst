@@ -6,7 +6,7 @@ Scope
 
 This page integrates the maintained findings from the ``-E`` evaluation work
 for exact-path metadata ``ENOENT`` caching. The core experiment measured how
-``launch_copper.sh -E <value>`` affected:
+the Copper launch wrapper ``-E <value>`` option affected:
 
 - ``python3 -c "import torch"`` completion time
 - repeated metadata rechecks

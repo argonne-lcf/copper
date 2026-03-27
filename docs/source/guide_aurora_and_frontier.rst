@@ -31,12 +31,14 @@ Platform Quick Reference
 Starting and Stopping Copper
 ----------------------------
 
-The same wrapper interface is used on both systems:
+Platform-specific wrappers are used on each system:
 
 .. code-block:: bash
 
-   launch_copper.sh [-d log_dir_base] [-v CU_FUSE_MNT_VIEWDIR]
-   stop_copper.sh  [-d log_dir_base] [-v CU_FUSE_MNT_VIEWDIR]
+   launch_copper_aurora.sh   [-d log_dir_base] [-v CU_FUSE_MNT_VIEWDIR]
+   stop_copper_aurora.sh     [-d log_dir_base] [-v CU_FUSE_MNT_VIEWDIR]
+   launch_copper_frontier.sh [-d log_dir_base] [-v CU_FUSE_MNT_VIEWDIR]
+   stop_copper_frontier.sh   [-d log_dir_base] [-v CU_FUSE_MNT_VIEWDIR]
 
 Aurora Build Notes
 ------------------
@@ -66,22 +68,22 @@ Aurora Usage Example
    APP_BASE=/lus/flare/projects/datascience/${USER}/exp1
    MY_COPPER_MOUNT=/tmp/${USER}/copper_mount
 
-   ./examples/aurora_examples/launch_copper.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
+   ./build/launch_copper_aurora.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
 
    time mpirun --np ${NRANKS} --ppn ${RANKS_PER_NODE} \
      --cpu-bind=list:4:56:9:61:14:66:19:71:20:74:25:79 --genvall \
      --genv=PYTHONPATH=${MY_COPPER_MOUNT}${APP_BASE}/lus_custom_pip_env:$PYTHONPATH \
      python3 -c "import torch; print(torch.__file__)"
 
-   ./examples/aurora_examples/stop_copper.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
+   ./build/stop_copper_aurora.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
 
 Aurora Example Files
 --------------------
 
 The Aurora example scripts are available in:
 
-- ``examples/aurora_examples/launch_copper.sh``
-- ``examples/aurora_examples/stop_copper.sh``
+- ``examples/aurora_examples/launch_copper_aurora.sh``
+- ``examples/aurora_examples/stop_copper_aurora.sh``
 - ``examples/aurora_examples/simple_with_copper.sh``
 - ``examples/aurora_examples/simple_without_copper.sh``
 
@@ -119,7 +121,7 @@ Frontier Usage Example
    APP_BASE=/lustre/orion/proj-shared/ums046/${USER}/exp1
    MY_COPPER_MOUNT=/mnt/bb/$USER/copper_mount
 
-   ./examples/frontier_examples/launch_copper.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
+   ./build/launch_copper_frontier.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
    conda activate ${MY_COPPER_MOUNT}${APP_BASE}/conda_env
    CPU_BINDING_MAP=verbose,map_cpu:9,17,25,33,41,49,57,73
 
@@ -127,15 +129,15 @@ Frontier Usage Example
      --ntasks-per-node=8 --cpu-bind=${CPU_BINDING_MAP} \
      python3 -c "import torch; print('torch imported from:', torch.__file__)"
 
-   ./examples/frontier_examples/stop_copper.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
+   ./build/stop_copper_frontier.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
 
 Frontier Example Files
 ----------------------
 
 The Frontier example scripts are available in:
 
-- ``examples/frontier_examples/launch_copper.sh``
-- ``examples/frontier_examples/stop_copper.sh``
+- ``examples/frontier_examples/launch_copper_frontier.sh``
+- ``examples/frontier_examples/stop_copper_frontier.sh``
 - ``examples/frontier_examples/simple_with_copper.sh``
 - ``examples/frontier_examples/simple_without_copper.sh``
 
@@ -149,6 +151,6 @@ wrappers is ``build/olcf_frontier_copper_addressbook.txt``.
 Related Pages
 -------------
 
-- :doc:`overview_and_best_practices`
-- :doc:`building_and_running`
-- :doc:`building_and_platforms`
+- :doc:`guide_overview_and_best_practices`
+- :doc:`guide_build_and_run`
+- :doc:`guide_build_artifacts_and_platforms`

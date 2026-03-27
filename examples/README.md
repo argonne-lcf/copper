@@ -7,8 +7,8 @@ Platform-specific example scripts are organized under:
 
 Each directory contains:
 
-- `launch_copper.sh`
-- `stop_copper.sh`
+- `launch_copper_<platform>.sh`
+- `stop_copper_<platform>.sh`
 - `simple_with_copper.sh`
 - `simple_without_copper.sh`
 

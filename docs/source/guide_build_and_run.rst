@@ -1,5 +1,5 @@
-Building and Running
-====================
+Build and Run
+=============
 
 Build Requirements
 ------------------
@@ -33,13 +33,15 @@ Expected artifacts after a successful build include:
 - ``build/cu_fuse``
 - ``build/cu_fuse_shutdown``
 - ``build/list_cxi_hsn_thallium``
-- ``build/launch_copper.sh``
-- ``build/stop_copper.sh``
+- ``build/launch_copper_aurora.sh``
+- ``build/launch_copper_frontier.sh``
+- ``build/stop_copper_aurora.sh``
+- ``build/stop_copper_frontier.sh``
 - ``build/olcf_frontier_copper_addressbook.txt``
 - ``build/alcf_aurora_copper_addressbook.txt``
 
 For platform-specific build and runtime examples, see
-:doc:`aurora_and_frontier`.
+:doc:`guide_aurora_and_frontier`.
 
 Runtime Model
 -------------
@@ -64,10 +66,10 @@ Launch Example
 .. code-block:: bash
 
    module load ums ums046 copper
-   launch_copper.sh -d /path/to/logdir -v /mnt/bb/$USER/copper_mount
+   launch_copper_frontier.sh -d /path/to/logdir -v /mnt/bb/$USER/copper_mount
    conda activate /mnt/bb/$USER/copper_mount/lustre/orion/.../conda_env
    python3 -c "import torch"
-   stop_copper.sh -d /path/to/logdir -v /mnt/bb/$USER/copper_mount
+   stop_copper_frontier.sh -d /path/to/logdir -v /mnt/bb/$USER/copper_mount
 
 Platform-specific launch examples are also provided under:
 

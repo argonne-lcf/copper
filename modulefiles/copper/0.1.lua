@@ -11,8 +11,10 @@ local help_message = [[
 Copper cooperative caching tools
 
 Commands:
-  launch_copper   -> launch_copper.sh (start Copper/cu_fuse)
-  stop_copper     -> stop_copper.sh (stop Copper/cu_fuse)
+  launch_copper            -> launch_copper_frontier.sh (start Copper/cu_fuse on Frontier)
+  stop_copper              -> stop_copper_frontier.sh (stop Copper/cu_fuse on Frontier)
+  launch_copper_frontier   -> launch_copper_frontier.sh
+  stop_copper_frontier     -> stop_copper_frontier.sh
 
 Environment:
   COPPER_ROOT
@@ -38,11 +40,13 @@ setenv("CU_FUSE_MNT_VIEWDIR", "/tmp/" .. (os.getenv("USER") or "user") .. "/copp
 setenv("facility_address_book", copper_root .. "/build/olcf_frontier_copper_addressbook.txt")
 
 -- Nice aliases
-set_alias("launch_copper", "launch_copper.sh")
-set_alias("stop_copper",   "stop_copper.sh")
+set_alias("launch_copper",          "launch_copper_frontier.sh")
+set_alias("stop_copper",            "stop_copper_frontier.sh")
+set_alias("launch_copper_frontier", "launch_copper_frontier.sh")
+set_alias("stop_copper_frontier",   "stop_copper_frontier.sh")
 
 if (mode() == "load") then
     LmodMessage("Copper loaded: use 'launch_copper' and 'stop_copper'.")
     LmodMessage("COPPER_ROOT: " .. copper_root)
-    LmodMessage("launch_copper points to: " .. copper_root .. "/build/launch_copper.sh")
+    LmodMessage("launch_copper points to: " .. copper_root .. "/build/launch_copper_frontier.sh")
 end
