@@ -33,6 +33,8 @@ read-mostly caching, profiling, startup-scaling, and documentation work.
 - Writes per-rank profiling summaries to `profiling/final/`.
 - Writes tagged per-rank profiling snapshots such as `pre-destroy` to `profiling/<snapshot-tag>/`.
 - Supports cluster-level postprocessing through `scripts/aggregate_profiling.py`.
+- Adds a cache-usage post-analysis helper for the three main cache tables under `scripts/get_copper_stats_ioctl/`.
+- Supports combined cache-usage summaries in text and CSV form for data, tree, and metadata cache occupancy.
 - Keeps profiling outputs in structured files including `profiling_summary.md`, `profiling_operations.csv`, `profiling_aggregate.csv`, and `profiling_top_paths.csv`.
 - Records metadata TTL behavior in profiling outputs, including stores, serves, expires, and clears.
 - Includes self-contained `copper-tests` build wiring under the production tree.

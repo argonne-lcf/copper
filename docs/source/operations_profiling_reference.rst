@@ -150,3 +150,71 @@ Operational Guidance
 - Reserve full-path profiling for smaller or targeted forensic runs.
 - Do not rely on normal log verbosity to infer whether profiling ran; rely on
   the profiling output files themselves.
+
+Cache Usage Metrics
+-------------------
+
+Copper also supports ioctl-based table-size dumps for the three main cache
+tables:
+
+- data cache
+- tree cache
+- metadata cache
+
+The raw table-size outputs are produced by the existing scripts under
+``scripts/get_copper_stats_ioctl/``. A post-analysis helper can then summarize
+them into one combined cache-usage report:
+
+Recommended workflow:
+
+.. code-block:: bash
+
+   cd scripts/get_copper_stats_ioctl
+
+   # Step 1: add this to env.sh, or export it in the current shell
+   export VIEW_DIR=/mnt/bb/${USER}/copper_mount
+
+   # Step 2: while Copper is still running, collect the raw cache-size outputs
+   bash ./get_cache_usage_summary.sh /lustre/orion/proj-shared/ums046/some_output_dir
+
+   # Step 3: for offline re-summarization of an existing directory
+   python3 ./summarize_cache_usage.py /path/to/dir --csv /path/to/dir/cache_usage_summary.csv
+
+The summary reports:
+
+- used bytes for each table
+- entry counts for each table
+- combined used bytes across the three tables
+
+The raw files are:
+
+- ``data_cache_size.output``
+- ``tree_cache_size.output``
+- ``md_cache_size.output``
+
+Memory model:
+
+- the main Copper tables are dynamically growing containers, not fixed-capacity
+  pools
+- ``cache.h`` uses ``std::unordered_map<Key, Value>`` with no global size limit
+- ``tl_cache.h`` does the same for the Thallium-side caches
+- the tables grow as entries are inserted
+- memory usage is bounded by normal process and node limits, including DRAM,
+  allocator behavior, and any job or cgroup memory limits
+- ``max_cacheable_byte_size`` is only a per-file admission threshold for data
+  caching, not a total cache budget
+
+It does not currently report a true ``remaining cache available`` value,
+because Copper does not yet maintain a fixed global cache budget for those
+tables.
+
+Sample output:
+
+.. code-block:: md
+
+   | Table    | Files Found | Used Bytes | Used Human | Entries |
+   | -------- | ----------: | ---------: | ---------: | ------: |
+   | data     | 1           | 70296558   | 67.04 MiB  | 1025    |
+   | tree     | 1           | 27772      | 27.12 KiB  | 140     |
+   | metadata | 1           | 340848     | 332.86 KiB | 2367    |
+   | combined | -           | 70665178   | 67.39 MiB  | 3532    |

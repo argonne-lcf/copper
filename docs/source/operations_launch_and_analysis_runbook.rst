@@ -290,8 +290,62 @@ the most common causes are:
 - Copper had not been stopped yet, so the final outputs had not been flushed
 - the run failed before profiling files were written
 
-Step 9: Run Path Usage Analysis
--------------------------------
+Step 9: Inspect Cache Table Usage
+---------------------------------
+
+The ioctl helper scripts can also capture current table occupancy for Copper's
+three main cache tables and summarize them into one combined report.
+
+Workflow:
+
+.. code-block:: bash
+
+   cd /path/to/copper/scripts/get_copper_stats_ioctl
+
+   # Step 1: add this to env.sh, or export it in the current shell
+   export VIEW_DIR=/mnt/bb/${USER}/copper_mount
+
+   # Step 2: while Copper is still running, collect the raw cache-size outputs
+   bash ./get_cache_usage_summary.sh /lustre/orion/proj-shared/ums046/some_output_dir
+
+   # Step 3: for offline re-summarization of an existing directory
+   python3 ./summarize_cache_usage.py /path/to/dir --csv /path/to/dir/cache_usage_summary.csv
+
+Outputs include:
+
+- ``data_cache_size.output``
+- ``tree_cache_size.output``
+- ``md_cache_size.output``
+- ``cache_usage_summary.txt``
+- ``cache_usage_summary.csv``
+
+Interpretation:
+
+- the reports show current used bytes and entry counts
+- the combined summary shows the total currently occupied bytes across all
+  three tables
+- the tables are dynamically growing ``unordered_map`` containers rather than
+  fixed-capacity pools
+- memory usage is bounded by normal process and node limits rather than by a
+  Copper-specific global table budget
+- ``max_cacheable_byte_size`` is a per-file admission threshold for data
+  caching, not a total cache budget
+- Copper does not yet report a fixed total budget or remaining available bytes
+  for those tables
+
+Sample output:
+
+.. code-block:: md
+
+   | Table    | Files Found | Used Bytes | Used Human | Entries |
+   | -------- | ----------: | ---------: | ---------: | ------: |
+   | data     | 1           | 70296558   | 67.04 MiB  | 1025    |
+   | tree     | 1           | 27772      | 27.12 KiB  | 140     |
+   | metadata | 1           | 340848     | 332.86 KiB | 2367    |
+   | combined | -           | 70665178   | 67.39 MiB  | 3532    |
+
+Step 10: Run Path Usage Analysis
+--------------------------------
 
 The path-usage script compares observed paths against the selected filesystem
 roots and produces used-path, missing-probe, and candidate-not-observed lists.

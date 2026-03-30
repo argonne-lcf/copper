@@ -38,4 +38,8 @@ echo "RUN_IOCTL: $RUN_IOCTL"
 
 (cd "$SCRIPTS_IOCTL_DIR" && bash "$RUN_IOCTL" "$IOCTL_LOG_ALL_METRICS")
 
-cp -f "$SPEC_DEV_DIR"/*.output "$1"
+if compgen -G "$SPEC_DEV_DIR/*.output" > /dev/null; then
+  cp -f "$SPEC_DEV_DIR"/*.output "$1"
+else
+  echo "note: no raw *.output files were found under $SPEC_DEV_DIR; with the current Copper log layout, ioctl metric outputs may already be under the active job's tables/final directory"
+fi
