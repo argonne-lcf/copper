@@ -162,7 +162,7 @@ The same run also produced the corresponding ``pre-destroy`` variants:
 These outputs serve distinct purposes:
 
 - aggregate CSVs summarize cluster-wide workload shape
-- top-path CSVs preserve the hottest paths without unbounded output growth
+- top-path CSVs preserve a bounded first-admitted path set without unbounded output growth
 - full-path and table-event outputs support deeper forensic analysis
 - ``pre-destroy`` outputs provide an earlier preserved checkpoint when final
   shutdown is noisy
@@ -281,8 +281,8 @@ random scatter of unrelated paths. It is concentrated in:
 Concrete Hot-Path Examples
 --------------------------
 
-The version4 top-path outputs are most useful when read as a focused hotspot
-report rather than as an exhaustive dump.
+The version4 top-path outputs are a bounded first-admitted path sample rather
+than either a frequency ranking or an exhaustive dump.
 
 Representative metadata hot paths included:
 
@@ -348,8 +348,8 @@ close to the maintained profiling pages.
    Many such results are expected during Python and dynamic-loader startup.
 
 ``Top-path profiling``
-   A bounded hotspot view that preserves the busiest paths while avoiding the
-   output growth of a complete per-path dump.
+   A bounded view that preserves the first distinct admitted paths while
+   avoiding the output growth of a complete per-path dump.
 
 ``Full-path profiling``
    A more forensic mode that retains wider path-level evidence and is best

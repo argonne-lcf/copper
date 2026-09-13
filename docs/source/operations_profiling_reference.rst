@@ -10,7 +10,7 @@ Aggregate-only profiling
    Records cluster-wide totals and per-operation summaries.
 
 Top-path profiling
-   Records the hottest paths per category, bounded by ``profile_top_n``.
+   Records the first ``profile_top_n`` distinct admitted paths, bounded in memory. This is not a hottest-path ranking.
 
 Full-path profiling
    Preserves more detailed path-level artifacts for deeper investigation.
@@ -26,7 +26,7 @@ Runtime Options
    * - ``-profile_metrics``
      - enable profiling collection
    * - ``-profile_top_n <N>``
-     - keep the hottest ``N`` paths per category
+     - retain a bounded first-``N`` admitted path set
    * - ``-profile_paths_full``
      - enable fuller path-level forensic output
    * - ``-profile_snapshot_interval_s <seconds>``
@@ -60,7 +60,7 @@ Common Files
    * - ``profiling_aggregate.csv``
      - aggregate counters and cache metrics
    * - ``profiling_top_paths.csv``
-     - hottest path list when top-path profiling is enabled
+     - bounded admitted-path list when path profiling is enabled
 
 Key Terms
 ---------
@@ -101,8 +101,8 @@ Key Terms
    repeated ``ENOENT`` paths are often informative rather than erroneous.
 
 ``Top-path profiling``
-   A bounded hotspot view that retains the busiest paths instead of dumping the
-   full path population.
+   A bounded view that retains the first distinct admitted paths instead of
+   dumping the full path population; it does not rank paths by frequency.
 
 ``Full-path profiling``
    A deeper forensic mode that preserves more complete per-path evidence and
@@ -146,7 +146,7 @@ Operational Guidance
 --------------------
 
 - Use aggregate profiling first for scalable runs.
-- Add top-path profiling when path hot spots matter.
+- Add bounded admitted-path profiling when representative path detail matters.
 - Reserve full-path profiling for smaller or targeted forensic runs.
 - Do not rely on normal log verbosity to infer whether profiling ran; rely on
   the profiling output files themselves.

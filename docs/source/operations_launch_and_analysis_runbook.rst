@@ -92,7 +92,7 @@ Copper profiling can be enabled with any combination of the following options:
    * - ``-P``
      - enable profiling collection
    * - ``-N <N>``
-     - enable profiling and keep the hottest ``N`` paths
+     - enable profiling and retain the first ``N`` distinct admitted paths
    * - ``-A``
      - enable fuller path-level outputs
    * - ``-I <seconds>``
@@ -111,7 +111,7 @@ Common combinations:
   - no ``-P``, ``-N``, ``-A``, or ``-I``
 - aggregate profiling:
   - ``-P``
-- bounded hotspot profiling:
+- bounded admitted-path profiling:
   - ``-P -N 20``
 - full-path forensic profiling:
   - ``-P -N 20 -A``
