@@ -1,61 +1,41 @@
 #ifndef CU_FUSE_OPERATIONS_H
 #define CU_FUSE_OPERATIONS_H
 
-#include <cstring>
-#include <iostream>
-#include <mutex>
+#include <cstdint>
 #include <ostream>
 
-#include "../fs/util.h"
 #include "operation_types.h"
+#include "profiler_core.h"
 
 class Operations {
     public:
-    static void inc_operation(OperationFunction func);
-    static void inc_operation_timer(OperationFunction func, long time);
-    static void inc_operation_cache_hit(OperationFunction func, bool cache_hit);
-    static void inc_operation_cache_neg(OperationFunction func);
+    static void complete(OperationFunction func, uint64_t nanoseconds, ProfileOutcome outcome,
+                         int error = 0, const std::string& path = "",
+                         ProfileSource source = ProfileSource::none);
+    static ProfilerSnapshot snapshot();
+    static ProfilerSnapshot snapshot_and_reset();
+    static ProfilerConfig config();
+    static bool enabled();
+    static ProfilerCore& core();
+
+    // Compatibility views now read one coherent snapshot from the same collector.
     static int get_operation_count(OperationFunction func);
-    static long get_operation_time(OperationFunction func);
+    static uint64_t get_operation_time(OperationFunction func);
     static int get_operation_cache_hit(OperationFunction func);
     static int get_operation_cache_miss(OperationFunction func);
     static int get_operation_cache_neg(OperationFunction func);
-
-    static void reset_operation_counter() {
-        std::lock_guard<std::mutex> guard(operation_mtx);
-        memset(operation_counter, 0, sizeof(operation_counter));
-    }
-    static void reset_operation_timer() {
-        std::lock_guard<std::mutex> guard(operation_mtx);
-        memset(operation_timer, 0, sizeof(operation_timer));
-    }
-    static void reset_operation_cache_hit() {
-        std::lock_guard<std::mutex> guard(operation_mtx);
-        memset(operation_cache_hit, 0, sizeof(operation_cache_hit));
-    }
-    static void reset_operation_cache_miss() {
-        std::lock_guard<std::mutex> guard(operation_mtx);
-        memset(operation_cache_miss, 0, sizeof(operation_cache_miss));
-    }
-    static void reset_operation_cache_neg() {
-        std::lock_guard<std::mutex> guard(operation_mtx);
-        memset(operation_cache_neg, 0, sizeof(operation_cache_neg));
-    }
+    static void inc_operation(OperationFunction func);
+    static void reset_operation_counter();
+    static void reset_operation_timer();
+    static void reset_operation_cache_hit();
+    static void reset_operation_cache_miss();
+    static void reset_operation_cache_neg();
 
     static std::ostream& log_operation(std::ostream& os);
     static std::ostream& log_operation_time(std::ostream& os);
     static std::ostream& log_operation_cache_hit(std::ostream& os);
     static std::ostream& log_operation_cache_miss(std::ostream& os);
     static std::ostream& log_operation_neg(std::ostream& os);
-
-    private:
-    static inline int operation_counter[static_cast<int>(OperationFunction::size)]{};
-    static inline long operation_timer[static_cast<long>(OperationFunction::size)]{};
-    static inline int operation_cache_hit[static_cast<int>(OperationFunction::size)]{};
-    static inline int operation_cache_miss[static_cast<int>(OperationFunction::size)]{};
-    static inline int operation_cache_neg[static_cast<int>(OperationFunction::size)]{};
-    static inline std::mutex operation_mtx;
 };
 
-
-#endif // CU_FUSE_OPERATIONS_H
+#endif

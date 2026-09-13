@@ -9,7 +9,7 @@ struct OpRes {
     unsigned int neg = 0;
 };
 
-enum class OperationResult { cache_hit, cache_miss, neg };
+enum class OperationResult { success, cache_hit, cache_miss, neg };
 
 enum class OperationFunction {
     getattr = 0,
@@ -106,6 +106,6 @@ const inline char* OperationFunctionNames[] = {
 };
 
 
-using tp = std::chrono::time_point<std::chrono::system_clock>;
+using tp = std::chrono::time_point<std::chrono::steady_clock>;
 
 #endif // CU_FUSE_OPERATION_TYPES_H

@@ -1,10 +1,8 @@
 #ifndef METRICS_H
 #define METRICS_H
 
-#define COLLECT_METRICS
-
 #include <string>
-#include <unordered_map>
+
 #include <utility>
 
 #include "../aixlog.h"
@@ -20,7 +18,7 @@ class Metric {
     static std::pair<std::string, tp> start_cache_operation(OperationFunction func, const char* path);
     static int stop_cache_operation(OperationFunction func,
     OperationResult res,
-    std::unordered_map<std::string, OpRes>& table,
+    ProfileSource source,
     std::string& path_string,
     tp start,
     int ret);
