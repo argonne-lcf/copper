@@ -1,5 +1,31 @@
 #!/bin/bash -x
 
+set -o pipefail
+
+shell_quote() {
+  printf '%q' "$1"
+}
+
+append_remote_arg() {
+  local quoted
+  printf -v quoted '%q' "$2"
+  printf -v "$1" '%s %s' "${!1}" "${quoted}"
+}
+
+serialize_runtime_environment() {
+  local name value quoted serialized=""
+  while IFS= read -r name; do
+    case "${name}" in
+      PATH|LD_LIBRARY_PATH|COPPER_ROOT|FI_*|MARGO_*|MERCURY_*|THALLIUM_*|ABT_*|CXI_*|PSM2_*|LIBFABRIC_*)
+        value=${!name}
+        printf -v quoted '%q' "${value}"
+        serialized+=" ${name}=${quoted}"
+        ;;
+    esac
+  done < <(compgen -e)
+  printf '%s' "${serialized}"
+}
+
 echo "Launching Copper Gracefully On All Nodes : Start"
 echo "${COPPER_ROOT}"
 CUPATH=${COPPER_ROOT}/build/cu_fuse
@@ -173,9 +199,15 @@ echo "net_type                   : ${net_type}"
 
 mkdir -p "${logs_dir}" "${tables_dir}/final" "${profiling_final_dir}" "${profiling_cluster_dir}"
 cp "${PBS_NODEFILE}" "${node_file_copy}"
-clush --hostfile "${node_file_copy}" "fusermount3 -u ${CU_FUSE_MNT_VIEWDIR}" >/dev/null 2>&1
-clush --hostfile "${node_file_copy}" "rm -rf ${CU_FUSE_MNT_VIEWDIR}" >/dev/null 2>&1
-clush --hostfile "${node_file_copy}" "mkdir -p ${CU_FUSE_MNT_VIEWDIR}" >/dev/null 2>&1
+quoted_mount=$(shell_quote "${CU_FUSE_MNT_VIEWDIR}")
+runtime_environment=$(serialize_runtime_environment)
+remote_env="env${runtime_environment}"
+# An absent pre-existing mount is normal, but directory reset failures are not.
+clush --hostfile "${node_file_copy}" "${remote_env} fusermount3 -u ${quoted_mount}" >/dev/null 2>&1 || true
+if ! clush --hostfile "${node_file_copy}" "${remote_env} rm -rf ${quoted_mount} && ${remote_env} mkdir -p ${quoted_mount}" >/dev/null 2>&1; then
+  echo "remote mount directory preparation failed: ${CU_FUSE_MNT_VIEWDIR}"
+  exit 1
+fi
 
 rm -f "${prepared_address_book}" "${prepared_address_book_full_output}" "${prepare_address_book_awk}" "${select_discovered_address_book_awk}"
 
@@ -202,30 +234,51 @@ if [ ${prepare_address_book_rc} -ne 0 ] || [ ! -s "${prepared_address_book}" ]; 
   exit 1
 fi
 
-profile_options=""
+profile_options=()
 if [ "${profile_metrics}" -eq 1 ]; then
-  profile_options="${profile_options} -profile_metrics"
+  profile_options+=("-profile_metrics")
 fi
 if [ "${profile_top_n}" -gt 0 ]; then
-  profile_options="${profile_options} -profile_top_n ${profile_top_n}"
+  profile_options+=("-profile_top_n" "${profile_top_n}")
 fi
 if [ "${profile_paths_full}" -eq 1 ]; then
-  profile_options="${profile_options} -profile_paths_full"
+  profile_options+=("-profile_paths_full")
 fi
 if [ "${profile_snapshot_interval_s}" -gt 0 ]; then
-  profile_options="${profile_options} -profile_snapshot_interval_s ${profile_snapshot_interval_s}"
+  profile_options+=("-profile_snapshot_interval_s" "${profile_snapshot_interval_s}")
 fi
 
-options="-tpath / -vpath ${CU_FUSE_MNT_VIEWDIR} -log_level ${log_level} -log_type ${log_type} -log_output_dir ${log_dir} -net_type ${net_type} -trees ${trees} -nf ${node_file_copy} -max_cacheable_byte_size ${max_cacheable_byte_size} -md_enoent_ttl_ms ${md_enoent_ttl_ms}${profile_options} -facility_address_book ${prepared_address_book} -prefiltered_address_book 1 -s ${CU_FUSE_MNT_VIEWDIR}"
+options=(
+  -tpath / -vpath "${CU_FUSE_MNT_VIEWDIR}"
+  -log_level "${log_level}" -log_type "${log_type}" -log_output_dir "${log_dir}"
+  -net_type "${net_type}" -trees "${trees}" -nf "${node_file_copy}"
+  -max_cacheable_byte_size "${max_cacheable_byte_size}"
+  -md_enoent_ttl_ms "${md_enoent_ttl_ms}"
+  "${profile_options[@]}"
+  -facility_address_book "${prepared_address_book}" -prefiltered_address_book 1
+  -s "${CU_FUSE_MNT_VIEWDIR}"
+)
 
-read -r -d '' CMD <<EOM
-ulimit -c unlimited
-numactl --physcpubind=${physcpubind} ${CUPATH} ${options}
-EOM
+CMD="ulimit -c unlimited && ${remote_env}"
+append_remote_arg CMD "numactl"
+append_remote_arg CMD "--physcpubind=${physcpubind}"
+append_remote_arg CMD "${CUPATH}"
+for option in "${options[@]}"; do
+  append_remote_arg CMD "${option}"
+done
 
-clush --hostfile "${node_file_copy}" "${CMD}"
+if ! clush --hostfile "${node_file_copy}" "${CMD}"; then
+  echo "Copper rank startup failed"
+  exit 1
+fi
 
 echo "sleeping for ${sleeptime} s"
 sleep "${sleeptime}"s
+
+VERIFY_CMD="${remote_env} bash -c 'if command -v mountpoint >/dev/null 2>&1; then mountpoint -q \"\$1\"; elif command -v findmnt >/dev/null 2>&1; then findmnt --mountpoint \"\$1\" >/dev/null 2>&1; else grep -Fqs -- \" \$1 \" /proc/mounts; fi' bash ${quoted_mount}"
+if ! clush --hostfile "${node_file_copy}" "${VERIFY_CMD}"; then
+  echo "Copper mount verification failed: ${CU_FUSE_MNT_VIEWDIR}"
+  exit 1
+fi
 
 echo "Launching Copper Gracefully On All Nodes : End"
