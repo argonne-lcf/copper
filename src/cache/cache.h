@@ -3,18 +3,15 @@
 
 #include <mutex>
 #include <optional>
-#include <stdexcept>
 #include <unordered_map>
+#include <utility>
 
 template <typename K, typename V> class Cache {
     public:
     using Key = K;
     using Value = V;
 
-    Cache() {
-        std::lock_guard guard(mtx);
-        cache = std::unordered_map<Key, Value>();
-    }
+    Cache() = default;
 
     virtual void put_force(Key key, Value&& val) {
         std::lock_guard guard(mtx);
@@ -26,19 +23,40 @@ template <typename K, typename V> class Cache {
         cache.erase(key);
     }
 
-    virtual std::optional<Value*> get(Key key) {
+    template <typename Function> bool update(const Key& key, Function&& function) {
         std::lock_guard guard(mtx);
-        try {
-            return &cache.at(key);
-        } catch(std::out_of_range& e) {
-            return std::nullopt;
-        }
+        auto entry = cache.find(key);
+        if(entry == cache.end()) return false;
+        std::forward<Function>(function)(entry->second);
+        return true;
+    }
+
+    void clear() {
+        std::lock_guard guard(mtx);
+        cache.clear();
+    }
+
+    std::unordered_map<Key, Value> snapshot() const {
+        std::lock_guard guard(mtx);
+        return cache;
+    }
+
+    std::size_t size() const {
+        std::lock_guard guard(mtx);
+        return cache.size();
+    }
+
+    virtual std::optional<Value> get(const Key& key) const {
+        std::lock_guard guard(mtx);
+        const auto entry = cache.find(key);
+        if(entry == cache.end()) return std::nullopt;
+        return entry->second;
     };
 
     virtual ~Cache() = default;
+    private:
     std::unordered_map<Key, Value> cache;
-
-    std::mutex mtx;
+    mutable std::mutex mtx;
 };
 
 #endif // CACHE_H

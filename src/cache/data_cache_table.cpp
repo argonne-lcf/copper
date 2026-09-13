@@ -4,8 +4,8 @@
 #include "cache_tables.h"
 
 std::ostream& DataCacheTable::get_data_size_metrics(std::ostream& os) {
-    std::vector<std::pair<std::string, std::vector<std::byte>>> entries(
-    CacheTables::data_cache_table.cache.begin(), CacheTables::data_cache_table.cache.end());
+    const auto snap = CacheTables::data_cache_table.snapshot();
+    std::vector<std::pair<std::string, std::vector<std::byte>>> entries(snap.begin(), snap.end());
 
     // Sort the vector by the size of the data (second element of the pair)
     std::sort(
@@ -37,7 +37,8 @@ std::ostream& DataCacheTable::get_data_size_metrics(std::ostream& os) {
 
 std::ostream& operator<<(std::ostream& os, const DataCacheTable& data_cache_table) {
     os << "data_cache_table {" << std::endl;
-    for(auto const& entry : data_cache_table.cache) {
+    const auto snap = data_cache_table.snapshot();
+    for(auto const& entry : snap) {
         os << entry.first << " {" << std::endl;
         os << "data_size: " << entry.second.size() << std::endl;
         os << "}" << std::endl;

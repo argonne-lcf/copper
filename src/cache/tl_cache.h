@@ -3,7 +3,6 @@
 
 #include <mutex>
 #include <optional>
-#include <stdexcept>
 #include <unordered_map>
 #include <thallium.hpp>
 
@@ -13,35 +12,26 @@ template <typename K, typename V> class TLCache {
     public:
     using Key = K;
     using Value = V;
+    TLCache() = default;
 
-    TLCache() {
-        std::lock_guard guard(mtx);
-        cache = std::unordered_map<Key, Value>();
+    virtual void put_force(Key key, Value&& value) {
+        std::lock_guard guard(mtx_);
+        cache_[std::move(key)] = std::move(value);
     }
-
-    virtual void put_force(Key key, Value&& val) {
-        std::lock_guard guard(mtx);
-        cache[key] = std::move(val);
-    };
-
-    virtual void remove(Key key) {
-        std::lock_guard guard(mtx);
-        cache.erase(key);
+    virtual void remove(const Key& key) {
+        std::lock_guard guard(mtx_);
+        cache_.erase(key);
     }
-
-    virtual std::optional<Value*> get(Key key) {
-        std::lock_guard guard(mtx);
-        try {
-            return &cache.at(key);
-        } catch(std::out_of_range& e) {
-            return std::nullopt;
-        }
-    };
-
+    virtual std::optional<Value> get(const Key& key) const {
+        std::lock_guard guard(mtx_);
+        const auto entry = cache_.find(key);
+        return entry == cache_.end() ? std::nullopt : std::optional<Value>(entry->second);
+    }
     virtual ~TLCache() = default;
-    std::unordered_map<Key, Value> cache;
 
-    tl::mutex mtx;
+    private:
+    std::unordered_map<Key, Value> cache_;
+    mutable tl::mutex mtx_;
 };
 
-#endif // TL_CACHE_H
+#endif

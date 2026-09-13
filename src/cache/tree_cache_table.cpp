@@ -8,7 +8,8 @@ std::ostream& TreeCacheTable::get_data_size_metrics(std::ostream& os) {
     std::size_t num_bytes = 0;
     std::size_t num_elements = 0;
 
-    for(const auto& entry : CacheTables::tree_cache_table.cache) {
+    const auto snap = CacheTables::tree_cache_table.snapshot();
+    for(const auto& entry : snap) {
         const auto& path = entry.first;
 
         std::size_t path_string_bytes = 0;
@@ -33,7 +34,8 @@ std::ostream& TreeCacheTable::get_data_size_metrics(std::ostream& os) {
 std::ostream& operator<<(std::ostream& os, const TreeCacheTable& tree_cache_table) {
     os << "tree_cache_table {" << std::endl;
 
-    for(auto const& pair : tree_cache_table.cache) {
+    const auto snap = tree_cache_table.snapshot();
+    for(auto const& pair : snap) {
         os << pair.first << " {" << std::endl;
 
         for(auto const& child : pair.second) {
@@ -53,14 +55,10 @@ void TreeCacheTable::add_to_tree_cache(const std::string& path_string, const boo
     const std::filesystem::path path = path_string;
     const auto path_stem = path.stem().string();
     const auto parent_path = path.parent_path().string();
-    const auto tree_entry = CacheTables::tree_cache_table.get(parent_path);
-
-    if(!tree_entry.value()) {
+    if(!CacheTables::tree_cache_table.update(parent_path, [&](auto& entry) { entry.push_back(path_stem); })) {
         LOG(ERROR) << "failed to find parent path" << std::endl;
         return;
     }
-
-    tree_entry.value()->push_back(path_stem);
 
     // NOTE: need to create new entry if it is a dir
     if(!is_file) {
