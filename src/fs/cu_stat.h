@@ -45,7 +45,7 @@ class CuStat {
         std::memcpy(buf, st_vec->data(), sizeof(struct stat));
     }
 
-    const stat_type& get_vec() {
+    const stat_type& get_vec() const {
         return *st_vec;
     }
 
