@@ -242,6 +242,7 @@ std::vector<std::byte> Util::read_ent_file(const std::string& path) {
 
 std::optional<std::ofstream> Util::try_get_fstream_from_path(const char* path) {
     if(path == nullptr) {
+        errno = EINVAL;
         LOG(ERROR) << "cstr path was null" << std::endl;
         return std::nullopt;
     }
@@ -250,7 +251,9 @@ std::optional<std::ofstream> Util::try_get_fstream_from_path(const char* path) {
     std::ofstream file(output_path_string, std::ios::out | std::ios::trunc);
 
     if(!file.is_open()) {
+        const int saved_errno = errno;
         LOG(ERROR) << "failed to open path: " << output_path_string << std::endl;
+        errno = saved_errno;
         return std::nullopt;
     }
 
@@ -307,24 +310,15 @@ void Util::log_all_metrics(const std::string& path_string) {
     }
 }
 
-void Util::log_profiling_metrics(const std::string& path_string, const std::string& snapshot_tag) {
-    Profiling::write_reports(path_string, snapshot_tag);
+ReportResult Util::log_profiling_metrics(const std::string& path_string, const std::string& snapshot_tag) {
+    return Profiling::write_reports(path_string, snapshot_tag);
 }
 
 void Util::reset_fs() {
-    CacheTables::data_cache_table.cache.clear();
-    CacheTables::md_cache_table.cache.clear();
-    CacheTables::tree_cache_table.cache.clear();
+    CacheTables::data_cache_table.clear();
+    CacheTables::md_cache_table.clear();
+    CacheTables::tree_cache_table.clear();
 
-    CacheEvent::reset_data_cache_event();
-    CacheEvent::reset_md_cache_event();
-    CacheEvent::reset_tree_cache_event();
-
-    Operations::reset_operation_cache_hit();
-    Operations::reset_operation_cache_miss();
-    Operations::reset_operation_counter();
-    Operations::reset_operation_cache_neg();
-    Operations::reset_operation_timer();
 
     IoctlEvent::reset_ioctl_event();
     Profiling::reset();

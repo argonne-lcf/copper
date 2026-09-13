@@ -1,33 +1,14 @@
 #include "cu_fuse.h"
+#include "error_status.h"
+#include "fuse_policy.h"
 #include "../metric/profiling.h"
 #include <atomic>
 #include <chrono>
 #include <filesystem>
 #include <thread>
+#include <condition_variable>
 
 namespace tl = thallium;
-
-#define CHECK_RECURSIVE(path_string)                                                   \
-    {                                                                                  \
-        if(Util::is_recursive_path_string(path_string)) {                              \
-            LOG(WARNING) << "path_string was recursive: " << path_string << std::endl; \
-            return -ENOENT;                                                            \
-        }                                                                              \
-    }
-
-#define NOT_IMPLEMENTED(func)                                                        \
-    {                                                                                \
-        LOG(DEBUG) << " " << std::endl;                                              \
-        auto start = Metric::start_operation(func);                                  \
-        return Metric::stop_operation(func, start, Constants::fs_operation_success); \
-    }
-
-#define NOT_IMPLEMENTED_SPECIFY_RETURN(func, ret)        \
-    {                                                    \
-        LOG(DEBUG) << " " << std::endl;                  \
-        auto start = Metric::start_operation(func);      \
-        return Metric::stop_operation(func, start, ret); \
-    }
 
 #define CU_FUSE_RPC_DATA "cu_fuse_rpc_data"
 #define CU_FUSE_RPC_METADATA "cu_fuse_rpc_metadata"
@@ -35,9 +16,12 @@ namespace tl = thallium;
 namespace {
 std::atomic<bool> g_profile_snapshot_thread_stop{false};
 std::thread g_profile_snapshot_thread;
+std::mutex g_profile_snapshot_mutex;
+std::condition_variable g_profile_snapshot_cv;
 
 void stop_profile_snapshot_thread() {
     g_profile_snapshot_thread_stop.store(true);
+    g_profile_snapshot_cv.notify_all();
     if(g_profile_snapshot_thread.joinable()) {
         g_profile_snapshot_thread.join();
     }
@@ -50,13 +34,12 @@ void start_profile_snapshot_thread() {
 
     g_profile_snapshot_thread_stop.store(false);
     g_profile_snapshot_thread = std::thread([] {
-        while(!g_profile_snapshot_thread_stop.load()) {
-            std::this_thread::sleep_for(std::chrono::seconds(Constants::profile_snapshot_interval_s));
-            if(g_profile_snapshot_thread_stop.load()) {
-                break;
-            }
-
+        std::unique_lock<std::mutex> lock(g_profile_snapshot_mutex);
+        while(!g_profile_snapshot_cv.wait_for(lock, std::chrono::seconds(Constants::profile_snapshot_interval_s),
+                                              [] { return g_profile_snapshot_thread_stop.load(); })) {
+            lock.unlock();
             Util::log_profiling_metrics(Constants::output_filename_path, "runtime-snapshot");
+            lock.lock();
         }
     });
 }
@@ -65,9 +48,14 @@ void start_profile_snapshot_thread() {
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::getattr, path_);
-    CHECK_RECURSIVE(path_string);
+    if(Util::is_recursive_path_string(path_string)) {
+        LOG(WARNING) << "path_string was recursive: " << path_string << std::endl;
+        return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
+        ProfileSource::metadata, path_string, start, -ENOENT);
+    }
 
     auto cu_stat_opt{CacheTables::md_cache_table.get(path_string)};
+    OperationResult result = OperationResult::cache_hit;
     if(!cu_stat_opt.has_value()) {
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
         LOG(DEBUG, CU_FUSE_RPC_METADATA) << __FUNCTION__ << " from client running at address " << engine->self() << std::endl;
@@ -78,51 +66,71 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
         if(rpc_lstat_response != 0) {
             LOG(WARNING) << "failed to passthrough stat" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
-            CacheEvent::md_cache_event_table, path_string, start, rpc_lstat_response);
+            ProfileSource::metadata, path_string, start, rpc_lstat_response);
         }
 
-        if(!CacheTables::md_cache_table.get(path_string).has_value()) {
-            LOG(ERROR) << "expected value to exist after rpc caching" << std::endl;
-            assert(0);
-        }
+        result = OperationResult::cache_miss;
+        // Re-read below so a failed/absent cache population is returned as EIO.
     }
 
     cu_stat_opt = CacheTables::md_cache_table.get(path_string);
+    if(!cu_stat_opt.has_value()) {
+        LOG(ERROR) << "metadata cache missing after successful rpc" << std::endl;
+        return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::neg,
+        ProfileSource::metadata, path_string, start, -EIO);
+    }
     const auto cu_stat = cu_stat_opt.value();
-    cu_stat->cp_to_buf(stbuf);
+    cu_stat.cp_to_buf(stbuf);
 
-    return Metric::stop_cache_operation(OperationFunction::getattr, OperationResult::cache_hit,
-    CacheEvent::md_cache_event_table, path_string, start, Constants::fs_operation_success);
+    return Metric::stop_cache_operation(OperationFunction::getattr, result,
+    ProfileSource::metadata, path_string, start, Constants::fs_operation_success);
 }
 
 static int cu_fuse_read(const char* path_, char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::read, path_);
-    CHECK_RECURSIVE(path_string);
+    const int offset_error = FusePolicy::read_offset_result(offset);
+    if(offset_error != 0) {
+        return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
+        ProfileSource::data, path_string, start, offset_error);
+    }
+    if(Util::is_recursive_path_string(path_string)) {
+        LOG(WARNING) << "path_string was recursive: " << path_string << std::endl;
+        return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
+        ProfileSource::data, path_string, start, -ENOENT);
+    }
 
     LOG(DEBUG) << "requested offset: " << offset << std::endl;
     LOG(DEBUG) << "requested size: " << size << std::endl;
 
     auto md_entry = CacheTables::md_cache_table.get(path_string);
     if(md_entry.has_value()) {
-        struct stat* md_st = (struct stat*)md_entry.value()->get_vec().data();
+        struct stat* md_st = (struct stat*)md_entry->get_vec().data();
         if(md_st->st_size >= Constants::max_cacheable_byte_size) {
             LOG(DEBUG) << "file larger than max cacheable size... going to lustre" << std::endl;
 
-            int fd = open(path_string.c_str(), O_RDONLY);
+            int fd = open(path_string.c_str(), O_RDONLY | O_CLOEXEC);
+            if(fd == -1) {
+                return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
+                ProfileSource::data, path_string, start, -errno);
+            }
             ssize_t res = pread(fd, buf, size, offset);
+            const int saved_errno = errno;
+            const int close_result = close(fd);
             if(res == -1) {
+                res = -saved_errno;
+            } else if(close_result == -1) {
                 res = -errno;
             }
-            close(fd);
 
-            return Metric::stop_cache_operation(
-            OperationFunction::read, OperationResult::neg, CacheEvent::data_cache_event_table, path_string, start, res);
+            return Metric::stop_cache_operation(OperationFunction::read,
+            res < 0 ? OperationResult::neg : OperationResult::success,
+            ProfileSource::bypass, path_string, start, res);
         }
     }
 
     const auto entry_opt = CacheTables::data_cache_table.get(path_string);
-    std::vector<std::byte>* bytes = nullptr;
+    std::vector<std::byte> bytes;
     bool cache = false;
 
     if(!entry_opt.has_value()) {
@@ -135,36 +143,37 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
         if(rpc_readfile_response < 0) {
             LOG(WARNING) << "failed to passthrough readfile" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
-            CacheEvent::data_cache_event_table, path_string, start, rpc_readfile_response);
+            ProfileSource::data, path_string, start, rpc_readfile_response);
         }
 
-        if(!CacheTables::data_cache_table.get(path_string).has_value()) {
-            LOG(ERROR) << "expected value to exist after rpc caching" << std::endl;
-            assert(0);
+        const auto populated = CacheTables::data_cache_table.get(path_string);
+        if(!populated.has_value()) {
+            LOG(ERROR) << "data cache missing after successful rpc" << std::endl;
+            return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
+            ProfileSource::data, path_string, start, -EIO);
         }
-
-        bytes = CacheTables::data_cache_table.get(path_string).value();
+        bytes = std::move(populated.value());
         cache = true;
     } else {
-        bytes = entry_opt.value();
+        bytes = std::move(entry_opt.value());
     }
 
     size_t read_size = 0;
-    if(offset < static_cast<off_t>(bytes->size())) {
+    if(offset < static_cast<off_t>(bytes.size())) {
         // Calculate the amount to copy, ensuring not to exceed the bounds of the vector
-        ssize_t copy_size = std::min(static_cast<size_t>(size), bytes->size() - static_cast<size_t>(offset));
+        ssize_t copy_size = std::min(static_cast<size_t>(size), bytes.size() - static_cast<size_t>(offset));
 
         // Copy data from bytes to buf
-        std::memcpy(buf, bytes->data() + offset, copy_size);
+        std::memcpy(buf, bytes.data() + offset, copy_size);
         read_size = static_cast<size_t>(copy_size);
     }
 
     if(cache) {
         return Metric::stop_cache_operation(OperationFunction::read, OperationResult::cache_miss,
-        CacheEvent::data_cache_event_table, path_string, start, read_size);
+        ProfileSource::data, path_string, start, read_size);
     } else {
         return Metric::stop_cache_operation(OperationFunction::read, OperationResult::cache_hit,
-        CacheEvent::data_cache_event_table, path_string, start, read_size);
+        ProfileSource::data, path_string, start, read_size);
     }
 }
 
@@ -172,7 +181,11 @@ static int
 cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_t offset, struct fuse_file_info* fi, enum fuse_readdir_flags flags) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::readdir, path_);
-    CHECK_RECURSIVE(path_string);
+    if(Util::is_recursive_path_string(path_string)) {
+        LOG(WARNING) << "path_string was recursive: " << path_string << std::endl;
+        return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::neg,
+        ProfileSource::tree, path_string, start, -ENOENT);
+    }
 
     const auto& tree_cache_table_entry_opt = CacheTables::tree_cache_table.get(path_string);
     std::vector<std::string> entries{};
@@ -188,18 +201,19 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
         if(rpc_readdir_response != Constants::fs_operation_success) {
             LOG(WARNING) << "failed to passthrough stat" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::neg,
-            CacheEvent::md_cache_event_table, path_string, start, rpc_readdir_response);
+            ProfileSource::tree, path_string, start, rpc_readdir_response);
         }
 
-        if(!CacheTables::tree_cache_table.get(path_string).has_value()) {
-            LOG(ERROR) << "expected value to exist after rpc caching" << std::endl;
-            assert(0);
+        const auto populated = CacheTables::tree_cache_table.get(path_string);
+        if(!populated.has_value()) {
+            LOG(ERROR) << "tree cache missing after successful rpc" << std::endl;
+            return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::neg,
+            ProfileSource::tree, path_string, start, -EIO);
         }
-
-        entries = *CacheTables::tree_cache_table.get(path_string).value();
+        entries = std::move(populated.value());
         cache = true;
     } else {
-        entries = *tree_cache_table_entry_opt.value();
+        entries = tree_cache_table_entry_opt.value();
     }
 
     const fuse_fill_dir_flags fill_dir{
@@ -209,31 +223,40 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
         const auto cur_full_path = std::string(path_string).append("/").append(cur_path_stem);
 
         if(filler(buf, cur_path_stem.c_str(), nullptr, 0, fill_dir) == 1) {
-            LOG(ERROR) << "filler returned 1" << std::endl;
+            break;
         }
     }
 
     if(cache) {
         return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::cache_miss,
-        CacheEvent::tree_cache_event_table, path_string, start, Constants::fs_operation_success);
+        ProfileSource::tree, path_string, start, Constants::fs_operation_success);
     } else {
         return Metric::stop_cache_operation(OperationFunction::readdir, OperationResult::cache_hit,
-        CacheEvent::tree_cache_event_table, path_string, start, Constants::fs_operation_success);
+        ProfileSource::tree, path_string, start, Constants::fs_operation_success);
     }
 }
 
-#define IOCTL_GET_FS_STREAM(filename)                                                                  \
-    output = std::filesystem::path(path_string).parent_path() += "/" + filename;                       \
-    fs_stream_opt = Util::try_get_fstream_from_path(output.c_str());                                   \
-    if(!fs_stream_opt.has_value()) {                                                                   \
-        LOG(ERROR) << "failed to open fstream" << std::endl;                                           \
-        return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_error); \
-    }
+#define IOCTL_GET_FS_STREAM(filename)                                                                    \
+    do {                                                                                                 \
+        output = std::filesystem::path(path_string).parent_path() += "/" + filename;                    \
+        errno = 0;                                                                                       \
+        fs_stream_opt = Util::try_get_fstream_from_path(output.c_str());                                 \
+        if(!fs_stream_opt.has_value()) {                                                                 \
+            const int status = CopperError::negative_errno_or_eio(errno);                                \
+            LOG(ERROR) << "failed to open fstream: " << -status << std::endl;                            \
+            return Metric::stop_cache_operation(OperationFunction::ioctl, OperationResult::neg,          \
+                                                ProfileSource::bypass, path_string, start, status);       \
+        }                                                                                                \
+    } while(false)
 
 static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file_info*, unsigned int flags, void* data) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::ioctl, path_);
-    CHECK_RECURSIVE(path_string);
+    if(Util::is_recursive_path_string(path_string)) {
+        LOG(WARNING) << "path_string was recursive: " << path_string << std::endl;
+        return Metric::stop_cache_operation(OperationFunction::ioctl, OperationResult::neg,
+        ProfileSource::bypass, path_string, start, -ENOENT);
+    }
 
     std::string output;
     std::optional<std::ofstream> fs_stream_opt = std::nullopt;
@@ -249,9 +272,9 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         break;
     case(Constants::ioctl_clear_cache_tables):
         LOG(INFO) << "clearing cache" << std::endl;
-        CacheTables::tree_cache_table.cache.clear();
-        CacheTables::md_cache_table.cache.clear();
-        CacheTables::md_cache_table.cache.clear();
+        CacheTables::tree_cache_table.clear();
+        CacheTables::md_cache_table.clear();
+        CacheTables::data_cache_table.clear();
         break;
     case(Constants::ioctl_log_operation_count):
         LOG(INFO) << "logging operation" << std::endl;
@@ -279,19 +302,20 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         break;
     case(Constants::ioctl_clear_operation_count):
         LOG(INFO) << "clearing operation" << std::endl;
-        Operations::reset_operation_counter();
+        Profiling::reset();
         break;
     case(Constants::ioctl_clear_operation_cache_hit):
         LOG(INFO) << "clearing operation cache hit" << std::endl;
-        Operations::reset_operation_cache_hit();
+        Profiling::reset();
         break;
     case(Constants::ioctl_clear_operation_cache_miss):
         LOG(INFO) << "clearing operation cache miss" << std::endl;
-        Operations::reset_operation_cache_miss();
+        Profiling::reset();
         break;
     case(Constants::ioctl_clear_operation_time):
         LOG(INFO) << "clearing operation time" << std::endl;
-        Operations::reset_operation_timer();
+        Profiling::reset();
+        break;
     case(Constants::ioctl_log_data_cache_event):
         LOG(INFO) << "logging data cache event" << std::endl;
 
@@ -312,15 +336,15 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         break;
     case(Constants::ioctl_clear_data_cache_event):
         LOG(INFO) << "clearing data cache event" << std::endl;
-        CacheEvent::reset_data_cache_event();
+        Profiling::reset();
         break;
     case(Constants::ioctl_clear_tree_cache_event):
         LOG(INFO) << "clearing tree cache event" << std::endl;
-        CacheEvent::reset_tree_cache_event();
+        Profiling::reset();
         break;
     case(Constants::ioctl_clear_md_cache_event):
         LOG(INFO) << "clearing md cache event" << std::endl;
-        CacheEvent::reset_md_cache_event();
+        Profiling::reset();
         break;
     case(Constants::ioctl_log_operation_neg): {
         LOG(INFO) << "logging operation neg event" << std::endl;
@@ -331,7 +355,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     }
     case(Constants::ioctl_clear_operation_neg):
         LOG(INFO) << "clearing operation neg event" << std::endl;
-        Operations::reset_operation_cache_neg();
+        Profiling::reset();
         break;
     case(Constants::ioctl_log_all_metrics):
         LOG(INFO) << "loggin all metrics" << std::endl;
@@ -519,17 +543,23 @@ static void cu_fuse_destroy(void* private_data) {
     auto engine = static_cast<tl::engine*>(private_data);
     engine->finalize();
 
+    Metric::stop_operation(OperationFunction::destroy, start, Constants::fs_operation_success);
     Util::log_profiling_metrics(Constants::output_filename_path);
     Util::reset_fs();
-
-    Metric::stop_operation(OperationFunction::destroy, start, Constants::fs_operation_success);
 }
 
 static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) {
     LOG(DEBUG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::readlink, path_);
-    CHECK_RECURSIVE(path_string);
+    if(Util::is_recursive_path_string(path_string)) {
+        LOG(WARNING) << "path_string was recursive: " << path_string << std::endl;
+        return Metric::stop_cache_operation(OperationFunction::readlink, OperationResult::neg,
+        ProfileSource::bypass, path_string, start, -ENOENT);
+    }
 
+    if(size == 0) {
+        return Metric::stop_operation(OperationFunction::readlink, start, -EINVAL);
+    }
     const int res = static_cast<int>(readlink(path_string.c_str(), buf, size - 1));
     if(res == -1) {
         return Metric::stop_operation(OperationFunction::readlink, start, -errno);
@@ -556,48 +586,49 @@ static int cu_fuse_getxattr(const char* path_, const char* name, char* value, si
 #endif
 
 // clang-format off
-static int cu_fuse_open(const char* path_, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::open)
-static int cu_fuse_mknod(const char* path_, const mode_t mode, const dev_t rdev) NOT_IMPLEMENTED(OperationFunction::mknod)
-static int cu_fuse_mkdir(const char* path_, const mode_t mode) NOT_IMPLEMENTED(OperationFunction::mkdir)
-static int cu_fuse_unlink(const char* path_) NOT_IMPLEMENTED(OperationFunction::unlink)
-static int cu_fuse_rmdir(const char* path_) NOT_IMPLEMENTED(OperationFunction::rmdir)
-static int cu_fuse_symlink(const char*, const char*) NOT_IMPLEMENTED(OperationFunction::symlink)
-static int cu_fuse_rename(const char* from_, const char* to_, unsigned int flags) NOT_IMPLEMENTED(OperationFunction::rename)
-static int cu_fuse_link(const char* from_, const char* to_) NOT_IMPLEMENTED(OperationFunction::link)
-static int cu_fuse_chmod(const char* path_, const mode_t mode, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::chmod)
-static int cu_fuse_chown(const char* path_, const uid_t uid, const gid_t gid, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::chown)
-static int cu_fuse_truncate(const char*, off_t, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::truncate)
-// NOTE: need to return write size or some many programs will continue attempting to write
-static int cu_fuse_write(const char* path_, const char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi)
-    NOT_IMPLEMENTED_SPECIFY_RETURN(OperationFunction::write, size)
-static int cu_fuse_statfs(const char* path_, struct statvfs* stbuf) NOT_IMPLEMENTED(OperationFunction::statfs)
-static int cu_fuse_flush(const char*, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::flush)
-static int cu_fuse_release(const char* path_, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::release)
-static int cu_fuse_fsync(const char* path_, const int isdatasync, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::fsync)
-#ifdef HAVE_SETXATTR
-static int cu_fuse_setxattr(const char*, const char*, const char*, size_t, int) NOT_IMPLEMENTED(OperationFunction::setxattr)
-static int cu_fuse_listxattr(const char*, char*, size_t) NOT_IMPLEMENTED(OperationFunction::listxattr)
-static int cu_fuse_removexattr(const char*, const char*) NOT_IMPLEMENTED(OperationFunction::removexattr)
+#define FUSE_METRIC_CALLBACK(op, expression) do { auto metric_start=Metric::start_operation(OperationFunction::op); auto metric_result=(expression); return Metric::stop_operation(OperationFunction::op,metric_start,metric_result); } while(false)
+static int cu_fuse_open(const char*, struct fuse_file_info* fi) { FUSE_METRIC_CALLBACK(open, FusePolicy::open_result(fi->flags)); }
+#define READ_ONLY_MUTATION(name, op, signature) static int name signature { FUSE_METRIC_CALLBACK(op, FusePolicy::mutation_result()); }
+#ifdef AT_SYMLINK_NOFOLLOW
+#define COPPER_ACCESS_FLAGS (AT_EACCESS | AT_SYMLINK_NOFOLLOW)
+#else
+#define COPPER_ACCESS_FLAGS AT_EACCESS
 #endif
-static int cu_fuse_opendir(const char*, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::opendir)
-static int cu_fuse_releasedir(const char*, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::releasedir)
-static int cu_fuse_fsyncdir(const char*, int, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::fsyncdir)
-static int cu_fuse_access(const char* path_, const int mask) NOT_IMPLEMENTED(OperationFunction::access)
-static int cu_fuse_create(const char* path_, const mode_t mode, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::create)
-static int cu_fuse_lock(const char*, struct fuse_file_info*, int cmd, struct flock*) NOT_IMPLEMENTED(OperationFunction::lock)
-static int cu_fuse_utimens(const char* path_, const struct timespec tv[2], struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::utimens)
-static int cu_fuse_bmap(const char*, size_t blocksize, uint64_t* idx) NOT_IMPLEMENTED(OperationFunction::bmap)
-static int cu_fuse_poll(const char*, struct fuse_file_info*, struct fuse_pollhandle* ph, unsigned* reventsp) NOT_IMPLEMENTED(OperationFunction::poll)
-static int cu_fuse_write_buf(const char*, struct fuse_bufvec* buf, off_t off, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::write_buf)
-static int cu_fuse_read_buf(const char*, struct fuse_bufvec** bufp, size_t size, off_t off, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::read_buf)
-static int cu_fuse_flock(const char*, struct fuse_file_info*, int op) NOT_IMPLEMENTED(OperationFunction::flock)
-static int cu_fuse_fallocate(const char*, int, off_t, off_t, struct fuse_file_info*) NOT_IMPLEMENTED(OperationFunction::fallocate)
-static ssize_t cu_fuse_copy_file_range(const char* path_in, struct fuse_file_info* fi_in,
-                                       off_t offset_in, const char* path_out,
-                                       struct fuse_file_info* fi_out, off_t offset_out,
-                                       size_t size, int flags) NOT_IMPLEMENTED(OperationFunction::copy_file_range)
-static off_t cu_fuse_lseek(const char* path_, const off_t off,
-                           const int whence, struct fuse_file_info* fi) NOT_IMPLEMENTED(OperationFunction::lseek)
+READ_ONLY_MUTATION(cu_fuse_mknod, mknod, (const char*, mode_t, dev_t))
+READ_ONLY_MUTATION(cu_fuse_mkdir, mkdir, (const char*, mode_t))
+READ_ONLY_MUTATION(cu_fuse_unlink, unlink, (const char*))
+READ_ONLY_MUTATION(cu_fuse_rmdir, rmdir, (const char*))
+READ_ONLY_MUTATION(cu_fuse_symlink, symlink, (const char*, const char*))
+READ_ONLY_MUTATION(cu_fuse_rename, rename, (const char*, const char*, unsigned int))
+READ_ONLY_MUTATION(cu_fuse_link, link, (const char*, const char*))
+READ_ONLY_MUTATION(cu_fuse_chmod, chmod, (const char*, mode_t, struct fuse_file_info*))
+READ_ONLY_MUTATION(cu_fuse_chown, chown, (const char*, uid_t, gid_t, struct fuse_file_info*))
+READ_ONLY_MUTATION(cu_fuse_truncate, truncate, (const char*, off_t, struct fuse_file_info*))
+static int cu_fuse_write(const char*, const char*, size_t, off_t, struct fuse_file_info*) { FUSE_METRIC_CALLBACK(write, FusePolicy::mutation_result()); }
+static int cu_fuse_statfs(const char* path_, struct statvfs* stbuf) { const auto p=Util::rel_to_abs_path(path_); int rc=statvfs(p.c_str(),stbuf); int e=errno; FUSE_METRIC_CALLBACK(statfs, rc==0?0:-e); }
+static int cu_fuse_flush(const char*, struct fuse_file_info*) { FUSE_METRIC_CALLBACK(flush, 0); }
+static int cu_fuse_release(const char*, struct fuse_file_info*) { FUSE_METRIC_CALLBACK(release, 0); }
+static int cu_fuse_fsync(const char*, int, struct fuse_file_info*) { FUSE_METRIC_CALLBACK(fsync, 0); }
+#ifdef HAVE_SETXATTR
+READ_ONLY_MUTATION(cu_fuse_setxattr, setxattr, (const char*, const char*, const char*, size_t, int))
+static int cu_fuse_listxattr(const char*, char*, size_t) { FUSE_METRIC_CALLBACK(listxattr, FusePolicy::optional_result()); }
+READ_ONLY_MUTATION(cu_fuse_removexattr, removexattr, (const char*, const char*))
+#endif
+static int cu_fuse_opendir(const char*, struct fuse_file_info*) { FUSE_METRIC_CALLBACK(opendir, 0); }
+static int cu_fuse_releasedir(const char*, struct fuse_file_info*) { FUSE_METRIC_CALLBACK(releasedir, 0); }
+static int cu_fuse_fsyncdir(const char*, int, struct fuse_file_info*) { FUSE_METRIC_CALLBACK(fsyncdir, 0); }
+static int cu_fuse_access(const char* path_, int mask) { if(mask&W_OK) FUSE_METRIC_CALLBACK(access, -EROFS); const auto p=Util::rel_to_abs_path(path_); errno=0; int rc=faccessat(AT_FDCWD,p.c_str(),mask,COPPER_ACCESS_FLAGS); int e=errno; FUSE_METRIC_CALLBACK(access, FusePolicy::access_result(mask,rc==0?0:e)); }
+READ_ONLY_MUTATION(cu_fuse_create, create, (const char*, mode_t, struct fuse_file_info*))
+static int cu_fuse_lock(const char*, struct fuse_file_info*, int, struct flock*) { FUSE_METRIC_CALLBACK(lock, FusePolicy::optional_result()); }
+READ_ONLY_MUTATION(cu_fuse_utimens, utimens, (const char*, const struct timespec[2], struct fuse_file_info*))
+static int cu_fuse_bmap(const char*, size_t, uint64_t*) { FUSE_METRIC_CALLBACK(bmap, FusePolicy::optional_result()); }
+static int cu_fuse_poll(const char*, struct fuse_file_info*, struct fuse_pollhandle*, unsigned*) { FUSE_METRIC_CALLBACK(poll, FusePolicy::optional_result()); }
+static int cu_fuse_write_buf(const char*, struct fuse_bufvec*, off_t, struct fuse_file_info*) { FUSE_METRIC_CALLBACK(write_buf, FusePolicy::mutation_result()); }
+
+static int cu_fuse_flock(const char*, struct fuse_file_info*, int) { FUSE_METRIC_CALLBACK(flock, FusePolicy::optional_result()); }
+READ_ONLY_MUTATION(cu_fuse_fallocate, fallocate, (const char*, int, off_t, off_t, struct fuse_file_info*))
+static ssize_t cu_fuse_copy_file_range(const char*, struct fuse_file_info*, off_t, const char*, struct fuse_file_info*, off_t, size_t, int) { auto start=Metric::start_operation(OperationFunction::copy_file_range); const ssize_t result=FusePolicy::mutation_result(); Metric::stop_operation(OperationFunction::copy_file_range,start,static_cast<int>(result)); return result; }
+static off_t cu_fuse_lseek(const char* path_, off_t off, int whence, struct fuse_file_info*) { auto start=Metric::start_operation(OperationFunction::lseek); struct stat s{}; const auto p=Util::rel_to_abs_path(path_); int rc=lstat(p.c_str(),&s); int e=errno; const off_t result=rc?-e:FusePolicy::lseek_result(s.st_size,off,whence); Metric::stop_operation(OperationFunction::lseek,start,result<0?static_cast<int>(result):0); return result; }
 // clang-format on
 
 static constexpr struct fuse_operations cu_fuse_oper = {
@@ -640,7 +671,7 @@ static constexpr struct fuse_operations cu_fuse_oper = {
 .ioctl = cu_fuse_ioctl,
 .poll = cu_fuse_poll,
 // NOTE: setting these to nullptr causes fallback to read/write respectively
-.write_buf = nullptr,
+.write_buf = cu_fuse_write_buf,
 .read_buf = nullptr,
 .flock = cu_fuse_flock,
 .fallocate = cu_fuse_fallocate,
@@ -653,8 +684,11 @@ int CuFuse::cu_hello_main(int argc, char* argv[]) {
     // before the user-facing log level has been processed.
     AixLog::Log::init({});
 
-    char char_hostname[1024];
-    gethostname(char_hostname, sizeof(char_hostname));
+    char char_hostname[1024]{};
+    if(gethostname(char_hostname, sizeof(char_hostname) - 1) != 0) {
+        throw std::system_error(errno, std::generic_category(), "gethostname failed");
+    }
+    char_hostname[sizeof(char_hostname) - 1] = '\0';
     Constants::my_hostname = std::string(char_hostname);
     Constants::pid = std::to_string(getpid());
 
