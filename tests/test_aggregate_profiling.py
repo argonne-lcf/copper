@@ -1,6 +1,7 @@
 import csv
 import importlib.util
 import json
+import os
 import pathlib
 import tempfile
 import unittest
@@ -68,7 +69,7 @@ class AggregateTests(unittest.TestCase):
                 m.read_aggregate_csv(bundle.aggregate)
 
     def test_only_explicitly_supported_manifest_schema_is_accepted(self):
-        for schema in (1, 3, "2", 2.0, True):
+        for schema in (1, "2", 2.0, True):
             with self.subTest(schema=schema), tempfile.TemporaryDirectory() as d:
                 root=pathlib.Path(d)
                 self._bundle(root, schema=schema)
@@ -161,7 +162,7 @@ class AggregateTests(unittest.TestCase):
             manifest=final/"nid-1-42-1-final-manifest.json"
             data=json.loads(manifest.read_text()); data.update(paths_seen=5, paths_dropped=3, other_events=3)
             manifest.write_text(json.dumps(data))
-            with mock.patch("sys.argv", [str(P), str(log), "cluster"]):
+            with mock.patch("sys.argv", [str(P), str(log), "cluster", "--legacy-unverified", "--expected-host", "nid-1"]):
                 self.assertEqual(m.main(), 0)
             summary=(log/"profiling"/"cluster"/"cluster-profiling_summary.md").read_text()
             self.assertIn("| `python_zip_probe` | 1 | 2 | `/x/python311.zip` |", summary)
@@ -189,7 +190,7 @@ class AggregateTests(unittest.TestCase):
                 manifest=final/f"{stem}-manifest.json"
                 data=json.loads(manifest.read_text()); data["paths_seen"]=huge
                 manifest.write_text(json.dumps(data))
-            with mock.patch("sys.argv", [str(P), str(log), "cluster"]):
+            with mock.patch("sys.argv", [str(P), str(log), "cluster", "--legacy-unverified", "--expected-host", "nid-1", "--expected-host", "nid-2"]):
                 self.assertEqual(m.main(), 0)
             with (log/"profiling"/"cluster"/"cluster-profiling_aggregate.csv").open() as aggregate_file:
                 aggregate = dict(csv.reader(aggregate_file))
@@ -401,5 +402,293 @@ class AggregateTests(unittest.TestCase):
             with mock.patch("sys.argv", [str(P), str(log), "cluster"]):
                 self.assertEqual(m.main(), 1)
             self.assertFalse((log/"profiling"/"cluster").exists())
+
+class CoverageTests(AggregateTests):
+    def test_cli_requires_expected_roster(self):
+        with tempfile.TemporaryDirectory() as d:
+            self._bundle(pathlib.Path(d))
+            with mock.patch("sys.argv", [str(P), d]):
+                self.assertEqual(m.main(), 1)
+
+    def test_exact_roster_missing_host_requires_explicit_partial(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d); self._bundle(root)
+            bundles = m.discover_committed_bundles(root)
+            with self.assertRaisesRegex(ValueError, "missing"):
+                m.select_bundles(bundles, ["nid-1", "nid-2"], legacy_unverified=True)
+            selected, coverage = m.select_bundles(
+                bundles, ["nid-1", "nid-2"], allow_partial=True, legacy_unverified=True)
+            self.assertEqual(len(selected), 1)
+            self.assertEqual(coverage["missing_hosts"], ["nid-2"])
+            self.assertFalse(coverage["complete"])
+
+    def test_restart_selects_only_latest_cumulative_snapshot(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d)
+            self._bundle(root, "nid-1-42-1-final")
+            latest, _ = self._bundle(root, "nid-1-43-2-final")
+            selected, coverage = m.select_bundles(m.discover_committed_bundles(root),
+                ["nid-1"], legacy_unverified=True)
+            self.assertEqual([b.manifest for b in selected], [latest])
+            self.assertFalse(coverage["complete"])
+            self.assertEqual(len(coverage["discarded_snapshots"]), 1)
+
+    def test_recovered_snapshot_is_nonfinal_and_requires_partial(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d); self._bundle(root, "nid-1-42-2-periodic")
+            bundles = m.discover_committed_bundles(root)
+            with self.assertRaisesRegex(ValueError, "non-final"):
+                m.select_bundles(bundles, ["nid-1"], legacy_unverified=True)
+            _, coverage = m.select_bundles(bundles, ["nid-1"],
+                legacy_unverified=True, allow_partial=True)
+            self.assertFalse(coverage["final"])
+            self.assertFalse(coverage["complete"])
+
+    def test_ambiguous_restart_sequence_refuses_to_guess(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d)
+            self._bundle(root, "nid-1-42-1-final")
+            self._bundle(root, "nid-1-43-1-final")
+            with self.assertRaisesRegex(ValueError, "ambiguous"):
+                m.select_bundles(m.discover_committed_bundles(root), ["nid-1"], legacy_unverified=True)
+
+    def test_cli_publishes_one_generation_with_breakdown_and_coverage(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d); self._bundle(root)
+            args = [str(P), d, "cluster", "--legacy-unverified", "--expected-host", "nid-1"]
+            with mock.patch("sys.argv", args):
+                self.assertEqual(m.main(), 0)
+            current = root / "profiling" / "cluster" / "cluster-current"
+            self.assertTrue(current.is_symlink())
+            report = json.loads((current / "cluster-report.json").read_text())
+            self.assertFalse(report["coverage"]["complete"])
+            self.assertEqual(report["operations"][0]["source_data"], 3)
+            self.assertIsNone(report["operations"][0]["cluster_percentiles"])
+            (root / "nid-1-42-1-final-profiling_aggregate.csv").write_text("broken")
+            pinned = current.resolve()
+            with mock.patch("sys.argv", args):
+                self.assertEqual(m.main(), 1)
+            self.assertEqual(current.resolve(), pinned)
+
+class Schema3Tests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        import subprocess
+        cls.build = tempfile.TemporaryDirectory()
+        cls.writer = pathlib.Path(cls.build.name) / "writer"
+        source = cls.writer.with_suffix(".cpp")
+        source.write_text(r'''#include "metric/profiler_core.h"
+#include <cstdlib>
+int main(int argc, char** argv) {
+ setenv("COPPER_RUN_ID", "run-1", 1);
+ setenv("COPPER_DAEMON_GENERATION", "gen-1", 1);
+ ProfilerConfig config{2,false,4,true};
+ ProfilerCore core(config,1);
+ core.complete(0,0,ProfileOutcome::success,0,"/x",ProfileSource::data);
+ core.complete(0,1,ProfileOutcome::cache_hit,0,"/x",ProfileSource::data);
+ core.complete(0,10,ProfileOutcome::cache_miss,5,"/y",ProfileSource::data);
+ core.complete(0,100,ProfileOutcome::success,0,"/z",ProfileSource::data);
+ if (argc > 2) {
+  if (!write_snapshot_bundle_atomic(argv[1],"host-a",42,1,"periodic",core.snapshot_and_reset(),config).success) return 1;
+  core.complete(0,4,ProfileOutcome::success,0,"/new",ProfileSource::data);
+  return write_snapshot_bundle_atomic(argv[1],"host-a",42,2,"final",core.snapshot(),config).success ? 0 : 1;
+ }
+ return write_snapshot_bundle_atomic(argv[1],"host-a",42,1,"final",core.snapshot(),config).success ? 0 : 1;
+}''')
+        repo = P.parents[1]
+        compiler = os.environ.get("CXX", "g++")
+        subprocess.run([compiler, "-std=c++20", "-O2", "-pthread", "-I"+str(repo/"src"), str(source), str(repo/"src/metric/profiler_core.cpp"), "-o", str(cls.writer)], check=True)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.build.cleanup()
+
+    def emit(self, root):
+        import subprocess
+        subprocess.run([str(self.writer), str(root)], check=True)
+        return next(root.glob("*-manifest.json"))
+
+    def test_schema3_corruption_and_malformed_commit_fail_closed(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d); manifest = self.emit(root)
+            data = json.loads(manifest.read_text())
+            target = root / data["files"][0]
+            raw = target.read_bytes(); target.write_bytes(raw.replace(b"4", b"5", 1))
+            with self.assertRaisesRegex(ValueError, "integrity"):
+                m.discover_committed_bundles(root)
+            target.write_bytes(raw)
+            data["histogram"]["bucket_count"] = 64
+            manifest.write_text(json.dumps(data))
+            with self.assertRaisesRegex(ValueError, "schema3"):
+                m.discover_committed_bundles(root)
+
+    def clone(self, root, original, sequence, epoch=0, semantics="cumulative", generation="gen-1", run="run-1", kind="final"):
+        data = json.loads(original.read_text())
+        old_stem = original.name.removesuffix("-manifest.json")
+        new_stem = f"host-a-42-{sequence}-{kind}"
+        names = []
+        integrity = {}
+        for name in data["files"]:
+            new_name = name.replace(old_stem, new_stem)
+            (root / new_name).write_bytes((root / name).read_bytes())
+            names.append(new_name); integrity[new_name] = data["file_integrity"][name]
+        data.update(sequence=sequence, timestamp_unix_ms=data["timestamp_unix_ms"]+sequence,
+                    reset_epoch=epoch, semantics=semantics, daemon_generation=generation,
+                    run_id=run, kind=kind, files=names, file_integrity=integrity)
+        target = root / (new_stem + "-manifest.json")
+        target.write_text(json.dumps(data)); return target
+
+    def test_closed_epochs_and_latest_snapshot_are_selected_without_overlap(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d); original = self.emit(root)
+            closed = self.clone(root, original, 2, semantics="interval", kind="periodic")
+            latest = self.clone(root, original, 3, epoch=1)
+            selected, coverage = m.select_bundles(m.discover_committed_bundles(root), ["host-a"])
+            self.assertEqual([b.manifest for b in selected], [closed, latest])
+            self.assertTrue(coverage["complete"])
+            self.assertEqual(coverage["run_id"], "run-1")
+            self.assertEqual(len(coverage["discarded_snapshots"]), 1)
+
+    def test_unified_cli_emits_verified_schema3_report_and_comparison(self):
+        import subprocess
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d); self.emit(root)
+            cli = P.parent / "copper-report"
+            result = subprocess.run(["python3", str(cli), str(root), "--expected-host", "host-a", "--run-id", "run-1"], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            current = root / "profiling/cluster/cluster-current"
+            report = json.loads((current / "cluster-report.json").read_text())
+            self.assertTrue(report["coverage"]["complete"])
+            self.assertEqual(report["run_id"], "run-1")
+            self.assertEqual(report["operations"][0]["cluster_percentiles"]["p99"]["upper_bound_ns"], 127)
+            self.assertEqual(report["receipts"]["cache"]["status"], "unavailable")
+            self.assertEqual(report["compatibility"]["mode"], "bounded-heavy-hitter")
+            self.assertIn("error_bound", report["paths"][0])
+            compared = subprocess.run(["python3", str(P.parent / "copper-compare"), str(current), str(current)], capture_output=True, text=True)
+            self.assertEqual(compared.returncode, 0, compared.stderr)
+            comparison = json.loads(compared.stdout)
+            self.assertTrue(comparison["compatible"])
+            self.assertEqual(comparison["operations"][0]["total_calls"]["delta"], 0)
+
+    def refresh_integrity(self, manifest):
+        import hashlib
+        data = json.loads(manifest.read_text())
+        for name in data["files"]:
+            raw = (manifest.parent / name).read_bytes()
+            data["file_integrity"][name] = {"size_bytes":len(raw), "sha256":hashlib.sha256(raw).hexdigest()}
+        manifest.write_text(json.dumps(data))
+
+    def test_same_epoch_cumulative_counter_regression_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d); original = self.emit(root)
+            latest = self.clone(root, original, 2)
+            data = json.loads(latest.read_text())
+            operations = root / next(n for n in data["files"] if n.endswith("operations.csv"))
+            operations.write_text(operations.read_text().replace(",111,", ",110,"))
+            self.refresh_integrity(latest)
+            with self.assertRaisesRegex(ValueError, "regress"):
+                m.select_bundles(m.discover_committed_bundles(root), ["host-a"])
+
+    def test_epoch_identity_and_histogram_rejection_matrix(self):
+        cases = [
+            ("overlap", dict(sequence=2, semantics="interval"), dict(sequence=3), "overlap"),
+            ("run", dict(sequence=2, run="other"), None, "identity"),
+            ("generation", dict(sequence=2, generation="other"), None, "identity"),
+            ("gap", dict(sequence=2, epoch=2), None, "epochs"),
+            ("reset regression", dict(sequence=2, epoch=1), dict(sequence=3), "regressed"),
+        ]
+        for label, second, third, message in cases:
+            with self.subTest(label=label), tempfile.TemporaryDirectory() as d:
+                root = pathlib.Path(d); original = self.emit(root)
+                self.clone(root, original, **second)
+                if third: self.clone(root, original, **third)
+                with self.assertRaisesRegex(ValueError, message):
+                    m.select_bundles(m.discover_committed_bundles(root), ["host-a"])
+        for mutation in ("duplicate", "missing", "bound", "count"):
+            with self.subTest(histogram=mutation), tempfile.TemporaryDirectory() as d:
+                root = pathlib.Path(d); manifest = self.emit(root)
+                data = json.loads(manifest.read_text())
+                histogram = root / next(n for n in data["files"] if n.endswith("histogram.csv"))
+                lines = histogram.read_text().splitlines()
+                if mutation == "duplicate": lines.append(lines[1])
+                elif mutation == "missing": lines.pop()
+                elif mutation == "bound": lines[1] = lines[1].replace(",0,0,0,", ",0,0,1,")
+                else: lines[1] = lines[1].rsplit(",",1)[0] + ",999"
+                histogram.write_text("\n".join(lines)+"\n"); self.refresh_integrity(manifest)
+                with self.assertRaisesRegex(ValueError, "histogram"):
+                    m.validate_bundle_consistency(m.discover_committed_bundles(root)[0])
+
+    def test_unknown_identity_is_not_verified_even_in_partial_mode(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d); manifest = self.emit(root)
+            data = json.loads(manifest.read_text()); data["daemon_generation"] = None
+            manifest.write_text(json.dumps(data))
+            with self.assertRaisesRegex(ValueError, "unknown"):
+                m.select_bundles(m.discover_committed_bundles(root), ["host-a"], allow_partial=True)
+
+    def test_report_publishes_cluster_histogram_and_human_bounds(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d); self.emit(root)
+            self.assertEqual(m.main([d, "--expected-host", "host-a"]), 0)
+            current = root / "profiling/cluster/cluster-current"
+            histogram = current / "cluster-profiling_histogram.csv"
+            self.assertTrue(histogram.is_file())
+            with histogram.open() as stream:
+                rows = list(csv.DictReader(stream))
+            self.assertEqual(len(rows), 65)
+            self.assertEqual(sum(int(r["count"]) for r in rows), 4)
+            summary = (current / "cluster-profiling_summary.md").read_text()
+            self.assertIn("Cluster Histogram Percentile Bounds", summary)
+            self.assertIn("Host Percentile Distribution", summary)
+
+    def test_same_epoch_histogram_bucket_regression_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d); original = self.emit(root)
+            latest = self.clone(root, original, 2)
+            data = json.loads(latest.read_text())
+            histogram = root / next(n for n in data["files"] if n.endswith("histogram.csv"))
+            lines = histogram.read_text().splitlines()
+            lines[5] = lines[5].rsplit(",",1)[0] + ",0"
+            lines[6] = lines[6].rsplit(",",1)[0] + ",1"
+            histogram.write_text("\n".join(lines)+"\n"); self.refresh_integrity(latest)
+            with self.assertRaisesRegex(ValueError,"regressed"):
+                m.select_bundles(m.discover_committed_bundles(root), ["host-a"])
+
+    def test_real_cpp_reset_intervals_aggregate_exactly_once(self):
+        import subprocess
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d)
+            subprocess.run([str(self.writer), d, "reset"], check=True)
+            self.assertEqual(len(list(root.glob("*-manifest.json"))), 2)
+            self.assertEqual(m.main([d, "--expected-host", "host-a"]), 0)
+            report = json.loads((root / "profiling/cluster/cluster-report.json").read_text())
+            self.assertEqual(report["aggregate"]["total_counted_fuse_operations"], 5)
+            self.assertEqual(report["hosts"]["host-a"]["total_calls"], 5)
+            self.assertEqual(sum(report["operations"][0]["histogram"]), 5)
+
+    def test_schema3_counters_are_uint64_and_csv_shape_is_exact(self):
+        for mutation in ("negative", "overflow", "extra", "error"):
+            with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as d:
+                root = pathlib.Path(d); manifest = self.emit(root)
+                data = json.loads(manifest.read_text())
+                operations = root / next(n for n in data["files"] if n.endswith("operations.csv"))
+                text = operations.read_text()
+                if mutation == "negative": text = text.replace(",111,", ",-1,")
+                elif mutation == "overflow": text = text.replace(",111,", f",{2**64},")
+                elif mutation == "extra": text = text.rstrip("\n") + ",extra\n"
+                else: text = text.replace("5:1", "5:999")
+                operations.write_text(text); self.refresh_integrity(manifest)
+                with self.assertRaises(ValueError):
+                    m.validate_bundle_consistency(m.discover_committed_bundles(root)[0])
+
+    def test_real_cpp_schema3_bundle_is_accepted(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d); self.emit(root)
+            bundles = m.discover_committed_bundles(root)
+            self.assertEqual(len(bundles), 1)
+            aggregate, operations, paths = m.validate_bundle_consistency(bundles[0])
+            self.assertEqual(aggregate["total_counted_fuse_operations"], 4)
+            self.assertEqual(sum(operations[0]["histogram"]), 4)
+            self.assertTrue(any(p["error_bound"] > 0 for p in paths))
 
 if __name__ == "__main__": unittest.main()

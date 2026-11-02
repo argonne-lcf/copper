@@ -3,6 +3,7 @@
 #include "fuse_policy.h"
 #include "../metric/profiling.h"
 #include "../startup/startup_tools.h"
+#include "../startup/daemon_identity.h"
 #include <atomic>
 #include <chrono>
 #include <filesystem>
@@ -234,8 +235,6 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     (Constants::fill_dir_plus.has_value()) ? FUSE_FILL_DIR_PLUS : static_cast<fuse_fill_dir_flags>(NULL)};
 
     for(const auto& cur_path_stem : entries) {
-        const auto cur_full_path = std::string(path_string).append("/").append(cur_path_stem);
-
         if(filler(buf, cur_path_stem.c_str(), nullptr, 0, fill_dir) == 1) {
             break;
         }
@@ -274,6 +273,11 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
 
     std::string output;
     std::optional<std::ofstream> fs_stream_opt = std::nullopt;
+
+#define RESET_PROFILING_OR_FAIL() do { \
+    const auto reset_report = Profiling::reset(); \
+    if(!reset_report.success) return Metric::stop_cache_operation(OperationFunction::ioctl, OperationResult::neg, ProfileSource::bypass, path_string, start, -EIO); \
+} while(false)
 
     switch(cmd) {
     case(Constants::ioctl_log_cache_tables):
@@ -316,19 +320,19 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         break;
     case(Constants::ioctl_clear_operation_count):
         LOG(INFO) << "clearing operation" << std::endl;
-        Profiling::reset();
+        RESET_PROFILING_OR_FAIL();
         break;
     case(Constants::ioctl_clear_operation_cache_hit):
         LOG(INFO) << "clearing operation cache hit" << std::endl;
-        Profiling::reset();
+        RESET_PROFILING_OR_FAIL();
         break;
     case(Constants::ioctl_clear_operation_cache_miss):
         LOG(INFO) << "clearing operation cache miss" << std::endl;
-        Profiling::reset();
+        RESET_PROFILING_OR_FAIL();
         break;
     case(Constants::ioctl_clear_operation_time):
         LOG(INFO) << "clearing operation time" << std::endl;
-        Profiling::reset();
+        RESET_PROFILING_OR_FAIL();
         break;
     case(Constants::ioctl_log_data_cache_event):
         LOG(INFO) << "logging data cache event" << std::endl;
@@ -350,15 +354,15 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         break;
     case(Constants::ioctl_clear_data_cache_event):
         LOG(INFO) << "clearing data cache event" << std::endl;
-        Profiling::reset();
+        RESET_PROFILING_OR_FAIL();
         break;
     case(Constants::ioctl_clear_tree_cache_event):
         LOG(INFO) << "clearing tree cache event" << std::endl;
-        Profiling::reset();
+        RESET_PROFILING_OR_FAIL();
         break;
     case(Constants::ioctl_clear_md_cache_event):
         LOG(INFO) << "clearing md cache event" << std::endl;
-        Profiling::reset();
+        RESET_PROFILING_OR_FAIL();
         break;
     case(Constants::ioctl_log_operation_neg): {
         LOG(INFO) << "logging operation neg event" << std::endl;
@@ -369,17 +373,30 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     }
     case(Constants::ioctl_clear_operation_neg):
         LOG(INFO) << "clearing operation neg event" << std::endl;
-        Profiling::reset();
+        RESET_PROFILING_OR_FAIL();
         break;
     case(Constants::ioctl_log_all_metrics):
         LOG(INFO) << "loggin all metrics" << std::endl;
-        Util::log_all_metrics(path_string);
-        Util::log_profiling_metrics(path_string, "ioctl-snapshot");
+        {
+            const auto cache = Util::log_all_metrics(path_string);
+            const auto profile = cache.success ? Util::log_profiling_metrics(path_string, "ioctl-snapshot") : ReportResult{};
+            if(!cache.success || !profile.success) {
+                LOG(ERROR) << "metrics publication failed: " << (cache.success ? profile.error : cache.error) << std::endl;
+                return Metric::stop_cache_operation(OperationFunction::ioctl, OperationResult::neg,
+                    ProfileSource::bypass, path_string, start, -EIO);
+            }
+        }
         break;
     case(Constants::ioctl_reset_fs):
         LOG(INFO) << "resetting filesystem" << std::endl;
-        Util::log_profiling_metrics(path_string, "pre-reset");
-        Util::reset_fs();
+        if(!Util::log_profiling_metrics(path_string, "pre-reset").success) {
+            return Metric::stop_cache_operation(OperationFunction::ioctl, OperationResult::neg,
+                ProfileSource::bypass, path_string, start, -EIO);
+        }
+        if(!Util::reset_fs().success) {
+            return Metric::stop_cache_operation(OperationFunction::ioctl, OperationResult::neg,
+                ProfileSource::bypass, path_string, start, -EIO);
+        }
         break;
     case(Constants::ioctl_log_ioctl_event):
         LOG(INFO) << "logging ioctl event" << std::endl;
@@ -412,7 +429,13 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         IoctlEvent::record_ioctl_event(path_string, cmd);
         break;
     }
+#undef RESET_PROFILING_OR_FAIL
 
+    if(fs_stream_opt) {
+        fs_stream_opt->flush(); fs_stream_opt->close();
+        if(!*fs_stream_opt) return Metric::stop_cache_operation(OperationFunction::ioctl, OperationResult::neg,
+            ProfileSource::bypass, path_string, start, -EIO);
+    }
     return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_success);
 }
 
@@ -590,7 +613,23 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     cfg->nullpath_ok = false;
 
     if(!start_thallium_engine()) {
-        return nullptr;
+        startup_phase("engine_start", CopperStartup::PhaseState::failed,
+                      "engine initialization returned failure; terminating rather than returning NULL private data");
+        std::raise(SIGTERM);
+        std::_Exit(EIO);
+    }
+    // fuse_main has daemonized before this callback: never publish the launcher PID.
+    Constants::pid = std::to_string(getpid());
+    if(const char* identity_dir = std::getenv("COPPER_DAEMON_IDENTITY_DIR")) {
+        try {
+            const auto env = [](const char* name) { const char* value = std::getenv(name); return value ? std::string(value) : std::string{}; };
+            CopperStartup::publish_daemon_identity(identity_dir, Constants::view_path.value(),
+                env("COPPER_JOB_ID"), env("COPPER_RUN_ID"), env("COPPER_DAEMON_GENERATION"));
+        } catch(const std::exception& error) {
+            startup_phase("mount_ready", CopperStartup::PhaseState::failed, error.what());
+            std::raise(SIGTERM);
+            std::_Exit(EIO);
+        }
     }
     startup_phase("mount_ready", CopperStartup::PhaseState::complete,
                   "FUSE init completed; returning engine private data");
@@ -612,7 +651,10 @@ static void cu_fuse_destroy(void* private_data) {
 
     Metric::stop_operation(OperationFunction::destroy, start, Constants::fs_operation_success);
     Util::log_profiling_metrics(Constants::output_filename_path);
-    Util::reset_fs();
+    const auto destroy_reset = Util::reset_fs();
+    if(!destroy_reset.success) {
+        LOG(ERROR) << "failed to publish destroy closing interval: " << destroy_reset.error << std::endl;
+    }
 }
 
 static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) {

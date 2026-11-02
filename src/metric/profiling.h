@@ -27,7 +27,7 @@ class Profiling {
     static std::ostream& log_md_ttl_event(std::ostream& os);
 
     static ReportResult write_reports(const std::string& path_string, const std::string& snapshot_tag = "");
-    static void reset();
+    static ReportResult reset();
 
 };
 

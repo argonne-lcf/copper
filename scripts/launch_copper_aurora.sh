@@ -16,7 +16,7 @@ serialize_runtime_environment() {
   local name value quoted serialized=""
   while IFS= read -r name; do
     case "${name}" in
-      PATH|LD_LIBRARY_PATH|COPPER_ROOT|FI_*|MARGO_*|MERCURY_*|THALLIUM_*|ABT_*|CXI_*|PSM2_*|LIBFABRIC_*)
+      PATH|LD_LIBRARY_PATH|COPPER_ROOT|COPPER_RUN_ID|COPPER_DAEMON_GENERATION|COPPER_DAEMON_IDENTITY_DIR|COPPER_JOB_ID|FI_*|MARGO_*|MERCURY_*|THALLIUM_*|ABT_*|CXI_*|PSM2_*|LIBFABRIC_*)
         value=${!name}
         printf -v quoted '%q' "${value}"
         serialized+=" ${name}=${quoted}"
@@ -103,6 +103,9 @@ profiling_final_dir=${profiling_dir}/final
 profiling_cluster_dir=${profiling_dir}/cluster
 node_file_copy=${logs_dir}/node_file.txt
 startup_summary=${log_dir}/startup-summary.json
+export COPPER_JOB_ID="${PBS_JOBID:?PBS_JOBID must be set}"
+export COPPER_RUN_ID="${COPPER_RUN_ID:-${COPPER_JOB_ID}}"
+export COPPER_DAEMON_GENERATION="$(python3 -c 'import uuid; print(uuid.uuid4())')"
 scale_manifest=${logs_dir}/scale-readiness.json
 
 prepared_address_book=${logs_dir}/copper_address_book.txt
@@ -224,8 +227,24 @@ echo "prepared_address_book_full : ${prepared_address_book_full_output}"
 echo "discovery_helper           : ${DISCOVERY_HELPER}"
 echo "net_type                   : ${net_type}"
 
-mkdir -p "${logs_dir}" "${tables_dir}/final" "${profiling_final_dir}" "${profiling_cluster_dir}"
-cp "${PBS_NODEFILE}" "${node_file_copy}"
+JOB_DIR="${log_dir}" python3 - <<'PRIVATE' || exit 1
+import os, pathlib, stat
+p = pathlib.Path(os.environ["JOB_DIR"])
+p.mkdir(parents=True, exist_ok=True)
+info = p.lstat()
+if not stat.S_ISDIR(info.st_mode) or info.st_uid != os.getuid():
+    raise ValueError("job directory must be caller-owned and not a symlink")
+os.chmod(p, 0o700)
+# A new launch must never leave the previous launch authorized as current.
+identity = p / "daemon-identity.json"
+if identity.exists() or identity.is_symlink():
+    identity.unlink()
+PRIVATE
+mkdir -p "${logs_dir}" "${tables_dir}/final" "${profiling_final_dir}" "${profiling_cluster_dir}" || exit 1
+cp "${PBS_NODEFILE}" "${node_file_copy}" || exit 1
+export COPPER_DAEMON_IDENTITY_DIR
+COPPER_DAEMON_IDENTITY_DIR=$(mktemp -d "${log_dir}/daemon-records.XXXXXXXX") || exit 1
+chmod 700 "${COPPER_DAEMON_IDENTITY_DIR}" || exit 1
 expected_nodes=$(awk 'NF {h=$1; sub(/\..*$/, "", h); if (!seen[h]++) n++} END {print n+0}' "${node_file_copy}")
 if [ "${trees}" = auto ]; then trees=$(( (expected_nodes + 127) / 128 )); fi
 if ! [[ "${trees}" =~ ^[1-9][0-9]*$ ]]; then echo "invalid trees value: ${trees}"; exit 2; fi
@@ -354,6 +373,59 @@ if [ "${readiness_rc}" -ne 0 ]; then
   [ -n "${recovery_hook}" ] && [ "${recovery_attempts_max}" -eq 0 ] && echo "recovery disabled (set -K to a positive bounded attempt count)"
   echo "Copper readiness barrier failed (mount verification failed or provider/path readiness incomplete)"
 fi
+# Collect only the daemon's post-init records from this launch's private directory.
+if [ "${readiness_rc}" -eq 0 ]; then
+  if ! NODE_FILE="${node_file_copy}" JOB_DIR="${log_dir}" EXPECTED_MOUNT="${CU_FUSE_MNT_VIEWDIR}" python3 - <<'IDENTITY'
+import json, os, pathlib, re, stat, tempfile
+root = pathlib.Path(os.environ['COPPER_DAEMON_IDENTITY_DIR'])
+hosts = list(dict.fromkeys(h.split('.', 1)[0] for h in pathlib.Path(os.environ['NODE_FILE']).read_text().split()))
+if not hosts or any(not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]*', h) for h in hosts):
+    raise ValueError('invalid exact expected hosts')
+nodes = {}
+for host in hosts:
+    fd = os.open(root / (host+'.json'), os.O_RDONLY | os.O_NOFOLLOW)
+    with os.fdopen(fd) as stream:
+        info = os.fstat(stream.fileno())
+        if not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid() or info.st_mode & 0o077:
+            raise ValueError('daemon record is not private and caller-owned')
+        record = json.load(stream)
+    if (record['schema_version'] != 1 or record['host'] != host or
+        record['job_id'] != os.environ['COPPER_JOB_ID'] or
+        record['run_id'] != os.environ['COPPER_RUN_ID'] or
+        record['daemon_generation'] != os.environ['COPPER_DAEMON_GENERATION'] or
+        record['mount'] != os.environ['EXPECTED_MOUNT']):
+        raise ValueError('daemon record launch identity mismatch')
+    for field in ('pid','uid','starttime'):
+        if type(record[field]) is not int or record[field] < (2 if field == 'pid' else 0):
+            raise ValueError('invalid process identity integer')
+    if record['uid'] != os.getuid() or any(not isinstance(record[k], str) or not record[k] for k in ('user','boot_id','exe')):
+        raise ValueError('invalid process identity')
+    mount = record['mount_identity']
+    if (not isinstance(mount, dict) or type(mount.get('mount_id')) is not int or
+        not mount.get('fstype','').startswith('fuse') or not mount.get('source')):
+        raise ValueError('missing exact FUSE mount identity')
+    nodes[host] = record
+payload = {'schema_version':1, 'job_id':os.environ['COPPER_JOB_ID'],
+           'run_id':os.environ['COPPER_RUN_ID'], 'daemon_generation':os.environ['COPPER_DAEMON_GENERATION'],
+           'expected_hosts':hosts, 'nodes':nodes}
+p = pathlib.Path(os.environ['JOB_DIR'])/'daemon-identity.json'
+fd, tmp = tempfile.mkstemp(prefix='.daemon-identity.', dir=p.parent)
+try:
+    os.fchmod(fd, 0o600)
+    with os.fdopen(fd, 'w') as stream:
+        json.dump(payload, stream, sort_keys=True); stream.write('\n'); stream.flush(); os.fsync(stream.fileno())
+    os.replace(tmp, p)
+    dirfd = os.open(p.parent, os.O_RDONLY | os.O_DIRECTORY)
+    try: os.fsync(dirfd)
+    finally: os.close(dirfd)
+finally:
+    if os.path.exists(tmp): os.unlink(tmp)
+IDENTITY
+  then
+    echo "daemon identity collection failed; launch is not authorized for shutdown"
+    readiness_rc=1
+  fi
+fi
 address_sha256=$(sha256sum "${prepared_address_book}" | cut -d' ' -f1)
 binary_sha256=$(sha256sum "${CUPATH}" 2>/dev/null | cut -d' ' -f1 || true)
 source_revision=$(git -C "${COPPER_ROOT}" rev-parse HEAD 2>/dev/null || true)
@@ -367,6 +439,8 @@ failed = sorted(h for h, v in readiness.get("nodes", {}).items() if not v.get("r
 counts = dict(readiness.get("counts") or {})
 counts["launched"] = int(os.environ["EXPECTED_NODES"])
 payload = {"status": "ready" if os.environ["READINESS_RC"] == "0" else "failed",
+ "run_id": os.environ["COPPER_RUN_ID"], "daemon_generation": os.environ["COPPER_DAEMON_GENERATION"],
+ "job_id": os.environ["COPPER_JOB_ID"],
  "trees": int(os.environ["TREES"]), "expected_nodes": int(os.environ["EXPECTED_NODES"]),
  "probe_path": os.environ["PROBE_PATH"] or None,
  "address_book": {"mode": os.environ["ADDRESS_MODE"], "sha256": os.environ["ADDRESS_SHA256"]},

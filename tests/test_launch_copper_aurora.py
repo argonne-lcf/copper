@@ -103,6 +103,17 @@ fi
 mkdir -p {self._q(self.launch_logs)}
 printf 'provider registration completed after 100 us\n' > {self._q(self.launch_logs / 'node-a-output.log')}
 printf 'provider registration completed after 300 us\n' > {self._q(self.launch_logs / 'node-b-output.log')}
+python3 - <<'RECORDS'
+import json, os, pathlib
+for host in ('node-a', 'node-b'):
+    record = dict(schema_version=1, host=host, job_id=os.environ['COPPER_JOB_ID'],
+                  run_id=os.environ['COPPER_RUN_ID'], daemon_generation=os.environ['COPPER_DAEMON_GENERATION'],
+                  pid=os.getpid(), uid=os.getuid(), user='tester', starttime=123,
+                  boot_id='test-boot', exe='/test/cu_fuse', mount={str(self.mount)!r},
+                  mount_identity=dict(mount_id=42, fstype='fuse.cu_fuse', source='cu_fuse'))
+    p = pathlib.Path(os.environ['COPPER_DAEMON_IDENTITY_DIR'])/(host+'.json')
+    p.write_text(json.dumps(record)); p.chmod(0o600)
+RECORDS
 """,
         )
 
@@ -143,6 +154,33 @@ printf 'provider registration completed after 300 us\n' > {self._q(self.launch_l
             stderr=subprocess.STDOUT,
             timeout=20,
         )
+
+    def test_ready_launch_publishes_private_exact_job_manifest(self):
+        result = self.run_launcher()
+        self.assertEqual(result.returncode, 0, result.stdout)
+        manifest = self.work / 'logs' / '123' / 'daemon-identity.json'
+        self.assertTrue(manifest.exists(), 'ready launch did not publish daemon identities')
+        data = json.loads(manifest.read_text())
+        self.assertEqual(data['job_id'], '123.server')
+        self.assertEqual(data['expected_hosts'], ['node-a', 'node-b'])
+        self.assertEqual(set(data['nodes']), {'node-a', 'node-b'})
+        self.assertEqual(manifest.stat().st_mode & 0o777, 0o600)
+        summary = json.loads((manifest.parent / 'startup-summary.json').read_text())
+        self.assertEqual(summary['run_id'], data['run_id'])
+        self.assertEqual(summary['daemon_generation'], data['daemon_generation'])
+
+    def test_launch_directory_is_private(self):
+        result = self.run_launcher()
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertEqual((self.work/'logs'/'123').stat().st_mode & 0o777, 0o700)
+
+    def test_missing_daemon_record_fails_closed_after_ready_probe(self):
+        daemon = self.build / 'cu_fuse'
+        daemon.write_text(daemon.read_text().replace("for host in ('node-a', 'node-b'):", "for host in ('node-a',):"))
+        result = self.run_launcher()
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn('daemon identity collection failed', result.stdout)
+        self.assertFalse((self.work/'logs'/'123'/'daemon-identity.json').exists())
 
     def test_runtime_environment_is_serialized_for_remote_rank(self):
         result = self.run_launcher()

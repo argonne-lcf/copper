@@ -16,9 +16,8 @@ bool Profiling::enabled() { return Operations::enabled(); }
 bool Profiling::top_paths_enabled() { return Constants::profile_top_n > 0; }
 bool Profiling::full_paths_enabled() { return Constants::profile_paths_full; }
 std::string Profiling::mode_string() {
-    if(full_paths_enabled()) return "full-path";
-    if(top_paths_enabled()) return "top-path";
-    return enabled() ? "aggregate-only" : "disabled";
+    if(!enabled()) return "disabled";
+    return Operations::snapshot().path_mode;
 }
 
 void Profiling::record_md_ttl_store(const std::string& p) { if(enabled()) Operations::core().record_ttl(p, MetadataTTLEvent::store); }
@@ -54,6 +53,15 @@ ReportResult Profiling::write_reports(const std::string&, const std::string& sna
     return result;
 }
 
-void Profiling::reset() {
-    Operations::snapshot_and_reset();
+ReportResult Profiling::reset() {
+    ReportResult result;
+    if(!enabled()) { result.success = true; return result; }
+    const auto snapshot = Operations::snapshot_and_reset();
+    const uint64_t sequence = report_sequence.fetch_add(1) + 1;
+    const auto directory = std::filesystem::path(Constants::profiling_snapshot_dir(""));
+    result = write_snapshot_bundle_atomic(directory, Constants::my_hostname,
+                                          static_cast<uint64_t>(getpid()), sequence,
+                                          "interval", snapshot, Operations::config());
+    if(!result.success) LOG(ERROR) << "failed to publish closing profiling interval: " << result.error << std::endl;
+    return result;
 }

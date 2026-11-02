@@ -1,197 +1,140 @@
 #!/usr/bin/env python3
-
+"""Summarize one manifest-committed cache snapshot per expected host."""
 import argparse
 import csv
-import re
-import sys
-from collections import defaultdict
+import hashlib
+import json
 from pathlib import Path
+import re
+
+TABLE_FILES = {'data': 'data_cache_size.output', 'tree': 'tree_cache_size.output', 'metadata': 'md_cache_size.output'}
 
 
-TOTAL_BYTES_RE = re.compile(r"^Total bytes:\s*(\d+)\s*$")
-TOTAL_FILES_RE = re.compile(r"^total number of files:\s*(\d+)\s*$")
-TOTAL_ENTRIES_RE = re.compile(r"^total number of entries:\s*(\d+)\s*$")
-
-TABLE_FILES = {
-    "data": "data_cache_size.output",
-    "tree": "tree_cache_size.output",
-    "metadata": "md_cache_size.output",
-}
+def parse_cache_size_file(path, text=None):
+    text = path.read_text() if text is None else text
+    size = re.findall(r'^Total bytes:\s*(\d+)\s*$', text, re.M)
+    entries = re.findall(r'^total number of (?:files|entries):\s*(\d+)\s*$', text, re.M)
+    if len(size) != 1 or len(entries) != 1:
+        raise ValueError(f'expected exactly one bytes and entries total in {path}')
+    return int(size[0]), int(entries[0])
 
 
-def human_bytes(num_bytes):
-    value = float(num_bytes)
-    for unit in ["B", "KiB", "MiB", "GiB", "TiB"]:
-        if value < 1024.0 or unit == "TiB":
-            return f"{value:.2f} {unit}"
-        value /= 1024.0
-    return f"{num_bytes} B"
+def summarize_root(root, expected_hosts, run_id):
+    if not expected_hosts or len(set(expected_hosts)) != len(expected_hosts) or not run_id:
+        raise ValueError('explicit unique expected hosts and run-id are required')
+    if not root.is_dir():
+        raise ValueError('metrics root is not a directory')
+    manifests = []
+    seen = set()
+    epochs = set()
+    for path in root.rglob('cache_snapshot.json'):
+        item = json.loads(path.read_text()); item['_path'] = path
+        if item['schema_version'] != 1 or item['run_id'] != run_id:
+            raise ValueError('unsupported schema or mixed run')
+        if item['host'] not in expected_hosts:
+            raise ValueError('unexpected host')
+        for field in ('epoch', 'sequence'):
+            if type(item[field]) is not int or item[field] < 0:
+                raise ValueError('invalid generation integer')
+        identity = (item['host'], item['epoch'], item['sequence'])
+        if identity in seen:
+            raise ValueError('duplicate snapshot identity')
+        seen.add(identity); epochs.add(item['epoch'])
+        if len(epochs) != 1:
+            raise ValueError('mixed epochs; select a single generation directory')
+        if set(item['tables']) != set(TABLE_FILES):
+            raise ValueError('snapshot table coverage mismatch')
+        manifests.append(item)
+    selected = {}
+    for item in manifests:
+        host = item['host']
+        if host not in selected or item['sequence'] > selected[host]['sequence']:
+            selected[host] = item
+    tables = {name: {'used_bytes': 0, 'entry_count': 0, 'files_found': 0} for name in TABLE_FILES}
+    for host, item in selected.items():
+        for name in tables:
+            reference = item['tables'][name]
+            relative = Path(reference['path'])
+            if relative.is_absolute() or '..' in relative.parts:
+                raise ValueError('unsafe snapshot path')
+            file = item['_path'].parent / relative
+            parent = item['_path'].parent.resolve()
+            resolved = file.resolve()
+            try:
+                resolved.relative_to(parent)
+            except ValueError:
+                raise ValueError('snapshot path escapes bundle')
+            if file.is_symlink():
+                raise ValueError('snapshot path escapes bundle')
+            content = file.read_bytes()
+            if hashlib.sha256(content).hexdigest() != reference['sha256']:
+                raise ValueError('snapshot hash mismatch')
+            size, entries = parse_cache_size_file(file, content.decode('utf-8'))
+            tables[name]['used_bytes'] += size
+            tables[name]['entry_count'] += entries
+            tables[name]['files_found'] += 1
+    missing = sorted(set(expected_hosts) - set(selected))
+    return {'ok': not missing, 'verification': 'manifest-verified', 'run_id': run_id,
+            'coverage': {'expected': sorted(expected_hosts), 'observed': sorted(selected), 'missing': missing},
+            'selected': {h: {k: v for k, v in item.items() if k != '_path'} for h, item in selected.items()}, 'tables': tables}
 
 
-def parse_cache_size_file(path):
-    total_bytes = None
-    total_entries = None
-
-    with path.open("r", errors="ignore") as handle:
-        for raw_line in handle:
-            line = raw_line.strip()
-
-            match = TOTAL_BYTES_RE.match(line)
-            if match:
-                total_bytes = int(match.group(1))
+def summarize_legacy(root, expected_hosts):
+    if not expected_hosts or len(set(expected_hosts)) != len(expected_hosts):
+        raise ValueError('legacy summaries require explicit unique expected hosts')
+    if any(root.rglob('cache_snapshot.json')):
+        raise ValueError('cannot mix legacy and manifest inputs')
+    tables = {name: {'used_bytes': 0, 'entry_count': 0, 'files_found': 0} for name in TABLE_FILES}
+    found = set()
+    host_prefixes = {}
+    for path in root.rglob('*.output'):
+        for name, suffix in TABLE_FILES.items():
+            if path.name == suffix:
+                raise ValueError('legacy file lacks host identity')
+            if not path.name.endswith('-' + suffix):
                 continue
-
-            match = TOTAL_FILES_RE.match(line)
-            if match:
-                total_entries = int(match.group(1))
-                continue
-
-            match = TOTAL_ENTRIES_RE.match(line)
-            if match:
-                total_entries = int(match.group(1))
-
-    if total_bytes is None:
-        raise ValueError(f"failed to find 'Total bytes' in {path}")
-    if total_entries is None:
-        raise ValueError(f"failed to find entry count in {path}")
-
-    return total_bytes, total_entries
-
-
-def discover_files(root):
-    discovered = defaultdict(list)
-    for path in root.rglob("*.output"):
-        for table_name, filename in TABLE_FILES.items():
-            if path.name == filename or path.name.endswith("-" + filename):
-                discovered[table_name].append(path)
-                break
-    return discovered
-
-
-def summarize_root(root):
-    discovered = discover_files(root)
-    summary = {}
-
-    for table_name, filename in TABLE_FILES.items():
-        table_files = sorted(discovered.get(table_name, []))
-        table_total_bytes = 0
-        table_total_entries = 0
-        parsed_files = 0
-
-        for path in table_files:
-            total_bytes, total_entries = parse_cache_size_file(path)
-            table_total_bytes += total_bytes
-            table_total_entries += total_entries
-            parsed_files += 1
-
-        summary[table_name] = {
-            "filename": filename,
-            "files_found": parsed_files,
-            "used_bytes": table_total_bytes,
-            "entry_count": table_total_entries,
-        }
-
-    return summary
-
-
-def render_summary_lines(root, summary):
-    combined_used_bytes = sum(item["used_bytes"] for item in summary.values())
-    combined_entries = sum(item["entry_count"] for item in summary.values())
-
-    headers = ["Table", "Files Found", "Used Bytes", "Used Human", "Entries"]
-    rows = []
-    for table_name in ["data", "tree", "metadata"]:
-        item = summary[table_name]
-        rows.append([
-            table_name,
-            str(item["files_found"]),
-            str(item["used_bytes"]),
-            human_bytes(item["used_bytes"]),
-            str(item["entry_count"]),
-        ])
-    rows.append(["combined", "-", str(combined_used_bytes), human_bytes(combined_used_bytes), str(combined_entries)])
-
-    widths = [len(header) for header in headers]
-    for row in rows:
-        for index, value in enumerate(row):
-            widths[index] = max(widths[index], len(value))
-
-    def make_row(values):
-        return "| " + " | ".join(value.ljust(widths[index]) for index, value in enumerate(values)) + " |"
-
-    align = []
-    for index, width in enumerate(widths):
-        if index == 0:
-            align.append("-" * width)
-        else:
-            align.append("-" * max(width - 1, 1) + ":")
-
-    lines = [
-        f"cache usage summary root: {root}",
-        "",
-        make_row(headers),
-        "| " + " | ".join(align) + " |",
-    ]
-    lines.extend(make_row(row) for row in rows)
-    lines.extend([
-        "",
-        "note: Copper currently reports current table occupancy, not a fixed total cache budget or remaining available bytes.",
-    ])
-    return lines
-
-
-def print_summary(root, summary):
-    for line in render_summary_lines(root, summary):
-        print(line)
-
-
-def write_csv(path, summary):
-    combined_used_bytes = sum(item["used_bytes"] for item in summary.values())
-    combined_entries = sum(item["entry_count"] for item in summary.values())
-
-    with open(path, "w", newline="") as handle:
-        writer = csv.writer(handle)
-        writer.writerow(["table", "files_found", "used_bytes", "used_human", "entries"])
-        for table_name in ["data", "tree", "metadata"]:
-            item = summary[table_name]
-            writer.writerow(
-                [
-                    table_name,
-                    item["files_found"],
-                    item["used_bytes"],
-                    human_bytes(item["used_bytes"]),
-                    item["entry_count"],
-                ]
-            )
-        writer.writerow(["combined", "", combined_used_bytes, human_bytes(combined_used_bytes), combined_entries])
+            prefix = path.name[:-len(suffix)-1]
+            matches = [host for host in expected_hosts if prefix == host or (prefix.startswith(host + '-') and prefix[len(host)+1:].isdigit())]
+            if len(matches) != 1:
+                raise ValueError('ambiguous or unexpected legacy host')
+            host = matches[0]
+            if host_prefixes.setdefault(host, prefix) != prefix:
+                raise ValueError('mixed legacy process identities for host')
+            if host not in expected_hosts or (host, name) in found:
+                raise ValueError('unexpected host or duplicate legacy host/table')
+            found.add((host, name))
+            size, entries = parse_cache_size_file(path)
+            tables[name]['used_bytes'] += size
+            tables[name]['entry_count'] += entries
+            tables[name]['files_found'] += 1
+    missing = sorted(host for host in expected_hosts if any((host, name) not in found for name in TABLE_FILES))
+    return {'ok': not missing, 'verification': 'legacy-unverified',
+            'warning': 'Run, epoch, snapshot coherence and historical host coverage cannot be verified.',
+            'coverage': {'expected': sorted(expected_hosts), 'missing': missing}, 'tables': tables}
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Summarize Copper cache table usage from *_cache_size.output files."
-    )
-    parser.add_argument(
-        "metrics_root",
-        help="directory that contains cache size output files directly or under subdirectories",
-    )
-    parser.add_argument(
-        "--csv",
-        default=None,
-        help="optional path to write a CSV summary",
-    )
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('metrics_root', type=Path)
+    parser.add_argument('--expected-host', action='append', default=[])
+    parser.add_argument('--run-id')
+    parser.add_argument('--json', action='store_true')
+    parser.add_argument('--legacy', action='store_true')
+    parser.add_argument('--csv')
     args = parser.parse_args()
+    try:
+        result = summarize_legacy(args.metrics_root, args.expected_host) if args.legacy else summarize_root(args.metrics_root, args.expected_host, args.run_id)
+        if args.csv:
+            with open(args.csv, 'w', newline='') as stream:
+                writer = csv.writer(stream)
+                writer.writerow(['table', 'used_bytes', 'entry_count', 'files_found', 'verification', 'expected_hosts', 'missing_hosts'])
+                for name, item in result['tables'].items():
+                    writer.writerow([name, item['used_bytes'], item['entry_count'], item['files_found'], result['verification'],
+                                     ';'.join(result['coverage']['expected']), ';'.join(result['coverage']['missing'])])
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        result = {'ok': False, 'error': str(exc)}
+    print(json.dumps(result, indent=None if args.json else 2))
+    return 0 if result['ok'] else 1
 
-    root = Path(args.metrics_root).resolve()
-    if not root.exists():
-        raise SystemExit(f"metrics root does not exist: {root}")
-
-    summary = summarize_root(root)
-    print_summary(root, summary)
-
-    if args.csv:
-        write_csv(args.csv, summary)
-        print(f"wrote csv summary: {args.csv}", file=sys.stderr)
-
-
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    raise SystemExit(main())

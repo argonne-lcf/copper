@@ -32,11 +32,12 @@ class Util {
 
     static std::optional<std::ofstream> try_get_fstream_from_path(const char* path);
 
-    static void log_all_metrics(const std::string& path_string);
+    static ReportResult log_all_metrics(const std::string& path_string);
+    static ReportResult publish_cache_snapshot();
     static ReportResult log_profiling_metrics(const std::string& path_string, const std::string& snapshot_tag = "");
 
     // NOTE: clears all caches and metics
-    static void reset_fs();
+    static ReportResult reset_fs();
 
     // NOTE: checks whether path_string will cause recursive passthrough operation
     static bool is_recursive_path_string(const std::string& path_string);

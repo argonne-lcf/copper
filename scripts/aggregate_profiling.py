@@ -8,11 +8,15 @@ import os
 import pathlib
 import re
 import sys
+import io
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from copper_report import publish_generation, summarize_operations, histogram_bounds, parse_errors, join_receipts
+import hashlib
 from collections import defaultdict
-from dataclasses import dataclass
+from collections import namedtuple
 
-SUPPORTED_MANIFEST_SCHEMAS = {2}
-SUPPORTED_PROFILING_MODES = {"aggregate-only", "bounded-admitted-set", "full-path"}
+SUPPORTED_MANIFEST_SCHEMAS = {2, 3}
+SUPPORTED_PROFILING_MODES = {"aggregate-only", "bounded-admitted-set", "bounded-heavy-hitter", "full-path"}
 SUPPORTED_SAMPLING_METHODS = {"reservoir_algorithm_r"}
 AGGREGATE_HEADER = ["metric", "value"]
 OPERATIONS_HEADER = ["operation", "total_calls", "cumulative_latency_ns", "min_ns", "p50_ns", "p90_ns", "p95_ns", "p99_ns", "p999_ns", "max_ns", "sample_count", "sampling_method", "cache_hits", "cache_misses", "negative_results", "source_none", "source_metadata", "source_data", "source_tree", "source_bypass", "errors"]
@@ -23,7 +27,7 @@ AGGREGATE_METRICS = {"total_counted_fuse_operations", "total_cache_hits", "total
 
 def filename_component(value):
     """Match ProfilerCore::filename_component for manifest identity checks."""
-    sanitized = "".join(c if c.isascii() and (c.isalnum() or c in "-_.") else "_"
+    sanitized = "".join(c if ord(c) < 128 and (c.isalnum() or c in "-_.") else "_"
                         for c in value)
     while ".." in sanitized:
         sanitized = sanitized.replace("..", "__")
@@ -47,14 +51,73 @@ def valid_v2_manifest(data):
             type(config.get("latency_capacity")) is int and config["latency_capacity"] >= 0 and
             config.get("sampling_method") in SUPPORTED_SAMPLING_METHODS)
 
-@dataclass
-class Bundle:
-    schema_version: int
-    manifest: pathlib.Path
-    files: list
-    aggregate: pathlib.Path
-    operations: pathlib.Path
-    top_paths: pathlib.Path
+HISTOGRAM_CONTRACT = {"method": "fixed_log2_integer", "sample_provenance": "all_completions", "bucket_count": 65, "bounds": "inclusive", "unit": "ns"}
+UINT64_MAX = 2**64 - 1
+
+def valid_manifest(data):
+    if data.get("schema_version") == 2:
+        return valid_v2_manifest(data)
+    extras = {"run_id", "daemon_generation", "semantics", "reset_epoch", "histogram", "file_integrity"}
+    base = {k: v for k, v in data.items() if k not in extras}
+    if not valid_v2_manifest(base) or not extras <= data.keys():
+        return False
+    return (all(data[k] is None or isinstance(data[k], str) and bool(data[k]) for k in ("run_id", "daemon_generation"))
+            and data["semantics"] in {"cumulative", "interval"}
+            and type(data["reset_epoch"]) is int and 0 <= data["reset_epoch"] <= UINT64_MAX
+            and data["histogram"] == HISTOGRAM_CONTRACT
+            and isinstance(data["file_integrity"], dict))
+
+def verify_integrity(bundle, data):
+    if bundle.schema_version != 3:
+        return
+    entries = data["file_integrity"]
+    if set(entries) != {p.name for p in bundle.files}:
+        raise ValueError("file integrity inventory mismatch")
+    for path in bundle.files:
+        item = entries[path.name]
+        if (not isinstance(item, dict) or set(item) != {"size_bytes", "sha256"}
+                or type(item["size_bytes"]) is not int or item["size_bytes"] < 0
+                or not isinstance(item["sha256"], str) or not re.fullmatch(r"[0-9a-f]{64}", item["sha256"])):
+            raise ValueError("invalid file integrity metadata")
+        raw = path.read_bytes()
+        if len(raw) != item["size_bytes"] or hashlib.sha256(raw).hexdigest() != item["sha256"]:
+            raise ValueError(f"checksum/size integrity mismatch: {path}")
+
+def read_histogram_csv(path, operations):
+    result = defaultdict(dict)
+    with open(path, newline="") as stream:
+        reader = csv.DictReader(stream)
+        if reader.fieldnames != ["operation", "bucket_index", "lower_bound_ns", "upper_bound_ns", "count"]:
+            raise ValueError("unexpected histogram header")
+        for row in reader:
+            if None in row or any(v is None for v in row.values()):
+                raise ValueError("CSV row shape mismatch")
+            try:
+                index, lower, upper, count = (int(row[k]) for k in ("bucket_index", "lower_bound_ns", "upper_bound_ns", "count"))
+            except (ValueError, TypeError) as exc:
+                raise ValueError("malformed histogram numeric value") from exc
+            if not 0 <= index < 65 or (lower, upper) != histogram_bounds(index) or not 0 <= count <= UINT64_MAX:
+                raise ValueError("invalid histogram bounds/count")
+            if index in result[row["operation"]]:
+                raise ValueError("duplicate histogram bucket")
+            result[row["operation"]][index] = count
+    expected = {r["operation"] for r in operations if r["total_calls"]}
+    if set(result) != expected:
+        raise ValueError("histogram operation coverage mismatch")
+    output = {}
+    for row in operations:
+        op = row["operation"]
+        if not row["total_calls"]:
+            continue
+        if set(result[op]) != set(range(65)) or sum(result[op].values()) != row["total_calls"]:
+            raise ValueError("histogram bucket coverage/count mismatch")
+        counts = [result[op][i] for i in range(65)]
+        if not sum(c * histogram_bounds(i)[0] for i, c in enumerate(counts)) <= row["cumulative_latency_ns"] <= sum(c * histogram_bounds(i)[1] for i, c in enumerate(counts)):
+            raise ValueError("histogram cumulative bounds mismatch")
+        output[op] = counts
+    return output
+
+Bundle = namedtuple("Bundle", "schema_version manifest files aggregate operations top_paths histogram")
 
 def discover_committed_bundles(directory):
     root = pathlib.Path(directory)
@@ -63,32 +126,44 @@ def discover_committed_bundles(directory):
     logical_owners = defaultdict(set)
     schemas = set()
     for manifest in sorted(root.glob("*-manifest.json")):
+        schema = None
         try:
             data = json.loads(manifest.read_text())
             schema = data["schema_version"]
-            if type(schema) is not int or schema not in SUPPORTED_MANIFEST_SCHEMAS or not valid_v2_manifest(data):
+            if schema == 3 and type(schema) is int and not valid_manifest(data):
+                raise ValueError("invalid schema3 manifest")
+            if type(schema) is not int or schema not in SUPPORTED_MANIFEST_SCHEMAS or not valid_manifest(data):
                 continue
             names = data["files"]
             stem_suffix = "-manifest.json"
             stem = manifest.name[:-len(stem_suffix)]
-            expected = [f"{stem}-profiling_{kind}.csv" for kind in ("aggregate", "operations", "top_paths")]
+            expected = [f"{stem}-profiling_{kind}.csv" for kind in (("aggregate", "operations", "top_paths", "histogram") if schema == 3 else ("aggregate", "operations", "top_paths"))]
             if (not isinstance(names, list) or len(names) != len(expected) or
                     len(set(names)) != len(names) or set(names) != set(expected) or
                     any(not isinstance(n, str) or pathlib.Path(n).name != n for n in names)):
+                if schema == 3:
+                    raise ValueError("invalid schema3 file inventory")
                 continue
             files = [root / n for n in expected]
-            aggregate, operations, top_paths = files
+            aggregate, operations, top_paths = files[:3]
             if not all(p.is_file() for p in files):
+                if schema == 3:
+                    raise ValueError("missing schema3 committed file")
                 continue
             logical_identity = (data["host"], data["pid"], data["sequence"], data["kind"])
             logical_owners[logical_identity].add(manifest)
             expected_stem = (f"{filename_component(data['host'])}-{data['pid']}-"
                              f"{data['sequence']}-{filename_component(data['kind'])}")
             if stem != expected_stem:
+                if schema == 3:
+                    raise ValueError("schema3 manifest identity mismatch")
                 continue
-        except (OSError, ValueError, TypeError, KeyError, StopIteration, json.JSONDecodeError):
+        except (OSError, ValueError, TypeError, KeyError, StopIteration, json.JSONDecodeError) as exc:
+            if schema == 3:
+                raise ValueError(f"invalid schema3 commit {manifest}: {exc}") from exc
             continue
-        bundle = Bundle(schema, manifest, files, aggregate, operations, top_paths)
+        bundle = Bundle(schema, manifest, files, aggregate, operations, top_paths, files[3] if schema == 3 else None)
+        verify_integrity(bundle, data)
         candidates.append(bundle)
         candidate_identities[manifest] = logical_identity
 
@@ -104,10 +179,117 @@ def discover_committed_bundles(directory):
                if len(bundle_owners[tuple(p.name for p in bundle.files)]) == 1 and
                len(logical_owners[candidate_identities[bundle.manifest]]) == 1 and
                all(len(file_owners[(p.stat().st_dev, p.stat().st_ino)]) == 1 for p in bundle.files)]
+    if any(b.schema_version == 3 for b in candidates if b not in bundles):
+        raise ValueError("duplicate schema3 bundle identity or shared file")
     schemas.update(bundle.schema_version for bundle in bundles)
     if len(schemas) > 1:
         raise ValueError("mixed schema versions in committed profiling bundles")
     return bundles
+
+
+def select_schema3(bundles, expected_hosts, allow_partial, run_id, generation):
+    metadata = [(b, json.loads(b.manifest.read_text())) for b in bundles]
+    if run_id is not None:
+        metadata = [(b, d) for b, d in metadata if d["run_id"] == run_id]
+    if generation is not None:
+        metadata = [(b, d) for b, d in metadata if d["daemon_generation"] == generation]
+    identities = {(d["run_id"], d["daemon_generation"]) for _, d in metadata}
+    if len(identities) != 1 or any(None in identity for identity in identities):
+        raise ValueError("ambiguous or unknown run/generation identity; select --run-id and --daemon-generation")
+    run, gen = next(iter(identities))
+    observed = {d["host"] for _, d in metadata}
+    missing = sorted(set(expected_hosts) - observed)
+    if observed - set(expected_hosts):
+        raise ValueError("unexpected hosts")
+    if missing and not allow_partial:
+        raise ValueError("missing expected hosts")
+    selected = []
+    final = True
+    gaps = []
+    for host in sorted(observed):
+        rows = sorted(((b, d) for b, d in metadata if d["host"] == host), key=lambda item: item[1]["sequence"])
+        if len({d["pid"] for _, d in rows}) != 1 or len({d["sequence"] for _, d in rows}) != len(rows):
+            raise ValueError("ambiguous restart/process identity or sequence")
+        epochs = [d["reset_epoch"] for _, d in rows]
+        if epochs != sorted(epochs):
+            raise ValueError("reset epoch regressed")
+        groups = defaultdict(list)
+        for bundle, data in rows:
+            groups[data["reset_epoch"]].append((bundle, data))
+        last_epoch = max(groups)
+        if set(groups) != set(range(last_epoch + 1)):
+            gaps.append(host)
+        for epoch, snapshots in sorted(groups.items()):
+            previous = None
+            previous_histograms = None
+            for bundle, data in snapshots:
+                current = {r["operation"]: r for r in read_operations_csv(bundle.operations)}
+                if previous is not None:
+                    for op, old in previous.items():
+                        new = current.get(op)
+                        if new is None or any(new[k] < old[k] for k in OPERATIONS_NUMERIC_FIELDS if k not in {"min_ns", "max_ns", "p50_ns", "p90_ns", "p95_ns", "p99_ns", "p999_ns"}):
+                            raise ValueError("cumulative operation counters regressed")
+                        old_errors, new_errors = parse_errors(old["errors"]), parse_errors(new["errors"])
+                        if any(new_errors.get(k, 0) < v for k, v in old_errors.items()):
+                            raise ValueError("cumulative error counters regressed")
+                histograms = read_histogram_csv(bundle.histogram, list(current.values()))
+                if previous_histograms is not None:
+                    for op, counts in previous_histograms.items():
+                        if op not in histograms or any(a > b for a, b in zip(counts, histograms[op])):
+                            raise ValueError("cumulative histogram buckets regressed")
+                previous_histograms = histograms
+                previous = current
+            for bundle, _ in snapshots:
+                validate_bundle_consistency(bundle)
+            closed = [(b, d) for b, d in snapshots if d["semantics"] == "interval"]
+            if len(closed) > 1 or closed and closed[0] != snapshots[-1]:
+                raise ValueError("overlapping interval/cumulative epoch snapshots")
+            if epoch != last_epoch and not closed:
+                gaps.append(host)
+            selected.append(snapshots[-1][0])
+        final = final and rows[-1][1]["kind"] == "final"
+    if (gaps or not final) and not allow_partial:
+        raise ValueError("non-final or missing closed reset epochs require --allow-partial")
+    coverage = {"expected_hosts": sorted(expected_hosts), "observed_hosts": sorted(observed),
+                "missing_hosts": missing, "unexpected_hosts": [], "run_id": run,
+                "daemon_generation": gen, "epoch_gaps": sorted(set(gaps)),
+                "complete": not missing and not gaps and final,
+                "roster_verified": True, "final": final,
+                "discarded_snapshots": [str(b.manifest) for b in bundles if b not in selected]}
+    return selected, coverage
+
+
+def select_bundles(bundles, expected_hosts, allow_partial=False, legacy_unverified=False, run_id=None, generation=None):
+    if not expected_hosts or len(set(expected_hosts)) != len(expected_hosts):
+        raise ValueError("exact expected host roster is required (no duplicates)")
+    if bundles and all(b.schema_version == 3 for b in bundles):
+        return select_schema3(bundles, expected_hosts, allow_partial, run_id, generation)
+    metadata = [(bundle, json.loads(bundle.manifest.read_text())) for bundle in bundles]
+    if any(data["schema_version"] == 2 for _, data in metadata) and not legacy_unverified:
+        raise ValueError("schema2 requires explicit --legacy-unverified")
+    observed = {data["host"] for _, data in metadata}
+    unexpected = sorted(observed - set(expected_hosts))
+    missing = sorted(set(expected_hosts) - observed)
+    if unexpected:
+        raise ValueError(f"unexpected hosts: {unexpected}")
+    if missing and not allow_partial:
+        raise ValueError(f"missing expected hosts: {missing}")
+    selected = []
+    for host in sorted(observed):
+        candidates = [(bundle, data) for bundle, data in metadata if data["host"] == host]
+        latest_sequence = max(data["sequence"] for _, data in candidates)
+        latest = [(bundle, data) for bundle, data in candidates if data["sequence"] == latest_sequence]
+        if len(latest) != 1:
+            raise ValueError(f"ambiguous restart snapshot for {host}")
+        selected.append(latest[0][0])
+    final = all(json.loads(bundle.manifest.read_text())["kind"] == "final" for bundle in selected)
+    if not final and not allow_partial:
+        raise ValueError("non-final recovered snapshots require --allow-partial")
+    coverage = {"expected_hosts": sorted(expected_hosts), "observed_hosts": sorted(observed),
+                "missing_hosts": missing, "unexpected_hosts": unexpected,
+                "complete": False, "roster_verified": not legacy_unverified, "final": final,
+                "discarded_snapshots": [str(b.manifest) for b in bundles if b not in selected]}
+    return selected, coverage
 
 
 def usage():
@@ -121,6 +303,8 @@ def read_aggregate_csv(path):
         if reader.fieldnames != AGGREGATE_HEADER:
             raise ValueError(f"unexpected aggregate header in {path}: {reader.fieldnames!r}")
         for row in reader:
+            if None in row or any(v is None for v in row.values()):
+                raise ValueError("CSV row shape mismatch")
             key = row["metric"]
             value = row["value"]
             if key in data:
@@ -151,6 +335,8 @@ def read_operations_csv(path):
         if reader.fieldnames != OPERATIONS_HEADER:
             raise ValueError(f"unexpected operations header in {path}: {reader.fieldnames!r}")
         for row in reader:
+            if None in row or any(v is None for v in row.values()):
+                raise ValueError("CSV row shape mismatch")
             operation = row["operation"]
             if operation in operations:
                 raise ValueError(f"duplicate operation in {path}: {operation!r}")
@@ -206,19 +392,22 @@ def classify_path(category, path):
     return "environment_prefix"
 
 
-def read_top_paths_csv(path):
+def read_top_paths_csv(path, schema=2):
     rows = []
     paths = set()
     with open(path, newline="") as f:
         reader = csv.DictReader(f)
-        if reader.fieldnames != TOP_PATHS_HEADER:
+        header = TOP_PATHS_HEADER + (["estimated_total", "error_bound"] if schema == 3 else [])
+        if reader.fieldnames != header:
             raise ValueError(f"unexpected top-paths header in {path}: {reader.fieldnames!r}")
         for row in reader:
+            if None in row or any(v is None for v in row.values()):
+                raise ValueError("CSV row shape mismatch")
             identity = (row["source"], row["path"])
             if identity in paths:
                 raise ValueError(f"duplicate top-path in {path}: {identity!r}")
             paths.add(identity)
-            for key in TOP_PATHS_NUMERIC_FIELDS:
+            for key in TOP_PATHS_NUMERIC_FIELDS + (["estimated_total", "error_bound"] if schema == 3 else []):
                 try:
                     row[key] = int(row[key])
                 except (TypeError, ValueError) as exc:
@@ -228,11 +417,16 @@ def read_top_paths_csv(path):
 
 
 def validate_bundle_consistency(bundle):
+    verify_integrity(bundle, json.loads(bundle.manifest.read_text()))
     aggregate = read_aggregate_csv(bundle.aggregate)
     validate_manifest_path_counts(bundle, aggregate)
     manifest = json.loads(bundle.manifest.read_text())
     operations = read_operations_csv(bundle.operations)
-    top_paths = read_top_paths_csv(bundle.top_paths)
+    top_paths = read_top_paths_csv(bundle.top_paths, bundle.schema_version)
+    if bundle.histogram:
+        histograms = read_histogram_csv(bundle.histogram, operations)
+        for row in operations:
+            row["histogram"] = histograms.get(row["operation"], [0] * 65)
 
     def require(actual, expected, description):
         if actual != expected:
@@ -240,9 +434,15 @@ def validate_bundle_consistency(bundle):
                 f"inconsistent profiling bundle {bundle.manifest}: {description}: "
                 f"{actual} vs {expected}")
 
+    if bundle.schema_version == 3 and any(not 0 <= v <= UINT64_MAX for v in aggregate.values()):
+        raise ValueError("aggregate counter outside uint64")
     operation_sums = defaultdict(int)
     source_sums = defaultdict(int)
     for row in operations:
+        if bundle.schema_version == 3 and any(row[k] > UINT64_MAX for k in OPERATIONS_NUMERIC_FIELDS):
+            raise ValueError("operation counter outside uint64")
+        if sum(parse_errors(row["errors"]).values()) > row["total_calls"]:
+            raise ValueError("operation error counts exceed calls")
         if any(row[key] < 0 for key in OPERATIONS_NUMERIC_FIELDS):
             raise ValueError(f"inconsistent profiling bundle {bundle.manifest}: negative operation counter")
         latency_values = tuple(row[key] for key in
@@ -291,8 +491,18 @@ def validate_bundle_consistency(bundle):
     path_ttl = defaultdict(int)
     path_sources = defaultdict(int)
     for row in top_paths:
+        if sum(parse_errors(row["errors"]).values()) > row["total_events"]:
+            raise ValueError("path error counts exceed events")
+        if bundle.schema_version == 3 and any(row[k] > UINT64_MAX for k in TOP_PATHS_NUMERIC_FIELDS + ["estimated_total", "error_bound"]):
+            raise ValueError("path counter outside uint64")
         if any(row[key] < 0 for key in TOP_PATHS_NUMERIC_FIELDS):
             raise ValueError(f"inconsistent profiling bundle {bundle.manifest}: negative top-path counter")
+        if bundle.schema_version == 3:
+            estimate, error = row["estimated_total"], row["error_bound"]
+            if not 0 <= error <= estimate <= aggregate["paths_seen"] or estimate - error != row["total_events"]:
+                raise ValueError("inconsistent path estimate/error bound")
+            if manifest["mode"] != "bounded-heavy-hitter" and (error or estimate != row["total_events"]):
+                raise ValueError("exact path mode has approximate counts")
         event_parts = ("success", "cache_hits", "cache_misses", "negative_results",
                        "ttl_stores", "ttl_serves", "ttl_expires", "ttl_clears")
         require(sum(row[key] for key in event_parts), row["total_events"],
@@ -447,25 +657,34 @@ def infer_home_roots(observed_paths, home):
     return roots
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(add_help=True)
     parser.add_argument("log_dir")
     parser.add_argument("output_prefix", nargs="?", default="cluster")
+    parser.add_argument("--expected-host", action="append", default=[])
+    parser.add_argument("--allow-partial", action="store_true")
+    parser.add_argument("--legacy-unverified", action="store_true")
+    parser.add_argument("--run-id")
+    parser.add_argument("--daemon-generation")
+    parser.add_argument("--output-dir")
+    for kind in ("startup", "workload", "cleanup", "cache"):
+        parser.add_argument("--" + kind + "-receipt")
     parser.add_argument("--usage-root", action="append", default=[],
                         help="additional filesystem root to analyze for observed-path coverage; can be passed multiple times")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     log_dir = os.path.abspath(args.log_dir)
     output_prefix = args.output_prefix
     profiling_final_dir = os.path.join(log_dir, "profiling", "final")
-    profiling_cluster_dir = os.path.join(log_dir, "profiling", "cluster")
+    profiling_cluster_dir = args.output_dir or os.path.join(log_dir, "profiling", "cluster")
     tables_final_dir = os.path.join(log_dir, "tables", "final")
 
     search_dir = profiling_final_dir if os.path.isdir(profiling_final_dir) else log_dir
     try:
         bundles = discover_committed_bundles(search_dir)
+        bundles, coverage = select_bundles(bundles, args.expected_host, args.allow_partial, args.legacy_unverified, args.run_id, args.daemon_generation)
         validated_bundles = [(bundle, *validate_bundle_consistency(bundle)) for bundle in bundles]
-    except ValueError as exc:
+    except (ValueError, OSError) as exc:
         print(f"invalid profiling bundles: {exc}", file=sys.stderr)
         return 1
     aggregate_files = [str(bundle.aggregate) for bundle, _, _, _ in validated_bundles]
@@ -476,7 +695,14 @@ def main():
         print(f"failed to find profiling csv files under: {search_dir}")
         return 1
 
-    os.makedirs(profiling_cluster_dir, exist_ok=True)
+    rendered = {}
+
+    class RenderBuffer(io.StringIO):
+        def __init__(self, name):
+            super().__init__(); self.name = name
+        def __exit__(self, *args):
+            rendered[pathlib.Path(self.name).name] = self.getvalue().encode()
+            return super().__exit__(*args)
 
     aggregate_totals = defaultdict(int)
     operation_totals = defaultdict(lambda: defaultdict(int))
@@ -532,7 +758,7 @@ def main():
     coverage_stats = [analyze_usage_root(root, observed_paths) for root in coverage_roots]
 
     aggregate_csv_path = os.path.join(profiling_cluster_dir, f"{output_prefix}-profiling_aggregate.csv")
-    with open(aggregate_csv_path, "w", newline="") as f:
+    with RenderBuffer(aggregate_csv_path) as f:
         writer = csv.writer(f)
         writer.writerow(["metric", "value"])
         writer.writerow(["ranks_with_aggregate_files", len(aggregate_files)])
@@ -540,7 +766,7 @@ def main():
             writer.writerow([key, aggregate_totals[key]])
 
     operations_csv_path = os.path.join(profiling_cluster_dir, f"{output_prefix}-profiling_operations.csv")
-    with open(operations_csv_path, "w", newline="") as f:
+    with RenderBuffer(operations_csv_path) as f:
         writer = csv.writer(f)
         writer.writerow(["operation", "total_calls", "cache_hits", "cache_misses", "negative_results", "avg_latency_ns", "cumulative_latency_ns"])
         for op in sorted(operation_totals.keys()):
@@ -558,8 +784,10 @@ def main():
             ])
 
     summary_md_path = os.path.join(profiling_cluster_dir, f"{output_prefix}-profiling_summary.md")
-    with open(summary_md_path, "w") as f:
+    with RenderBuffer(summary_md_path) as f:
         f.write("# Cluster Profiling Summary\n\n")
+        f.write(f"- Coverage: {json.dumps(coverage, sort_keys=True)}\n")
+        f.write("- Cluster percentiles use merged all-completion histogram bucket bounds where available; reservoir quantiles are never averaged.\n\n")
         f.write(f"- Input directory: `{search_dir}`\n")
         f.write(f"- Rank summaries aggregated: `{len(aggregate_files)}`\n\n")
         f.write("## Aggregate Metrics\n\n")
@@ -639,6 +867,45 @@ def main():
             else:
                 f.write("No raw final full-path table outputs were found under `tables/final/`, so filesystem-root coverage could not be estimated.\n")
 
+    try:
+        report = summarize_operations([(json.loads(bundle.manifest.read_text())["host"], operations)
+                                      for bundle, _, operations, _ in validated_bundles])
+    except ValueError as exc:
+        print(f"invalid operation totals: {exc}", file=sys.stderr)
+        return 1
+    manifests = [json.loads(b.manifest.read_text()) for b, _, _, _ in validated_bundles]
+    compatible = [{k: d.get(k) for k in ("schema_version", "mode", "config", "histogram")} for d in manifests]
+    if any(c != compatible[0] for c in compatible):
+        print("incompatible profiling configurations", file=sys.stderr)
+        return 1
+    report.update(report_schema_version=1, run_id=coverage.get("run_id"),
+                  daemon_generation=coverage.get("daemon_generation"), compatibility=compatible[0],
+                  receipts=join_receipts(coverage.get("run_id"), {k: getattr(args, k+"_receipt") for k in ("startup", "workload", "cleanup", "cache") if getattr(args, k+"_receipt")}),
+                  paths=[dict(row, host=json.loads(b.manifest.read_text())["host"], reset_epoch=json.loads(b.manifest.read_text()).get("reset_epoch"), manifest=str(b.manifest)) for b, _, _, rows in validated_bundles for row in rows],
+                  provenance=[dict(d, manifest=str(b.manifest), manifest_sha256=hashlib.sha256(b.manifest.read_bytes()).hexdigest()) for (b, _, _, _), d in zip(validated_bundles, manifests)],
+                  coverage=coverage, aggregate=dict(aggregate_totals),
+                  selected_manifests=[str(bundle.manifest) for bundle, _, _, _ in validated_bundles])
+    if any("histogram" in row for row in report["operations"]):
+        with RenderBuffer(f"{output_prefix}-profiling_histogram.csv") as stream:
+            writer = csv.writer(stream)
+            writer.writerow(["operation", "bucket_index", "lower_bound_ns", "upper_bound_ns", "count"])
+            for row in report["operations"]:
+                for i, count in enumerate(row["histogram"]):
+                    writer.writerow([row["operation"], i, *histogram_bounds(i), count])
+        human = "\n## Cluster Histogram Percentile Bounds\n\nAll-completion inclusive nanosecond bounds; logarithmic discretization, not reservoir sampling.\n\n| Operation | Quantile | Lower ns | Upper ns |\n|---|---|---:|---:|\n"
+        hosts = "\n## Host Percentile Distribution\n\nDistribution of per-host bounds, NOT cluster quantiles.\n\n| Operation | Quantile | Hosts | Min upper ns | Median upper ns | Max upper ns |\n|---|---|---:|---:|---:|---:|\n"
+        for row in report["operations"]:
+            for name, bounds in row["cluster_percentiles"].items():
+                human += f"| `{row['operation']}` | {name} | {bounds['lower_bound_ns']} | {bounds['upper_bound_ns']} |\n"
+                distribution = row["host_percentile_distribution"][name]
+                hosts += f"| `{row['operation']}` | {name} | {distribution['host_count']} | {distribution['min_upper_bound_ns']} | {distribution['median_upper_bound_ns']} | {distribution['max_upper_bound_ns']} |\n"
+        rendered[f"{output_prefix}-profiling_summary.md"] += (human + hosts).encode()
+    rendered[f"{output_prefix}-report.json"] = json.dumps(report, sort_keys=True, indent=2).encode()
+    try:
+        publish_generation(profiling_cluster_dir, output_prefix, rendered)
+    except (OSError, ValueError) as exc:
+        print(f"report publication failed: {exc}", file=sys.stderr)
+        return 1
     print(f"wrote {aggregate_csv_path}")
     print(f"wrote {operations_csv_path}")
     print(f"wrote {summary_md_path}")

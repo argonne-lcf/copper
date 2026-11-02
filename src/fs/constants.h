@@ -150,6 +150,9 @@ class Constants {
     static std::string profiling_final_dir() {
         return join_path(profiling_root_dir(), profiling_final_subdir);
     }
+    // Contract: aggregate_profiling.py consumes profiling/final exclusively.
+    // Every closing interval required for complete epoch accounting must use
+    // profiling_final_dir(); tagged directories are diagnostic snapshots only.
     static std::string profiling_snapshot_dir(const std::string& snapshot_tag) {
         if(snapshot_tag.empty()) {
             return profiling_final_dir();

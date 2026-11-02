@@ -1,6 +1,9 @@
 #include "util.h"
 
 #include <filesystem>
+#include <sstream>
+#include <mutex>
+#include "../startup/daemon_identity.h"
 
 #include "../metric/ioctl_event.h"
 #include "../metric/metrics.h"
@@ -282,14 +285,16 @@ std::optional<std::ofstream> Util::try_get_fstream_from_path(const char* path) {
 }
 
 #define GET_FS_STREAM(path_string, filename)                                         \
+    if(fs_stream_opt) { fs_stream_opt->flush(); fs_stream_opt->close(); if(!*fs_stream_opt) throw std::runtime_error("metric report write failed"); } \
     output = (std::filesystem::path(Constants::tables_dir()) / Constants::profiling_final_subdir / filename).string(); \
     fs_stream_opt = Util::try_get_fstream_from_path(output.c_str());             \
     if(!fs_stream_opt.has_value()) {                                             \
         LOG(ERROR) << "failed to open fstream" << std::endl;                     \
-        return;                                                                  \
+        throw std::runtime_error("metric report open failed");                     \
     }
 
-void Util::log_all_metrics(const std::string& path_string) {
+ReportResult Util::log_all_metrics(const std::string& path_string) {
+    try {
     std::string output;
     std::optional<std::ofstream> fs_stream_opt = std::nullopt;
     std::filesystem::create_directories(std::filesystem::path(Constants::tables_dir()) / Constants::profiling_final_subdir);
@@ -327,20 +332,116 @@ void Util::log_all_metrics(const std::string& path_string) {
         GET_FS_STREAM(path_string, Constants::get_output_filename(Constants::log_md_ttl_event_output_filename));
         fs_stream_opt.value() << Profiling::log_md_ttl_event << std::endl;
     }
+    fs_stream_opt->flush(); fs_stream_opt->close();
+    if(!*fs_stream_opt) throw std::runtime_error("metric report write failed");
+    return publish_cache_snapshot();
+    } catch(const std::exception& error) { ReportResult result; result.error = error.what(); return result; }
+}
+
+namespace {
+std::mutex cache_publication_mutex;
+uint64_t cache_sequence = 0;
+uint64_t cache_epoch = 0;
+void durable_cache_file(const std::filesystem::path& path, const std::string& bytes) {
+    const int fd = open(path.c_str(), O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC | O_NOFOLLOW, 0600);
+    if(fd < 0) throw std::system_error(errno, std::generic_category(), "create cache payload");
+    struct Guard { int fd; ~Guard() { close(fd); } } guard{fd};
+    size_t offset = 0;
+    while(offset < bytes.size()) {
+        auto count = write(fd, bytes.data() + offset, bytes.size() - offset);
+        if(count < 0 && errno == EINTR) continue;
+        if(count <= 0) throw std::system_error(errno ? errno : EIO, std::generic_category(), "write cache payload");
+        offset += count;
+    }
+    if(fsync(fd) != 0) throw std::system_error(errno, std::generic_category(), "fsync cache payload");
+}
+void durable_cache_directory(const std::filesystem::path& path) {
+    const int fd = open(path.c_str(), O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
+    if(fd < 0) throw std::system_error(errno, std::generic_category(), "open cache directory");
+    const int status = fsync(fd), saved = errno; close(fd);
+    if(status != 0) throw std::system_error(saved, std::generic_category(), "fsync cache directory");
+}
+}
+
+ReportResult Util::publish_cache_snapshot() {
+    std::lock_guard<std::mutex> guard(cache_publication_mutex);
+    ReportResult result;
+    std::filesystem::path staging;
+    try {
+        const char* run = std::getenv("COPPER_RUN_ID");
+        const char* generation = std::getenv("COPPER_DAEMON_GENERATION");
+        if(!run || !*run || !generation || !*generation) throw std::runtime_error("cache snapshot requires COPPER_RUN_ID and COPPER_DAEMON_GENERATION");
+        const auto root = std::filesystem::path(Constants::tables_dir()) / "cache-snapshots";
+        std::filesystem::create_directories(root);
+        std::string pattern = (root / ".pending-XXXXXXXX").string();
+        std::vector<char> temporary(pattern.begin(), pattern.end()); temporary.push_back('\0');
+        const char* created = mkdtemp(temporary.data());
+        if(!created) throw std::system_error(errno, std::generic_category(), "create cache generation");
+        staging = created;
+        const auto sequence = ++cache_sequence;
+        // Each formatter takes its table's own lock/copy. This is per-table
+        // occupancy capture, NOT a simultaneous multi-cache or cluster snapshot.
+        std::ostringstream data, tree, metadata;
+        DataCacheTable::get_data_size_metrics(data);
+        TreeCacheTable::get_data_size_metrics(tree);
+        MDCacheTable::get_data_size_metrics(metadata);
+        const std::vector<std::pair<std::string, std::string>> tables = {
+            {"data", data.str()}, {"tree", tree.str()}, {"metadata", metadata.str()}};
+        std::ostringstream manifest;
+        manifest << "{\"schema_version\":1,\"run_id\":" << CopperStartup::identity_json_string(run)
+                 << ",\"daemon_generation\":" << CopperStartup::identity_json_string(generation)
+                 << ",\"host\":" << CopperStartup::identity_json_string(Constants::my_hostname)
+                 << ",\"epoch\":" << cache_epoch << ",\"sequence\":" << sequence
+                 << ",\"capture_semantics\":\"per-table-locked-copy\",\"tables\":{";
+        bool first = true;
+        for(const auto& table : tables) {
+            const auto filename = table.first + ".output";
+            durable_cache_file(staging / filename, table.second);
+            if(!first) manifest << ',';
+            first = false;
+            manifest << CopperStartup::identity_json_string(table.first) << ":{\"path\":"
+                     << CopperStartup::identity_json_string(filename) << ",\"sha256\":"
+                     << CopperStartup::identity_json_string(profiler_sha256(table.second)) << '}';
+        }
+        manifest << "}}\n";
+        durable_cache_file(staging / "cache_snapshot.json.pending", manifest.str());
+        durable_cache_directory(staging);
+        const auto final = root / ("snapshot-" + staging.filename().string().substr(9));
+        std::filesystem::rename(staging, final);
+        staging.clear();
+        // The consumer recursively searches for cache_snapshot.json; keep the
+        // commit name invisible even while it traverses a staging directory.
+        std::filesystem::rename(final / "cache_snapshot.json.pending", final / "cache_snapshot.json");
+        durable_cache_directory(final);
+        durable_cache_directory(root);
+        result.success = true; result.manifest_path = (final / "cache_snapshot.json").string();
+        for(const auto& table : tables) result.files.push_back((final / (table.first + ".output")).string());
+    } catch(const std::exception& error) {
+        result.error = error.what();
+        if(!staging.empty()) { std::error_code ignored; std::filesystem::remove_all(staging, ignored); }
+    }
+    return result;
 }
 
 ReportResult Util::log_profiling_metrics(const std::string& path_string, const std::string& snapshot_tag) {
+    ReportResult cache; cache.success = true;
+    if(snapshot_tag.empty()) { cache = publish_cache_snapshot(); if(!cache.success) return cache; }
+    if(!Profiling::enabled()) return cache;
     return Profiling::write_reports(path_string, snapshot_tag);
 }
 
-void Util::reset_fs() {
+ReportResult Util::reset_fs() {
     CacheTables::data_cache_table.clear();
     CacheTables::md_cache_table.clear();
     CacheTables::tree_cache_table.clear();
 
 
     IoctlEvent::reset_ioctl_event();
-    Profiling::reset();
+    const auto report = Profiling::reset();
+    if(!report.success) {
+        LOG(ERROR) << "failed to publish closing profiling interval: " << report.error << std::endl;
+    }
+    return report;
 }
 
 bool Util::is_recursive_path_string(const std::string& path_string) {

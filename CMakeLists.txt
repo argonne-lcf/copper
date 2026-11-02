@@ -156,6 +156,10 @@ if(BUILD_TESTING)
   target_include_directories(test_profiling_disabled PRIVATE src "${CMAKE_CURRENT_SOURCE_DIR}/scripts/frontier-fuse-headers/include")
   target_link_libraries(test_profiling_disabled PRIVATE Threads::Threads)
   add_test(NAME profiling_disabled COMMAND test_profiling_disabled)
+  add_executable(test_profiling_reset tests/test_profiling_reset.cpp src/metric/profiling.cpp src/metric/operations.cpp src/metric/profiler_core.cpp)
+  target_include_directories(test_profiling_reset PRIVATE src "${CMAKE_CURRENT_SOURCE_DIR}/scripts/frontier-fuse-headers/include")
+  target_link_libraries(test_profiling_reset PRIVATE Threads::Threads)
+  add_test(NAME profiling_reset_artifact COMMAND test_profiling_reset "${CMAKE_CURRENT_BINARY_DIR}/profiling-reset-artifacts")
   add_executable(test_startup_tools tests/test_startup_tools.cpp)
   target_include_directories(test_startup_tools PRIVATE src)
   target_link_libraries(test_startup_tools PRIVATE Threads::Threads)
@@ -171,7 +175,11 @@ if(BUILD_TESTING)
     add_test(NAME production_profiler_wiring COMMAND ${Python3_EXECUTABLE} -m unittest tests/test_production_profiler_wiring.py -v)
     add_test(NAME launch_copper_aurora COMMAND ${Python3_EXECUTABLE} -m unittest tests/test_launch_copper_aurora.py -v)
     add_test(NAME copper_scale_check COMMAND ${Python3_EXECUTABLE} -m unittest tests/test_copper_scale_check.py -v)
-    set_tests_properties(aggregate_profiling production_profiler_wiring launch_copper_aurora copper_scale_check PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+    add_test(NAME profiler_benchmark_acceptance COMMAND ${Python3_EXECUTABLE} -m unittest tests/test_profiler_benchmark.py -v)
+    add_test(NAME auxiliary_tools COMMAND ${Python3_EXECUTABLE} -m unittest discover -s tests -p test_auxiliary*.py)
+    add_test(NAME copper_report COMMAND ${Python3_EXECUTABLE} -m unittest tests/test_copper_report.py -v)
+    add_test(NAME runtime_auxiliary_integration COMMAND ${Python3_EXECUTABLE} -m unittest discover -s tests -p test_runtime_auxiliary_integration.py -v)
+    set_tests_properties(aggregate_profiling production_profiler_wiring launch_copper_aurora copper_scale_check profiler_benchmark_acceptance auxiliary_tools copper_report runtime_auxiliary_integration PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
   endif()
 endif()
 
@@ -199,6 +207,18 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         "${CMAKE_CURRENT_SOURCE_DIR}/scripts/copper-scale-check"
         "${CMAKE_CURRENT_BINARY_DIR}/copper-scale-check"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/auxiliary_shutdown.py"
+        "${CMAKE_CURRENT_BINARY_DIR}/auxiliary_shutdown.py"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/copper_report.py"
+        "${CMAKE_CURRENT_BINARY_DIR}/copper_report.py"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/copper-report"
+        "${CMAKE_CURRENT_BINARY_DIR}/copper-report"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/copper-compare"
+        "${CMAKE_CURRENT_BINARY_DIR}/copper-compare"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${CMAKE_CURRENT_SOURCE_DIR}/scripts/olcf_frontier_copper_addressbook.txt"
         "${CMAKE_CURRENT_BINARY_DIR}/olcf_frontier_copper_addressbook.txt"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -211,6 +231,10 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         "${CMAKE_CURRENT_BINARY_DIR}/stop_copper_frontier.sh"
         "${CMAKE_CURRENT_BINARY_DIR}/aggregate_profiling.py"
         "${CMAKE_CURRENT_BINARY_DIR}/copper-scale-check"
+        "${CMAKE_CURRENT_BINARY_DIR}/auxiliary_shutdown.py"
+        "${CMAKE_CURRENT_BINARY_DIR}/copper_report.py"
+        "${CMAKE_CURRENT_BINARY_DIR}/copper-report"
+        "${CMAKE_CURRENT_BINARY_DIR}/copper-compare"
     COMMENT "Copying cu_fuse runtime scripts and address-book files to the build directory"
     VERBATIM
 )
