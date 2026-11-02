@@ -99,6 +99,10 @@ set(SHUTDOWN_SOURCES src/copper/rpc_shutdown.cpp)
 add_executable(${SHUTDOWN_PROJECT_NAME} ${SHUTDOWN_SOURCES})
 target_link_libraries(${SHUTDOWN_PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM ${FUSE3_LIB_FILE})
 
+set(PROBE_PROJECT_NAME cu_fuse_probe)
+add_executable(${PROBE_PROJECT_NAME} src/copper/rpc_probe.cpp)
+target_link_libraries(${PROBE_PROJECT_NAME} PRIVATE PkgConfig::MARGO PkgConfig::THALLIUM)
+
 set(ADDRESSBOOK_DISCOVERY_PROJECT_NAME list_cxi_hsn_thallium)
 set(ADDRESSBOOK_DISCOVERY_SOURCE
     "${CMAKE_CURRENT_SOURCE_DIR}/copper-tests/copper-get-addressbook/list_cxi_hsn_thallium.cpp"
@@ -152,12 +156,22 @@ if(BUILD_TESTING)
   target_include_directories(test_profiling_disabled PRIVATE src "${CMAKE_CURRENT_SOURCE_DIR}/scripts/frontier-fuse-headers/include")
   target_link_libraries(test_profiling_disabled PRIVATE Threads::Threads)
   add_test(NAME profiling_disabled COMMAND test_profiling_disabled)
+  add_executable(test_startup_tools tests/test_startup_tools.cpp)
+  target_include_directories(test_startup_tools PRIVATE src)
+  target_link_libraries(test_startup_tools PRIVATE Threads::Threads)
+  add_test(NAME startup_tools COMMAND test_startup_tools)
+  if(COPPER_BUILD_RUNTIME)
+    set_tests_properties(startup_tools PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+  else()
+    set_tests_properties(startup_tools PROPERTIES DISABLED TRUE)
+  endif()
   find_package(Python3 COMPONENTS Interpreter)
   if(Python3_Interpreter_FOUND)
     add_test(NAME aggregate_profiling COMMAND ${Python3_EXECUTABLE} -m unittest tests/test_aggregate_profiling.py -v)
     add_test(NAME production_profiler_wiring COMMAND ${Python3_EXECUTABLE} -m unittest tests/test_production_profiler_wiring.py -v)
     add_test(NAME launch_copper_aurora COMMAND ${Python3_EXECUTABLE} -m unittest tests/test_launch_copper_aurora.py -v)
-    set_tests_properties(aggregate_profiling production_profiler_wiring launch_copper_aurora PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+    add_test(NAME copper_scale_check COMMAND ${Python3_EXECUTABLE} -m unittest tests/test_copper_scale_check.py -v)
+    set_tests_properties(aggregate_profiling production_profiler_wiring launch_copper_aurora copper_scale_check PROPERTIES WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
   endif()
 endif()
 
@@ -182,6 +196,9 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         "${CMAKE_CURRENT_SOURCE_DIR}/scripts/aggregate_profiling.py"
         "${CMAKE_CURRENT_BINARY_DIR}/aggregate_profiling.py"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/scripts/copper-scale-check"
+        "${CMAKE_CURRENT_BINARY_DIR}/copper-scale-check"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${CMAKE_CURRENT_SOURCE_DIR}/scripts/olcf_frontier_copper_addressbook.txt"
         "${CMAKE_CURRENT_BINARY_DIR}/olcf_frontier_copper_addressbook.txt"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -193,6 +210,7 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         "${CMAKE_CURRENT_BINARY_DIR}/stop_copper_aurora.sh"
         "${CMAKE_CURRENT_BINARY_DIR}/stop_copper_frontier.sh"
         "${CMAKE_CURRENT_BINARY_DIR}/aggregate_profiling.py"
+        "${CMAKE_CURRENT_BINARY_DIR}/copper-scale-check"
     COMMENT "Copying cu_fuse runtime scripts and address-book files to the build directory"
     VERBATIM
 )

@@ -5,6 +5,7 @@
 #include "../metric/ioctl_event.h"
 #include "../metric/metrics.h"
 #include "../metric/profiling.h"
+#include "../startup/startup_tools.h"
 
 std::string Util::rel_to_abs_path(const char* path) {
     if(!path) {
@@ -76,7 +77,25 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
             if(!Constants::is_valid_user_log_level(Constants::log_level)) {
                 throw std::runtime_error("-log_level must be in range 0-5");
             }
+            Constants::startup_log_level = Constants::log_level;
+            Constants::operation_log_level = Constants::log_level;
             LOG(DEBUG) << "-log_level was found: " << Constants::log_level << std::endl;
+            i += 2;
+        } else if(original_string_args[i] == "-startup_log_level") {
+            if(i + 1 >= original_string_args.size()) throw std::runtime_error("no argument after -startup_log_level");
+            Constants::startup_log_level = CopperStartup::parse_log_level(argv[i + 1], "startup");
+            i += 2;
+        } else if(original_string_args[i] == "-operation_log_level") {
+            if(i + 1 >= original_string_args.size()) throw std::runtime_error("no argument after -operation_log_level");
+            Constants::operation_log_level = CopperStartup::parse_log_level(argv[i + 1], "operation");
+            i += 2;
+        } else if(original_string_args[i] == "-engine_startup_timeout_ms") {
+            if(i + 1 >= original_string_args.size()) throw std::runtime_error("no argument after -engine_startup_timeout_ms");
+            Constants::engine_startup_timeout_ms = CopperStartup::parse_positive_timeout_ms(argv[i + 1], "engine startup");
+            i += 2;
+        } else if(original_string_args[i] == "-parent_ready_timeout_ms") {
+            if(i + 1 >= original_string_args.size()) throw std::runtime_error("no argument after -parent_ready_timeout_ms");
+            Constants::parent_ready_timeout_ms = CopperStartup::parse_positive_timeout_ms(argv[i + 1], "parent readiness");
             i += 2;
         } else if(original_string_args[i] == "-es") {
             if(i + 1 >= original_string_args.size()) {

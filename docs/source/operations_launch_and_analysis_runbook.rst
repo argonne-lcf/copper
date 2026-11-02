@@ -145,6 +145,13 @@ Aurora notes:
 - ``cxi`` is the common endpoint family in the Aurora wrappers
 - ``48,49,50,51`` is the common Copper service-core example
 - ``-l 4`` is the recommended setting when startup timing matters
+- ``-T auto`` selects enough trees to keep each overlay segment at or below 128 nodes (``ceil(nodes / 128)``); explicit ``-T`` remains supported and preflight reports segment size and depth
+- ``-s`` is only a backward-compatible minimum delay. Readiness is a bounded barrier controlled by ``-R <timeout>`` and ``-B <backoff>``
+- readiness requires every node's mount, a live ``rpc_is_ready`` response from its provider, and optionally ``-p <exact-path>`` readability. Registration log lines are telemetry only and are accepted for timing only when newer than this launch
+- ``startup-summary.json`` is atomically published in the job log root. It records source/binary provenance when available, address-book mode and SHA-256, failed hosts, and provider-registration quantiles
+- ``copper-scale-check`` can run the same cluster check independently and writes an exact per-node JSON manifest. Optional ``--profile-glob`` detects partial profile output
+- ``-H <hook> -K <attempts>`` enables bounded selective recovery. The hook receives ``<failed-hostfile> <attempt-number>`` and is never invoked with the full allocation; recovery remains off unless ``-K`` is positive
+- ``-L`` and ``-O`` independently set startup and operation log verbosity; ``-X`` and ``-Y`` set engine-startup and parent-readiness deadlines in milliseconds
 
 Frontier
 ^^^^^^^^

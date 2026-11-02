@@ -1,32 +1,35 @@
 #include <thallium.hpp>
 #include "aixlog.h"
 
+#define COPPER_TRANSPORT_LOG_TAG "startup_transport"
+#define COPPER_OPERATION_LOG_TAG "operation"
+
 namespace tl = thallium;
 
 class TLLogger: public tl::logger {
     public:
 
     void trace(const char* msg) const override {
-        LOG(TRACE) << "[THALLIUM] " << msg << std::endl;
+        LOG(TRACE, COPPER_TRANSPORT_LOG_TAG) << "[THALLIUM] " << msg << std::endl;
     }
 
     void debug(const char* msg) const override {
-        LOG(DEBUG) << "[THALLIUM] " << msg << std::endl;
+        LOG(DEBUG, COPPER_TRANSPORT_LOG_TAG) << "[THALLIUM] " << msg << std::endl;
     }
 
     void info(const char* msg) const override {
-        LOG(INFO) << "[THALLIUM] " << msg << std::endl;
+        LOG(INFO, COPPER_TRANSPORT_LOG_TAG) << "[THALLIUM] " << msg << std::endl;
     }
 
     void warning(const char* msg) const override {
-        LOG(WARNING) << "[THALLIUM] " << msg << std::endl;
+        LOG(WARNING, COPPER_TRANSPORT_LOG_TAG) << "[THALLIUM] " << msg << std::endl;
     }
 
     void error(const char* msg) const override {
-        LOG(ERROR) << "[THALLIUM] " << msg << std::endl;
+        LOG(ERROR, COPPER_TRANSPORT_LOG_TAG) << "[THALLIUM] " << msg << std::endl;
     }
 
     void critical(const char* msg) const override {
-        LOG(FATAL) << "[THALLIUM] " << msg << std::endl;
+        LOG(FATAL, COPPER_TRANSPORT_LOG_TAG) << "[THALLIUM] " << msg << std::endl;
     }
 };

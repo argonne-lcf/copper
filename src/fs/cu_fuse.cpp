@@ -2,11 +2,16 @@
 #include "error_status.h"
 #include "fuse_policy.h"
 #include "../metric/profiling.h"
+#include "../startup/startup_tools.h"
 #include <atomic>
 #include <chrono>
 #include <filesystem>
 #include <thread>
 #include <condition_variable>
+#include <cerrno>
+#include <memory>
+#include <cstdlib>
+#include <csignal>
 
 namespace tl = thallium;
 
@@ -14,6 +19,15 @@ namespace tl = thallium;
 #define CU_FUSE_RPC_METADATA "cu_fuse_rpc_metadata"
 
 namespace {
+std::unique_ptr<CopperStartup::StartupTelemetry> g_startup_telemetry;
+std::string g_startup_phase{"not_started"};
+
+void startup_phase(const std::string& phase, CopperStartup::PhaseState state,
+                   const std::string& detail = {}) {
+    g_startup_phase = phase;
+    if(g_startup_telemetry) g_startup_telemetry->record(phase, state, detail);
+}
+
 std::atomic<bool> g_profile_snapshot_thread_stop{false};
 std::thread g_profile_snapshot_thread;
 std::mutex g_profile_snapshot_mutex;
@@ -46,7 +60,7 @@ void start_profile_snapshot_thread() {
 } // namespace
 
 static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_file_info* fi) {
-    LOG(DEBUG) << " " << std::endl;
+    LOG(DEBUG, COPPER_OPERATION_LOG_TAG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::getattr, path_);
     if(Util::is_recursive_path_string(path_string)) {
         LOG(WARNING) << "path_string was recursive: " << path_string << std::endl;
@@ -87,7 +101,7 @@ static int cu_fuse_getattr(const char* path_, struct stat* stbuf, struct fuse_fi
 }
 
 static int cu_fuse_read(const char* path_, char* buf, const size_t size, const off_t offset, struct fuse_file_info* fi) {
-    LOG(DEBUG) << " " << std::endl;
+    LOG(DEBUG, COPPER_OPERATION_LOG_TAG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::read, path_);
     const int offset_error = FusePolicy::read_offset_result(offset);
     if(offset_error != 0) {
@@ -100,14 +114,14 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
         ProfileSource::data, path_string, start, -ENOENT);
     }
 
-    LOG(DEBUG) << "requested offset: " << offset << std::endl;
-    LOG(DEBUG) << "requested size: " << size << std::endl;
+    LOG(DEBUG, COPPER_OPERATION_LOG_TAG) << "requested offset: " << offset << std::endl;
+    LOG(DEBUG, COPPER_OPERATION_LOG_TAG) << "requested size: " << size << std::endl;
 
     auto md_entry = CacheTables::md_cache_table.get(path_string);
     if(md_entry.has_value()) {
         struct stat* md_st = (struct stat*)md_entry->get_vec().data();
         if(md_st->st_size >= Constants::max_cacheable_byte_size) {
-            LOG(DEBUG) << "file larger than max cacheable size... going to lustre" << std::endl;
+            LOG(DEBUG, COPPER_OPERATION_LOG_TAG) << "file larger than max cacheable size... going to lustre" << std::endl;
 
             int fd = open(path_string.c_str(), O_RDONLY | O_CLOEXEC);
             if(fd == -1) {
@@ -179,7 +193,7 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
 
 static int
 cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_t offset, struct fuse_file_info* fi, enum fuse_readdir_flags flags) {
-    LOG(DEBUG) << " " << std::endl;
+    LOG(DEBUG, COPPER_OPERATION_LOG_TAG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::readdir, path_);
     if(Util::is_recursive_path_string(path_string)) {
         LOG(WARNING) << "path_string was recursive: " << path_string << std::endl;
@@ -250,7 +264,7 @@ cu_fuse_readdir(const char* path_, void* buf, const fuse_fill_dir_t filler, off_
     } while(false)
 
 static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file_info*, unsigned int flags, void* data) {
-    LOG(DEBUG) << " " << std::endl;
+    LOG(DEBUG, COPPER_OPERATION_LOG_TAG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::ioctl, path_);
     if(Util::is_recursive_path_string(path_string)) {
         LOG(WARNING) << "path_string was recursive: " << path_string << std::endl;
@@ -393,7 +407,7 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
         fs_stream_opt.value() << MDCacheTable::get_data_size_metrics << std::endl;
         break;
     default:
-        LOG(DEBUG) << "external ioctl with cmd: " << cmd << std::endl;
+        LOG(DEBUG, COPPER_OPERATION_LOG_TAG) << "external ioctl with cmd: " << cmd << std::endl;
         Operations::inc_operation(OperationFunction::ext_getattr);
         IoctlEvent::record_ioctl_event(path_string, cmd);
         break;
@@ -402,8 +416,36 @@ static int cu_fuse_ioctl(const char* path_, int cmd, void* arg, struct fuse_file
     return Metric::stop_operation(OperationFunction::ioctl, start, Constants::fs_operation_success);
 }
 
-static void start_thallium_engine() {
+// static void start_thallium_engine (legacy callback-boundary marker)
+static bool start_thallium_engine() {
+    std::atomic<bool> startup_done{false};
+    std::thread watchdog([&startup_done] {
+        const auto deadline = std::chrono::milliseconds(Constants::engine_startup_timeout_ms);
+        const auto end = std::chrono::steady_clock::now() + deadline;
+        while(!startup_done.load(std::memory_order_acquire) && std::chrono::steady_clock::now() < end) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+        if(!startup_done.load(std::memory_order_acquire)) {
+            startup_phase(g_startup_phase, CopperStartup::PhaseState::failed,
+                          "startup deadline exceeded; terminating process because initialization cannot be safely cancelled");
+            // SIGTERM lets the launcher observe failure and gives FUSE/runtime
+            // teardown handlers a chance to detach the mount. _Exit left stale
+            // mounts that could be mistaken for healthy readiness.
+            std::raise(SIGTERM);
+            std::_Exit(ETIMEDOUT);
+        }
+    });
+    struct WatchdogGuard {
+        std::atomic<bool>& done;
+        std::thread& thread;
+        ~WatchdogGuard() {
+            done.store(true, std::memory_order_release);
+            if(thread.joinable()) thread.join();
+        }
+    } watchdog_guard{startup_done, watchdog};
     try {
+        startup_phase("engine_construct", CopperStartup::PhaseState::begin,
+                      "deadline is diagnostic process termination, not constructor cancellation");
         LOG(INFO) << "starting thallium engine" << std::endl;
         ServerLocalCacheProvider::provider_ready = false;
         ServerLocalCacheProvider::provider_ready_after_us = -1;
@@ -422,13 +464,18 @@ static void start_thallium_engine() {
 
         tl::engine* server_engine;
         std::string my_addr{};
+        startup_phase("endpoint_resolution", CopperStartup::PhaseState::begin, Constants::network_type);
         try {
             server_engine = new tl::engine{Constants::network_type, THALLIUM_SERVER_MODE, true, Constants::es};
             my_addr = std::string(server_engine->self());
+            startup_phase("endpoint_resolution", CopperStartup::PhaseState::complete, my_addr);
+	        startup_phase("engine_construct", CopperStartup::PhaseState::complete, my_addr);
 	          LOG(INFO) << "engine started" << std::endl;
         } catch(std::exception& e) {
+            startup_phase("endpoint_resolution", CopperStartup::PhaseState::failed, e.what());
+            startup_phase("engine_construct", CopperStartup::PhaseState::failed, e.what());
             LOG(FATAL) << e.what() << std::endl;
-            return;
+            return false;
         }
 
         server_engine->set_logger(logger);
@@ -436,6 +483,7 @@ static void start_thallium_engine() {
 
         LOG(INFO) << "using network type: " << Constants::network_type << std::endl;
 
+        startup_phase("address_parse_tree", CopperStartup::PhaseState::begin);
         if(Constants::job_nodefile.has_value()) {
             LOG(INFO) << "using job_nodefile to init addresses" << std::endl;
             LOG(INFO) << "Generating CXI address from job_nodefile: " << Constants::job_nodefile.value() << std::endl;
@@ -457,14 +505,17 @@ static void start_thallium_engine() {
             NodeTree::parse_nodelist_from_facility_address_book();
         } else {
             LOG(FATAL) << "invalid network type" << std::endl;
-            return;
+            startup_phase("address_parse_tree", CopperStartup::PhaseState::failed, "invalid network type");
+            return false;
         }
 
         if(ServerLocalCacheProvider::node_address_data.size() < Constants::trees) {
             LOG(FATAL) << "number of tree segments cannot be greater than number of addresses" << std::endl;
             LOG(FATAL) << "number of addresses: " << ServerLocalCacheProvider::node_address_data.size() << std::endl;
             LOG(FATAL) << "number of tree segments: " << Constants::trees << std::endl;
-            return;
+            startup_phase("address_parse_tree", CopperStartup::PhaseState::failed,
+                          "tree segments exceed address count");
+            return false;
         }
         std::vector<std::string> my_tree_segment = NodeTree::get_my_tree_segment(ServerLocalCacheProvider::node_address_data, 
                                                                                  my_addr, Constants::trees);
@@ -486,14 +537,21 @@ static void start_thallium_engine() {
         int tree_depth = NodeTree::depth(Node::root);
         LOG(INFO) << "the depth of the tree is: " << tree_depth << std::endl;
         NodeTree::pretty_print_tree(Node::root, tree_depth);
+        startup_phase("address_parse_tree", CopperStartup::PhaseState::complete,
+                      "addresses=" + std::to_string(ServerLocalCacheProvider::node_address_data.size()));
 
         LOG(INFO) << "server running at address: " << my_addr << std::endl;
+        startup_phase("rpc_definition", CopperStartup::PhaseState::begin);
         server_engine->enable_remote_shutdown();
         ServerLocalCacheProvider::rpc_lstat = server_engine->define("rpc_lstat");
         ServerLocalCacheProvider::rpc_readfile = server_engine->define("rpc_readfile");
         ServerLocalCacheProvider::rpc_readdir = server_engine->define("rpc_readdir");
         ServerLocalCacheProvider::rpc_is_ready = server_engine->define("rpc_is_ready");
+        startup_phase("rpc_definition", CopperStartup::PhaseState::complete);
+        startup_phase("provider_registration", CopperStartup::PhaseState::begin);
+        startup_phase("provider_construction", CopperStartup::PhaseState::begin);
         new ServerLocalCacheProvider{*server_engine, my_tree_segment};
+        startup_phase("provider_construction", CopperStartup::PhaseState::complete);
 
         LOG(INFO) << "setting my_engine" << std::endl;
         ServerLocalCacheProvider::my_engine = server_engine;
@@ -505,9 +563,14 @@ static void start_thallium_engine() {
         LOG(INFO) << "provider registration completed after "
                   << ServerLocalCacheProvider::provider_ready_after_us.load()
                   << " us" << std::endl;
+        startup_phase("provider_registration", CopperStartup::PhaseState::complete,
+                      std::to_string(ServerLocalCacheProvider::provider_ready_after_us.load()) + " us");
+        return true;
 
     } catch(const std::exception& e) {
+        startup_phase(g_startup_phase, CopperStartup::PhaseState::failed, e.what());
         LOG(FATAL) << "Exception caught in thread: " << e.what() << std::endl;
+        return false;
     }
 }
 
@@ -526,7 +589,11 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     cfg->ac_attr_timeout_set = 0;
     cfg->nullpath_ok = false;
 
-    start_thallium_engine();
+    if(!start_thallium_engine()) {
+        return nullptr;
+    }
+    startup_phase("mount_ready", CopperStartup::PhaseState::complete,
+                  "FUSE init completed; returning engine private data");
     start_profile_snapshot_thread();
 
     Metric::stop_operation(OperationFunction::init, start, 0);
@@ -534,7 +601,7 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
 }
 
 static void cu_fuse_destroy(void* private_data) {
-    LOG(DEBUG) << " " << std::endl;
+    LOG(DEBUG, COPPER_OPERATION_LOG_TAG) << " " << std::endl;
     auto start = Metric::start_operation(OperationFunction::destroy);
     stop_profile_snapshot_thread();
 
@@ -549,7 +616,7 @@ static void cu_fuse_destroy(void* private_data) {
 }
 
 static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) {
-    LOG(DEBUG) << " " << std::endl;
+    LOG(DEBUG, COPPER_OPERATION_LOG_TAG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::readlink, path_);
     if(Util::is_recursive_path_string(path_string)) {
         LOG(WARNING) << "path_string was recursive: " << path_string << std::endl;
@@ -572,7 +639,7 @@ static int cu_fuse_readlink(const char* path_, char* buf, const size_t size) {
 
 #ifdef HAVE_SETXATTR
 static int cu_fuse_getxattr(const char* path_, const char* name, char* value, size_t size) {
-    LOG(DEBUG) << " " << std::endl;
+    LOG(DEBUG, COPPER_OPERATION_LOG_TAG) << " " << std::endl;
     auto [path_string, start] = Metric::start_cache_operation(OperationFunction::getxattr, path_);
 
     int res = lgetxattr(path_string.c_str(), name, value, size);
@@ -698,18 +765,27 @@ int CuFuse::cu_hello_main(int argc, char* argv[]) {
     std::filesystem::create_directories(Constants::profiling_final_dir());
     std::filesystem::create_directories(Constants::profiling_cluster_dir());
     Constants::output_filename_path = Constants::logs_dir() + "/" + Constants::get_output_filename(Constants::output_filename_suffix);
+    g_startup_telemetry = std::make_unique<CopperStartup::StartupTelemetry>(
+        Constants::logs_dir() + "/" + Constants::get_output_filename("startup.jsonl"),
+        Constants::my_hostname, static_cast<long long>(getpid()));
+    startup_phase("arguments_and_paths", CopperStartup::PhaseState::complete,
+                  "telemetry initialized before engine construction");
 
-    if(Constants::logging_enabled(Constants::log_level)) {
-        const auto aixlog_severity = static_cast<AixLog::Severity>(
-            Constants::map_user_log_level_to_internal_severity(Constants::log_level));
+    if(Constants::logging_enabled(std::max(Constants::startup_log_level, Constants::operation_log_level))) {
+        AixLog::Filter category_filter(static_cast<AixLog::Severity>(
+            Constants::map_user_log_level_to_internal_severity(Constants::startup_log_level)));
+        category_filter.add_filter(COPPER_TRANSPORT_LOG_TAG, static_cast<AixLog::Severity>(
+            Constants::map_user_log_level_to_internal_severity(Constants::startup_log_level)));
+        category_filter.add_filter(COPPER_OPERATION_LOG_TAG, static_cast<AixLog::Severity>(
+            Constants::map_user_log_level_to_internal_severity(Constants::operation_log_level)));
 
         if(Constants::log_type == "stdout") {
-            AixLog::Log::init({std::make_shared<AixLog::SinkCout>(aixlog_severity)});
+            AixLog::Log::init({std::make_shared<AixLog::SinkCout>(category_filter)});
         } else if(Constants::log_type == "file") {
-            AixLog::Log::init({std::make_shared<AixLog::SinkFile>(aixlog_severity, Constants::output_filename_path)});
+            AixLog::Log::init({std::make_shared<AixLog::SinkFile>(category_filter, Constants::output_filename_path)});
         } else if(Constants::log_type == "file_and_stdout") {
-            AixLog::Log::init({std::make_shared<AixLog::SinkCout>(aixlog_severity),
-            std::make_shared<AixLog::SinkFile>(aixlog_severity, Constants::output_filename_path)});
+            AixLog::Log::init({std::make_shared<AixLog::SinkCout>(category_filter),
+            std::make_shared<AixLog::SinkFile>(category_filter, Constants::output_filename_path)});
         } else {
             AixLog::Log::init({});
         }

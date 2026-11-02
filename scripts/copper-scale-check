@@ -1,0 +1,202 @@
+#!/usr/bin/env python3
+"""Bounded, fail-closed Copper readiness check across a host file."""
+
+import argparse
+import json
+import os
+import pathlib
+import re
+import shlex
+import subprocess
+import sys
+import tempfile
+import time
+import math
+
+RESULT_RE = re.compile(r"^([^:\s]+):\s+COPPER_(READY|NOT_READY)\s+(.*)$")
+FIELD_RE = re.compile(r"([a-z_]+)=([^\s]+)")
+
+
+def unique_hosts(path):
+    hosts = []
+    seen = set()
+    for raw in pathlib.Path(path).read_text().splitlines():
+        host = raw.strip().split(".", 1)[0]
+        if host and host not in seen:
+            seen.add(host)
+            hosts.append(host)
+    if not hosts:
+        raise ValueError("hostfile contains no hosts")
+    return hosts
+
+
+def remote_probe(mount, rpc_probe_helper, network_type, provider_id, address_book, probe_path, profile_glob):
+    # Positional parameters keep user values out of shell syntax.
+    script = (
+        'mount=$1; rpc_helper=$2; network=$3; provider=$4; address_book=$5; probe=$6; profile=$7; '
+        'if command -v mountpoint >/dev/null 2>&1; then mountpoint -q "$mount"; '
+        'elif command -v findmnt >/dev/null 2>&1; then findmnt --mountpoint "$mount" >/dev/null 2>&1; '
+        'else grep -Fqs -- " $mount " /proc/mounts; fi; mount_rc=$?; '
+        'host=$(hostname -s); "$rpc_helper" "$network" "$provider" "$address_book" "$host" >/dev/null 2>&1; rpc_rc=$?; '
+        'path_rc=0; [ -z "$probe" ] || test -e "$probe" || path_rc=$?; '
+        'profile_rc=0; if [ -n "$profile" ]; then compgen -G "$profile" >/dev/null || profile_rc=$?; fi; '
+        'if [ "$mount_rc" -eq 0 ] && [ "$rpc_rc" -eq 0 ] && [ "$path_rc" -eq 0 ] && [ "$profile_rc" -eq 0 ]; then status=READY; else status=NOT_READY; fi; '
+        'printf "COPPER_%s mount=%s rpc=%s path=%s profile=%s\\n" "$status" '
+        '"$([ "$mount_rc" -eq 0 ] && echo ok || echo missing)" '
+        '"$([ "$rpc_rc" -eq 0 ] && echo ok || echo missing)" '
+        '"$([ "$path_rc" -eq 0 ] && echo ok || echo missing)" '
+        '"$([ "$profile_rc" -eq 0 ] && echo ok || echo missing)"'
+    )
+    return "bash -c {} bash {} {} {} {} {} {} {}".format(
+        shlex.quote(script), shlex.quote(mount), shlex.quote(rpc_probe_helper),
+        shlex.quote(network_type), shlex.quote(str(provider_id)), shlex.quote(address_book),
+        shlex.quote(probe_path or ""), shlex.quote(profile_glob or "")
+    )
+
+
+def parse_results(output, expected):
+    results = {}
+    malformed = []
+    for line in output.splitlines():
+        match = RESULT_RE.match(line.strip())
+        if not match:
+            if "COPPER_" in line:
+                malformed.append(line)
+            continue
+        host, state, fields_text = match.groups()
+        host = host.split(".", 1)[0]
+        fields = dict(FIELD_RE.findall(fields_text))
+        if host not in expected or set(fields) != {"mount", "rpc", "path", "profile"}:
+            malformed.append(line)
+            continue
+        results[host] = {"ready": state == "READY", **fields}
+    return results, malformed
+
+
+def atomic_json(path, payload):
+    target = pathlib.Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    fd, temp_name = tempfile.mkstemp(prefix=target.name + ".", dir=target.parent)
+    try:
+        with os.fdopen(fd, "w") as stream:
+            json.dump(payload, stream, indent=2, sort_keys=True)
+            stream.write("\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temp_name, target)
+    finally:
+        if os.path.exists(temp_name):
+            os.unlink(temp_name)
+
+
+def registration_data(directory, hosts, since_epoch=None):
+    values = {}
+    if not directory:
+        return values, None
+    pattern = re.compile(r"provider registration completed after\s+(\d+)\s+us")
+    root = pathlib.Path(directory)
+    for host in hosts:
+        candidates = list(root.glob(f"{host}*-output.log"))
+        for candidate in candidates:
+            try:
+                if since_epoch is not None and candidate.stat().st_mtime < since_epoch:
+                    continue
+                with open(candidate, errors="replace") as stream:
+                    for line in stream:
+                        match = pattern.search(line)
+                        if match:
+                            values[host] = int(match.group(1))
+                            break
+            except OSError:
+                continue
+            if host in values:
+                break
+    if not values:
+        return values, None
+    ordered = sorted(values.values())
+    def q(frac): return ordered[min(len(ordered)-1, math.ceil(frac * len(ordered))-1)]
+    return values, {"p50": q(.50), "p95": q(.95), "p99": q(.99), "max": ordered[-1]}
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--hostfile", required=True)
+    parser.add_argument("--mount", required=True)
+    parser.add_argument("--probe-path")
+    parser.add_argument("--rpc-probe-helper", required=True)
+    parser.add_argument("--network-type", required=True)
+    parser.add_argument("--provider-id", type=int, required=True)
+    parser.add_argument("--address-book", required=True)
+    parser.add_argument("--profile-glob")
+    parser.add_argument("--registration-dir", help="optional telemetry directory containing current HOST*-output.log registration lines")
+    parser.add_argument("--registration-since-epoch", type=float, help="ignore registration telemetry files older than this Unix epoch")
+    parser.add_argument("--timeout", type=float, default=120.0)
+    parser.add_argument("--backoff", type=float, default=2.0)
+    parser.add_argument("--manifest", required=True)
+    args = parser.parse_args(argv)
+    if args.timeout < 0 or args.backoff < 0 or args.provider_id < 0 or args.provider_id > 65535:
+        parser.error("timeout/backoff must be non-negative and provider-id must be 0-65535")
+    if not os.access(args.rpc_probe_helper, os.X_OK):
+        parser.error("rpc-probe-helper must exist and be executable")
+    try:
+        hosts = unique_hosts(args.hostfile)
+    except (OSError, ValueError) as exc:
+        print(f"copper-scale-check: {exc}", file=sys.stderr)
+        return 2
+    deadline = time.monotonic() + args.timeout
+    attempt = 0
+    results = {}
+    malformed = []
+    while True:
+        attempt += 1
+        completed = subprocess.run(
+            ["clush", "--hostfile", args.hostfile,
+             remote_probe(args.mount, args.rpc_probe_helper, args.network_type, args.provider_id,
+                          args.address_book, args.probe_path, args.profile_glob)],
+            universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False,
+        )
+        results, malformed = parse_results(completed.stdout, set(hosts))
+        registrations, quantiles = registration_data(args.registration_dir, hosts, args.registration_since_epoch)
+        for host in hosts:
+            if host in results:
+                results[host]["registration_us"] = registrations.get(host)
+        ready = sorted(host for host in hosts if results.get(host, {}).get("ready"))
+        missing = sorted(set(hosts) - set(ready))
+        print(f"readiness attempt={attempt} ready={len(ready)}/{len(hosts)} missing={','.join(missing) or '-'}")
+        if malformed:
+            print("malformed readiness output: " + " | ".join(malformed), file=sys.stderr)
+            break
+        if not missing:
+            break
+        now = time.monotonic()
+        if now >= deadline:
+            break
+        time.sleep(min(args.backoff, max(0.0, deadline - now)))
+    success = not malformed and all(results.get(host, {}).get("ready") for host in hosts)
+    def count_field(name, accepted=("ok",)):
+        return sum(1 for host in hosts if results.get(host, {}).get(name) in accepted)
+    registered = sum(1 for host in hosts if results.get(host, {}).get("registration_us") is not None)
+    payload = {
+        "status": "ready" if success else "failed",
+        "expected_hosts": hosts,
+        "mount": args.mount,
+        "probe_path": args.probe_path,
+        "profile_glob": args.profile_glob,
+        "attempts": attempt,
+        "registration_quantiles_us": quantiles,
+        "counts": {
+            "expected": len(hosts),
+            "mounted": count_field("mount"),
+            "path_ready": count_field("path", ("ok", "skip")),
+            "profile_ready": count_field("profile", ("ok", "skip")),
+            "registered": registered,
+            "rpc_ready": count_field("rpc"),
+        },
+        "nodes": {host: results.get(host, {"ready": False, "error": "missing result"}) for host in hosts},
+    }
+    atomic_json(args.manifest, payload)
+    return 0 if success else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

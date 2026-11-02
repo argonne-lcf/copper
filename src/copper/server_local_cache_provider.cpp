@@ -11,7 +11,7 @@ namespace {
 constexpr int parent_ready_initial_retry_sleep_ms = 10;
 constexpr int parent_ready_max_retry_sleep_ms = 1000;
 // Give large jobs substantially more time to finish provider registration.
-constexpr int parent_ready_max_wait_ms = 120000;
+
 
 int parent_ready_retry_sleep_ms(const int attempts) {
     if(attempts <= 1) {
@@ -101,11 +101,11 @@ bool wait_for_parent_provider_ready(const tl::engine& engine,
 
         const auto waited_ms =
             std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - wait_start).count();
-        if(waited_ms >= parent_ready_max_wait_ms) {
+        if(waited_ms >= Constants::parent_ready_timeout_ms) {
             LOG(ERROR, RPC_METADATA_TAG) << "timed out waiting for parent readiness for path " << path_string
                                          << " via parent " << parent_addr
                                          << " after " << waited_ms << " ms and " << attempts
-                                         << " probe(s); max_wait_ms=" << parent_ready_max_wait_ms << std::endl;
+                                         << " probe(s); max_wait_ms=" << Constants::parent_ready_timeout_ms << std::endl;
             return false;
         }
 
@@ -117,7 +117,8 @@ bool wait_for_parent_provider_ready(const tl::engine& engine,
                                         << " ms so far; attempts=" << attempts
                                         << "; next_retry_sleep_ms=" << retry_sleep_ms << std::endl;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(retry_sleep_ms));
+        const auto remaining_ms = Constants::parent_ready_timeout_ms - waited_ms;
+        std::this_thread::sleep_for(std::chrono::milliseconds(std::min<long long>(retry_sleep_ms, remaining_ms)));
     }
 }
 

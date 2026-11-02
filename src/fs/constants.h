@@ -12,6 +12,8 @@ class Constants {
     static inline std::string target_path{"/"};
     static inline std::optional<std::string> view_path{std::nullopt};
     static inline int log_level{0};
+    static inline int startup_log_level{0};
+    static inline int operation_log_level{0};
     // FIXME: make struct with strings for types
     static inline std::string log_type{"file_and_stdout"};
     static inline std::optional<std::string> log_output_dir{std::nullopt};
@@ -28,11 +30,15 @@ class Constants {
     static inline std::string network_type{"cxi"};
     static inline int trees{1};
     static inline bool prefiltered_address_book{false};
+    static inline int engine_startup_timeout_ms{120000};
+    static inline int parent_ready_timeout_ms{120000};
 
     // clang-format off
     static inline std::string usage{"cu_fuse <FUSE_PARAMS> -tpath <ABS_TARGET_PATH> "
                                                             "-vpath <ABS_VIEW_PATH> "
                                                             "-log_level <0-5> "
+                                                            "-startup_log_level <0-5> (startup/transport only) "
+                                                            "-operation_log_level <0-5> (per-operation only) "
                                                             "-log_type <file/stdout/file_and_stdout> "
                                                             "-log_output_dir <ABS_LOG_OUTPUT_DIR_PATH>"
                                                             "-es <NUM_EXECUTION_STREAMS>"
@@ -48,6 +54,8 @@ class Constants {
                                                             "-trees <num_trees>"
                                                             "-net_type <cxi/na+sm/tcp>"
                                                             "-addr_write_sync_time <time sec>"
+                                                            "-engine_startup_timeout_ms <positive ms> (diagnostic watchdog; engine construction is not cancelled) "
+                                                            "-parent_ready_timeout_ms <positive ms> "
                                                             "-s <CU_FUSE_MNT_VIEWDIR>"};
     // clang-format on
 
