@@ -539,7 +539,7 @@ class Log : public std::basic_streambuf<char, std::char_traits<char>> {
     }
 
     protected:
-    Log() noexcept : last_buffer_(nullptr), do_log_(true) {
+    Log() noexcept : last_record_(nullptr) {
         std::clog.rdbuf(this);
         std::clog << Severity() << Tag() << Function() << Conditional() << AixLog::Color::NONE << std::flush;
     }
@@ -550,16 +550,20 @@ class Log : public std::basic_streambuf<char, std::char_traits<char>> {
 
     int sync() override {
         std::lock_guard<std::recursive_mutex> lock(mutex_);
-        if(!get_stream().str().empty()) {
-            if(do_log_) {
+        ThreadRecord& record = get_record();
+        if(!record.stream.str().empty()) {
+            if(record.do_log) {
                 for(const auto& sink : log_sinks_) {
-                    if(sink->filter.match(metadata_))
-                        sink->log(metadata_, get_stream().str());
+                    if(sink->filter.match(record.metadata))
+                        sink->log(record.metadata, record.stream.str());
                 }
             }
-            get_stream().str("");
-            get_stream().clear();
+            record.stream.str("");
+            record.stream.clear();
         }
+        // The record is complete: the next LOG(...) starts a new one with
+        // fresh metadata and conditional, even with the same severity.
+        record.fresh = true;
 
         return 0;
     }
@@ -569,7 +573,7 @@ class Log : public std::basic_streambuf<char, std::char_traits<char>> {
         if(c != EOF) {
             if(c == '\n')
                 sync();
-            else if(do_log_)
+            else if(get_record().do_log)
                 get_stream() << static_cast<char>(c);
         } else {
             sync();
@@ -584,23 +588,40 @@ class Log : public std::basic_streambuf<char, std::char_traits<char>> {
     friend std::ostream& operator<<(std::ostream& os, const Function& function);
     friend std::ostream& operator<<(std::ostream& os, const Conditional& conditional);
 
-    std::stringstream& get_stream() {
+    // Copper patch: the text buffer, metadata (severity/tag/function/timestamp)
+    // and the conditional flag are all kept per OS thread. Upstream kept a
+    // single shared metadata and conditional flag, so a record assembled on
+    // one thread could be delivered with another thread's severity/tag, or
+    // suppressed by another thread's Conditional. Also, upstream reset metadata
+    // only when the severity changed, so a COND(false) or tag leaked into the
+    // next same-severity LOG(...) (and into a new thread reusing the id); each
+    // LOG(...) statement now starts from fresh metadata.
+    struct ThreadRecord {
+        std::stringstream stream;
+        Metadata metadata;
+        bool do_log = true;
+        bool fresh = true;  // no LOG(...) statement has started on this record yet
+    };
+
+    ThreadRecord& get_record() {
         auto id = std::this_thread::get_id();
-        if((last_buffer_ == nullptr) || (last_id_ != id)) {
+        if((last_record_ == nullptr) || (last_id_ != id)) {
             last_id_ = id;
-            last_buffer_ = &(buffer_[id]);
+            last_record_ = &(records_[id]);
         }
-        return *last_buffer_;
+        return *last_record_;
     }
 
-    /// one buffer per thread to avoid mixed log lines
-    std::map<std::thread::id, std::stringstream> buffer_;
+    std::stringstream& get_stream() {
+        return get_record().stream;
+    }
+
+    /// one record per thread to avoid mixed log lines and mixed metadata
+    std::map<std::thread::id, ThreadRecord> records_;
     /// the last thread id
     std::thread::id last_id_;
-    /// the last buffer
-    std::stringstream* last_buffer_ = nullptr;
-    Metadata metadata_;
-    bool do_log_;
+    /// the last record
+    ThreadRecord* last_record_ = nullptr;
     std::vector<log_sink_ptr> log_sinks_;
     std::recursive_mutex mutex_;
 };
@@ -989,13 +1010,15 @@ static std::ostream& operator<<(std::ostream& os, const Severity& log_severity) 
     Log* log = dynamic_cast<Log*>(os.rdbuf());
     if(log != nullptr) {
         std::lock_guard<std::recursive_mutex> lock(log->mutex_);
-        if(log->metadata_.severity != log_severity) {
+        auto& record = log->get_record();
+        if(record.fresh || record.metadata.severity != log_severity) {
             log->sync();
-            log->metadata_.severity = log_severity;
-            log->metadata_.timestamp = nullptr;
-            log->metadata_.tag = nullptr;
-            log->metadata_.function = nullptr;
-            log->do_log_ = true;
+            record.fresh = false;
+            record.metadata.severity = log_severity;
+            record.metadata.timestamp = nullptr;
+            record.metadata.tag = nullptr;
+            record.metadata.function = nullptr;
+            record.do_log = true;
         }
     } else {
         os << to_string(log_severity);
@@ -1007,7 +1030,7 @@ static std::ostream& operator<<(std::ostream& os, const Timestamp& timestamp) {
     Log* log = dynamic_cast<Log*>(os.rdbuf());
     if(log != nullptr) {
         std::lock_guard<std::recursive_mutex> lock(log->mutex_);
-        log->metadata_.timestamp = timestamp;
+        log->get_record().metadata.timestamp = timestamp;
     } else if(timestamp) {
         os << timestamp.to_string();
     }
@@ -1018,7 +1041,7 @@ static std::ostream& operator<<(std::ostream& os, const Tag& tag) {
     Log* log = dynamic_cast<Log*>(os.rdbuf());
     if(log != nullptr) {
         std::lock_guard<std::recursive_mutex> lock(log->mutex_);
-        log->metadata_.tag = tag;
+        log->get_record().metadata.tag = tag;
     } else if(tag) {
         os << tag.text;
     }
@@ -1029,7 +1052,7 @@ static std::ostream& operator<<(std::ostream& os, const Function& function) {
     Log* log = dynamic_cast<Log*>(os.rdbuf());
     if(log != nullptr) {
         std::lock_guard<std::recursive_mutex> lock(log->mutex_);
-        log->metadata_.function = function;
+        log->get_record().metadata.function = function;
     } else if(function) {
         os << function.name;
     }
@@ -1040,7 +1063,7 @@ static std::ostream& operator<<(std::ostream& os, const Conditional& conditional
     Log* log = dynamic_cast<Log*>(os.rdbuf());
     if(log != nullptr) {
         std::lock_guard<std::recursive_mutex> lock(log->mutex_);
-        log->do_log_ = conditional.is_true();
+        log->get_record().do_log = conditional.is_true();
     }
     return os;
 }
