@@ -644,6 +644,16 @@ static bool start_thallium_engine() {
     }
 }
 
+// _Exit() from init skips fuse_main's teardown, which used to leave a dead
+// "Transport endpoint is not connected" mount on every failed node. Detach the
+// mount first (fusermount3 path for unprivileged mounts), then exit.
+[[noreturn]] static void abort_init_and_unmount() {
+    if(struct fuse_context* context = fuse_get_context(); context && context->fuse) {
+        fuse_unmount(context->fuse);
+    }
+    std::_Exit(EIO);
+}
+
 static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) {
     auto start = Metric::start_operation(OperationFunction::init);
 
@@ -665,9 +675,8 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
 
     if(!start_thallium_engine()) {
         startup_phase("engine_start", CopperStartup::PhaseState::failed,
-                      "engine initialization returned failure; terminating rather than returning NULL private data");
-        std::raise(SIGTERM);
-        std::_Exit(EIO);
+                      "engine initialization returned failure; unmounting and terminating rather than returning NULL private data");
+        abort_init_and_unmount();
     }
     // fuse_main has daemonized before this callback: never publish the launcher PID.
     Constants::pid = std::to_string(getpid());
@@ -678,8 +687,7 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
                 env("COPPER_JOB_ID"), env("COPPER_RUN_ID"), env("COPPER_DAEMON_GENERATION"));
         } catch(const std::exception& error) {
             startup_phase("mount_ready", CopperStartup::PhaseState::failed, error.what());
-            std::raise(SIGTERM);
-            std::_Exit(EIO);
+            abort_init_and_unmount();
         }
     }
     startup_phase("mount_ready", CopperStartup::PhaseState::complete,
@@ -708,11 +716,12 @@ static void cu_fuse_destroy(void* private_data) {
     engine->finalize();
 
     Metric::stop_operation(OperationFunction::destroy, start, Constants::fs_operation_success);
+    // The final cumulative bundle must be the last bundle this process writes:
+    // the aggregator requires kind=final last per host. Publishing a closing
+    // reset interval after it (the old reset_fs() call) made every clean
+    // shutdown look partial. Release cache memory without a profiling reset.
     Util::log_profiling_metrics(Constants::output_filename_path);
-    const auto destroy_reset = Util::reset_fs();
-    if(!destroy_reset.success) {
-        LOG(ERROR) << "failed to publish destroy closing interval: " << destroy_reset.error << std::endl;
-    }
+    Util::clear_cache_tables();
     if(g_async_log_sink) {
         // Bounded: drain if the writer makes progress, otherwise give up after
         // 5 s and report how many accepted lines were not confirmed written

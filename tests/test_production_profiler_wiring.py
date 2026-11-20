@@ -77,6 +77,14 @@ class ProductionProfilerWiringTest(unittest.TestCase):
         destroy_complete = fuse.index("Metric::stop_operation(OperationFunction::destroy")
         final_report = fuse.index("Util::log_profiling_metrics(Constants::output_filename_path);", destroy_complete)
         self.assertLess(destroy_complete, final_report)
+        destroy = fuse[fuse.index("static void cu_fuse_destroy("):fuse.index("static int cu_fuse_readlink(")]
+        # kind=final must be the last bundle: no closing reset interval after it.
+        self.assertNotIn("reset_fs()", destroy[destroy.index("Util::log_profiling_metrics(Constants::output_filename_path);"):])
+        self.assertIn("Util::clear_cache_tables();", destroy)
+        init = fuse[fuse.index("static void* cu_fuse_init("):fuse.index("static void cu_fuse_destroy(")]
+        self.assertNotIn("std::raise(SIGTERM)", init)
+        self.assertEqual(init.count("abort_init_and_unmount();"), 2)
+        self.assertIn("fuse_unmount(", fuse)
 
     def test_ttl_state_is_owned_only_by_profiler_core(self):
         header = (ROOT / "src/metric/profiling.h").read_text()

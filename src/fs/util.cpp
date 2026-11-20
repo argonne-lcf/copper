@@ -458,11 +458,14 @@ ReportResult Util::log_profiling_metrics(const std::string& path_string, const s
     return Profiling::write_reports(path_string, snapshot_tag);
 }
 
-ReportResult Util::reset_fs() {
+void Util::clear_cache_tables() {
     CacheTables::data_cache_table.clear();
     CacheTables::md_cache_table.clear();
     CacheTables::tree_cache_table.clear();
+}
 
+ReportResult Util::reset_fs() {
+    clear_cache_tables();
 
     IoctlEvent::reset_ioctl_event();
     const auto report = Profiling::reset();
