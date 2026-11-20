@@ -14,7 +14,7 @@ PathStatusCache::Request PathStatusCache::begin(const Key& key) {
 void PathStatusCache::complete(const Request& request, const ssize_t status) {
     std::lock_guard guard(mutex_);
     if(!request.state_ || request.state_->complete) return;
-    request.state_->status = static_cast<int>(status);
+    request.state_->status = status;
     request.state_->complete = true;
     const auto entry = active_.find(request.key_);
     if(entry != active_.end() && entry->second == request.state_) {
@@ -23,9 +23,9 @@ void PathStatusCache::complete(const Request& request, const ssize_t status) {
     cv_.notify_all();
 }
 
-int PathStatusCache::wait(const Request& request) {
-    std::unique_lock lock(mutex_);
-    cv_.wait(lock, [&] { return request.state_ && request.state_->complete; });
+ssize_t PathStatusCache::wait(const Request& request) {
+    std::lock_guard guard(mutex_);
+    cv_.wait(mutex_, [&] { return request.state_ && request.state_->complete; });
     return request.state_->status;
 }
 
