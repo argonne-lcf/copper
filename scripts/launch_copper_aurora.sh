@@ -179,7 +179,15 @@ prepare_address_book_from_discovery() {
 
   local nnodes
   nnodes=$(wc -l < "${PBS_NODEFILE}")
-  mpiexec -n "${nnodes}" -ppn 1 "${DISCOVERY_HELPER}" > "${prepared_address_book_full_output}" || return $?
+  # Aurora ships only the PALS mpiexec launcher. A purged module environment
+  # drops cray-pals from PATH, so fall back to the PALS install directly.
+  local launcher
+  launcher=$(command -v mpiexec 2>/dev/null) || launcher=$(ls -1d /opt/cray/pals/*/bin/mpiexec 2>/dev/null | sort -V | tail -n 1)
+  if [ -z "${launcher}" ] || [ ! -x "${launcher}" ]; then
+    echo "PALS mpiexec not found (load cray-pals); cannot run address-book discovery" >&2
+    return 127
+  fi
+  "${launcher}" -n "${nnodes}" -ppn 1 "${DISCOVERY_HELPER}" > "${prepared_address_book_full_output}" || return $?
 
   cat > "${select_discovered_address_book_awk}" <<'EOF'
 BEGIN {

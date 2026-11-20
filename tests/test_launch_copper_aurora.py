@@ -288,7 +288,7 @@ touch {self._q(self.mount_marker)} {self._q(self.recovery_ran)}
     def test_discovery_uses_pals_mpiexec_not_mpirun(self):
         text = LAUNCHER.read_text()
         self.assertNotIn("mpirun", text)
-        self.assertIn('mpiexec -n "${nnodes}" -ppn 1', text)
+        self.assertIn('-n "${nnodes}" -ppn 1', text); self.assertIn('/opt/cray/pals/*/bin/mpiexec', text)
 
     def test_failed_rank_launch_cleans_up_daemons_and_mounts(self):
         self.fail_launch.touch()
