@@ -53,6 +53,17 @@ template <typename K, typename V> class Cache {
         return entry->second;
     };
 
+    // Calls function(const Value&) under the lock without copying the value.
+    // Returns false if the key is absent. Keep function short and non-blocking:
+    // the lock is a std::mutex shared with handler ULTs.
+    template <typename Function> bool visit(const Key& key, Function&& function) const {
+        std::lock_guard guard(mtx);
+        const auto entry = cache.find(key);
+        if(entry == cache.end()) return false;
+        std::forward<Function>(function)(entry->second);
+        return true;
+    }
+
     virtual ~Cache() = default;
     private:
     std::unordered_map<Key, Value> cache;
