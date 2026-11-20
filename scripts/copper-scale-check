@@ -118,6 +118,31 @@ def registration_data(directory, hosts, since_epoch=None):
     return values, {"p50": q(.50), "p95": q(.95), "p99": q(.99), "max": ordered[-1]}
 
 
+def failed_daemons(directory, hosts, since_epoch=None):
+    """Hosts whose current-launch startup journal records a failed phase."""
+    failed = {}
+    if not directory:
+        return failed
+    root = pathlib.Path(directory)
+    for host in hosts:
+        for candidate in root.glob(f"{host}*-startup.jsonl"):
+            try:
+                if since_epoch is not None and candidate.stat().st_mtime < since_epoch:
+                    continue
+                with open(candidate, errors="replace") as stream:
+                    for line in stream:
+                        try:
+                            record = json.loads(line)
+                        except ValueError:
+                            continue
+                        if record.get("state") == "failed":
+                            failed[host] = f"{record.get('phase')}: {record.get('detail', '')}"
+                            break
+            except OSError:
+                continue
+    return failed
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--hostfile", required=True)
@@ -167,6 +192,14 @@ def main(argv=None):
             print("malformed readiness output: " + " | ".join(malformed), file=sys.stderr)
             break
         if not missing:
+            break
+        dead = failed_daemons(args.registration_dir, missing, args.registration_since_epoch)
+        if dead:
+            # A daemon that recorded a failed startup phase will never become
+            # ready; waiting out the full timeout only burns allocation time.
+            for host, reason in sorted(dead.items()):
+                print(f"daemon startup failed on {host}: {reason}")
+                results.setdefault(host, {"ready": False})["startup_failure"] = reason
             break
         now = time.monotonic()
         if now >= deadline:

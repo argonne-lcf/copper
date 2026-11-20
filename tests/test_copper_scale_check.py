@@ -57,6 +57,32 @@ printf 'node-b: COPPER_READY mount=ok rpc=ok path=ok profile=ok\\n'
             env=env, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=10,
         )
 
+    def test_daemon_reported_startup_failure_stops_waiting(self):
+        self._write_executable(self.fakebin / "clush", """#!/bin/bash
+printf 'node-a: COPPER_READY mount=ok rpc=ok path=ok profile=ok\\n'
+printf 'node-b: COPPER_NOT_READY mount=missing rpc=missing path=skip profile=skip\\n'
+exit 1
+""")
+        logs = self.work / "logs"; logs.mkdir()
+        (logs / "node-b-7-startup.jsonl").write_text(
+            json.dumps({"host": "node-b", "phase": "address_parse_tree", "state": "failed",
+                        "detail": "engine address not in address book"}) + "\n")
+        import time
+        started = time.monotonic()
+        env = os.environ.copy(); env["PATH"] = f"{self.fakebin}:{env['PATH']}"
+        probe = self.fakebin / "cu_fuse_probe"; self._write_executable(probe, "#!/bin/bash\nexit 0\n")
+        result = subprocess.run(
+            [str(TOOL), "--hostfile", str(self.hostfile), "--mount", "/mnt/copper",
+             "--rpc-probe-helper", str(probe), "--network-type", "cxi://cxi0", "--provider-id", "0",
+             "--address-book", "/logs/a.txt", "--timeout", "30", "--backoff", "1",
+             "--manifest", str(self.manifest), "--registration-dir", str(logs)],
+            env=env, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=20)
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertLess(time.monotonic() - started, 10)
+        self.assertIn("daemon startup failed on node-b: address_parse_tree", result.stdout)
+        manifest = json.loads(self.manifest.read_text())
+        self.assertIn("startup_failure", manifest["nodes"]["node-b"])
+
     def test_delayed_rpc_readiness_retries_and_writes_exact_manifest(self):
         result = self.run_tool("--probe-path", "/mnt/copper/pkg/module.py")
         self.assertEqual(result.returncode, 0, result.stdout)

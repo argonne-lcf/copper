@@ -435,7 +435,8 @@ std::vector<std::string> NodeTree::get_my_tree_segment(std::vector<std::string>&
     }
 
     LOG(FATAL) << "unable to find addr in tree segments - Possible address book changed" << std::endl;
-    assert(0);
-    return {};
+    throw std::runtime_error("engine address " + my_addr +
+                             " is not in the address book; the endpoint NIC does not match the address-book column "
+                             "(pin -net_type to cxi://cxiN)");
 }
     

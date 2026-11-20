@@ -278,6 +278,32 @@ touch {self._q(self.mount_marker)} {self._q(self.recovery_ran)}
         self.assertIn("-engine_startup_timeout_ms 9000", clush)
         self.assertIn("-parent_ready_timeout_ms 8000", clush)
 
+    def test_bare_cxi_endpoint_is_pinned_to_cxi0(self):
+        for value in (None, "cxi", "cxi0"):
+            self.clush_log.unlink(missing_ok=True)
+            result = self.run_launcher(*(() if value is None else ("-n", value)))
+            self.assertEqual(result.returncode, 0, result.stdout)
+            self.assertIn("-net_type cxi://cxi0", self.clush_log.read_text())
+
+    def test_discovery_uses_pals_mpiexec_not_mpirun(self):
+        text = LAUNCHER.read_text()
+        self.assertNotIn("mpirun", text)
+        self.assertIn('mpiexec -n "${nnodes}" -ppn 1', text)
+
+    def test_failed_rank_launch_cleans_up_daemons_and_mounts(self):
+        self.fail_launch.touch()
+        result = self.run_launcher()
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn("cleaning up failed launch", result.stdout)
+        self.assertRegex(self.clush_log.read_text(), r"fusermount3\\+ -u\\+ -z")
+
+    def test_failed_readiness_cleans_up_daemons_and_mounts(self):
+        self.no_mount.touch()
+        result = self.run_launcher()
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn("cleaning up failed launch", result.stdout)
+        self.assertIn("COPPER_CLEANUP_OK", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

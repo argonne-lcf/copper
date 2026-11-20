@@ -41,7 +41,7 @@ do
         "${BUILD_DIR}/shutdown" 120 &
     fi
 
-    mpirun --env MARGO_ENABLE_MONITORING=1 \
+    mpiexec --env MARGO_ENABLE_MONITORING=1 \
         --env MARGO_MONITORING_FILENAME_PREFIX="${PBS_JOBID}_${NNODES}_${NRANKS}_${RANKS_PER_NODE}_${BUF_SIZE}_" \
         -np "${NRANKS}" \
         -ppn "${RANKS_PER_NODE}" \

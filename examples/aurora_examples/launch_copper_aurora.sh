@@ -118,7 +118,7 @@ prepare_address_book_from_discovery() {
 
   local nnodes
   nnodes=$(wc -l < "${PBS_NODEFILE}")
-  mpirun --np "${nnodes}" --ppn 1 "${DISCOVERY_HELPER}" > "${prepared_address_book_full_output}" || return $?
+  mpiexec -n "${nnodes}" -ppn 1 "${DISCOVERY_HELPER}" > "${prepared_address_book_full_output}" || return $?
 
   cat > "${select_discovered_address_book_awk}" <<'EOF'
 BEGIN {

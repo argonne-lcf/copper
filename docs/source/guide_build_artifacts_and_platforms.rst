@@ -43,8 +43,8 @@ Aurora
 
 - scheduler: PBS
 - common runtime module load: ``module load copper``
-- wrapper examples use ``mpirun`` for workload launch
-- common Copper endpoint example: ``cxi`` / ``cxi0``
+- wrapper examples use PALS ``mpiexec`` for workload launch (Aurora has no ``mpirun``)
+- common Copper endpoint: ``cxi://cxi0`` (bare ``cxi``/``cxi0`` are normalized to it by the launcher)
 - common Copper service-core example: ``48,49,50,51``
 - example scripts: ``examples/aurora_examples``
 

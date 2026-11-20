@@ -56,7 +56,8 @@ profile_paths_full=0
 profile_snapshot_interval_s=0
 sleeptime=10
 physcpubind="48,49,50,51" # Aurora service cores for copper 
-net_type="cxi"            # Aurora endpoint cxi points to "cxi://cxi1"
+net_type="cxi://cxi0"     # Pin the NIC: bare "cxi" lets each daemon bind any of the 8 NICs, so its
+                          # address need not match the cxi0 column of the address book
 
 usage() {
   echo "Usage: $0 [-T trees|auto] [-s minimum_delay] [-R readiness_timeout] [-B readiness_backoff] [-p exact_probe_path] [-H recovery_hook -K attempts] [-L startup_log_level] [-O operation_log_level] [-X engine_timeout_ms] [-Y parent_timeout_ms] [-l 0-5] [-d log_dir] [-v mount]"
@@ -94,6 +95,13 @@ while getopts "hl:t:d:T:M:E:PN:AI:s:b:F:a:n:v:R:B:p:H:K:L:O:X:Y:" opt; do
   esac
 done
 
+# Aurora nodes have 8 CXI NICs. A bare "cxi" endpoint lets Mercury/libfabric pick
+# any NIC, so the daemon's address can differ from the address-book column and
+# get_my_tree_segment() aborts. Always pin the NIC that the address book describes.
+case "${net_type}" in
+  cxi|cxi0) net_type="cxi://cxi0" ;;
+  cxi[1-7]) net_type="cxi://${net_type}" ;;
+esac
 job_id=${PBS_JOBID%%.*}
 log_dir=${log_dir%/}/${job_id}
 logs_dir=${log_dir}/logs
@@ -155,10 +163,7 @@ EOF
 prepare_address_book_from_discovery() {
   local selected_column
   case "${net_type}" in
-    cxi|cxi0|cxi://cxi0)
-      selected_column="cxi0"
-      ;;
-    cxi[1-7]|cxi://cxi[1-7])
+    cxi://cxi[0-7])
       selected_column="${net_type#cxi://}"
       ;;
     *)
@@ -174,7 +179,7 @@ prepare_address_book_from_discovery() {
 
   local nnodes
   nnodes=$(wc -l < "${PBS_NODEFILE}")
-  mpirun --np "${nnodes}" --ppn 1 "${DISCOVERY_HELPER}" > "${prepared_address_book_full_output}" || return $?
+  mpiexec -n "${nnodes}" -ppn 1 "${DISCOVERY_HELPER}" > "${prepared_address_book_full_output}" || return $?
 
   cat > "${select_discovered_address_book_awk}" <<'EOF'
 BEGIN {
@@ -335,9 +340,26 @@ for option in "${options[@]}"; do
   append_remote_arg CMD "${option}"
 done
 
+# Readiness-gate cleanup: a failed launch must not leave live daemons or dead
+# FUSE mounts behind (no daemon-identity manifest exists yet, so the stop script
+# cannot act). Only cu_fuse processes of this user whose argv carries this exact
+# mount are signalled; the mount is then lazily detached.
+cleanup_failed_launch() {
+  local cleanup_script cleanup_cmd
+  cleanup_script='mnt=$1; uid=$(id -u); match() { for p in $(pgrep -u "$uid" -x cu_fuse); do tr "\0" "\n" < /proc/$p/cmdline 2>/dev/null | grep -qxF -- "$mnt" && echo $p; done; }; '
+  cleanup_script+='p=$(match); [ -n "$p" ] && kill -TERM $p 2>/dev/null; for i in 1 2 3 4 5; do [ -z "$(match)" ] && break; sleep 1; done; '
+  cleanup_script+='p=$(match); [ -n "$p" ] && kill -KILL $p 2>/dev/null; '
+  cleanup_script+='grep -qsF " $mnt " /proc/self/mounts && fusermount3 -u -z "$mnt"; '
+  cleanup_script+='if grep -qsF " $mnt " /proc/self/mounts || [ -n "$(match)" ]; then echo COPPER_CLEANUP_INCOMPLETE; else echo COPPER_CLEANUP_OK; fi'
+  printf -v cleanup_cmd '%s bash -c %q bash %q' "${remote_env}" "${cleanup_script}" "${CU_FUSE_MNT_VIEWDIR}"
+  echo "cleaning up failed launch on all nodes (stop daemons, detach ${CU_FUSE_MNT_VIEWDIR})"
+  clush --hostfile "${node_file_copy}" "${cleanup_cmd}" 2>&1 | tee "${logs_dir}/failed-launch-cleanup.txt" || true
+}
+
 launch_epoch=$(date +%s)
 if ! clush --hostfile "${node_file_copy}" "${CMD}"; then
   echo "Copper rank startup failed"
+  cleanup_failed_launch
   exit 1
 fi
 
@@ -453,6 +475,11 @@ fd, tmp = tempfile.mkstemp(prefix=p.name+".", dir=p.parent)
 with os.fdopen(fd, "w") as f: json.dump(payload, f, indent=2, sort_keys=True); f.write("\n"); f.flush(); os.fsync(f.fileno())
 os.replace(tmp, p)
 PY
-[ "${readiness_rc}" -eq 0 ] || exit "${readiness_rc}"
+if [ "${readiness_rc}" -ne 0 ]; then
+  # Surface the daemons' own failure reason instead of only "not ready".
+  grep -h '"state":"failed"' "${logs_dir}"/*-startup.jsonl 2>/dev/null | head -n 5
+  cleanup_failed_launch
+  exit "${readiness_rc}"
+fi
 
 echo "Launching Copper Gracefully On All Nodes : End"

@@ -63,7 +63,7 @@ MY_COPPER_MOUNT=/tmp/${USER}/copper_mount
 
 ./build/launch_copper_aurora.sh -d ${APP_BASE}/copper-logs-dir -v ${MY_COPPER_MOUNT}
 
-time mpirun --np ${NRANKS} --ppn ${RANKS_PER_NODE} \
+time mpiexec -n ${NRANKS} -ppn ${RANKS_PER_NODE} \
   --cpu-bind=list:4:56:9:61:14:66:19:71:20:74:25:79 --genvall \
   --genv=PYTHONPATH=${MY_COPPER_MOUNT}${APP_BASE}/lus_custom_pip_env:$PYTHONPATH \
   python3 -c "import torch; print(torch.__file__)"

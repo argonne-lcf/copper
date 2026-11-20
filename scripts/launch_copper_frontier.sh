@@ -336,9 +336,26 @@ for option in "${options[@]}"; do
   append_remote_arg CMD "${option}"
 done
 
+# Readiness-gate cleanup: a failed launch must not leave live daemons or dead
+# FUSE mounts behind (no daemon-identity manifest exists yet, so the stop script
+# cannot act). Only cu_fuse processes of this user whose argv carries this exact
+# mount are signalled; the mount is then lazily detached.
+cleanup_failed_launch() {
+  local cleanup_script cleanup_cmd
+  cleanup_script='mnt=$1; uid=$(id -u); match() { for p in $(pgrep -u "$uid" -x cu_fuse); do tr "\0" "\n" < /proc/$p/cmdline 2>/dev/null | grep -qxF -- "$mnt" && echo $p; done; }; '
+  cleanup_script+='p=$(match); [ -n "$p" ] && kill -TERM $p 2>/dev/null; for i in 1 2 3 4 5; do [ -z "$(match)" ] && break; sleep 1; done; '
+  cleanup_script+='p=$(match); [ -n "$p" ] && kill -KILL $p 2>/dev/null; '
+  cleanup_script+='grep -qsF " $mnt " /proc/self/mounts && fusermount3 -u -z "$mnt"; '
+  cleanup_script+='if grep -qsF " $mnt " /proc/self/mounts || [ -n "$(match)" ]; then echo COPPER_CLEANUP_INCOMPLETE; else echo COPPER_CLEANUP_OK; fi'
+  printf -v cleanup_cmd '%s bash -c %q bash %q' "${remote_env}" "${cleanup_script}" "${CU_FUSE_MNT_VIEWDIR}"
+  echo "cleaning up failed launch on all nodes (stop daemons, detach ${CU_FUSE_MNT_VIEWDIR})"
+  srun --overlap -N "${SLURM_NNODES}" --ntasks-per-node=1 --cpu-bind=none bash -c "${cleanup_cmd}" 2>&1 | tee "${logs_dir}/failed-launch-cleanup.txt" || true
+}
+
 launch_epoch=$(date +%s)
 if ! srun --overlap -N "${SLURM_NNODES}" --ntasks-per-node=1 --cpu-bind=none bash -c "${CMD}"; then
   echo "Copper rank startup failed"
+  cleanup_failed_launch
   exit 1
 fi
 
@@ -454,6 +471,10 @@ fd, tmp = tempfile.mkstemp(prefix=p.name+".", dir=p.parent)
 with os.fdopen(fd, "w") as f: json.dump(payload, f, indent=2, sort_keys=True); f.write("\n"); f.flush(); os.fsync(f.fileno())
 os.replace(tmp, p)
 PY
-[ "${readiness_rc}" -eq 0 ] || exit "${readiness_rc}"
+if [ "${readiness_rc}" -ne 0 ]; then
+  grep -h '"state":"failed"' "${logs_dir}"/*-startup.jsonl 2>/dev/null | head -n 5
+  cleanup_failed_launch
+  exit "${readiness_rc}"
+fi
 
 echo "Launching Copper Gracefully On All Nodes : End"
