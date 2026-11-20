@@ -1,43 +1,35 @@
 #include "server_local_cache_provider.h"
 #include "../fs/error_status.h"
+#include "../fs/blocking_offload.h"
+#include "root_storage.h"
 
+#include <algorithm>
 #include <cassert>
+#include <functional>
+#include <optional>
 
 #include "../metric/profiling.h"
 
 namespace {
-// Start probing quickly, then back off to avoid creating a large probe storm
-// when many children are waiting on slow parent registration at scale.
-constexpr int parent_ready_initial_retry_sleep_ms = 10;
-constexpr int parent_ready_max_retry_sleep_ms = 1000;
-// Give large jobs substantially more time to finish provider registration.
-
-
-int parent_ready_retry_sleep_ms(const int attempts) {
-    if(attempts <= 1) {
-        return parent_ready_initial_retry_sleep_ms;
-    }
-
-    int sleep_ms = parent_ready_initial_retry_sleep_ms;
-    for(int i = 1; i < attempts; ++i) {
-        sleep_ms *= 2;
-        if(sleep_ms >= parent_ready_max_retry_sleep_ms) {
-            return parent_ready_max_retry_sleep_ms;
+// The TTL map lock is an OS mutex taken from RPC handler ULTs: keep the
+// critical section to map operations only; logging and profiling happen after
+// the lock is released.
+bool metadata_enoent_ttl_hit(const std::string& path_string) {
+    enum class Hit { miss, serve, expired } hit = Hit::miss;
+    {
+        std::lock_guard guard(ServerLocalCacheProvider::md_enoent_ttl_cache_mtx);
+        const auto ttl_entry = ServerLocalCacheProvider::md_enoent_ttl_cache.find(path_string);
+        if(ttl_entry != ServerLocalCacheProvider::md_enoent_ttl_cache.end()) {
+            const auto age = std::chrono::steady_clock::now() - ttl_entry->second;
+            if(age < std::chrono::milliseconds(Constants::md_enoent_ttl_ms)) {
+                hit = Hit::serve;
+            } else {
+                ServerLocalCacheProvider::md_enoent_ttl_cache.erase(ttl_entry);
+                hit = Hit::expired;
+            }
         }
     }
-    return sleep_ms;
-}
-
-bool metadata_enoent_ttl_hit(const std::string& path_string) {
-    std::lock_guard guard(ServerLocalCacheProvider::md_enoent_ttl_cache_mtx);
-
-    const auto ttl_entry = ServerLocalCacheProvider::md_enoent_ttl_cache.find(path_string);
-    if(ttl_entry == ServerLocalCacheProvider::md_enoent_ttl_cache.end()) {
-        return false;
-    }
-
-    const auto age = std::chrono::steady_clock::now() - ttl_entry->second;
-    if(age < std::chrono::milliseconds(Constants::md_enoent_ttl_ms)) {
+    if(hit == Hit::serve) {
         Profiling::record_md_ttl_serve(path_string);
         LOG(DEBUG, RPC_METADATA_TAG) << "serving metadata ENOENT from "
                                      << Constants::md_enoent_ttl_ms
@@ -45,100 +37,146 @@ bool metadata_enoent_ttl_hit(const std::string& path_string) {
                                      << path_string << std::endl;
         return true;
     }
-
-    Profiling::record_md_ttl_expire(path_string);
-    ServerLocalCacheProvider::md_enoent_ttl_cache.erase(ttl_entry);
+    if(hit == Hit::expired) Profiling::record_md_ttl_expire(path_string);
     return false;
 }
 
 void update_metadata_enoent_ttl(const std::string& path_string, const int status) {
-    std::lock_guard guard(ServerLocalCacheProvider::md_enoent_ttl_cache_mtx);
-
-    if(status == -ENOENT) {
-        ServerLocalCacheProvider::md_enoent_ttl_cache[path_string] = std::chrono::steady_clock::now();
+    bool stored = false, cleared = false;
+    {
+        std::lock_guard guard(ServerLocalCacheProvider::md_enoent_ttl_cache_mtx);
+        if(status == -ENOENT) {
+            ServerLocalCacheProvider::md_enoent_ttl_cache[path_string] = std::chrono::steady_clock::now();
+            stored = true;
+        } else {
+            cleared = ServerLocalCacheProvider::md_enoent_ttl_cache.erase(path_string) > 0;
+        }
+    }
+    if(stored) {
         Profiling::record_md_ttl_store(path_string);
         LOG(DEBUG, RPC_METADATA_TAG) << "stored metadata ENOENT in "
                                      << Constants::md_enoent_ttl_ms
                                      << "ms TTL cache for path: "
                                      << path_string << std::endl;
-    } else {
-        if(ServerLocalCacheProvider::md_enoent_ttl_cache.erase(path_string) > 0) {
-            Profiling::record_md_ttl_clear(path_string);
-        }
+    } else if(cleared) {
+        Profiling::record_md_ttl_clear(path_string);
     }
 }
 
-bool wait_for_parent_provider_ready(const tl::engine& engine,
-                                    const std::string& parent_addr,
-                                    const std::string& path_string) {
-    const auto wait_start = std::chrono::steady_clock::now();
-    auto parent_endpoint = engine.lookup(parent_addr);
-    tl::provider_handle parent_ph(parent_endpoint, ServerLocalCacheProvider::provider_id);
-
-    int attempts = 0;
-    while(true) {
-        ++attempts;
-        try {
-            const bool parent_ready = ServerLocalCacheProvider::rpc_is_ready.on(parent_ph)();
-            if(parent_ready) {
-                const auto wait_end = std::chrono::steady_clock::now();
-                LOG(INFO, RPC_METADATA_TAG) << "parent readiness confirmed for path " << path_string
-                                            << " at parent " << parent_addr
-                                            << " after "
-                                            << std::chrono::duration_cast<std::chrono::microseconds>(wait_end - wait_start).count()
-                                            << " us across " << attempts << " probe(s)" << std::endl;
-                return true;
-            }
-        } catch(const tl::exception& ex) {
-            LOG(WARNING, RPC_METADATA_TAG) << "thallium exception while probing parent readiness for path "
-                                           << path_string << " via parent " << parent_addr
-                                           << ": " << ex.what() << std::endl;
-        } catch(const std::exception& ex) {
-            LOG(WARNING, RPC_METADATA_TAG) << "std::exception while probing parent readiness for path "
-                                           << path_string << " via parent " << parent_addr
-                                           << ": " << ex.what() << std::endl;
-        }
-
-        const auto waited_ms =
-            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - wait_start).count();
-        if(waited_ms >= Constants::parent_ready_timeout_ms) {
-            LOG(ERROR, RPC_METADATA_TAG) << "timed out waiting for parent readiness for path " << path_string
-                                         << " via parent " << parent_addr
-                                         << " after " << waited_ms << " ms and " << attempts
-                                         << " probe(s); max_wait_ms=" << Constants::parent_ready_timeout_ms << std::endl;
-            return false;
-        }
-
-        const int retry_sleep_ms = parent_ready_retry_sleep_ms(attempts);
-        if(attempts == 1 || attempts % 25 == 0) {
-            LOG(INFO, RPC_METADATA_TAG) << "parent not ready yet for path " << path_string
-                                        << " via parent " << parent_addr
-                                        << ", waited " << waited_ms
-                                        << " ms so far; attempts=" << attempts
-                                        << "; next_retry_sleep_ms=" << retry_sleep_ms << std::endl;
-        }
-        const auto remaining_ms = Constants::parent_ready_timeout_ms - waited_ms;
-        std::this_thread::sleep_for(std::chrono::milliseconds(std::min<long long>(retry_sleep_ms, remaining_ms)));
-    }
+long long parent_ready_deadline_ms() {
+    // Same clock as ParentReadiness::ensure's default now_ms(); taken at the
+    // start of the handler's parent path.
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+               std::chrono::steady_clock::now().time_since_epoch())
+               .count() +
+           Constants::parent_ready_timeout_ms;
 }
 
 bool ensure_parent_provider_ready(const tl::engine& engine,
+                                  const tl::endpoint& parent_endpoint,
                                   const std::string& parent_addr,
-                                  const std::string& path_string) {
-    if(ServerLocalCacheProvider::parent_provider_ready_cached.load(std::memory_order_acquire)) {
-        return true;
-    }
+                                  const std::string& path_string,
+                                  const long long deadline_ms) {
+    const tl::provider_handle parent_ph(parent_endpoint, ServerLocalCacheProvider::provider_id);
+    ParentReadiness::Hooks hooks;
+    // Each probe is a timed RPC, so a parent that never answers cannot hold
+    // parent_provider_ready_mtx past the deadline (timeouts surface as
+    // tl::timeout, a std::exception).
+    hooks.probe = [&](const long long timeout_ms) {
+        try {
+            const bool ready = ServerLocalCacheProvider::rpc_is_ready.on(parent_ph)
+                                   .timed(std::chrono::milliseconds(timeout_ms));
+            return ready ? ParentReadiness::Probe::ready : ParentReadiness::Probe::not_ready;
+        } catch(const std::exception& ex) {
+            LOG(WARNING, RPC_METADATA_TAG) << "parent readiness probe failed for path " << path_string
+                                           << " via parent " << parent_addr << " (probe_timeout_ms="
+                                           << timeout_ms << "): " << ex.what() << std::endl;
+            return ParentReadiness::Probe::error;
+        }
+    };
+    // Yields the ULT; std::this_thread::sleep_for would park the handler
+    // execution stream and stall every other RPC on it.
+    hooks.sleep_ms = [&](const long long ms) { tl::thread::sleep(engine, static_cast<double>(ms)); };
+    hooks.on_retry = [&](const int attempts, const long long waited_ms, const long long next_sleep_ms) {
+        if(attempts == 1 || attempts % 25 == 0) {
+            LOG(INFO, RPC_METADATA_TAG) << "parent not ready yet for path " << path_string << " via parent "
+                                        << parent_addr << ", waited " << waited_ms << " ms so far; attempts="
+                                        << attempts << "; next_retry_sleep_ms=" << next_sleep_ms << std::endl;
+        }
+    };
+    hooks.on_ready = [&](const int attempts, const long long waited_ms) {
+        LOG(INFO, RPC_METADATA_TAG) << "parent readiness confirmed for path " << path_string << " at parent "
+                                    << parent_addr << " after " << waited_ms * 1000 << " us across " << attempts
+                                    << " probe(s)" << std::endl;
+    };
+    hooks.on_timeout = [&](const int attempts, const long long waited_ms) {
+        LOG(ERROR, RPC_METADATA_TAG) << "timed out waiting for parent readiness for path " << path_string
+                                     << " via parent " << parent_addr << " after " << waited_ms << " ms and "
+                                     << attempts << " probe(s); max_wait_ms=" << Constants::parent_ready_timeout_ms
+                                     << std::endl;
+    };
+    hooks.on_shared_failure = [&]() {
+        LOG(ERROR, RPC_METADATA_TAG) << "parent readiness wait that covered this request already timed out; "
+                                     << "failing path " << path_string << " via parent " << parent_addr
+                                     << " without a new wait" << std::endl;
+    };
 
-    std::lock_guard<std::mutex> guard(ServerLocalCacheProvider::parent_provider_ready_mtx);
-    if(ServerLocalCacheProvider::parent_provider_ready_cached.load(std::memory_order_relaxed)) {
-        return true;
-    }
+    ParentReadiness::Config config;
+    config.timeout_ms = Constants::parent_ready_timeout_ms;
+    config.deadline_ms = deadline_ms;
+    return ParentReadiness::ensure(ServerLocalCacheProvider::parent_provider_ready_gate, config, hooks);
+}
 
-    const bool parent_ready = wait_for_parent_provider_ready(engine, parent_addr, path_string);
-    if(parent_ready) {
-        ServerLocalCacheProvider::parent_provider_ready_cached.store(true, std::memory_order_release);
+// Storage calls from handler ULTs run on offload worker threads so a slow or
+// hung filesystem call cannot park the handler execution stream (see
+// fs/blocking_offload.h). Intentionally leaked: detached workers may still be
+// inside a hung call at exit.
+CopperOffload::BlockingOffload& storage_offload() {
+    static auto* pool = new CopperOffload::BlockingOffload(
+        static_cast<std::size_t>(Constants::storage_offload_threads),
+        static_cast<std::size_t>(Constants::storage_offload_queue));
+    return *pool;
+}
+
+// Yields the handler ULT between completion polls: first plain yields (fast
+// calls finish within a few), then short Argobots-aware sleeps capped at 2 ms.
+void storage_wait_step(const tl::engine& engine, const int attempt) {
+    if(attempt < 16) {
+        tl::thread::yield();
+    } else {
+        const double ms = std::min(2.0, 0.05 * static_cast<double>(1 << std::min(attempt - 16, 6)));
+        tl::thread::sleep(engine, ms);
     }
-    return parent_ready;
+}
+
+// Runs the closure built by `make_op` on the offload pool, bounded by
+// -storage_call_timeout_ms, and always returns a reply value: timed out ->
+// -ETIMEDOUT, queue full / no worker -> -EAGAIN, exception or submission
+// failure -> -EIO. Pool acquisition (first use constructs it), closure
+// construction (path copy, shared flags) and std::function conversion all run
+// inside RootStorage::guarded_reply's try block (review r8 finding 1), so a
+// failure there also becomes -EIO. Arguments here capture only references,
+// so evaluating them does not allocate. Non-done outcomes are logged at ERROR.
+template <typename Reply, typename Payload, typename MakeOp>
+Reply root_storage_reply(const tl::engine& engine, const char* what, const std::string& path_string,
+                         MakeOp&& make_op) noexcept {
+    return RootStorage::guarded_reply<Reply>(
+        []() -> CopperOffload::BlockingOffload& { return storage_offload(); }, make_op,
+        CopperOffload::steady_now_ms() + Constants::storage_call_timeout_ms,
+        [&engine](const int attempt) { storage_wait_step(engine, attempt); },
+        [](const int status) noexcept { return Reply(status, Payload{}); },
+        [what, &path_string](CopperOffload::Outcome outcome, int status, const std::string& message) {
+            const char* kind = outcome == CopperOffload::Outcome::timed_out  ? "did not finish within the deadline"
+                               : outcome == CopperOffload::Outcome::rejected ? "rejected (offload queue full or no worker)"
+                                                                             : "failed";
+            LOG(ERROR) << "storage " << what << " for path: " << path_string << " " << kind << " (deadline "
+                       << Constants::storage_call_timeout_ms << " ms); replying " << status
+                       << (message.empty() ? "" : ": ") << message << std::endl;
+        },
+        [what, &path_string](const char* error) {
+            LOG(ERROR) << "storage " << what << " for path: " << path_string
+                       << " could not be started: " << error << "; replying " << -EIO << std::endl;
+        });
 }
 
 void note_first_successful_parent_rpc(const char* rpc_name, const std::string& path_string) {
@@ -186,21 +224,25 @@ void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest,
         served_from_negative_ttl = true;
     } else if(Node::root->addr == my_curr_node_addr) {
         LOG(DEBUG, RPC_METADATA_TAG) << "requesting data from underlying filesystem" << std::endl;
-        CuStat cu_stat;
-        if(lstat(path_string.c_str(), cu_stat.get_st()) == -1) {
-            const int saved_errno = errno;
-            if(saved_errno == ENOENT) {
-                // Python and Conda startup probe many optional paths. Missing-path
-                // metadata lookups are expected and should not look like failures.
-                LOG(DEBUG, RPC_METADATA_TAG) << "storage stat for path: " << path_string
-                                             << " returned with errno: " << saved_errno << std::endl;
-            } else {
-                LOG(ERROR) << "storage stat for path: " << path_string
-                           << " returned with errno: " << saved_errno << std::endl;
-            }
-            lstat_response = lstat_return_type(-saved_errno, std::vector<std::byte>(0));
-        } else {
-            lstat_response = lstat_return_type(Constants::fs_operation_success, cu_stat.get_vec());
+        lstat_response = root_storage_reply<lstat_return_type, std::vector<std::byte>>(
+            get_engine(), "stat", path_string, [&path_string] {
+                return [path = path_string]() -> lstat_return_type {
+                    CuStat cu_stat;
+                    if(lstat(path.c_str(), cu_stat.get_st()) == -1) {
+                        return lstat_return_type(-errno, std::vector<std::byte>(0));
+                    }
+                    return lstat_return_type(Constants::fs_operation_success, cu_stat.get_vec());
+                };
+            });
+        const int saved_errno = -lstat_response.first;
+        if(saved_errno == ENOENT) {
+            // Python and Conda startup probe many optional paths. Missing-path
+            // metadata lookups are expected and should not look like failures.
+            LOG(DEBUG, RPC_METADATA_TAG) << "storage stat for path: " << path_string
+                                         << " returned with errno: " << saved_errno << std::endl;
+        } else if(saved_errno > 0 && saved_errno != ETIMEDOUT && saved_errno != EAGAIN && saved_errno != EIO) {
+            LOG(ERROR) << "storage stat for path: " << path_string << " returned with errno: " << saved_errno
+                       << std::endl;
         }
     } else {
         assert(Node::parent_addr.has_value());
@@ -210,8 +252,13 @@ void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest,
             LOG(DEBUG, RPC_METADATA_TAG) << "first to request path_string" << std::endl;
 #endif
             try {
-                auto parent_endpoint = get_engine().lookup(Node::parent_addr.value());
-                if(!ensure_parent_provider_ready(get_engine(), Node::parent_addr.value(), path_string)) {
+                const long long ready_deadline_ms = parent_ready_deadline_ms();
+                // Lease first: keeps parent_endpoint alive across shutdown and is
+                // destroyed after every endpoint/provider_handle copy below.
+                const LeasedPtr<tl::endpoint>::Lease parent_lease(ServerLocalCacheProvider::parent_endpoint);
+                const tl::endpoint& parent_endpoint = parent_lease.get();
+                if(!ensure_parent_provider_ready(get_engine(), parent_endpoint, Node::parent_addr.value(), path_string,
+                                                 ready_deadline_ms)) {
                     lstat_response = lstat_return_type(-EIO, std::vector<std::byte>(0));
                 } else {
                     tl::provider_handle parent_ph(parent_endpoint, provider_id);
@@ -234,7 +281,7 @@ void ServerLocalCacheProvider::rpcLstat(const tl::request& req, const bool dest,
 #ifdef BLOCK_REDUNDANT_RPCS
         } else {
             LOG(DEBUG, RPC_METADATA_TAG) << " not first to request path_string, waiting on cache entry..." << std::endl;
-            int status = CacheTables::md_path_status_cache_table.wait(*path_request);
+            const int status = static_cast<int>(CacheTables::md_path_status_cache_table.wait(*path_request));
 
             if(status != 0) {
                 lstat_response = std::make_pair(status, std::vector<std::byte>(0));
@@ -296,13 +343,22 @@ void ServerLocalCacheProvider::rpcRead(const tl::request& req, const bool dest, 
         cached = true;
     } else if(Node::root->addr == my_curr_node_addr) {
         LOG(DEBUG, RPC_DATA_TAG) << "requesting data from underlying filesystem" << std::endl;
-        try {
-            const std::vector<std::byte>& file_bytes = Util::read_ent_file(path_string);
-            read_response = std::make_pair(file_bytes.size(), file_bytes);
-        } catch(std::exception& e) {
-            LOG(WARNING, RPC_DATA_TAG) << e.what() << std::endl;
-            read_response = std::make_pair(-EIO, std::vector<std::byte>(0));
-        }
+        // read_ent_file throws on open/fstat/read errors; the worker turns that
+        // into -EIO (as before this change), so the offload only adds
+        // -ETIMEDOUT / -EAGAIN, and -EIO for a failed submission.
+        read_response = root_storage_reply<read_return_type, std::vector<std::byte>>(
+            get_engine(), "read", path_string, [&path_string] {
+                return [path = path_string]() -> read_return_type {
+                    try {
+                        auto bytes = Util::read_ent_file(path);
+                        const auto size = static_cast<ssize_t>(bytes.size());
+                        return read_return_type(size, std::move(bytes));
+                    } catch(const std::exception& e) {
+                        LOG(WARNING, RPC_DATA_TAG) << e.what() << std::endl;
+                        return std::make_pair(-EIO, std::vector<std::byte>(0));
+                    }
+                };
+            });
     } else {
         assert(Node::parent_addr.has_value());
 #ifdef BLOCK_REDUNDANT_RPCS
@@ -311,8 +367,13 @@ void ServerLocalCacheProvider::rpcRead(const tl::request& req, const bool dest, 
             LOG(DEBUG, RPC_DATA_TAG) << "first to request path_string" << std::endl;
 #endif
             try {
-                auto parent_endpoint = get_engine().lookup(Node::parent_addr.value());
-                if(!ensure_parent_provider_ready(get_engine(), Node::parent_addr.value(), path_string)) {
+                const long long ready_deadline_ms = parent_ready_deadline_ms();
+                // Lease first: keeps parent_endpoint alive across shutdown and is
+                // destroyed after every endpoint/provider_handle copy below.
+                const LeasedPtr<tl::endpoint>::Lease parent_lease(ServerLocalCacheProvider::parent_endpoint);
+                const tl::endpoint& parent_endpoint = parent_lease.get();
+                if(!ensure_parent_provider_ready(get_engine(), parent_endpoint, Node::parent_addr.value(), path_string,
+                                                 ready_deadline_ms)) {
                     read_response = std::make_pair(-EIO, std::vector<std::byte>(0));
                 } else {
                     tl::provider_handle parent_ph(parent_endpoint, provider_id);
@@ -335,14 +396,14 @@ void ServerLocalCacheProvider::rpcRead(const tl::request& req, const bool dest, 
 #ifdef BLOCK_REDUNDANT_RPCS
         } else {
             LOG(DEBUG, RPC_DATA_TAG) << " not first to request path_string, waiting on cache entry..." << std::endl;
-            int status = CacheTables::data_path_status_cache_table.wait(*path_request);
+            const ssize_t status = CacheTables::data_path_status_cache_table.wait(*path_request);
 
             if(status < 0) {
-                read_response = std::make_pair(status, std::vector<std::byte>(0));
+                read_response = read_return_type(status, std::vector<std::byte>(0));
             } else {
                 const auto entry = CacheTables::data_cache_table.get(path_string);
-                read_response = entry ? std::make_pair(status, *entry)
-                                      : std::make_pair(-EIO, std::vector<std::byte>{});
+                read_response = entry ? read_return_type(status, *entry)
+                                      : read_return_type(-EIO, std::vector<std::byte>{});
             }
 
             cached = true;
@@ -395,37 +456,37 @@ void ServerLocalCacheProvider::rpcReaddir(const tl::request& req, const bool des
         cached = true;
     } else if(Node::root->addr == my_curr_node_addr) {
         LOG(DEBUG, RPC_READDIR_TAG) << "requesting data from underlying filesystem" << std::endl;
-        auto entries = std::vector<std::string>{};
-        DIR* dp = opendir(path_string.c_str());
-        if(dp == nullptr) {
-            const int saved_errno = errno;
-            if(saved_errno == ENOENT || saved_errno == ENOTDIR) {
-                LOG(DEBUG, RPC_READDIR_TAG) << "storage opendir for path: " << path_string
-                                            << " returned with errno: " << saved_errno << std::endl;
-            } else {
-                LOG(WARNING) << "failed to passthrough readdir" << std::endl;
-                LOG(ERROR) << "storage opendir for path: " << path_string
-                           << " returned with errno: " << saved_errno << std::endl;
-            }
-            readdir_response = std::make_pair(-saved_errno, std::vector<std::string>(0));
-        } else {
-            dirent* de;
-            errno = 0;
-            while((de = readdir(dp)) != nullptr) {
-                entries.emplace_back(de->d_name);
-                errno = 0;
-            }
-
-            if(errno != 0) {
-                const int saved_errno = errno;
-                LOG(ERROR) << "storage readdir for path: " << path_string
-                           << " returned with errno: " << saved_errno << std::endl;
-                readdir_response = std::make_pair(-saved_errno, std::vector<std::string>(0));
-            } else {
-                readdir_response = std::make_pair(Constants::fs_operation_success, entries);
-            }
-
-            closedir(dp);
+        // opendir/readdir/closedir run together on one worker (RAII DIR handle).
+        // The opendir-vs-readdir flag only selects the log level; it is atomic
+        // because a timed-out worker may still set it after we read it. It is
+        // allocated inside the guarded preparation (make_op); assigning a
+        // shared_ptr is noexcept, and a null flag (preparation failed) reads
+        // as false.
+        std::shared_ptr<std::atomic<bool>> opendir_failed;
+        readdir_response = root_storage_reply<readdir_return_type, std::vector<std::string>>(
+            get_engine(), "readdir", path_string, [&path_string, &opendir_failed] {
+                auto flag = std::make_shared<std::atomic<bool>>(false);
+                opendir_failed = flag;
+                return [path = path_string, flag]() -> readdir_return_type {
+                    auto listing = RootStorage::list_directory(path);
+                    flag->store(listing.opendir_failed, std::memory_order_relaxed);
+                    if(listing.status != 0) return readdir_return_type(listing.status, std::vector<std::string>(0));
+                    return readdir_return_type(Constants::fs_operation_success, std::move(listing.entries));
+                };
+            });
+        const int saved_errno = -readdir_response.first;
+        const bool from_opendir = opendir_failed && opendir_failed->load(std::memory_order_relaxed);
+        if(from_opendir && (saved_errno == ENOENT || saved_errno == ENOTDIR)) {
+            LOG(DEBUG, RPC_READDIR_TAG) << "storage opendir for path: " << path_string
+                                        << " returned with errno: " << saved_errno << std::endl;
+        } else if(from_opendir) {
+            LOG(WARNING) << "failed to passthrough readdir" << std::endl;
+            LOG(ERROR) << "storage opendir for path: " << path_string << " returned with errno: " << saved_errno
+                       << std::endl;
+        } else if(saved_errno > 0 && saved_errno != ETIMEDOUT && saved_errno != EAGAIN && saved_errno != EIO) {
+            // (offload timeouts/rejections/failures were logged by root_storage_reply)
+            LOG(ERROR) << "storage readdir for path: " << path_string << " returned with errno: " << saved_errno
+                       << std::endl;
         }
     } else {
         assert(Node::parent_addr.has_value());
@@ -435,8 +496,13 @@ void ServerLocalCacheProvider::rpcReaddir(const tl::request& req, const bool des
             LOG(DEBUG, RPC_READDIR_TAG) << "first to request path_string" << std::endl;
 #endif
             try {
-                auto parent_endpoint = get_engine().lookup(Node::parent_addr.value());
-                if(!ensure_parent_provider_ready(get_engine(), Node::parent_addr.value(), path_string)) {
+                const long long ready_deadline_ms = parent_ready_deadline_ms();
+                // Lease first: keeps parent_endpoint alive across shutdown and is
+                // destroyed after every endpoint/provider_handle copy below.
+                const LeasedPtr<tl::endpoint>::Lease parent_lease(ServerLocalCacheProvider::parent_endpoint);
+                const tl::endpoint& parent_endpoint = parent_lease.get();
+                if(!ensure_parent_provider_ready(get_engine(), parent_endpoint, Node::parent_addr.value(), path_string,
+                                                 ready_deadline_ms)) {
                     readdir_response = std::make_pair(-EIO, std::vector<std::string>(0));
                 } else {
                     tl::provider_handle parent_ph(parent_endpoint, provider_id);
@@ -459,7 +525,7 @@ void ServerLocalCacheProvider::rpcReaddir(const tl::request& req, const bool des
 #ifdef BLOCK_REDUNDANT_RPCS
         } else {
             LOG(DEBUG, RPC_READDIR_TAG) << "not first to request path_string, waiting on cache entry..." << std::endl;
-            const auto status = CacheTables::tree_path_status_cache_table.wait(*path_request);
+            const int status = static_cast<int>(CacheTables::tree_path_status_cache_table.wait(*path_request));
 
             if(status != Constants::fs_operation_success) {
                 readdir_response = std::make_pair(status, std::vector<std::string>(0));

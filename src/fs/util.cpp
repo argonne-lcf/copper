@@ -100,6 +100,14 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
             if(i + 1 >= original_string_args.size()) throw std::runtime_error("no argument after -parent_ready_timeout_ms");
             Constants::parent_ready_timeout_ms = CopperStartup::parse_positive_timeout_ms(argv[i + 1], "parent readiness");
             i += 2;
+        } else if(original_string_args[i] == "-storage_call_timeout_ms") {
+            if(i + 1 >= original_string_args.size()) throw std::runtime_error("no argument after -storage_call_timeout_ms");
+            Constants::storage_call_timeout_ms = CopperStartup::parse_positive_timeout_ms(argv[i + 1], "storage call");
+            i += 2;
+        } else if(original_string_args[i] == "-storage_offload_threads") {
+            if(i + 1 >= original_string_args.size()) throw std::runtime_error("no argument after -storage_offload_threads");
+            Constants::storage_offload_threads = CopperStartup::parse_positive_timeout_ms(argv[i + 1], "storage offload threads");
+            i += 2;
         } else if(original_string_args[i] == "-es") {
             if(i + 1 >= original_string_args.size()) {
                 LOG(FATAL) << Constants::usage << std::endl;
@@ -235,30 +243,50 @@ std::vector<std::string> Util::process_args(const int argc, char* argv[]) {
 }
 
 std::vector<std::byte> Util::read_ent_file(const std::string& path) {
-    int fd = open(path.c_str(), O_RDONLY);
-    if (fd == -1) {
-	LOG(WARNING) << "read file failed with errno: " << std::strerror(errno) << std::endl; 
-        throw std::system_error(errno, std::generic_category(), "failed to open file: " + path);
+    // The descriptor is owned by `guard` from the moment open() succeeds, so it
+    // is closed on every exit, including a throwing allocation of the result
+    // vector (review r7 finding 3).
+    struct FdGuard {
+        int fd;
+        ~FdGuard() {
+            if(fd != -1) close(fd);
+        }
+    } guard{open(path.c_str(), O_RDONLY)};
+    if(guard.fd == -1) {
+        const int saved_errno = errno;
+        LOG(WARNING) << "read file failed with errno: " << std::strerror(saved_errno) << std::endl;
+        throw std::system_error(saved_errno, std::generic_category(), "failed to open file: " + path);
     }
 
     struct stat file_stat;
-    if (fstat(fd, &file_stat) == -1) {
-        close(fd);
-	LOG(WARNING) << "read file failed with errno: " << std::strerror(errno) << std::endl; 
-        throw std::system_error(errno, std::generic_category(), "failed to get file size for: " + path);
+    if(fstat(guard.fd, &file_stat) == -1) {
+        const int saved_errno = errno;
+        LOG(WARNING) << "read file failed with errno: " << std::strerror(saved_errno) << std::endl;
+        throw std::system_error(saved_errno, std::generic_category(), "failed to get file size for: " + path);
     }
 
-    std::vector<std::byte> bytes(file_stat.st_size);
+    std::vector<std::byte> bytes(static_cast<std::size_t>(file_stat.st_size));
 
-    ssize_t bytes_read = read(fd, bytes.data(), bytes.size());
-    if (bytes_read == -1) {
-        close(fd);
-	LOG(WARNING) << "read file failed with errno: " << std::strerror(errno) << std::endl; 
-        throw std::system_error(errno, std::generic_category(), "failed to read file: " + path);
+    // read() may return fewer bytes than requested; loop until EOF so a short
+    // read never becomes a full-size result with a zero-filled tail. If the
+    // file shrank after fstat, return only the bytes actually read.
+    std::size_t total = 0;
+    while(total < bytes.size()) {
+        const ssize_t n = read(guard.fd, bytes.data() + total, bytes.size() - total);
+        if(n == -1) {
+            if(errno == EINTR) continue;
+            const int saved_errno = errno;
+            LOG(WARNING) << "read file failed with errno: " << std::strerror(saved_errno) << std::endl;
+            throw std::system_error(saved_errno, std::generic_category(), "failed to read file: " + path);
+        }
+        if(n == 0) break;  // EOF earlier than fstat size: file was truncated concurrently
+        total += static_cast<std::size_t>(n);
     }
-
-    close(fd);
-
+    if(total != bytes.size()) {
+        LOG(WARNING) << "file " << path << " changed size during read: fstat " << bytes.size() << " bytes, read "
+                     << total << std::endl;
+        bytes.resize(total);
+    }
     return bytes;
 }
 

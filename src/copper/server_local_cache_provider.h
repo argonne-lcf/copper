@@ -1,6 +1,7 @@
 #ifndef SERVER_LOCAL_CACHE_PROVIDER_H
 #define SERVER_LOCAL_CACHE_PROVIDER_H
 
+#include <memory>
 #include <algorithm>
 #include <array>
 #include <atomic>
@@ -21,9 +22,13 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <thallium.hpp>
+#include "leased_ptr.h"
+#include "../cache/abt_sync.h"
+#include "../cache/parent_readiness.h"
 #include <thallium/serialization/stl/pair.hpp>
 #include <thallium/serialization/stl/string.hpp>
 #include <thallium/serialization/stl/vector.hpp>
+#include "byte_vector_serialization.h"  // bulk std::vector<std::byte> (wire-identical)
 #include <thread>
 #include <unordered_map>
 #include <unistd.h>
@@ -82,8 +87,17 @@ class ServerLocalCacheProvider : public tl::provider<ServerLocalCacheProvider> {
     static inline std::atomic<bool> provider_ready{false};
     static inline std::atomic<long long> provider_ready_after_us{-1};
     static inline std::chrono::steady_clock::time_point provider_start_time;
-    static inline std::atomic<bool> parent_provider_ready_cached{false};
-    static inline std::mutex parent_provider_ready_mtx;
+    // Readiness flag + Argobots mutex + shared-failure stamp for the parent
+    // readiness wait (see cache/parent_readiness.h).
+    static inline ParentReadiness::Gate parent_provider_ready_gate;
+    // Parent endpoint, resolved once in start_thallium_engine() under the
+    // startup watchdog, before the provider is published. RPC handlers copy it
+    // instead of calling the untimed tl::engine::lookup on every request.
+    // Reset in cu_fuse_destroy before engine finalize.
+    // Parent endpoint resolved once at startup. Handlers borrow it through a
+    // counted lease; cu_fuse_destroy closes it (bounded wait, never frees under
+    // a running handler). Review r4 finding 2.
+    static inline LeasedPtr<tl::endpoint> parent_endpoint;
     static inline std::atomic<long long> first_successful_parent_rpc_after_us{-1};
     // Short-lived exact-path ENOENT cache used to collapse repeated metadata
     // probes without treating whole parent directories as missing.

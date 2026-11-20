@@ -32,6 +32,11 @@ class Constants {
     static inline bool prefiltered_address_book{false};
     static inline int engine_startup_timeout_ms{120000};
     static inline int parent_ready_timeout_ms{120000};
+    // Bound on one storage call (lstat/readdir/file read) made by an RPC handler
+    // on the root node; the call runs on an offload worker (fs/blocking_offload.h).
+    static inline int storage_call_timeout_ms{60000};
+    static inline int storage_offload_threads{8};
+    static inline int storage_offload_queue{4096};
 
     // clang-format off
     static inline std::string usage{"cu_fuse <FUSE_PARAMS> -tpath <ABS_TARGET_PATH> "
@@ -56,6 +61,8 @@ class Constants {
                                                             "-addr_write_sync_time <time sec>"
                                                             "-engine_startup_timeout_ms <positive ms> (diagnostic watchdog; engine construction is not cancelled) "
                                                             "-parent_ready_timeout_ms <positive ms> "
+                                                            "-storage_call_timeout_ms <positive ms> "
+                                                            "-storage_offload_threads <positive count> "
                                                             "-s <CU_FUSE_MNT_VIEWDIR>"};
     // clang-format on
 

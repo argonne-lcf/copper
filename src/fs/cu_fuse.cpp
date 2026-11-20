@@ -1,3 +1,4 @@
+#include "async_log_sink.h"
 #include "cu_fuse.h"
 #include "error_status.h"
 #include "fuse_policy.h"
@@ -13,6 +14,7 @@
 #include <memory>
 #include <cstdlib>
 #include <csignal>
+#include "../startup/startup_watchdog.h"
 
 namespace tl = thallium;
 
@@ -21,11 +23,37 @@ namespace tl = thallium;
 
 namespace {
 std::unique_ptr<CopperStartup::StartupTelemetry> g_startup_telemetry;
+// Wraps the configured AixLog sinks so RPC handler ULTs never block on log I/O
+// (see async_log_sink.h). Synchronous until enable_async() in cu_fuse_init.
+std::shared_ptr<AsyncLogSink> g_async_log_sink;
+constexpr std::size_t async_log_queue_capacity = 65536;
+
+void init_logging(std::vector<std::shared_ptr<AixLog::Sink>> sinks) {
+    if(sinks.empty()) {
+        g_async_log_sink.reset();
+        AixLog::Log::init({});
+        return;
+    }
+    g_async_log_sink = std::make_shared<AsyncLogSink>(std::move(sinks), async_log_queue_capacity);
+    AixLog::Log::init({g_async_log_sink});
+}
+// Read by the startup watchdog thread while the main thread advances it.
+// timed_mutex: the watchdog must never block on it (review r4 finding 3).
+std::timed_mutex g_startup_phase_mtx;
 std::string g_startup_phase{"not_started"};
+
+std::string current_startup_phase() {
+    std::unique_lock<std::timed_mutex> guard(g_startup_phase_mtx, std::defer_lock);
+    if(!guard.try_lock_for(std::chrono::milliseconds(100))) return "unknown(phase lock busy)";
+    return g_startup_phase;
+}
 
 void startup_phase(const std::string& phase, CopperStartup::PhaseState state,
                    const std::string& detail = {}) {
-    g_startup_phase = phase;
+    {
+        std::lock_guard<std::timed_mutex> guard(g_startup_phase_mtx);
+        g_startup_phase = phase;
+    }
     if(g_startup_telemetry) g_startup_telemetry->record(phase, state, detail);
 }
 
@@ -144,11 +172,20 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
         }
     }
 
-    const auto entry_opt = CacheTables::data_cache_table.get(path_string);
-    std::vector<std::byte> bytes;
+    // Copy only the requested slice out of the cache. The cached value is the
+    // whole file; copying it per FUSE read (512 KiB at a time) made reading a
+    // 440 MB library O(file_size^2 / read_size), about 0.3 s per read on Aurora.
+    size_t read_size = 0;
+    const auto copy_slice = [&](const std::vector<std::byte>& bytes) {
+        if(offset < static_cast<off_t>(bytes.size())) {
+            const size_t copy_size = std::min(static_cast<size_t>(size), bytes.size() - static_cast<size_t>(offset));
+            std::memcpy(buf, bytes.data() + offset, copy_size);
+            read_size = copy_size;
+        }
+    };
     bool cache = false;
 
-    if(!entry_opt.has_value()) {
+    if(!CacheTables::data_cache_table.visit(path_string, copy_slice)) {
         const tl::engine* engine = static_cast<tl::engine*>(fuse_get_context()->private_data);
         LOG(DEBUG, CU_FUSE_RPC_DATA) << __FUNCTION__ << " from client running at address: " << engine->self() << std::endl;
         LOG(DEBUG, CU_FUSE_RPC_DATA) << __FUNCTION__ << " cu_fuse_read thread id: " << pthread_self() << std::endl;
@@ -161,26 +198,12 @@ static int cu_fuse_read(const char* path_, char* buf, const size_t size, const o
             ProfileSource::data, path_string, start, rpc_readfile_response);
         }
 
-        const auto populated = CacheTables::data_cache_table.get(path_string);
-        if(!populated.has_value()) {
+        if(!CacheTables::data_cache_table.visit(path_string, copy_slice)) {
             LOG(ERROR) << "data cache missing after successful rpc" << std::endl;
             return Metric::stop_cache_operation(OperationFunction::read, OperationResult::neg,
             ProfileSource::data, path_string, start, -EIO);
         }
-        bytes = std::move(populated.value());
         cache = true;
-    } else {
-        bytes = std::move(entry_opt.value());
-    }
-
-    size_t read_size = 0;
-    if(offset < static_cast<off_t>(bytes.size())) {
-        // Calculate the amount to copy, ensuring not to exceed the bounds of the vector
-        ssize_t copy_size = std::min(static_cast<size_t>(size), bytes.size() - static_cast<size_t>(offset));
-
-        // Copy data from bytes to buf
-        std::memcpy(buf, bytes.data() + offset, copy_size);
-        read_size = static_cast<size_t>(copy_size);
     }
 
     if(cache) {
@@ -449,13 +472,21 @@ static bool start_thallium_engine() {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
         if(!startup_done.load(std::memory_order_acquire)) {
-            startup_phase(g_startup_phase, CopperStartup::PhaseState::failed,
-                          "startup deadline exceeded; terminating process because initialization cannot be safely cancelled");
-            // SIGTERM lets the launcher observe failure and gives FUSE/runtime
-            // teardown handlers a chance to detach the mount. _Exit left stale
-            // mounts that could be mistaken for healthy readiness.
-            std::raise(SIGTERM);
-            std::_Exit(ETIMEDOUT);
+            // Review r4 finding 3: termination must not depend on locks or I/O
+            // the stuck startup path may hold (telemetry mutex, a blocked
+            // fsync/write on Lustre, a full stderr pipe). The diagnostic record
+            // is written from a detached helper with a bounded wait; then the
+            // process is terminated unconditionally.
+            const std::string phase = current_startup_phase();  // bounded (try_lock_for)
+            // r5 finding 1: SIGTERM is blocked on this thread and sent
+            // process-directed, so no handler can run here and stop the _Exit
+            // fallback. See startup/startup_watchdog.h and its fault tests.
+            CopperStartup::watchdog_terminate(
+                [phase] {
+                    startup_phase(phase, CopperStartup::PhaseState::failed,
+                                  "startup deadline exceeded; terminating process because initialization cannot be safely cancelled");
+                },
+                std::chrono::milliseconds(1000), std::chrono::milliseconds(2000), ETIMEDOUT);
         }
     });
     struct WatchdogGuard {
@@ -472,7 +503,7 @@ static bool start_thallium_engine() {
         LOG(INFO) << "starting thallium engine" << std::endl;
         ServerLocalCacheProvider::provider_ready = false;
         ServerLocalCacheProvider::provider_ready_after_us = -1;
-        ServerLocalCacheProvider::parent_provider_ready_cached = false;
+        ServerLocalCacheProvider::parent_provider_ready_gate.reset();
         ServerLocalCacheProvider::first_successful_parent_rpc_after_us = -1;
         ServerLocalCacheProvider::provider_start_time = std::chrono::steady_clock::now();
 
@@ -571,6 +602,22 @@ static bool start_thallium_engine() {
         ServerLocalCacheProvider::rpc_readdir = server_engine->define("rpc_readdir");
         ServerLocalCacheProvider::rpc_is_ready = server_engine->define("rpc_is_ready");
         startup_phase("rpc_definition", CopperStartup::PhaseState::complete);
+        if(Node::parent_addr.has_value()) {
+            // Resolve the parent once, here, under the startup watchdog (the
+            // only place an untimed tl::engine::lookup is acceptable): RPC
+            // handlers reuse this endpoint instead of resolving per request.
+            startup_phase("parent_endpoint_resolution", CopperStartup::PhaseState::begin, Node::parent_addr.value());
+            try {
+                ServerLocalCacheProvider::parent_endpoint.reset(
+                    std::make_unique<tl::endpoint>(server_engine->lookup(Node::parent_addr.value())));
+            } catch(const std::exception& e) {
+                startup_phase("parent_endpoint_resolution", CopperStartup::PhaseState::failed, e.what());
+                LOG(FATAL) << "failed to resolve parent endpoint " << Node::parent_addr.value() << ": " << e.what()
+                           << std::endl;
+                return false;
+            }
+            startup_phase("parent_endpoint_resolution", CopperStartup::PhaseState::complete, Node::parent_addr.value());
+        }
         startup_phase("provider_registration", CopperStartup::PhaseState::begin);
         startup_phase("provider_construction", CopperStartup::PhaseState::begin);
         new ServerLocalCacheProvider{*server_engine, my_tree_segment};
@@ -591,7 +638,7 @@ static bool start_thallium_engine() {
         return true;
 
     } catch(const std::exception& e) {
-        startup_phase(g_startup_phase, CopperStartup::PhaseState::failed, e.what());
+        startup_phase(current_startup_phase(), CopperStartup::PhaseState::failed, e.what());
         LOG(FATAL) << "Exception caught in thread: " << e.what() << std::endl;
         return false;
     }
@@ -611,6 +658,10 @@ static void* cu_fuse_init(struct fuse_conn_info* conn, struct fuse_config* cfg) 
     cfg->auto_cache = false;
     cfg->ac_attr_timeout_set = 0;
     cfg->nullpath_ok = false;
+
+    // Post-daemonize (fuse_main forks before init); start the log writer
+    // thread before any RPC handler ULT can log.
+    if(g_async_log_sink) g_async_log_sink->enable_async();
 
     if(!start_thallium_engine()) {
         startup_phase("engine_start", CopperStartup::PhaseState::failed,
@@ -647,6 +698,13 @@ static void cu_fuse_destroy(void* private_data) {
     Util::log_profiling_metrics(Constants::output_filename_path, "pre-destroy");
 
     auto engine = static_cast<tl::engine*>(private_data);
+    // Review r4 finding 2: stop new parent uses, wait for running handlers
+    // (bounded by their own readiness deadline + slack), then free. On timeout
+    // the endpoint is leaked rather than freed under a running handler.
+    if(!ServerLocalCacheProvider::parent_endpoint.close(
+           std::chrono::milliseconds(Constants::parent_ready_timeout_ms + 5000))) {
+        LOG(WARNING) << "parent endpoint still in use at shutdown; leaked instead of freed" << std::endl;
+    }
     engine->finalize();
 
     Metric::stop_operation(OperationFunction::destroy, start, Constants::fs_operation_success);
@@ -654,6 +712,19 @@ static void cu_fuse_destroy(void* private_data) {
     const auto destroy_reset = Util::reset_fs();
     if(!destroy_reset.success) {
         LOG(ERROR) << "failed to publish destroy closing interval: " << destroy_reset.error << std::endl;
+    }
+    if(g_async_log_sink) {
+        // Bounded: drain if the writer makes progress, otherwise give up after
+        // 5 s and report how many accepted lines were not confirmed written
+        // (queued discarded + in flight; see async_log_sink.h).
+        const unsigned long long unconfirmed = g_async_log_sink->stop(std::chrono::milliseconds(5000));
+        if(unconfirmed > 0) {
+            const auto snap = g_async_log_sink->snapshot();
+            std::fprintf(stderr,
+                         "copper: log writer stalled at shutdown; %llu log lines not confirmed written "
+                         "(%llu queued discarded, %llu in flight at stop)\n",
+                         unconfirmed, snap.discarded_on_stop, snap.in_flight_at_stop);
+        }
     }
 }
 
@@ -822,14 +893,14 @@ int CuFuse::cu_hello_main(int argc, char* argv[]) {
             Constants::map_user_log_level_to_internal_severity(Constants::operation_log_level)));
 
         if(Constants::log_type == "stdout") {
-            AixLog::Log::init({std::make_shared<AixLog::SinkCout>(category_filter)});
+            init_logging({std::make_shared<AixLog::SinkCout>(category_filter)});
         } else if(Constants::log_type == "file") {
-            AixLog::Log::init({std::make_shared<AixLog::SinkFile>(category_filter, Constants::output_filename_path)});
+            init_logging({std::make_shared<AixLog::SinkFile>(category_filter, Constants::output_filename_path)});
         } else if(Constants::log_type == "file_and_stdout") {
-            AixLog::Log::init({std::make_shared<AixLog::SinkCout>(category_filter),
+            init_logging({std::make_shared<AixLog::SinkCout>(category_filter),
             std::make_shared<AixLog::SinkFile>(category_filter, Constants::output_filename_path)});
         } else {
-            AixLog::Log::init({});
+            init_logging({});
         }
     } else {
         AixLog::Log::init({});

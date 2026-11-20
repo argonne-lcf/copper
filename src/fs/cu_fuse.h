@@ -25,6 +25,7 @@
 #include <thallium/serialization/stl/pair.hpp>
 #include <thallium/serialization/stl/string.hpp>
 #include <thallium/serialization/stl/vector.hpp>
+#include "../copper/byte_vector_serialization.h"  // bulk std::vector<std::byte> (wire-identical)
 #include <cassert>
 
 #include "../aixlog.h"
