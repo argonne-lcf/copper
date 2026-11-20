@@ -101,7 +101,8 @@ Read-only-to-cache commands: `cache-tables` (200), `operation-count` (300),
 to write report files and account operations; “read-only” means no cache/reset
 mutation, **not** zero side effects.
 
-CLI opens read commands O_RDONLY and mutations O_RDWR; symlink devices are
+CLI opens every command O_RDONLY (the Copper mount rejects write opens with
+EROFS; consent for mutations is `--allow-mutation`); symlink devices are
 rejected. JSON receipts include request, mutating classification, status, and
 errno. Open/ioctl/argument failures are nonzero. All shell IOCTL entrypoints
 use `timeout_ioctl.py`, which bounds the child open+ioctl using
@@ -155,6 +156,8 @@ staging directory is fsynced and renamed atomically, and the parent is fsynced.
 Writer/open/flush/fsync failures return a failed `ReportResult`; the all-metrics
 IOCTL returns `-EIO`, and individual IOCTL report streams check flush/close.
 Final destroy has a void FUSE callback and cannot return an IOCTL status.
+Destroy writes the `final` bundle last and only clears cache tables afterwards;
+it does not publish a closing reset interval, so a clean shutdown is complete.
 
 The cache-specific capture epoch is 0 (occupancy publication, not profiler reset
 intervals), with monotonically increasing process-local sequence. Run ID and

@@ -27,6 +27,14 @@ class IoctlTests(unittest.TestCase):
         p = subprocess.run([sys.executable, str(IOCTL), 'reset-fs', '--allow-mutation', '--device', '/missing'], capture_output=True, text=True)
         self.assertEqual(json.loads(p.stdout)['errno'], 2)
 
+    def test_mutations_open_read_only_because_copper_mount_is_read_only(self):
+        with tempfile.TemporaryDirectory() as td:
+            device = Path(td)/'device'; device.touch(); device.chmod(0o444)
+            p = subprocess.run([sys.executable, str(IOCTL), 'reset-fs', '--allow-mutation', '--device', str(device)], capture_output=True, text=True)
+            result = json.loads(p.stdout)
+            # Read-only open succeeds; the ioctl itself fails on a regular file (ENOTTY), never EACCES/EROFS.
+            self.assertEqual(result['errno'], 25, result)
+
     def test_wrapper_timeout_bounds_blocked_open_and_reset_never_deletes(self):
         with tempfile.TemporaryDirectory() as td:
             fifo = Path(td)/'fifo'; os.mkfifo(fifo)

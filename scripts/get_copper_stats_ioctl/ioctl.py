@@ -32,7 +32,9 @@ def main():
             raise ValueError('mutating command requires --allow-mutation')
         if not args.device:
             raise ValueError('--device or SPEC_DEV_VIEW is required')
-        fd = os.open(args.device, (os.O_RDWR if mutating else os.O_RDONLY) | os.O_CLOEXEC | os.O_NOFOLLOW)
+        # Copper's mount is read-only: any write open fails with EROFS, and the
+        # FUSE ioctl needs no write access. Consent is --allow-mutation, not O_RDWR.
+        fd = os.open(args.device, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW)
         try:
             receipt['result'] = fcntl.ioctl(fd, request, 0)
             receipt['ok'] = True
